@@ -1,23 +1,35 @@
-import logo from './logo.svg';
+import { useCallback, useRef, useState } from 'react';  
+import ResizeObserver from 'resize-observer-polyfill';
+
+import CauseChart from './components/CauseChart';
+
 import './App.css';
 
 function App() {
+
+  const outerContainerRef = useCallback(node => {
+    if (node !== null) {
+        resizeObserver.observe(node);
+    }
+  },[]);
+
+  const [ causeChartState, setCauseChartState ]  = useState({width: 0, height: 0});
+  const causeChartRef = useRef();
+
+  const resizeObserver = new ResizeObserver(entries => {
+    setCauseChartState({
+      width: causeChartRef.current.clientWidth, 
+      height: causeChartRef.current.clientHeight
+    });
+  })
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" ref={outerContainerRef}>
+      <div id="cause-chart-container" ref={causeChartRef}>
+        <CauseChart 
+          width={causeChartState.width} 
+          height={causeChartState.height} />
+      </div>
     </div>
   );
 }

@@ -1,0 +1,10 @@
+#cause-chart-header, #cause-chart-legend {
+  text-align: center;
+}
+
+#present-indicator, #cause-indicator {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  margin: 0.5em;
+}

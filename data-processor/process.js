@@ -3,6 +3,7 @@ const csv = require('csv-parse');
 
 const inputFilePath = './input.csv';
 const outputFilePath = '../src/data/data.json';
+const typeOfDrugFilePath = '../src/data/type-of-drug.json';
 const keys = [
   'Incident_Year',
   'Age',
@@ -47,6 +48,13 @@ const keys = [
 let keyIndex = {};
 let keyCounts = {};
 let first = true;
+let totalDeaths = 0;
+let allOpioidCause = 0;
+let allOpioidPresent = 0;
+
+function percent(deaths) {
+  return Math.round(deaths / totalDeaths * 10000) / 100;
+}
 
 fs.createReadStream(inputFilePath)
   .pipe(csv())
@@ -64,6 +72,20 @@ fs.createReadStream(inputFilePath)
 
       first = false;
     } else {
+      totalDeaths++;
+
+      if(row[keyIndex['fentanyl_t']] === '1' ||
+          row[keyIndex['heroin_def_v2']] === '1' ||
+          row[keyIndex['rx_opioid_v2']] === '1'){
+        allOpioidPresent++;
+      }
+
+      if(row[keyIndex['fentanyl_t_cod']] === '1' ||
+          row[keyIndex['heroin_def_cod_v2']] === '1' ||
+          row[keyIndex['rx_opioid_cod_v2']] === '1'){
+        allOpioidCause++;
+      }
+
       keys.forEach(key => {
         if(keyCounts[key][row[keyIndex[key]]]){
           keyCounts[key][row[keyIndex[key]]]++;
@@ -75,6 +97,22 @@ fs.createReadStream(inputFilePath)
     }
   })
   .on('end', () => {
+    let typeOfDrugData = [{opioid: 'Any Opioids', present: percent(allOpioidPresent), cause: percent(allOpioidCause)},
+                   {opioid: 'IMFs', present: percent(keyCounts['fentanyl_t']['1']), cause: percent(keyCounts['fentanyl_t_cod']['1'])},
+                   {opioid: 'Cocaine', present: percent(keyCounts['cocaine_t']['1']), cause: percent(keyCounts['cocaine_t_cod']['1'])},
+                   {opioid: 'Heroin', present: percent(keyCounts['heroin_def_v2']['1']), cause: percent(keyCounts['heroin_def_cod_v2']['1'])},
+                   {opioid: 'Benzos', present: percent(keyCounts['benzo_r']['1']), cause: percent(keyCounts['benzo_r_cod']['1'])},
+                   {opioid: 'Rx Opioids', present: percent(keyCounts['rx_opioid_v2']['1']), cause: percent(keyCounts['rx_opioid_cod_v2']['1'])},
+                   {opioid: 'Meth', present: percent(keyCounts['meth_r']['1']), cause: percent(keyCounts['meth_r_cod']['1'])}];
+
+    fs.writeFile(typeOfDrugFilePath, JSON.stringify(typeOfDrugData), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+
     fs.writeFile(outputFilePath, JSON.stringify(keyCounts), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
