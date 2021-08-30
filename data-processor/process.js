@@ -2,8 +2,9 @@ const fs = require('fs');
 const csv = require('csv-parse');
 
 const inputFilePath = './input.csv';
-const outputFilePath = '../src/data/data.json';
-const typeOfDrugFilePath = '../src/data/type-of-drug.json';
+//const outputFilePath = '../src/data/data.json';
+const typeOfDrugFilePath = '../src/data/causes.json';
+const additionalDrugFilePath = '../src/data/additional-drugs.json';
 const keys = [
   'Incident_Year',
   'Age',
@@ -44,16 +45,44 @@ const keys = [
   'witnesseddruguse',
   'sitenum'
 ];
+let drugTypeMapping = {
+  'benzo_r_cod': 'benzo_r',
+  'meth_r_cod': 'meth_r',
+  'rx_opioid_cod_v2': 'rx_opioid_v2',
+  'fentanyl_t_cod': 'fentanyl_t',
+  'heroin_def_cod_v2': 'heroin_def_v2',
+  'cocaine_t_cod': 'cocaine_t'
+};
+let drugLabelMapping = {
+  'benzo_r_cod': 'Benzos',
+  'benzo_r': 'Benzos',
+  'meth_r_cod': 'Meth',
+  'meth_r': 'Meth',
+  'rx_opioid_cod_v2': 'Rx Opioids',
+  'rx_opioid_v2': 'Rx Opioids',
+  'fentanyl_t_cod': 'IMFs',
+  'fentanyl_t': 'IMFs',
+  'heroin_def_cod_v2': 'Heroin',
+  'heroin_def_v2': 'Heroin',
+  'cocaine_t_cod': 'Cocaine',
+  'cocaine_t': 'Cocaine'
+};
 
 let keyIndex = {};
 let keyCounts = {};
+let additionalDrugs = {};
 let first = true;
 let totalDeaths = 0;
 let allOpioidCause = 0;
 let allOpioidPresent = 0;
 
-function percent(deaths) {
-  return Math.round(deaths / totalDeaths * 10000) / 100;
+
+Object.keys(drugTypeMapping).forEach(cause => {
+  additionalDrugs[cause] = {};
+});
+
+function percent(deaths, total) {
+  return Math.round(deaths / (total || totalDeaths) * 10000) / 100;
 }
 
 fs.createReadStream(inputFilePath)
@@ -86,6 +115,21 @@ fs.createReadStream(inputFilePath)
         allOpioidCause++;
       }
 
+      Object.keys(drugTypeMapping).forEach(cause => {
+        if(row[keyIndex[cause]] === '1'){
+          Object.keys(drugTypeMapping).forEach(causeForAdditional => {
+            if(causeForAdditional !== cause && row[keyIndex[drugTypeMapping[causeForAdditional]]] === '1'){
+              if(additionalDrugs[cause][drugTypeMapping[causeForAdditional]] === undefined){
+                additionalDrugs[cause][drugTypeMapping[causeForAdditional]] = 1;
+              } else {
+                additionalDrugs[cause][drugTypeMapping[causeForAdditional]]++;
+              }
+            }
+          });
+          additionalDrugs[cause]['total'] = additionalDrugs[cause]['total'] === undefined ? 1 : (additionalDrugs[cause]['total'] + 1);
+        }
+      });
+
       keys.forEach(key => {
         if(keyCounts[key][row[keyIndex[key]]]){
           keyCounts[key][row[keyIndex[key]]]++;
@@ -113,11 +157,27 @@ fs.createReadStream(inputFilePath)
       }
     });
 
-    fs.writeFile(outputFilePath, JSON.stringify(keyCounts), {flag: 'w'}, (err) => {
+    let additionalDrugData = [];
+    Object.keys(additionalDrugs).forEach(cause => {
+      let total = additionalDrugs[cause]['total'];
+      let row = {cause: drugLabelMapping[cause]};
+      Object.keys(additionalDrugs[cause]).forEach(additional => row[drugLabelMapping[additional]] = percent(additionalDrugs[cause][additional], total));
+      additionalDrugData.push(row);
+    });
+
+    fs.writeFile(additionalDrugFilePath, JSON.stringify(additionalDrugData), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {
         console.log('Data processed successfully');
       }
     });
+
+    /*fs.writeFile(outputFilePath, JSON.stringify(keyCounts), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });*/
   });
