@@ -74,6 +74,7 @@ function CauseChart(params) {
       .x(d => x(d.opioid) + xHalfBandwidth)
       .y(d => y(d.cause));
     svg.append('path')
+      .attr('class','line-chart')
       .attr('d', lineFunc(data))
       .attr('strokeWidth', '3')
       .attr('stroke', 'rgb(58, 88, 161)')
@@ -94,10 +95,10 @@ function CauseChart(params) {
     let gx = svg.select('.x-axis');
     let bar = svg.selectAll('rect');
     let circle = svg.selectAll('circle');
-    let path = svg.selectAll('path');
+    let path = svg.selectAll('.line-chart');
 
     x.domain(data.sort((a, b) => {
-      if(e.target.value === 'one'){
+      if(e.target.value === 'Descending'){
         if(a.present < b.present){
           return 1;
         } else if(b.present < a.present) {
@@ -135,10 +136,10 @@ function CauseChart(params) {
       .x(d => x(d.opioid) + xHalfBandwidth)
       .y(d => y(d.cause));
     path
+      .attr('opacity', '0')
       .attr('d', lineFunc(data))
-      .attr('strokeWidth', '3')
-      .attr('stroke', 'rgb(58, 88, 161)')
-      .attr('fill', 'none');
+      .transition(t)
+        .attr('opacity', '1');
 
     gx.transition(t)
         .call(xAxis)
@@ -149,8 +150,8 @@ function CauseChart(params) {
   return (
     <>
       <select onChange={selectChange}>
-        <option>one</option>
-        <option>two</option>
+        <option>Descending</option>
+        <option>Ascending</option>
       </select>
       <div id="cause-chart"></div>
     </>
