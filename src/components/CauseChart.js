@@ -1,5 +1,8 @@
-import { useEffect } from 'react';  
-import * as d3 from 'd3';
+import { Bar, Circle, LinePath } from '@visx/shape';
+import { Group } from '@visx/group';
+import { AxisLeft, AxisBottom } from '@visx/axis';
+import { scaleBand, scaleLinear } from '@visx/scale';
+import { curveLinear } from '@visx/curve';
 
 import data from '../data/causes.json';
 
@@ -8,152 +11,83 @@ import '../css/CauseChart.css';
 function CauseChart(params) {
 
   const { width, height } = params;
-  const margin = {top: 10, left: 70, right: 20, bottom: 70};
+  const margin = {top: 20, bottom: 70, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
-  const x = d3.scaleBand()
-    .range([ 0, adjustedWidth ])
-    .domain(data.map(d => d.opioid))
-    .padding(0.2);
-  const xHalfBandwidth = x.bandwidth() / 2;
+  const xScale = scaleBand({
+    range: [ 0, adjustedWidth ],
+    domain: data.map(d => d.opioid),
+    padding: 0.2
+  });
+  const xOffset = xScale.bandwidth() / 2;
 
-  // Y scale
-  const y = d3.scaleLinear()
-    .domain([0, 100])
-    .range([ adjustedHeight, margin.top ]);
-
-  useEffect(() => {
-    // Gets element reference
-    let chartEl = d3.select('#cause-chart');
-
-    // Removes old SVG element
-    chartEl.selectAll('*').remove();
-
-    // Creates new SVG element
-    let svg = chartEl.append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .append('g')
-        .attr('transform',
-            'translate(' + margin.left + ', ' + margin.top + ')');;
-
-    // X axis
-    svg.append('g')
-      .call(xAxis);
-
-    // Y axis
-    svg.append('g')
-      .call(d3.axisLeft(y)
-        .tickValues([100, 75, 50, 25, 0])
-        .tickFormat(num => num + '%'))
-      .attr('font-size', 'medium');
-
-    // Begins adding elements to SVG
-    let bars = svg.selectAll('bar')
-      .data(data)
-      .enter();
-
-    // Adds bars
-    bars.append('rect')
-        .attr('x', d => x(d.opioid))
-        .attr('y', d => y(d.present))
-        .attr('width', x.bandwidth())
-        .attr('height', d => adjustedHeight - y(d.present))
-        .attr('fill', 'rgb(198, 209, 230)');
-
-    // Adds circles
-    bars.append('circle')
-        .attr('cx', d => x(d.opioid) + xHalfBandwidth)
-        .attr('cy', d => y(d.cause))
-        .attr('r', 5)
-        .attr('fill', 'rgb(58, 88, 161)');
-
-    // Adds line
-    let lineFunc = d3.line()
-      .x(d => x(d.opioid) + xHalfBandwidth)
-      .y(d => y(d.cause));
-    svg.append('path')
-      .attr('class','line-chart')
-      .attr('d', lineFunc(data))
-      .attr('strokeWidth', '3')
-      .attr('stroke', 'rgb(58, 88, 161)')
-      .attr('fill', 'none');
+  const yScale = scaleLinear({
+    domain: [0, 100],
+    range: [ adjustedHeight, 0 ]
   });
 
-  const xAxis = (g) => {
-    return g.attr('class', 'x-axis')
-      .attr('transform', 'translate(0,' + adjustedHeight + ')')
-      .call(d3.axisBottom(x))
-      .selectAll('text')
-        .style('text-anchor', 'middle')
-        .style('font-size', 'medium');
-  };
-
-  const selectChange = (e) => {
-    let svg = d3.select('#cause-chart svg');
-    let gx = svg.select('.x-axis');
-    let bar = svg.selectAll('rect');
-    let circle = svg.selectAll('circle');
-    let path = svg.selectAll('.line-chart');
-
-    x.domain(data.sort((a, b) => {
-      if(e.target.value === 'Descending'){
-        if(a.present < b.present){
-          return 1;
-        } else if(b.present < a.present) {
-          return -1;
-        } else {
-          return 0;
-        }
-      } else {
-        if(a.present > b.present){
-          return 1;
-        } else if(b.present > a.present) {
-          return -1;
-        } else {
-          return 0;
-        }
-      }
-    }).map(d => d.opioid));
-
-    const t = svg.transition()
-        .duration(750);
-
-    bar.data(data, d => d.opioid)
-        .order()
-      .transition(t)
-        .delay((d, i) => i * 20)
-        .attr("x", d => x(d.opioid));
-
-    circle.data(data, d => d.opioid)
-        .order()
-      .transition(t)
-        .delay((d, i) => i * 20)
-        .attr("cx", d => x(d.opioid) + xHalfBandwidth);
-
-    let lineFunc = d3.line()
-      .x(d => x(d.opioid) + xHalfBandwidth)
-      .y(d => y(d.cause));
-    path
-      .attr('opacity', '0')
-      .attr('d', lineFunc(data))
-      .transition(t)
-        .attr('opacity', '1');
-
-    gx.transition(t)
-        .call(xAxis)
-      .selectAll(".tick")
-        .delay((d, i) => i * 20);
-  };
-
-  return (
+  return width > 0 && (
     <>
-      <select onChange={selectChange}>
-        <option>Descending</option>
-        <option>Ascending</option>
-      </select>
-      <div id="cause-chart"></div>
+      <div id="cause-chart">
+        <svg width={width} height={height}>
+          <Group top={margin.top} left={margin.left}>
+            <AxisLeft
+              scale={yScale}
+              tickValues={[0, 25, 50, 75, 100]}
+              tickFormat={num => num + '%'}
+              tickLabelProps={() => ({
+                fontSize: 'medium',
+                textAnchor: 'end',
+                transform: 'translate(-10, 5)'
+              })}
+              tickTransform={`translate(${adjustedWidth}, 0)`}
+              tickStroke="lightgray"
+              tickLength={adjustedWidth}
+              hideAxisLine
+            />
+            {data.map(d => (
+                <Group key={`group-${d.opioid}`}>
+                  <Bar
+                    key={`bar-${d.opioid}`}
+                    x={xScale(d.opioid)}
+                    y={yScale(d.present)}
+                    width={xScale.bandwidth()}
+                    height={adjustedHeight - yScale(d.present)}
+                    fill="rgb(198, 209, 230)"
+                  />
+                  <Circle
+                    key={`point-${d.opioid}`}
+                    r={5}
+                    cx={xScale(d.opioid) + xOffset}
+                    cy={yScale(d.cause)}
+                    fill="rgb(58, 88, 161)"
+                  />
+                </Group>
+              )
+            )}
+            <LinePath
+              curve={curveLinear}
+              data={data}
+              x={d => xScale(d.opioid) + xOffset}
+              y={d => yScale(d.cause)}
+              stroke="rgb(58, 88, 161)"
+              strokeWidth={3}
+            />
+            <AxisBottom
+              top={adjustedHeight}
+              scale={xScale}
+              tickLabelProps={() => ({
+                textAnchor: 'middle',
+                fontSize: 'medium',
+                transform: 'translate(0, 10)'
+              })}
+              hideAxisLine
+              hideTicks
+            />
+          </Group>
+        </svg>
+      </div>
     </>
   );
 }

@@ -8,17 +8,6 @@ import './App.css';
 
 function App() {
 
-  const outerContainerRef = useCallback(node => {
-    if (node !== null) {
-        resizeObserver.observe(node);
-    }
-  },[]);
-
-  const [ causeChartState, setCauseChartState ]  = useState({width: 0, height: 0});
-  const [ additionalDrugChartState, setAdditionalDrugChartState ]  = useState({width: 0, height: 0});
-  const causeChartRef = useRef();
-  const additionalDrugChartRef = useRef();
-
   const resizeObserver = new ResizeObserver(entries => {
     setCauseChartState({
       width: causeChartRef.current.clientWidth, 
@@ -28,7 +17,18 @@ function App() {
       width: additionalDrugChartRef.current.clientWidth, 
       height: additionalDrugChartRef.current.clientHeight
     });
-  })
+  });
+
+  const outerContainerRef = useCallback(node => {
+    if (node !== null) {
+        resizeObserver.observe(node);
+    } // eslint-disable-next-line
+  },[]);
+
+  const [ causeChartState, setCauseChartState ]  = useState({width: 0, height: 0});
+  const [ additionalDrugChartState, setAdditionalDrugChartState ]  = useState({width: 0, height: 0});
+  const causeChartRef = useRef();
+  const additionalDrugChartRef = useRef();
 
   return (
     <div className="App" ref={outerContainerRef}>
@@ -36,7 +36,7 @@ function App() {
         <h2 className="chart-header">What drugs<sup>1</sup> were identified?</h2>
         <div className="chart-legend">
           <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>% with drug present</span>
-          <span><svg className="indicator" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="rgb(58, 88, 161)"></circle><line x1="0" x2="100" y1="50" y2="50" stroke-width="25" stroke="rgb(58, 88, 161)"/></svg>% with drug listed as cause of death</span>
+          <span><svg className="indicator" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="rgb(58, 88, 161)"></circle><line x1="0" x2="100" y1="50" y2="50" strokeWidth="25" stroke="rgb(58, 88, 161)"/></svg>% with drug listed as cause of death</span>
         </div>
         <div id="cause-chart-container" ref={causeChartRef}>
           <CauseChart 
