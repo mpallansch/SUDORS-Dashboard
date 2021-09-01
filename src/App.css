@@ -29,3 +29,61 @@
 .text-align-left {
   text-align: left;
 }
+
+select {
+  margin: 1em;
+  font-size: medium;
+  padding: 0.25em;
+}
+
+@keyframes fadein-initial {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fillin {
+  0% {
+    transform: scale3d(1,0,1)
+  }
+  100% {
+    transform: scale3d(1,1,1)
+  }
+}
+
+.bar {
+  transform-origin: center;
+  animation: fillin 1s ease;
+}
+
+.line, .point {
+  opacity: 0;
+}
+
+.fadein-initial {
+  animation: fadein-initial 1s linear;
+  opacity: 1;
+}
+
+.fadein {
+  animation: fadein 1s ease;
+  opacity: 1;
+}

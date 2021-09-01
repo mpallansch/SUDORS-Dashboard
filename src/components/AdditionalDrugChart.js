@@ -63,6 +63,8 @@ function AdditionalDrugChart(params) {
 
               return (
                 <BarGroup 
+                  className="bar"
+                  key={`bar-group-${d.cause}`}
                   data={[d]}
                   keys={subGroup}
                   height={adjustedHeight}
