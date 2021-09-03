@@ -3,13 +3,14 @@ import { Group } from '@visx/group';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@visx/scale';
 
-import data from '../data/additional-drugs.json';
+import raw from '../data/additional-drugs.json';
 
 import '../css/AdditionalDrugChart.css';
 
 function AdditionalDrugChart(params) {
 
-  const { width, height } = params;
+  const { width, height, state } = params;
+  const data = raw[state];
   const margin = {top: 10, left: 70, right: 20, bottom: 70};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;

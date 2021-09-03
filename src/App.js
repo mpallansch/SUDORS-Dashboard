@@ -12,6 +12,10 @@ import './App.css';
 function App() {
 
   const resizeObserver = new ResizeObserver(entries => {
+    setMapState({
+      width: mapRef.current.clientWidth,
+      height: mapRef.current.clientHeight
+    });
     setCauseChartState({
       width: causeChartRef.current.clientWidth, 
       height: causeChartRef.current.clientHeight
@@ -36,10 +40,13 @@ function App() {
     } // eslint-disable-next-line
   },[]);
 
+  const [ state, setState ] = useState('United States');
+  const [ mapState, setMapState ]  = useState({width: 0, height: 0});
   const [ causeChartState, setCauseChartState ]  = useState({width: 0, height: 0});
   const [ additionalDrugChartState, setAdditionalDrugChartState ]  = useState({width: 0, height: 0});
   const [ homeChartState, setHomeChartState ]  = useState({width: 0, height: 0});
   const [ circumstancesChartState, setCircumstancesChartState ]  = useState({width: 0, height: 0});
+  const mapRef = useRef();
   const causeChartRef = useRef();
   const additionalDrugChartRef = useRef();
   const homeChartRef = useRef();
@@ -47,8 +54,11 @@ function App() {
 
   return (
     <div className="App" ref={outerContainerRef}>
-      <div>
-        <Map></Map>
+      <div id="map-container" ref={mapRef}>
+        <Map 
+          width={mapState.width} 
+          height={mapState.height}
+          setState={setState} />
       </div>
       <div className="column">
 
@@ -63,7 +73,8 @@ function App() {
           <div id="cause-chart-container" ref={causeChartRef}>
             <CauseChart 
               width={causeChartState.width} 
-              height={causeChartState.height} />
+              height={causeChartState.height}
+              state={state} />
           </div>
         </div>
         <div>
@@ -71,7 +82,8 @@ function App() {
           <div id="additional-drug-chart-container" ref={additionalDrugChartRef}>
             <AdditionalDrugChart 
               width={additionalDrugChartState.width} 
-              height={additionalDrugChartState.height} />
+              height={additionalDrugChartState.height}
+              state={state} />
           </div>
           <div className="chart-legend side text-align-left">
             <br/><br/><strong>Drug Detected</strong><br/><br/>
@@ -89,12 +101,14 @@ function App() {
         <div id="home-chart-container" ref={homeChartRef}>
           <HomeChart
             width={homeChartState.width} 
-            height={homeChartState.height} />
+            height={homeChartState.height}
+            state={state} />
         </div>
         <div id="circumstances-chart-container" ref={circumstancesChartRef}>
           <CircumstancesChart
             width={circumstancesChartState.width} 
-            height={circumstancesChartState.height} />
+            height={circumstancesChartState.height}
+            state={state} />
         </div>
       </div>
     </div>

@@ -2,13 +2,14 @@ import { Bar, Circle } from '@visx/shape';
 import { Group } from '@visx/group';
 import { scaleBand, scaleLinear } from '@visx/scale';
 
-import data from '../data/circumstances.json';
+import raw from '../data/circumstances.json';
 
 import '../css/CircumstancesChart.css';
 
 function CircumstancesChart(params) {
 
-  const { width, height } = params;
+  const { width, height, state } = params;
+  const data = raw[state];
   const margin = {top: 10, bottom: 10, left: 30, right: 10, bar: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;

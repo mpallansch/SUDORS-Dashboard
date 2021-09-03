@@ -1,11 +1,13 @@
 const fs = require('fs');
 const csv = require('csv-parse');
 
-const inputFilePath = './input.csv';
+const inputFilePath = './state.csv';
 //const outputFilePath = '../src/data/data.json';
 const typeOfDrugFilePath = '../src/data/causes.json';
 const additionalDrugFilePath = '../src/data/additional-drugs.json';
 const circumstancesFilePath = '../src/data/circumstances.json';
+const mapFilePath = '../src/data/map.json';
+const stateKey = 'State';
 const keys = [
   'Incident_Year',
   'Age',
@@ -68,33 +70,49 @@ let drugLabelMapping = {
   'cocaine_t_cod': 'Cocaine',
   'cocaine_t': 'Cocaine'
 };
+const us = 'United States';
 
+let stateKeyIndex;
+let first = true;
 let keyIndex = {};
 let keyCounts = {};
 let additionalDrugs = {};
-let first = true;
-let totalDeaths = 0;
-let allOpioidCause = 0;
-let allOpioidPresent = 0;
-
-
-Object.keys(drugTypeMapping).forEach(cause => {
-  additionalDrugs[cause] = {};
-});
+let totalDeaths = {};
+let allOpioidCause = {};
+let allOpioidPresent = {};
 
 function percent(deaths, total) {
-  return Math.round(deaths / (total || totalDeaths) * 10000) / 100;
+  return Math.round(deaths / total * 10000) / 100;
+}
+
+function increment(obj, state) {
+  if(obj[state]) {
+    obj[state]++;
+  } else {
+    obj[state] = 1;
+  }
+
+  if(obj[us]) {
+    obj[us]++;
+  } else {
+    obj[us] = 1;
+  }
 }
 
 fs.createReadStream(inputFilePath)
   .pipe(csv())
   .on('data', (row) => {
     if(first){
+      stateKeyIndex = row.indexOf(stateKey);
+
+      if(stateKeyIndex === -1){
+        throw 'Cannot find state key';
+      }
+
       keys.forEach(key => {
         let index = row.indexOf(key);
         if(index !== -1){
           keyIndex[key] = index;
-          keyCounts[key] = {};
         } else {
           throw ('Cannot find key ' + key);
         }
@@ -102,53 +120,116 @@ fs.createReadStream(inputFilePath)
 
       first = false;
     } else {
-      totalDeaths++;
+      const state = row[stateKeyIndex];
+
+      increment(totalDeaths, state);
 
       if(row[keyIndex['fentanyl_t']] === '1' ||
           row[keyIndex['heroin_def_v2']] === '1' ||
           row[keyIndex['rx_opioid_v2']] === '1'){
-        allOpioidPresent++;
+        increment(allOpioidPresent, state);
       }
 
       if(row[keyIndex['fentanyl_t_cod']] === '1' ||
           row[keyIndex['heroin_def_cod_v2']] === '1' ||
           row[keyIndex['rx_opioid_cod_v2']] === '1'){
-        allOpioidCause++;
+        increment(allOpioidCause, state);
       }
 
       Object.keys(drugTypeMapping).forEach(cause => {
         if(row[keyIndex[cause]] === '1'){
+          if(!additionalDrugs[state]) additionalDrugs[state] = {};
+          if(!additionalDrugs[state][cause]) additionalDrugs[state][cause] = {};
+
           Object.keys(drugTypeMapping).forEach(causeForAdditional => {
             if(causeForAdditional !== cause && row[keyIndex[drugTypeMapping[causeForAdditional]]] === '1'){
-              if(additionalDrugs[cause][drugTypeMapping[causeForAdditional]] === undefined){
-                additionalDrugs[cause][drugTypeMapping[causeForAdditional]] = 1;
+              if(!additionalDrugs[state][cause][drugTypeMapping[causeForAdditional]]) {
+                 additionalDrugs[state][cause][drugTypeMapping[causeForAdditional]] = 1;
               } else {
-                additionalDrugs[cause][drugTypeMapping[causeForAdditional]]++;
+                additionalDrugs[state][cause][drugTypeMapping[causeForAdditional]]++;
+              }
+
+
+              if(!additionalDrugs[us]) additionalDrugs[us] = {};
+              if(!additionalDrugs[us][cause]) additionalDrugs[us][cause] = {};
+              if(!additionalDrugs[us][cause][drugTypeMapping[causeForAdditional]]) {
+                 additionalDrugs[us][cause][drugTypeMapping[causeForAdditional]] = 1;
+              } else {
+                additionalDrugs[us][cause][drugTypeMapping[causeForAdditional]]++;
               }
             }
           });
-          additionalDrugs[cause]['total'] = additionalDrugs[cause]['total'] === undefined ? 1 : (additionalDrugs[cause]['total'] + 1);
+          additionalDrugs[state][cause]['total'] = additionalDrugs[state][cause]['total'] === undefined ? 1 : (additionalDrugs[state][cause]['total'] + 1);
+          additionalDrugs[us][cause]['total'] = additionalDrugs[us][cause]['total'] === undefined ? 1 : (additionalDrugs[us][cause]['total'] + 1);
         }
       });
 
       keys.forEach(key => {
-        if(keyCounts[key][row[keyIndex[key]]]){
-          keyCounts[key][row[keyIndex[key]]]++;
+        if(!keyCounts[state]) keyCounts[state] = {};
+        if(!keyCounts[state][key]) keyCounts[state][key] = {};
+        if(keyCounts[state][key][row[keyIndex[key]]]){
+          keyCounts[state][key][row[keyIndex[key]]]++;
         } else {
-          keyCounts[key][row[keyIndex[key]]] = 1;
+          keyCounts[state][key][row[keyIndex[key]]] = 1;
+        }
+
+
+        if(!keyCounts[us]) keyCounts[us] = {};
+        if(!keyCounts[us][key]) keyCounts[us][key] = {};
+        if(keyCounts[us][key][row[keyIndex[key]]]){
+          keyCounts[us][key][row[keyIndex[key]]]++;
+        } else {
+          keyCounts[us][key][row[keyIndex[key]]] = 1;
         }
       });
       
     }
   })
   .on('end', () => {
-    let typeOfDrugData = [{opioid: 'Any Opioids', present: percent(allOpioidPresent), cause: percent(allOpioidCause)},
-                   {opioid: 'IMFs', present: percent(keyCounts['fentanyl_t']['1']), cause: percent(keyCounts['fentanyl_t_cod']['1'])},
-                   {opioid: 'Cocaine', present: percent(keyCounts['cocaine_t']['1']), cause: percent(keyCounts['cocaine_t_cod']['1'])},
-                   {opioid: 'Heroin', present: percent(keyCounts['heroin_def_v2']['1']), cause: percent(keyCounts['heroin_def_cod_v2']['1'])},
-                   {opioid: 'Benzos', present: percent(keyCounts['benzo_r']['1']), cause: percent(keyCounts['benzo_r_cod']['1'])},
-                   {opioid: 'Rx Opioids', present: percent(keyCounts['rx_opioid_v2']['1']), cause: percent(keyCounts['rx_opioid_cod_v2']['1'])},
-                   {opioid: 'Meth', present: percent(keyCounts['meth_r']['1']), cause: percent(keyCounts['meth_r_cod']['1'])}];
+    let statesFinal = Object.keys(keyCounts);
+    statesFinal.push(us);
+
+    let typeOfDrugData = {};
+
+    statesFinal.forEach(state => {
+      typeOfDrugData[state] = [
+        {
+          opioid: 'Any Opioids', 
+          present: percent(allOpioidPresent[state], totalDeaths[state]), 
+          cause: percent(allOpioidCause[state], totalDeaths[state])
+        },
+        {
+          opioid: 'IMFs', 
+          present: percent(keyCounts[state]['fentanyl_t']['1'], totalDeaths[state]), 
+          cause: percent(keyCounts[state]['fentanyl_t_cod']['1'], totalDeaths[state])
+        },
+        {
+          opioid: 'Cocaine', 
+          present: percent(keyCounts[state]['cocaine_t']['1'], totalDeaths[state]), 
+          cause: percent(keyCounts[state]['cocaine_t_cod']['1'], totalDeaths[state])
+        },
+        {
+          opioid: 'Heroin', 
+          present: percent(keyCounts[state]['heroin_def_v2']['1'], totalDeaths[state]), 
+          cause: percent(keyCounts[state]['heroin_def_cod_v2']['1'], totalDeaths[state])
+        },
+        {
+          opioid: 'Benzos', 
+          present: percent(keyCounts[state]['benzo_r']['1'], totalDeaths[state]), 
+          cause: percent(keyCounts[state]['benzo_r_cod']['1'], totalDeaths[state])
+        },
+        {
+          opioid: 'Rx Opioids',
+          present: percent(keyCounts[state]['rx_opioid_v2']['1'], totalDeaths[state]), 
+          cause: percent(keyCounts[state]['rx_opioid_cod_v2']['1'], totalDeaths[state])
+        },
+        {
+          opioid: 'Meth', 
+          present: percent(keyCounts[state]['meth_r']['1'], totalDeaths[state]), 
+          cause: percent(keyCounts[state]['meth_r_cod']['1'], totalDeaths[state])
+        }
+      ];
+    });
 
     fs.writeFile(typeOfDrugFilePath, JSON.stringify(typeOfDrugData), {flag: 'w'}, (err) => {
       if(err){
@@ -158,12 +239,15 @@ fs.createReadStream(inputFilePath)
       }
     });
 
-    let additionalDrugData = [];
-    Object.keys(additionalDrugs).forEach(cause => {
-      let total = additionalDrugs[cause]['total'];
-      let row = {cause: drugLabelMapping[cause]};
-      Object.keys(additionalDrugs[cause]).forEach(additional => row[drugLabelMapping[additional]] = percent(additionalDrugs[cause][additional], total));
-      additionalDrugData.push(row);
+    let additionalDrugData = {};
+    statesFinal.forEach(state => {
+      additionalDrugData[state] = [];
+      Object.keys(additionalDrugs[state]).forEach(cause => {
+        let total = additionalDrugs[state][cause]['total'];
+        let row = {cause: drugLabelMapping[cause]};
+        Object.keys(additionalDrugs[state][cause]).forEach(additional => row[drugLabelMapping[additional]] = percent(additionalDrugs[state][cause][additional], total));
+        additionalDrugData[state].push(row);
+      });
     });
 
     fs.writeFile(additionalDrugFilePath, JSON.stringify(additionalDrugData), {flag: 'w'}, (err) => {
@@ -174,22 +258,47 @@ fs.createReadStream(inputFilePath)
       }
     });
 
-    let circumstancesData = {
-      home: percent(keyCounts['InjuryLocation']['1'], totalDeaths),
-      other: [
-        { circumstance: 'Current or past substance abuse/misuse', value: percent(keyCounts['SubstanceAbuseOther_c']['1'], totalDeaths) },
-        { circumstance: 'Bystander present', value: percent(keyCounts['BystandersPresent']['1'], totalDeaths) },
-        { circumstance: 'Mental health diagnosis', value: percent(keyCounts['MentalHealthProblem_c']['1'], totalDeaths) },
-        { circumstance: 'Naloxone Administered', value: percent(keyCounts['NaloxoneAdministered']['1'], totalDeaths) },
-        { circumstance: 'Ever treated for substance abuse disorder', value: percent(keyCounts['SubstanceAbuseOther_c']['1'], totalDeaths) },
-        { circumstance: 'Recent release from institution', value: percent(keyCounts['recentinst']['1'], totalDeaths) },
-        { circumstance: 'Current pain treatment', value: percent(keyCounts['pain_treat']['1'], totalDeaths) },
-        { circumstance: 'Fatal drug use witnessed', value: percent(keyCounts['witnesseddruguse']['1'], totalDeaths) },
-        { circumstance: 'Prior overdose', value: percent(keyCounts['priorod']['1'], totalDeaths) },
-        { circumstance: 'Recent opioid use relapse', value: percent(keyCounts['recentrelapse']['1'], totalDeaths) },
-        { circumstance: 'Homeless', value: percent(keyCounts['Homeless']['1'], totalDeaths) }
-      ]
-    };
+    let circumstancesData = {};
+    statesFinal.forEach(state => {
+      circumstancesData[state] = {
+        home: percent(keyCounts[state]['InjuryLocation']['1'], totalDeaths[state]),
+        other: [
+          { 
+            circumstance: 'Current or past substance abuse/misuse', 
+            value: percent(keyCounts[state]['SubstanceAbuseOther_c']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Bystander present', 
+            value: percent(keyCounts[state]['BystandersPresent']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Mental health diagnosis', 
+            value: percent(keyCounts[state]['MentalHealthProblem_c']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Naloxone Administered', 
+            value: percent(keyCounts[state]['NaloxoneAdministered']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Ever treated for substance abuse disorder', 
+            value: percent(keyCounts[state]['SubstanceAbuseOther_c']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Recent release from institution', 
+            value: percent(keyCounts[state]['recentinst']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Current pain treatment', 
+            value: percent(keyCounts[state]['pain_treat']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Fatal drug use witnessed', 
+            value: percent(keyCounts[state]['witnesseddruguse']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Prior overdose', 
+            value: percent(keyCounts[state]['priorod']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Recent opioid use relapse', 
+            value: percent(keyCounts[state]['recentrelapse']['1'], totalDeaths[state]) },
+          { 
+            circumstance: 'Homeless', 
+            value: percent(keyCounts[state]['Homeless']['1'], totalDeaths[state]) }
+        ]
+      };
+    });
 
     fs.writeFile(circumstancesFilePath, JSON.stringify(circumstancesData), {flag: 'w'}, (err) => {
       if(err){
@@ -197,7 +306,32 @@ fs.createReadStream(inputFilePath)
       } else {
         console.log('Data processed successfully');
       }
-    })
+    });
+
+    let mapData = {};
+    let mapMax = Number.MIN_VALUE;
+    let mapMin = Number.MAX_VALUE;
+    statesFinal.forEach(state => {
+      mapData[state] = {
+        deaths: allOpioidCause[state]
+      };
+      if(state !== us && allOpioidCause[state] > mapMax){
+        mapMax = allOpioidCause[state];
+      }
+      if(state !== us && allOpioidCause[state] < mapMin){
+        mapMin = allOpioidCause[state];
+      }
+    });
+    mapData.max = mapMax;
+    mapData.min = mapMin;
+
+    fs.writeFile(mapFilePath, JSON.stringify(mapData), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
 
     /*fs.writeFile(outputFilePath, JSON.stringify(keyCounts), {flag: 'w'}, (err) => {
       if(err){

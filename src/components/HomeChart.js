@@ -1,14 +1,16 @@
 import { Circle } from '@visx/shape';
 
-import data from '../data/circumstances.json';
+import raw from '../data/circumstances.json';
 
 import '../css/HomeChart.css';
 
 function HomeChart(params) {
+  
+  const { width, height, state } = params;
 
+  const data = raw[state];
   const roundedValue = Math.round(data.home);
 
-  const { width, height } = params;
   const margin = {top: 10, bottom: 10, left: 50, right: 10, dot: 3};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = Math.min(adjustedHeight, (width - margin.left - margin.right) / 2);

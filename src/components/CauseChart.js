@@ -5,7 +5,7 @@ import { AxisLeft, AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear } from '@visx/scale';
 import { curveLinear } from '@visx/curve';
 
-import data from '../data/causes.json';
+import raw from '../data/causes.json';
 
 import '../css/CauseChart.css';
 
@@ -14,7 +14,8 @@ function CauseChart(params) {
   const [ sort, setSort ] = useState('');
   const [ sortClass, setSortClass ] = useState('fadein-initial');
 
-  const { width, height } = params;
+  const { width, height, state } = params;
+  const data = raw[state];
   const margin = {top: 20, bottom: 70, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
