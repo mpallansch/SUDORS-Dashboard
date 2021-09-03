@@ -1,1 +1,12 @@
+#additional-drug-chart-container {
+  display: inline-block;
+  width: calc(100% - 110px);
+  height: 300px;
+  margin-bottom: 2em;
+}
 
+.side {
+  vertical-align: top;
+  display: inline-block;
+  width: 110px;
+}

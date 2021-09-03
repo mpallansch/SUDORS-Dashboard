@@ -5,6 +5,7 @@ const inputFilePath = './input.csv';
 //const outputFilePath = '../src/data/data.json';
 const typeOfDrugFilePath = '../src/data/causes.json';
 const additionalDrugFilePath = '../src/data/additional-drugs.json';
+const circumstancesFilePath = '../src/data/circumstances.json';
 const keys = [
   'Incident_Year',
   'Age',
@@ -172,6 +173,31 @@ fs.createReadStream(inputFilePath)
         console.log('Data processed successfully');
       }
     });
+
+    let circumstancesData = {
+      home: percent(keyCounts['InjuryLocation']['1'], totalDeaths),
+      other: [
+        { circumstance: 'Current or past substance abuse/misuse', value: percent(keyCounts['SubstanceAbuseOther_c']['1'], totalDeaths) },
+        { circumstance: 'Bystander present', value: percent(keyCounts['BystandersPresent']['1'], totalDeaths) },
+        { circumstance: 'Mental health diagnosis', value: percent(keyCounts['MentalHealthProblem_c']['1'], totalDeaths) },
+        { circumstance: 'Naloxone Administered', value: percent(keyCounts['NaloxoneAdministered']['1'], totalDeaths) },
+        { circumstance: 'Ever treated for substance abuse disorder', value: percent(keyCounts['SubstanceAbuseOther_c']['1'], totalDeaths) },
+        { circumstance: 'Recent release from institution', value: percent(keyCounts['recentinst']['1'], totalDeaths) },
+        { circumstance: 'Current pain treatment', value: percent(keyCounts['pain_treat']['1'], totalDeaths) },
+        { circumstance: 'Fatal drug use witnessed', value: percent(keyCounts['witnesseddruguse']['1'], totalDeaths) },
+        { circumstance: 'Prior overdose', value: percent(keyCounts['priorod']['1'], totalDeaths) },
+        { circumstance: 'Recent opioid use relapse', value: percent(keyCounts['recentrelapse']['1'], totalDeaths) },
+        { circumstance: 'Homeless', value: percent(keyCounts['Homeless']['1'], totalDeaths) }
+      ]
+    };
+
+    fs.writeFile(circumstancesFilePath, JSON.stringify(circumstancesData), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    })
 
     /*fs.writeFile(outputFilePath, JSON.stringify(keyCounts), {flag: 'w'}, (err) => {
       if(err){
