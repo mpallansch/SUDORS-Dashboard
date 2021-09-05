@@ -31,9 +31,34 @@
   }
 }
 
+#root {
+  border-top: 5px solid #712177;
+}
+
+.section {
+  background-color: #EEE;
+  padding: 0.5em;
+  margin: 1em 0;
+}
+
+h2 {
+  color: #712177;
+  margin-top: 0.25em;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+
+h3 {
+  margin: 0.25em 0.5em;
+  font-size: large;
+  font-family: sans-serif;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 .column {
   display: inline-block;
-  width: 33%;
+  width: 50%;
   vertical-align: top;
 }
 
