@@ -37,7 +37,7 @@
 
 .section {
   background-color: #EEE;
-  padding: 0.5em;
+  padding: 1em;
   margin: 1em 0;
 }
 
@@ -62,7 +62,21 @@ h3 {
   vertical-align: top;
 }
 
-.chart-header, .chart-legend {
+.column-left {
+  padding-right: 0.5em;
+}
+
+.column-right {
+  padding-left: 0.5em;
+}
+
+.block-shadow {
+  background-color: white;
+  box-shadow: 5px 5px 5px gray;
+  padding: 1em;
+}
+
+.chart-legend {
   text-align: center;
 }
 
@@ -73,8 +87,40 @@ h3 {
   margin: 0.25em;
 }
 
+#header {
+  background-color: #712177;
+  color: white;
+  padding: 0.5em;
+}
+
+#header h3 {
+  text-transform: none;
+  font-weight: normal;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.header-section {
+  display: inline-block;
+  vertical-align: middle;
+  text-transform: uppercase;
+  font-size: small;
+  width: 25%;
+}
+
+.enlarged {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: x-large;
+  font-weight: bold;
+}
+
 .text-align-left {
   text-align: left;
+}
+
+.margin-top {
+  margin-top: 1em;
 }
 
 select {
@@ -86,10 +132,6 @@ select {
 .bar {
   transform-origin: center;
   animation: fillin 1s ease;
-}
-
-.line, .point {
-  opacity: 0;
 }
 
 .fadein-initial {

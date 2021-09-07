@@ -1,10 +1,13 @@
+import { LinePath } from '@visx/shape';
+import { scaleLinear, scaleOrdinal } from '@visx/scale';
+
 import '../css/HeaderChart.css';
 
 function HeaderChart(params) {
   
   const { width, height } = params;
 
-  const margin = {top: 10, bottom: 10, left: 10, right: 10};
+  const margin = {top: 10, bottom: 10, left: 0, right: 0};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 

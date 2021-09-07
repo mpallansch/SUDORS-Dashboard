@@ -1,3 +1,11 @@
 #sex-chart-container {
     height: 300px;
 }
+
+#sex-chart-legend {
+    text-align: center;
+}
+
+#sex-chart-legend span {
+    margin: 0 0.5em;
+}

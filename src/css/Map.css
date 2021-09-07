@@ -1,3 +1,20 @@
 #map-container {
     height: 500px;
 }
+
+#map-container svg {
+    display: inline-block;
+}
+
+#map-container .block-shadow {
+    padding: 0 0 10px 0;
+}
+
+.compare-buttons button {
+    border: none;
+    margin-bottom: 10px;
+}
+
+.compare-buttons button.active {
+    text-decoration: underline;
+}

@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Bar, Circle, LinePath } from '@visx/shape';
 import { Group } from '@visx/group';
 import { AxisLeft, AxisBottom } from '@visx/axis';
@@ -11,9 +10,6 @@ import '../css/CauseChart.css';
 
 function CauseChart(params) {
 
-  const [ sort, setSort ] = useState('');
-  const [ sortClass, setSortClass ] = useState('fadein-initial');
-
   const { width, height, state } = params;
   const data = raw[state];
   const margin = {top: 20, bottom: 70, left: 70, right: 20};
@@ -25,13 +21,6 @@ function CauseChart(params) {
     domain: data.map(d => d.opioid),
     padding: 0.2
   });
-  
-  const xScaleReverse = scaleBand({
-    range: [ adjustedWidth, 0 ],
-    domain: data.map(d => d.opioid),
-    padding: 0.2
-  });
-
   const xOffset = xScale.bandwidth() / 2;
 
   const yScale = scaleLinear({
@@ -39,23 +28,8 @@ function CauseChart(params) {
     range: [ adjustedHeight, 0 ]
   });
 
-  const selectChange = (e) => {
-    setSortClass('');
-    setSort(e.target.value);
-  };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setSortClass('fadein');
-    }, 10);
-  }, [sort]);
-
   return width > 0 && (
     <>
-      <select onChange={selectChange}>
-        <option>Descending</option>
-        <option>Ascending</option>
-      </select>
       <div id="cause-chart">
         <svg width={width} height={height}>
           <Group top={margin.top} left={margin.left}>
@@ -77,10 +51,6 @@ function CauseChart(params) {
                 <Group key={`group-${d.opioid}`}>
                   <Bar 
                     className="bar"
-                    style={{
-                      'transition': 'transform 1s ease-in-out',
-                      'transform': `translate(${sort === 'Ascending' ? xScaleReverse(d.opioid) - xScale(d.opioid) : 0}px)`
-                    }}
                     key={`bar-${d.opioid}`}
                     x={xScale(d.opioid)}
                     y={yScale(d.present)}
@@ -89,11 +59,7 @@ function CauseChart(params) {
                     fill="rgb(198, 209, 230)"
                   />
                   <Circle
-                    className="point fadein"
-                    style={{
-                      'transition': 'transform 1s ease-in-out',
-                      'transform': `translate(${sort === 'Ascending' ? xScaleReverse(d.opioid) - xScale(d.opioid) : 0}px)`
-                    }}
+                    className="point"
                     key={`point-${d.opioid}`}
                     r={5}
                     cx={xScale(d.opioid) + xOffset}
@@ -104,10 +70,10 @@ function CauseChart(params) {
               )
             )}
             <LinePath
-              className={`line ${sortClass}`}
+              className={`line`}
               curve={curveLinear}
               data={data}
-              x={d => (sort === 'Ascending' ? xScaleReverse(d.opioid) : xScale(d.opioid)) + xOffset}
+              x={d => xScale(d.opioid) + xOffset}
               y={d => yScale(d.cause)}
               stroke="rgb(58, 88, 161)"
               strokeWidth={3}
@@ -115,28 +81,12 @@ function CauseChart(params) {
             <AxisBottom
               top={adjustedHeight}
               scale={xScale}
-            >
-              {axisBottom => (
-                <g className="visx-group visx-axis visx-axis-bottom">
-                  {axisBottom.ticks.map(tick => (
-                      <g 
-                        key={`tick-${tick.value}`}
-                        className="visx-group visx-axis-tick"
-                        style={{
-                          'transition': 'transform 1s ease-in-out',
-                          'transform': `translate(${sort === 'Ascending' ? xScaleReverse(tick.value) - xScale(tick.value) : 0}px)`
-                        }}>
-                        <svg x="0" y="0" fontSize="medium">
-                          <text textAnchor="middle">
-                            <tspan x={tick.to.x} dy="1.5em">{tick.value}</tspan>
-                          </text>
-                        </svg>
-                      </g>
-                    )
-                  )}
-                </g>
-              )}
-            </AxisBottom>
+              tickLabelProps={() => ({
+                fontSize: 'medium',
+                textAnchor: 'middle',
+                transform: 'translate(0, 10)'
+              })}
+            />
           </Group>
         </svg>
       </div>

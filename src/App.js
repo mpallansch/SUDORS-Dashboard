@@ -2,7 +2,8 @@ import { useCallback, useRef, useState } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import Map from './components/Map';
-import HeaderChart from './components/HeaderChart';
+import HeaderLineChart from './components/HeaderLineChart';
+import HeaderWaffleChart from './components/HeaderWaffleChart';
 import SexChart from './components/SexChart';
 import AgeChart from './components/AgeChart';
 import RaceChart from './components/RaceChart';
@@ -13,7 +14,6 @@ import CircumstancesChart from './components/CircumstancesChart';
 import AdditionalDrugChart from './components/AdditionalDrugChart';
 
 import './App.css';
-import { element } from 'prop-types';
 
 function App() {
 
@@ -21,7 +21,8 @@ function App() {
 
   const [ state, setState ] = useState('United States');
   const [ mapState, setMapState ]  = useState(initialDimensions);
-  const [ headerChartState, setHeaderChartState ]  = useState(initialDimensions);
+  const [ headerLineChartState, setHeaderLineChartState ]  = useState(initialDimensions);
+  const [ headerWaffleChartState, setHeaderWaffleChartState ]  = useState(initialDimensions);
   const [ sexChartState, setSexChartState ]  = useState(initialDimensions);
   const [ ageChartState, setAgeChartState ]  = useState(initialDimensions);
   const [ raceChartState, setRaceChartState ]  = useState(initialDimensions);
@@ -31,7 +32,8 @@ function App() {
   const [ homeChartState, setHomeChartState ]  = useState(initialDimensions);
   const [ circumstancesChartState, setCircumstancesChartState ]  = useState(initialDimensions);
   const mapRef = useRef();
-  const headerChartRef = useRef();
+  const headerLineChartRef = useRef();
+  const headerWaffleChartRef = useRef();
   const sexChartRef = useRef();
   const ageChartRef = useRef();
   const raceChartRef = useRef();
@@ -50,7 +52,8 @@ function App() {
 
   const resizeObserver = new ResizeObserver(entries => {
     setDimensions(setMapState, mapRef);
-    setDimensions(setHeaderChartState, headerChartRef);
+    setDimensions(setHeaderLineChartState, headerLineChartRef);
+    setDimensions(setHeaderWaffleChartState, headerWaffleChartRef);
     setDimensions(setSexChartState, sexChartRef);
     setDimensions(setAgeChartState, ageChartRef);
     setDimensions(setRaceChartState, raceChartRef);
@@ -67,15 +70,38 @@ function App() {
     } // eslint-disable-next-line
   },[]);
 
+  const stateLabel = state && state !== 'United States' ? ` in ${state}` : '';
+
   return (
     <div className="App" ref={outerContainerRef}>
       <div className="section">
-        <h2>How many people died of a drug overdose?</h2>
-        <div id="header-chart-container" ref={headerChartRef}>
-          <HeaderChart 
-            width={headerChartState.width}
-            height={headerChartState.height}
-          />
+        <h2>How many people died of a drug overdose{stateLabel}?</h2>
+        <div id="header">
+          <h3>Data Summary At a Glance</h3>
+          <div className="header-section">
+            <span className="enlarged">100</span> total deaths
+          </div>
+          <div className="header-section">
+            <div id="header-line-chart-container" ref={headerLineChartRef}>
+              <HeaderLineChart 
+                width={headerLineChartState.width}
+                height={headerLineChartState.height}
+              />
+            </div>
+            lorem ipsum
+          </div>
+          <div className="header-section">
+            <span className="enlarged">X%</span> lorem ipsum
+          </div>
+          <div className="header-section">
+            <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
+              <HeaderWaffleChart 
+                width={headerWaffleChartState.width}
+                height={headerWaffleChartState.height}
+              />
+            </div>
+            lorem ipsum
+          </div>
         </div>
         <div id="map-container" ref={mapRef}>
           <Map 
@@ -85,88 +111,111 @@ function App() {
         </div>
       </div>
       <div className="section">
-        <h2>Who died of a drug overdose?</h2>
-        <div className="column">
+        <h2>Who died of a drug overdose{stateLabel}?</h2>
+        <div className="column column-left">
           <h3>By Sex</h3>
-          <div id="sex-chart-container" ref={sexChartRef}>
-            <SexChart 
-              width={sexChartState.width} 
-              height={sexChartState.height}
-              state={state}
-            />
+          <div className="block-shadow">
+            <div id="sex-chart-container" ref={sexChartRef}>
+              <SexChart 
+                width={sexChartState.width} 
+                height={sexChartState.height}
+                state={state}
+              />
+            </div>
+            <div id="sex-chart-legend">
+              <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)" /></svg>Male</span>
+              <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>Female</span>
+            </div>
           </div>
         </div>
-        <div className="column">
+        <div className="column column-right">
           <h3>By Age</h3>
-          <div id="age-chart-container" ref={ageChartRef}>
-            <AgeChart 
-              width={ageChartState.width} 
-              height={ageChartState.height}
-              state={state}
-            />
+          <div className="block-shadow">
+            <div id="age-chart-container" ref={ageChartRef}>
+              <AgeChart 
+                width={ageChartState.width} 
+                height={ageChartState.height}
+                state={state}
+              />
+            </div>
+            <div id="age-chart-legend">
+              <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)" /></svg>Male</span>
+              <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>Female</span>
+            </div>
           </div>
         </div>
-        <h3>By Race/Ethnicity</h3>
-        <div id="race-chart-container" ref={raceChartRef}>
-            <RaceChart 
-              width={raceChartState.width} 
-              height={raceChartState.height}
-              state={state}
-            />
+        <h3 className="margin-top">By Race/Ethnicity</h3>
+        <div className="block-shadow">
+          <div id="race-chart-container" ref={raceChartRef}>
+              <RaceChart 
+                width={raceChartState.width} 
+                height={raceChartState.height}
+                state={state}
+              />
           </div>
+        </div>
       </div>
 
       <div className="section">
-        <h2 className="chart-header">What drugs were identified?</h2>
-        <div className="chart-legend">
-          <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>% with drug present</span>
-          <span><svg className="indicator" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="rgb(58, 88, 161)"></circle><line x1="0" x2="100" y1="50" y2="50" strokeWidth="25" stroke="rgb(58, 88, 161)"/></svg>% with drug listed as cause of death</span>
+        <h2>What drugs were identified{stateLabel}?</h2>
+        <div className="block-shadow">
+          <div className="chart-legend">
+            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>% with drug present</span>
+            <span><svg className="indicator" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="rgb(58, 88, 161)"></circle><line x1="0" x2="100" y1="50" y2="50" strokeWidth="25" stroke="rgb(58, 88, 161)"/></svg>% with drug listed as cause of death</span>
+          </div>
+          <div id="cause-chart-container" ref={causeChartRef}>
+            <CauseChart 
+              width={causeChartState.width} 
+              height={causeChartState.height}
+              state={state} />
+          </div>
         </div>
-        <div id="cause-chart-container" ref={causeChartRef}>
-          <CauseChart 
-            width={causeChartState.width} 
-            height={causeChartState.height}
-            state={state} />
-        </div>
-        <h3 className="chart-header">Additional drug classes detected</h3>
-        <div id="additional-drug-chart-container" ref={additionalDrugChartRef}>
-          <AdditionalDrugChart 
-            width={additionalDrugChartState.width} 
-            height={additionalDrugChartState.height}
-            state={state} />
-        </div>
-        <div className="chart-legend side text-align-left">
-          <br/><br/><strong>Drug Detected</strong><br/><br/>
-          <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(30, 23, 103)" /></svg>Benzos</div>
-          <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(113, 129, 167)" /></svg>Meth</div>
-          <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(150, 160, 185)" /></svg>Rx Opioids</div>
-          <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(108, 56, 111)" /></svg>IMFs</div>
-          <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(76, 140, 126)" /></svg>Heroin</div>
-          <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(132, 178, 170)" /></svg>Cocaine</div>
+        <h3 className="margin-top">Additional drug classes detected</h3>
+        <div className="block-shadow">
+          <div id="additional-drug-chart-container" ref={additionalDrugChartRef}>
+            <AdditionalDrugChart 
+              width={additionalDrugChartState.width} 
+              height={additionalDrugChartState.height}
+              state={state} />
+          </div>
+          <div className="chart-legend side text-align-left">
+            <br/><br/><strong>Drug Detected</strong><br/><br/>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(30, 23, 103)" /></svg>Benzos</div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(113, 129, 167)" /></svg>Meth</div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(150, 160, 185)" /></svg>Rx Opioids</div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(108, 56, 111)" /></svg>IMFs</div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(76, 140, 126)" /></svg>Heroin</div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(132, 178, 170)" /></svg>Cocaine</div>
+          </div>
         </div>
       </div>
       <div className="section">
-        <div className="column">
-          <div id="state-chart-container" ref={stateChartRef}>
-            <StateChart
-              width={stateChartState.width} 
-              height={stateChartState.height}
-              state={state} />
+        <div className="column column-left">
+          <h2>How does my state compare?*</h2>
+          <div className="block-shadow">
+            <div id="state-chart-container" ref={stateChartRef}>
+              <StateChart
+                width={stateChartState.width} 
+                height={stateChartState.height}
+                state={state} />
+            </div>
           </div>
         </div>
-        <div className="column">
-          <h2>What are the opportunities for intervention?*</h2>
-          <div id="home-chart-container" ref={homeChartRef}>
-            <HomeChart
-              width={homeChartState.width} 
-              height={homeChartState.height}
-              state={state} />
-          </div>
-          <div id="circumstances-chart-container" ref={circumstancesChartRef}>
-            <CircumstancesChart
-              width={circumstancesChartState.width} 
-              height={circumstancesChartState.height}
-              state={state} />
+        <div className="column column-right">
+          <h2>What are the opportunities for intervention{stateLabel}?*</h2>
+          <div className="block-shadow">
+            <div id="home-chart-container" ref={homeChartRef}>
+              <HomeChart
+                width={homeChartState.width} 
+                height={homeChartState.height}
+                state={state} />
+            </div>
+            <div id="circumstances-chart-container" ref={circumstancesChartRef}>
+              <CircumstancesChart
+                width={circumstancesChartState.width} 
+                height={circumstancesChartState.height}
+                state={state} />
+            </div>
           </div>
         </div>
       </div>
