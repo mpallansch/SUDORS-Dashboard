@@ -3,50 +3,15 @@ import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
+import raw from '../data/age.json';
+
 import '../css/AgeChart.css';
 
 function AgeChart(params) {
-
-  const data = {
-    'male': [
-      {
-        'age': '15-24',
-        'value': 2
-      },
-      {
-        'age': '24-50',
-        'value': 12
-      },
-      {
-        'age': '51-70',
-        'value': 40
-      },
-      {
-        'age': '71-90',
-        'value': 4
-      }
-    ],
-    'female': [
-      {
-        'age': '15-24',
-        'value': 2
-      },
-      {
-        'age': '24-50',
-        'value': 12
-      },
-      {
-        'age': '51-70',
-        'value': 40
-      },
-      {
-        'age': '71-90',
-        'value': 4
-      }
-    ]
-  };
   
-  const { width, height } = params;
+  const { width, height, state } = params;
+
+  const data = raw[state];
 
   const margin = {top: 10, bottom: 10, left: 75, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;

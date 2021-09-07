@@ -8,6 +8,7 @@ const additionalDrugFilePath = '../src/data/additional-drugs.json';
 const circumstancesFilePath = '../src/data/circumstances.json';
 const mapFilePath = '../src/data/map.json';
 const sexFilePath = '../src/data/sex.json';
+const ageFilePath = '../src/data/age.json';
 const stateKey = 'State';
 const keys = [
   'Incident_Year',
@@ -81,8 +82,20 @@ let additionalDrugs = {};
 let totalDeaths = {};
 let allOpioidCause = {};
 let allOpioidPresent = {};
+let ageData = {};
+let ageCounts = {
+  '15-24': 0,
+  '25-34': 0,
+  '35-44': 0,
+  '45-54': 0,
+  '55-64': 0,
+  '65+': 0
+};
 
-function percent(deaths, total) {
+function percent(deaths, total, wholeNumber) {
+  if(wholeNumber){
+    return Math.round(deaths / total * 100);
+  }
   return Math.round(deaths / total * 10000) / 100;
 }
 
@@ -164,6 +177,30 @@ fs.createReadStream(inputFilePath)
           additionalDrugs[us][cause]['total'] = additionalDrugs[us][cause]['total'] === undefined ? 1 : (additionalDrugs[us][cause]['total'] + 1);
         }
       });
+
+      ageData[state] = ageData[state] || {'male': {...ageCounts}, 'female':{...ageCounts}};
+      ageData[us] = ageData[us] || {'male': {...ageCounts}, 'female': {...ageCounts}};
+      let age = parseInt(row[keyIndex['Age']]);
+      let sex = row[keyIndex['Sex']] === '1' ? 'male' : 'female';
+      if(age >= 15 && age < 25){
+        ageData[state][sex]['15-24'] += 1;
+        ageData[us][sex]['15-24'] += 1;
+      } else if(age >= 25 && age < 35){
+        ageData[state][sex]['25-34'] += 1;
+        ageData[us][sex]['25-34'] += 1;
+      } else if(age >= 35 && age < 45){
+        ageData[state][sex]['35-44'] += 1;
+        ageData[us][sex]['35-44'] += 1;
+      } else if(age >= 45 && age < 55){
+        ageData[state][sex]['45-54'] += 1;
+        ageData[us][sex]['45-54'] += 1;
+      } else if(age >= 55 && age < 65){
+        ageData[state][sex]['55-64'] += 1;
+        ageData[us][sex]['55-64'] += 1;
+      } else if(age >= 65){
+        ageData[state][sex]['65+'] += 1;
+        ageData[us][sex]['65+'] += 1;
+      }
 
       keys.forEach(key => {
         if(!keyCounts[state]) keyCounts[state] = {};
@@ -343,6 +380,26 @@ fs.createReadStream(inputFilePath)
     });
 
     fs.writeFile(sexFilePath, JSON.stringify(sexData), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+    
+    let ageDataFinal = {};
+    statesFinal.forEach(state => {
+      let ageTotal = 0;
+      Object.keys(ageData[state]['male']).forEach(ageGroup => ageTotal += ageData[state]['male'][ageGroup]);
+      Object.keys(ageData[state]['female']).forEach(ageGroup => ageTotal += ageData[state]['female'][ageGroup]);
+
+      ageDataFinal[state] = {
+        'male': Object.keys(ageData[state]['male']).map(ageGroup => ({age: ageGroup, value: percent(ageData[state]['male'][ageGroup], ageTotal, true)})),
+        'female': Object.keys(ageData[state]['female']).map(ageGroup => ({age: ageGroup, value: percent(ageData[state]['female'][ageGroup], ageTotal, true)}))
+      };
+    });
+
+    fs.writeFile(ageFilePath, JSON.stringify(ageDataFinal), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {
