@@ -7,6 +7,7 @@ const typeOfDrugFilePath = '../src/data/causes.json';
 const additionalDrugFilePath = '../src/data/additional-drugs.json';
 const circumstancesFilePath = '../src/data/circumstances.json';
 const mapFilePath = '../src/data/map.json';
+const sexFilePath = '../src/data/sex.json';
 const stateKey = 'State';
 const keys = [
   'Incident_Year',
@@ -289,7 +290,7 @@ fs.createReadStream(inputFilePath)
             value: percent(keyCounts[state]['witnesseddruguse']['1'], totalDeaths[state]) },
           { 
             circumstance: 'Prior overdose', 
-            value: percent(keyCounts[state]['priorod']['1'], totalDeaths[state]) },
+            value: percent( ['priorod']['1'], totalDeaths[state]) },
           { 
             circumstance: 'Recent opioid use relapse', 
             value: percent(keyCounts[state]['recentrelapse']['1'], totalDeaths[state]) },
@@ -326,6 +327,22 @@ fs.createReadStream(inputFilePath)
     mapData.min = mapMin;
 
     fs.writeFile(mapFilePath, JSON.stringify(mapData), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+
+    let sexData = {};
+    statesFinal.forEach(state => {
+      sexData[state] = [
+        {sex: 'Male', value: keyCounts[state]['Sex']['1']},
+        {sex: 'Female', value: keyCounts[state]['Sex']['0']}
+      ];
+    });
+
+    fs.writeFile(sexFilePath, JSON.stringify(sexData), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {
