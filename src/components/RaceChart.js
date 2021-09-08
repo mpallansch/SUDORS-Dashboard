@@ -4,21 +4,18 @@ import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
+import raw from '../data/race.json';
+
 import '../css/RaceChart.css';
 
 function RaceChart(params) {
-  
-  const data = [
-    {race: 'White', value: 71},
-    {race: 'Black', value: 21},
-    {race: 'Hispanic', value: 4},
-    {race: 'Asian', value: 1}
-  ];
 
   const [ sort, setSort ] = useState('Descending');
   const [ sortClass, setSortClass ] = useState('fadein-initial');
   
-  const { width, height } = params;
+  const { width, height, state } = params;
+
+  const data = raw[state];
 
   const margin = {top: 10, bottom: 10, left: 75, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom - 60;

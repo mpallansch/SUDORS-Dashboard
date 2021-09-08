@@ -9,6 +9,7 @@ const circumstancesFilePath = '../src/data/circumstances.json';
 const mapFilePath = '../src/data/map.json';
 const sexFilePath = '../src/data/sex.json';
 const ageFilePath = '../src/data/age.json';
+const raceFilePath = '../src/data/race.json';
 const stateKey = 'State';
 const keys = [
   'Incident_Year',
@@ -50,7 +51,7 @@ const keys = [
   'witnesseddruguse',
   'sitenum'
 ];
-let drugTypeMapping = {
+const drugTypeMapping = {
   'benzo_r_cod': 'benzo_r',
   'meth_r_cod': 'meth_r',
   'rx_opioid_cod_v2': 'rx_opioid_v2',
@@ -58,7 +59,7 @@ let drugTypeMapping = {
   'heroin_def_cod_v2': 'heroin_def_v2',
   'cocaine_t_cod': 'cocaine_t'
 };
-let drugLabelMapping = {
+const drugLabelMapping = {
   'benzo_r_cod': 'Benzos',
   'benzo_r': 'Benzos',
   'meth_r_cod': 'Meth',
@@ -71,6 +72,14 @@ let drugLabelMapping = {
   'heroin_def_v2': 'Heroin',
   'cocaine_t_cod': 'Cocaine',
   'cocaine_t': 'Cocaine'
+};
+const raceMapping = {
+  '0': 'Race category 0',
+  '1': 'Race category 1',
+  '2': 'Race category 2',
+  '3': 'Race category 3',
+  '4': 'Race category 4',
+  '5': 'Race category 5'
 };
 const us = 'United States';
 
@@ -400,6 +409,24 @@ fs.createReadStream(inputFilePath)
     });
 
     fs.writeFile(ageFilePath, JSON.stringify(ageDataFinal), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+
+    console.log(keyCounts['Georgia']);
+    
+    let raceData = {};
+    statesFinal.forEach(state => {
+      raceData[state] = [];
+      Object.keys(keyCounts[state]['race_eth']).forEach(raceNum => {
+        raceData[state].push({race: raceMapping[raceNum], value: percent(keyCounts[state]['race_eth'][raceNum], totalDeaths[state])});
+      });
+    });
+
+    fs.writeFile(raceFilePath, JSON.stringify(raceData), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {
