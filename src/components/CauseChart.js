@@ -1,8 +1,7 @@
-import { Bar, Circle, LinePath } from '@visx/shape';
+import { Bar } from '@visx/shape';
 import { Group } from '@visx/group';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear } from '@visx/scale';
-import { curveLinear } from '@visx/curve';
 
 import raw from '../data/causes.json';
 
@@ -21,7 +20,6 @@ function CauseChart(params) {
     domain: data.map(d => d.opioid),
     padding: 0.2
   });
-  const xOffset = xScale.bandwidth() / 2;
 
   const yScale = scaleLinear({
     domain: [0, 100],
@@ -58,26 +56,17 @@ function CauseChart(params) {
                     height={adjustedHeight - yScale(d.present)}
                     fill="rgb(198, 209, 230)"
                   />
-                  <Circle
-                    className="point"
-                    key={`point-${d.opioid}`}
-                    r={5}
-                    cx={xScale(d.opioid) + xOffset}
-                    cy={yScale(d.cause)}
-                    fill="rgb(58, 88, 161)"
-                  />
+                  <line 
+                    x1={xScale(d.opioid)} 
+                    y1={yScale(d.cause)} 
+                    x2={xScale(d.opioid) + xScale.bandwidth()} 
+                    y2={yScale(d.cause)} 
+                    stroke="rgb(58, 88, 161)"
+                    strokeDasharray="10 5" 
+                    strokeWidth="5" />
                 </Group>
               )
             )}
-            <LinePath
-              className={`line`}
-              curve={curveLinear}
-              data={data}
-              x={d => xScale(d.opioid) + xOffset}
-              y={d => yScale(d.cause)}
-              stroke="rgb(58, 88, 161)"
-              strokeWidth={3}
-            />
             <AxisBottom
               top={adjustedHeight}
               scale={xScale}

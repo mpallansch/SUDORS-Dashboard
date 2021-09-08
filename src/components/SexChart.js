@@ -42,11 +42,26 @@ function SexChart(params) {
         >
           {(pie) => (
             <Group top={halfHeight} left={halfWidth}>
-              {pie.arcs.map((arc, index) => (
-                  <g key={`arc-${index}`}>
-                    <path d={pie.path(arc)} fill={colorScale[arc.data.sex]} />
-                  </g>
-                )
+              {pie.arcs.map((arc, index) => {
+                  const [ centroidX, centroidY ] = pie.path.centroid(arc);
+
+                  return (
+                    <g key={`arc-${index}`}>
+                      <path d={pie.path(arc)} fill={colorScale[arc.data.sex]} />
+                      <text
+                        fill="white"
+                        x={centroidX}
+                        y={centroidY}
+                        dy=".33em"
+                        fontSize="medium"
+                        textAnchor="middle"
+                        pointerEvents="none"
+                      >
+                        {arc.data.value}%
+                      </text>
+                    </g>
+                  )
+                }
               )}
             </Group>
           )}

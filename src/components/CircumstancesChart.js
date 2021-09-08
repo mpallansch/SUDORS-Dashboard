@@ -48,7 +48,7 @@ function CircumstancesChart(params) {
                   cy={yScale(d.circumstance) + barThicknessHalf}
                   fill="rgb(58, 88, 161)"
                 />
-                <text x={xScale(d.value) + 10} y={yScale(d.circumstance) + barThickness} fontSize="small" fill="rgb(58, 88, 161)">{Math.round(d.value)}%</text>
+                <text x={(xScale(d.value) || 0) + 10} y={yScale(d.circumstance) + barThickness} fontSize="small" fill="rgb(58, 88, 161)">{Math.round(d.value)}%</text>
                 <text x={0}  y={yScale(d.circumstance) + barThickness + margin.bar}>{d.circumstance}</text>
               </Group>
             )

@@ -2,12 +2,17 @@
     height: 500px;
 }
 
-#map-container svg {
-    display: inline-block;
-}
-
 #map-container .block-shadow {
     padding: 0 0 10px 0;
+}
+
+.map-header {
+    text-align: center;
+    font-weight: bold;
+}
+
+.inline-map-container {
+    display: inline-block;
 }
 
 .compare-buttons button {

@@ -63,7 +63,11 @@ fs.createReadStream(inputFilePath)
           } else if(index === 1){
             outputCSVData += ((Math.round(Math.random() * 99) + 1) + ',');
           } else {
-            outputCSVData += Math.round(Math.random());
+            if(keys[index + 1] === 'race_eth'){
+              outputCSVData += Math.round(Math.random() * 3);
+            } else {
+              outputCSVData += Math.round(Math.random());
+            }
             if(index === row.length - 1) {
               outputCSVData += '\n';
             } else {

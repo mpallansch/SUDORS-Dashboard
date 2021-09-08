@@ -84,7 +84,8 @@ function StateChart(params) {
                 width={xScale(d.value)}
                 height={yScale.bandwidth()}
                 fill="rgb(198, 209, 230)"
-                stroke={d.state === state ? 'yellow' : 'none'}
+                stroke={d.state === state ? 'rgb(58, 88, 161)' : 'none'}
+                strokeWidth="3"
               />
             ))}
             <AxisLeft 

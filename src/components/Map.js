@@ -19,7 +19,7 @@ function Map(params) {
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom - 100;
   const smallWidth = (adjustedWidth - ((margin.left + margin.right) * 2)) / 2 - 10;
-  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 2;
+  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 2 - 25;
 
   const unitedStates = topojson.feature(topology, topology.objects.states).features;
   const colorsPalettes = {
@@ -49,7 +49,10 @@ function Map(params) {
     });
 
     return (
-      <>
+      <div className="inline-map-container">
+        <div className="map-header">
+          <span>{small ? drug : ''}</span>
+        </div>
         <svg 
           width={mapWidth}
           height={mapHeight} 
@@ -90,7 +93,7 @@ function Map(params) {
             ))}
           </Group>
         </svg>
-      </>
+      </div>
     )
   };
 

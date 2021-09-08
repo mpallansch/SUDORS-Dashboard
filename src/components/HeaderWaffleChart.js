@@ -1,12 +1,14 @@
 import { Circle } from '@visx/shape';
 
+import raw from '../data/interventions.json';
+
 import '../css/HeaderWaffleChart.css';
 
 function HeaderWaffleChart(params) {
 
-  const roundedValue = 90;
-  
-  const { width, height } = params;
+  const { width, height, state } = params;
+
+  const data = raw[state];
 
   const margin = {top: 20, bottom: 0, left: 0, right: 0, dot: 3};
   const adjustedHeight = height - margin.top - margin.bottom;
@@ -23,8 +25,8 @@ function HeaderWaffleChart(params) {
         height={adjustedHeight}>
         {oneThroughFour.map(rowIndex => {
           return oneThroughFour.map(colIndex => {
-            const rowCutoff = Math.ceil((roundedValue / 25));
-            const colCutoff =  3 - (roundedValue % 25) / 4;
+            const rowCutoff = Math.ceil((data / 25));
+            const colCutoff =  3 - (data % 25) / 4;
 
             return (
               <Circle 

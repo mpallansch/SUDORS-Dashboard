@@ -8,10 +8,12 @@ import SexChart from './components/SexChart';
 import AgeChart from './components/AgeChart';
 import RaceChart from './components/RaceChart';
 import StateChart from './components/StateChart';
-import HomeChart from './components/HomeChart';
 import CauseChart from './components/CauseChart';
 import CircumstancesChart from './components/CircumstancesChart';
 import AdditionalDrugChart from './components/AdditionalDrugChart';
+
+import interventionData from './data/interventions.json';
+import totalData from './data/totals.json';
 
 import './App.css';
 
@@ -29,7 +31,6 @@ function App() {
   const [ stateChartState, setStateChartState ]  = useState(initialDimensions);
   const [ causeChartState, setCauseChartState ]  = useState(initialDimensions);
   const [ additionalDrugChartState, setAdditionalDrugChartState ]  = useState(initialDimensions);
-  const [ homeChartState, setHomeChartState ]  = useState(initialDimensions);
   const [ circumstancesChartState, setCircumstancesChartState ]  = useState(initialDimensions);
   const mapRef = useRef();
   const headerLineChartRef = useRef();
@@ -40,7 +41,6 @@ function App() {
   const stateChartRef = useRef();
   const causeChartRef = useRef();
   const additionalDrugChartRef = useRef();
-  const homeChartRef = useRef();
   const circumstancesChartRef = useRef();
 
   const setDimensions = (stateFunc, elementRef) => {
@@ -60,7 +60,6 @@ function App() {
     setDimensions(setStateChartState, stateChartRef);
     setDimensions(setCauseChartState, causeChartRef);
     setDimensions(setAdditionalDrugChartState, additionalDrugChartRef);
-    setDimensions(setHomeChartState, homeChartRef);
     setDimensions(setCircumstancesChartState, circumstancesChartRef);
   });
 
@@ -79,7 +78,7 @@ function App() {
         <div id="header">
           <h3>Data Summary At a Glance</h3>
           <div className="header-section">
-            <span className="enlarged">100</span> total deaths
+            <span className="enlarged">{Math.round(totalData[state] / 1000)}k</span> total deaths
           </div>
           <div className="header-section">
             <div id="header-line-chart-container" ref={headerLineChartRef}>
@@ -88,10 +87,7 @@ function App() {
                 height={headerLineChartState.height}
               />
             </div>
-            lorem ipsum
-          </div>
-          <div className="header-section">
-            <span className="enlarged">X%</span> lorem ipsum
+            deaths over time
           </div>
           <div className="header-section">
             <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
@@ -100,7 +96,7 @@ function App() {
                 height={headerWaffleChartState.height}
               />
             </div>
-            lorem ipsum
+            <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
           </div>
         </div>
         <div id="map-container" ref={mapRef}>
@@ -161,7 +157,7 @@ function App() {
         <div className="block-shadow">
           <div className="chart-legend">
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>% with drug present</span>
-            <span><svg className="indicator" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="rgb(58, 88, 161)"></circle><line x1="0" x2="100" y1="50" y2="50" strokeWidth="25" stroke="rgb(58, 88, 161)"/></svg>% with drug listed as cause of death</span>
+            <span><svg className="indicator" viewBox="0 0 100 100"><line x1="0" y1="50" x2="100" y2="50" stroke="rgb(58, 88, 161)" strokeDasharray="40 20" strokeWidth="40" /></svg>% with drug listed as cause of death</span>
           </div>
           <div id="cause-chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -204,12 +200,6 @@ function App() {
         <div className="column column-right">
           <h2>What are the opportunities for intervention{stateLabel}?*</h2>
           <div className="block-shadow">
-            <div id="home-chart-container" ref={homeChartRef}>
-              <HomeChart
-                width={homeChartState.width} 
-                height={homeChartState.height}
-                state={state} />
-            </div>
             <div id="circumstances-chart-container" ref={circumstancesChartRef}>
               <CircumstancesChart
                 width={circumstancesChartState.width} 

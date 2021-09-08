@@ -2,7 +2,6 @@ const fs = require('fs');
 const csv = require('csv-parse');
 
 const inputFilePath = './state.csv';
-//const outputFilePath = '../src/data/data.json';
 const typeOfDrugFilePath = '../src/data/causes.json';
 const additionalDrugFilePath = '../src/data/additional-drugs.json';
 const circumstancesFilePath = '../src/data/circumstances.json';
@@ -11,6 +10,9 @@ const sexFilePath = '../src/data/sex.json';
 const ageFilePath = '../src/data/age.json';
 const raceFilePath = '../src/data/race.json';
 const stateFilePath = '../src/data/state.json';
+const interventionFilePath = '../src/data/interventions.json';
+const totalsFilePath = '../src/data/totals.json';
+
 const stateKey = 'State';
 const keys = [
   'Incident_Year',
@@ -75,12 +77,10 @@ const drugLabelMapping = {
   'cocaine_t': 'Cocaine'
 };
 const raceMapping = {
-  '0': 'Race category 0',
-  '1': 'Race category 1',
-  '2': 'Race category 2',
-  '3': 'Race category 3',
-  '4': 'Race category 4',
-  '5': 'Race category 5'
+  '0': 'White, non-Hispanic',
+  '1': 'Hispanic',
+  '2': 'Black, non-Hispanic',
+  '3': 'Other, non-Hispanic'
 };
 const us = 'United States';
 
@@ -92,6 +92,7 @@ let additionalDrugs = {};
 let totalDeaths = {};
 let allOpioidCause = {};
 let allOpioidPresent = {};
+let interventions = {};
 let ageData = {};
 let ageCounts = {
   '15-24': 0,
@@ -158,6 +159,15 @@ fs.createReadStream(inputFilePath)
           row[keyIndex['heroin_def_cod_v2']] === '1' ||
           row[keyIndex['rx_opioid_cod_v2']] === '1'){
         increment(allOpioidCause, state);
+      }
+
+      if(row[keyIndex['recentinst']] === '1' ||
+          row[keyIndex['priorod']] === '1' ||
+          row[keyIndex['MentalHealthProblem_c']] === '1' ||
+          row[keyIndex['evertx']] === '1' ||
+          row[keyIndex['BystandersPresent']] === '1' ||
+          row[keyIndex['witnesseddruguse']] === '1'){
+        increment(interventions, state);
       }
 
       Object.keys(drugTypeMapping).forEach(cause => {
@@ -337,7 +347,7 @@ fs.createReadStream(inputFilePath)
             value: percent(keyCounts[state]['witnesseddruguse']['1'], totalDeaths[state]) },
           { 
             circumstance: 'Prior overdose', 
-            value: percent( ['priorod']['1'], totalDeaths[state]) },
+            value: percent( keyCounts[state]['priorod']['1'], totalDeaths[state]) },
           { 
             circumstance: 'Recent opioid use relapse', 
             value: percent(keyCounts[state]['recentrelapse']['1'], totalDeaths[state]) },
@@ -405,8 +415,8 @@ fs.createReadStream(inputFilePath)
     let sexData = {};
     statesFinal.forEach(state => {
       sexData[state] = [
-        {sex: 'Male', value: keyCounts[state]['Sex']['1']},
-        {sex: 'Female', value: keyCounts[state]['Sex']['0']}
+        {sex: 'Male', value: percent(keyCounts[state]['Sex']['1'], totalDeaths[state], true)},
+        {sex: 'Female', value: percent(keyCounts[state]['Sex']['0'], totalDeaths[state], true)}
       ];
     });
 
@@ -469,11 +479,24 @@ fs.createReadStream(inputFilePath)
       }
     });
 
-    /*fs.writeFile(outputFilePath, JSON.stringify(keyCounts), {flag: 'w'}, (err) => {
+    let interventionsDataFinal = {};
+    statesFinal.forEach(state => {
+      interventionsDataFinal[state] = percent(interventions[state], totalDeaths[state], true)
+    });
+
+    fs.writeFile(interventionFilePath, JSON.stringify(interventionsDataFinal), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {
         console.log('Data processed successfully');
       }
-    });*/
+    });
+
+    fs.writeFile(totalsFilePath, JSON.stringify(totalDeaths), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
   });
