@@ -10,6 +10,7 @@ const mapFilePath = '../src/data/map.json';
 const sexFilePath = '../src/data/sex.json';
 const ageFilePath = '../src/data/age.json';
 const raceFilePath = '../src/data/race.json';
+const stateFilePath = '../src/data/state.json';
 const stateKey = 'State';
 const keys = [
   'Incident_Year',
@@ -427,6 +428,21 @@ fs.createReadStream(inputFilePath)
     });
 
     fs.writeFile(raceFilePath, JSON.stringify(raceData), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+
+    let stateData = [];
+    statesFinal.forEach(state => {
+      if(state !== us){
+        stateData.push({state: state, value: totalDeaths[state]});
+      }
+    });
+
+    fs.writeFile(stateFilePath, JSON.stringify(stateData), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {

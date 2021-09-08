@@ -4,23 +4,18 @@ import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
+import data from '../data/state.json';
+
 import '../css/StateChart.css';
 
 function StateChart(params) {
-  
-  const data = [
-    {state: 'Georgia', value: 71},
-    {state: 'Florida', value: 21},
-    {state: 'Texas', value: 4},
-    {state: 'California', value: 1}
-  ];
 
   const [ sort, setSort ] = useState('Descending');
   const [ sortClass, setSortClass ] = useState('fadein-initial');
   
-  const { width, height } = params;
+  const { width, height, state } = params;
 
-  const margin = {top: 10, bottom: 10, left: 75, right: 10};
+  const margin = {top: 10, bottom: 10, left: 130, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom - 60;
   const adjustedWidth = width - margin.left - margin.right;
 
@@ -73,8 +68,8 @@ function StateChart(params) {
       </select>
       <svg
         id="state-chart" 
-        width={adjustedWidth} 
-        height={adjustedHeight}>
+        width={width} 
+        height={height}>
           <Group top={margin.top} left={margin.left}>
             {data.map(d => (
               <Bar 
@@ -89,10 +84,12 @@ function StateChart(params) {
                 width={xScale(d.value)}
                 height={yScale.bandwidth()}
                 fill="rgb(198, 209, 230)"
+                stroke={d.state === state ? 'yellow' : 'none'}
               />
             ))}
             <AxisLeft 
               scale={yScale}
+              tickValues={data.map(d => d.state)}
             >
               {axisLeft => (
                 <g className="visx-group visx-axis visx-axis-left">
