@@ -356,22 +356,43 @@ fs.createReadStream(inputFilePath)
       }
     });
 
-    let mapData = {};
-    let mapMax = Number.MIN_VALUE;
-    let mapMin = Number.MAX_VALUE;
+    let mapData = {'all': {}};
+    let allDrugTotal = {};
+    let allDrugMax = Number.MIN_VALUE;
+    let allDrugMin = Number.MAX_VALUE;
+    Object.keys(drugTypeMapping).forEach(drug => {
+      mapData[drugLabelMapping[drug]] = {}
+
+      let mapMax = Number.MIN_VALUE;
+      let mapMin = Number.MAX_VALUE;
+      statesFinal.forEach(state => {
+        mapData[drugLabelMapping[drug]][state] = {deaths: keyCounts[state][drug]['1']};
+        allDrugTotal[state] = allDrugTotal[state] || {deaths: 0};
+        allDrugTotal[state].deaths += keyCounts[state][drug]['1'];
+
+        if(state !== us && keyCounts[state][drug]['1'] > mapMax){
+          mapMax = keyCounts[state][drug]['1'];
+        }
+        if(state !== us && keyCounts[state][drug]['1'] < mapMin){
+          mapMin = keyCounts[state][drug]['1'];
+        }
+      });    
+      mapData[drugLabelMapping[drug]].max = mapMax;
+      mapData[drugLabelMapping[drug]].min = mapMin;
+    }); 
+
     statesFinal.forEach(state => {
-      mapData[state] = {
-        deaths: allOpioidCause[state]
-      };
-      if(state !== us && allOpioidCause[state] > mapMax){
-        mapMax = allOpioidCause[state];
+      if(state !== us && allDrugTotal[state].deaths > allDrugMax){
+        allDrugMax = allDrugTotal[state].deaths;
       }
-      if(state !== us && allOpioidCause[state] < mapMin){
-        mapMin = allOpioidCause[state];
+      if(state !== us && allDrugTotal[state].deaths < allDrugMin){
+        allDrugMin = allDrugTotal[state].deaths;
       }
     });
-    mapData.max = mapMax;
-    mapData.min = mapMin;
+    
+    mapData['All'] = allDrugTotal;
+    mapData['All'].max = allDrugMax;
+    mapData['All'].min = allDrugMin;
 
     fs.writeFile(mapFilePath, JSON.stringify(mapData), {flag: 'w'}, (err) => {
       if(err){
@@ -416,8 +437,6 @@ fs.createReadStream(inputFilePath)
         console.log('Data processed successfully');
       }
     });
-
-    console.log(keyCounts['Georgia']);
     
     let raceData = {};
     statesFinal.forEach(state => {

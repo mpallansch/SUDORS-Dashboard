@@ -17,7 +17,7 @@ function RaceChart(params) {
 
   const data = raw[state];
 
-  const margin = {top: 10, bottom: 10, left: 75, right: 10};
+  const margin = {top: 10, bottom: 10, left: 130, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom - 60;
   const adjustedWidth = width - margin.left - margin.right;
 
@@ -70,8 +70,8 @@ function RaceChart(params) {
       </select>
       <svg
         id="race-chart" 
-        width={adjustedWidth} 
-        height={adjustedHeight}>
+        width={width} 
+        height={height}>
           <Group top={margin.top} left={margin.left}>
             {data.map(d => (
               <Bar 

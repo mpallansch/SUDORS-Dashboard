@@ -23,7 +23,7 @@ function Map(params) {
 
   const unitedStates = topojson.feature(topology, topology.objects.states).features;
   const colorsPalettes = {
-    'All Substances': ["#85C1E9", "#5DADE2", "#3498DB", "#2E86C1", "#2874A6"],
+    'All': ["#85C1E9", "#5DADE2", "#3498DB", "#2E86C1", "#2874A6"],
     'Heroin': ['#82E0AA', '#58D68D', '#2ECC71', '#2ECC71', '#28B463'],
     'IMFs': ['#F0B27A','#E59866','#E67E22','#CA6F1E','#A04000'],
     'Benzos': ['#D2B4DE','#A569BD','#8E44AD','#6C3483','#5B2C6F'],
@@ -44,7 +44,7 @@ function Map(params) {
     const colorsReverse = [...colors].reverse();
 
     const colorScale = scaleQuantize({
-      domain: [data.min, data.max],
+      domain: [data[drug].min, data[drug].max],
       range: colors
     });
 
@@ -67,7 +67,7 @@ function Map(params) {
             {({ features }) => 
                 features.map(({ feature, path }, i) => {
                   const state = abbreviations[feature.properties.iso.replace(/US-/g,'')];
-                  const deaths = data[state].deaths;
+                  const deaths = data[drug][state].deaths;
 
                   return (
                     <React.Fragment key={`map-feature-${i}`}>
@@ -102,10 +102,10 @@ function Map(params) {
       </div>
       <div className="block-shadow">
         {compare === 'all' ?
-          map(false, 'All Substances')
+          map(false, 'All')
         : (
           <>
-            {map(true, 'All Substances')}
+            {map(true, 'All')}
             {map(true, 'Heroin')}
             {map(true, 'IMFs')}
             {map(true, 'Benzos')}
