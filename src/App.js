@@ -70,6 +70,7 @@ function App() {
               <HeaderLineChart 
                 width={getDimension(headerLineChartRef, 'width')}
                 height={getDimension(headerLineChartRef, 'height')}
+                state={state}
               />
             </div>
             deaths over time
@@ -79,6 +80,7 @@ function App() {
               <HeaderWaffleChart 
                 width={getDimension(headerWaffleChartRef, 'width')}
                 height={getDimension(headerWaffleChartRef, 'height')}
+                state={state}
               />
             </div>
             <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>

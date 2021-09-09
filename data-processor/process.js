@@ -12,6 +12,7 @@ const raceFilePath = '../src/data/race.json';
 const stateFilePath = '../src/data/state.json';
 const interventionFilePath = '../src/data/interventions.json';
 const totalsFilePath = '../src/data/totals.json';
+const timeFilePath = '../src/data/time.json';
 
 const stateKey = 'State';
 const keys = [
@@ -78,9 +79,11 @@ const drugLabelMapping = {
 };
 const raceMapping = {
   '0': 'White, non-Hispanic',
-  '1': 'Hispanic',
-  '2': 'Black, non-Hispanic',
-  '3': 'Other, non-Hispanic'
+  '1': 'Black, non-Hispanic',
+  '2': 'AI/AN, non-Hispanic',
+  '3': 'A/PI, non-Hispanic',
+  '4': 'Other, non-Hispanic',
+  '5': 'Hispanic'
 };
 const us = 'United States';
 
@@ -416,7 +419,7 @@ fs.createReadStream(inputFilePath)
     statesFinal.forEach(state => {
       sexData[state] = [
         {sex: 'Male', value: percent(keyCounts[state]['Sex']['1'], totalDeaths[state], true)},
-        {sex: 'Female', value: percent(keyCounts[state]['Sex']['0'], totalDeaths[state], true)}
+        {sex: 'Female', value: percent(keyCounts[state]['Sex']['2'], totalDeaths[state], true)}
       ];
     });
 
@@ -485,6 +488,22 @@ fs.createReadStream(inputFilePath)
     });
 
     fs.writeFile(interventionFilePath, JSON.stringify(interventionsDataFinal), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+
+    let timeData = {};
+    statesFinal.forEach(state => {
+      timeData[state] = [];
+      Object.keys(keyCounts[state]['deathmonth_order']).forEach(month => {
+        timeData[state].push({month, value: keyCounts[state]['deathmonth_order'][month]})
+      });
+    });
+
+    fs.writeFile(timeFilePath, JSON.stringify(timeData), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {

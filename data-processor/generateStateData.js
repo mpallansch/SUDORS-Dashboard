@@ -64,7 +64,11 @@ fs.createReadStream(inputFilePath)
             outputCSVData += ((Math.round(Math.random() * 99) + 1) + ',');
           } else {
             if(keys[index + 1] === 'race_eth'){
-              outputCSVData += Math.round(Math.random() * 3);
+              outputCSVData += Math.round(Math.random() * 5);
+            } else if(keys[index + 1] === 'Sex'){
+              outputCSVData += Math.round(Math.random()) + 1;
+            } else if(keys[index + 1] === 'deathmonth_order'){
+              outputCSVData += Math.round(Math.random() * 47) + 1;
             } else {
               outputCSVData += Math.round(Math.random());
             }

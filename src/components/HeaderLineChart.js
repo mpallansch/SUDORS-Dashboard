@@ -2,25 +2,22 @@ import { LinePath } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { curveLinear } from '@visx/curve'; 
 
+import raw from '../data/time.json';
+
 import '../css/HeaderLineChart.css';
 
 function HeaderLineChart(params) {
-
-  const data = [
-    {date: 'March', value: 5},
-    {date: 'April', value: 15},
-    {date: 'May', value: 10},
-    {date: 'June', value: 25}
-  ];
   
-  const { width, height } = params;
+  const { width, height, state } = params;
+
+  const data = raw[state];
 
   const margin = {top: 10, bottom: 10, left: 0, right: 0};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
   const xScale = scaleBand({
-    domain: data.map(d => d.date),
+    domain: data.map(d => d.month),
     range: [ 0, adjustedWidth ],
     padding: 0.2
   });
@@ -44,7 +41,7 @@ function HeaderLineChart(params) {
             className={`line`}
             curve={curveLinear}
             data={data}
-            x={d => xScale(d.date)}
+            x={d => xScale(d.month)}
             y={d => yScale(d.value)}
             stroke="white"
             strokeWidth={3}
