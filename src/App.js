@@ -19,19 +19,8 @@ import './App.css';
 
 function App() {
 
-  const initialDimensions = {width: 0, height: 0};
-
+  const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
   const [ state, setState ] = useState('United States');
-  const [ mapState, setMapState ]  = useState(initialDimensions);
-  const [ headerLineChartState, setHeaderLineChartState ]  = useState(initialDimensions);
-  const [ headerWaffleChartState, setHeaderWaffleChartState ]  = useState(initialDimensions);
-  const [ sexChartState, setSexChartState ]  = useState(initialDimensions);
-  const [ ageChartState, setAgeChartState ]  = useState(initialDimensions);
-  const [ raceChartState, setRaceChartState ]  = useState(initialDimensions);
-  const [ stateChartState, setStateChartState ]  = useState(initialDimensions);
-  const [ causeChartState, setCauseChartState ]  = useState(initialDimensions);
-  const [ additionalDrugChartState, setAdditionalDrugChartState ]  = useState(initialDimensions);
-  const [ circumstancesChartState, setCircumstancesChartState ]  = useState(initialDimensions);
   const mapRef = useRef();
   const headerLineChartRef = useRef();
   const headerWaffleChartRef = useRef();
@@ -43,24 +32,12 @@ function App() {
   const additionalDrugChartRef = useRef();
   const circumstancesChartRef = useRef();
 
-  const setDimensions = (stateFunc, elementRef) => {
-    stateFunc({
-      width: elementRef.current.clientWidth,
-      height: elementRef.current.clientHeight
-    });
-  };
-
   const resizeObserver = new ResizeObserver(entries => {
-    setDimensions(setMapState, mapRef);
-    setDimensions(setHeaderLineChartState, headerLineChartRef);
-    setDimensions(setHeaderWaffleChartState, headerWaffleChartRef);
-    setDimensions(setSexChartState, sexChartRef);
-    setDimensions(setAgeChartState, ageChartRef);
-    setDimensions(setRaceChartState, raceChartRef);
-    setDimensions(setStateChartState, stateChartRef);
-    setDimensions(setCauseChartState, causeChartRef);
-    setDimensions(setAdditionalDrugChartState, additionalDrugChartRef);
-    setDimensions(setCircumstancesChartState, circumstancesChartRef);
+    const { width, height } = entries[0].contentRect;
+
+    if(width !== dimensions.width || height !== dimensions.height) {
+      setDimensions({width, height});
+    }
   });
 
   const outerContainerRef = useCallback(node => {
@@ -70,6 +47,14 @@ function App() {
   },[]);
 
   const stateLabel = state && state !== 'United States' ? ` in ${state}` : '';
+
+  const getDimension = (ref, dimension) => {
+    if(!ref.current){
+      return 0;
+    }
+
+    return dimension === 'width' ? ref.current.clientWidth : ref.current.clientHeight
+  }
 
   return (
     <div className="App" ref={outerContainerRef}>
@@ -83,8 +68,8 @@ function App() {
           <div className="header-section">
             <div id="header-line-chart-container" ref={headerLineChartRef}>
               <HeaderLineChart 
-                width={headerLineChartState.width}
-                height={headerLineChartState.height}
+                width={getDimension(headerLineChartRef, 'width')}
+                height={getDimension(headerLineChartRef, 'height')}
               />
             </div>
             deaths over time
@@ -92,8 +77,8 @@ function App() {
           <div className="header-section">
             <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
               <HeaderWaffleChart 
-                width={headerWaffleChartState.width}
-                height={headerWaffleChartState.height}
+                width={getDimension(headerWaffleChartRef, 'width')}
+                height={getDimension(headerWaffleChartRef, 'height')}
               />
             </div>
             <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
@@ -101,8 +86,8 @@ function App() {
         </div>
         <div id="map-container" ref={mapRef}>
           <Map 
-            width={mapState.width} 
-            height={mapState.height}
+            width={getDimension(mapRef, 'width')} 
+            height={getDimension(mapRef, 'height')}
             setState={setState} />
         </div>
       </div>
@@ -113,8 +98,8 @@ function App() {
           <div className="block-shadow">
             <div id="sex-chart-container" ref={sexChartRef}>
               <SexChart 
-                width={sexChartState.width} 
-                height={sexChartState.height}
+                width={getDimension(sexChartRef, 'width')} 
+                height={getDimension(sexChartRef, 'height')}
                 state={state}
               />
             </div>
@@ -129,8 +114,8 @@ function App() {
           <div className="block-shadow">
             <div id="age-chart-container" ref={ageChartRef}>
               <AgeChart 
-                width={ageChartState.width} 
-                height={ageChartState.height}
+                width={getDimension(ageChartRef, 'width')}
+                height={getDimension(ageChartRef, 'height')}
                 state={state}
               />
             </div>
@@ -144,8 +129,8 @@ function App() {
         <div className="block-shadow">
           <div id="race-chart-container" ref={raceChartRef}>
               <RaceChart 
-                width={raceChartState.width} 
-                height={raceChartState.height}
+                width={getDimension(raceChartRef, 'width')}
+                height={getDimension(raceChartRef, 'height')}
                 state={state}
               />
           </div>
@@ -161,8 +146,8 @@ function App() {
           </div>
           <div id="cause-chart-container" ref={causeChartRef}>
             <CauseChart 
-              width={causeChartState.width} 
-              height={causeChartState.height}
+                width={getDimension(causeChartRef, 'width')}
+                height={getDimension(causeChartRef, 'height')}
               state={state} />
           </div>
         </div>
@@ -170,8 +155,8 @@ function App() {
         <div className="block-shadow">
           <div id="additional-drug-chart-container" ref={additionalDrugChartRef}>
             <AdditionalDrugChart 
-              width={additionalDrugChartState.width} 
-              height={additionalDrugChartState.height}
+                width={getDimension(additionalDrugChartRef, 'width')}
+                height={getDimension(additionalDrugChartRef, 'height')}
               state={state} />
           </div>
           <div className="chart-legend side text-align-left">
@@ -191,8 +176,8 @@ function App() {
           <div className="block-shadow">
             <div id="state-chart-container" ref={stateChartRef}>
               <StateChart
-                width={stateChartState.width} 
-                height={stateChartState.height}
+                width={getDimension(stateChartRef, 'width')}
+                height={getDimension(stateChartRef, 'height')}
                 state={state} />
             </div>
           </div>
@@ -202,8 +187,8 @@ function App() {
           <div className="block-shadow">
             <div id="circumstances-chart-container" ref={circumstancesChartRef}>
               <CircumstancesChart
-                width={circumstancesChartState.width} 
-                height={circumstancesChartState.height}
+                width={getDimension(circumstancesChartRef, 'width')}
+                height={getDimension(circumstancesChartRef, 'height')}
                 state={state} />
             </div>
           </div>
