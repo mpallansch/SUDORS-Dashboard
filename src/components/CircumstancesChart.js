@@ -10,7 +10,7 @@ function CircumstancesChart(params) {
 
   const { width, height, state } = params;
   const data = raw[state];
-  const margin = {top: 10, bottom: 10, left: 30, right: 10, bar: 20};
+  const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
   const barThickness = 6;

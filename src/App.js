@@ -110,7 +110,7 @@ function App() {
           </div>
         </div>
         <div className="column column-right">
-          <h3>By Age</h3>
+          <h3 className="margin-top-small-viewport">By Age</h3>
           <div className="block-shadow">
             <div id="age-chart-container" ref={ageChartRef}>
               <AgeChart 
