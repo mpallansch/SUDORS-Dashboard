@@ -19,7 +19,7 @@ function Map(params) {
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom - 100;
   const smallWidth = (adjustedWidth - ((margin.left + margin.right) * 2)) / 2 - 10;
-  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 2 - 50;
+  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 2 - 30;
 
   const unitedStates = topojson.feature(topology, topology.objects.states).features;
   const colorsPalettes = {
@@ -36,9 +36,9 @@ function Map(params) {
     const mapHeight = small ? smallHeight : adjustedHeight;
     const legendSize = small ? 10 : 25;
 
-    const centerX = mapWidth / 2 + 25;
-    const centerY = mapHeight / 2 - 10;
-    const scale = Math.min(mapWidth * 1.3, mapHeight * 2);
+    const centerX = mapWidth / 2;
+    const centerY = mapHeight / 2 - 5;
+    const scale = Math.min(mapWidth * 1.3, mapHeight * 1.8);
 
     const colors = colorsPalettes[drug];
     const colorsReverse = [...colors].reverse();
@@ -65,7 +65,7 @@ function Map(params) {
           <AlbersUsa
             data={unitedStates}
             scale={scale}
-            translate={[centerX - 25, centerY]}
+            translate={[centerX, centerY]}
           >
             {({ features }) => 
                 features.map(({ feature, path }, i) => {
