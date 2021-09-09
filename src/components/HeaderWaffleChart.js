@@ -17,6 +17,9 @@ function HeaderWaffleChart(params) {
   const dotRadius = dotWidth / 2;
   const oneThroughFour = [1,2,3,4];
 
+  const rowCutoff = Math.ceil(4 - (data / 25));
+  const colCutoff =  4 - Math.ceil((data % 25) / 6.25);
+
   return width > 0 && (
     <>
       <svg
@@ -25,8 +28,6 @@ function HeaderWaffleChart(params) {
         height={adjustedHeight}>
         {oneThroughFour.map(rowIndex => {
           return oneThroughFour.map(colIndex => {
-            const rowCutoff = Math.ceil((data / 25));
-            const colCutoff =  3 - (data % 25) / 4;
 
             return (
               <Circle 
