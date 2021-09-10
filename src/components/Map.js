@@ -26,10 +26,11 @@ function Map(params) {
     'All': ["#85C1E9", "#5DADE2", "#3498DB", "#2E86C1", "#2874A6"],
     'Heroin': ['#82E0AA', '#58D68D', '#2ECC71', '#2ECC71', '#28B463'],
     'IMFs': ['#F0B27A','#E59866','#E67E22','#CA6F1E','#A04000'],
-    'Benzos': ['#D2B4DE','#A569BD','#8E44AD','#6C3483','#5B2C6F'],
+    'Cocaine': ['#D2B4DE','#A569BD','#8E44AD','#6C3483','#5B2C6F'],
     'Rx Opioids': ['#F5B7B1','#F1948A','#EC7063','#E74C3C','#B03A2E'],
     'Meth': ['#AEB6BF','#5D6D7E','#34495E','#2E4053','#212F3C']
   };
+  const notAvailableColor = '#EEE';
 
   const map = (small, drug) => {
     const mapWidth = small ? smallWidth : adjustedWidth;
@@ -70,17 +71,17 @@ function Map(params) {
             {({ features }) => 
                 features.map(({ feature, path }, i) => {
                   const state = abbreviations[feature.properties.iso.replace(/US-/g,'')];
-                  const deaths = data[drug][state].deaths;
+                  const color = data[drug][state] ? colorScale(data[drug][state].deaths) : notAvailableColor;
 
                   return (
                     <React.Fragment key={`map-feature-${i}`}>
                       <path
                         key={`map-feature-${i}`}
                         d={path || ''}
-                        fill={colorScale(deaths)}
+                        fill={color}
                         stroke={'black'}
                         strokeWidth={0.5}
-                        onClick={() => {setState(state)}}
+                        onClick={() => {if(data[drug][state]) setState(state)}}
                       />
                     </React.Fragment>
                   );
@@ -111,7 +112,7 @@ function Map(params) {
             {map(true, 'All')}
             {map(true, 'Heroin')}
             {map(true, 'IMFs')}
-            {map(true, 'Benzos')}
+            {map(true, 'Cocaine')}
             {map(true, 'Rx Opioids')}
             {map(true, 'Meth')}
           </>

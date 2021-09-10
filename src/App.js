@@ -56,6 +56,16 @@ function App() {
     return dimension === 'width' ? ref.current.clientWidth : ref.current.clientHeight
   }
 
+  const formatDeathsNum = (num) => {
+    if(num < 10) {
+      return '< ' + 10;
+    } else if(num < 1000) {
+      return num;
+    } else {
+      return Math.floor(num / 1000) + 'k';
+    }
+  };
+
   return (
     <div className="App" ref={outerContainerRef}>
       <div className="section">
@@ -63,7 +73,7 @@ function App() {
         <div id="header">
           <h3>Data Summary At a Glance</h3>
           <div className="header-section">
-            <span className="enlarged">{Math.round(totalData[state] / 1000)}k</span> total deaths
+            <span className="enlarged">{formatDeathsNum(totalData[state])}</span> total deaths
           </div>
           <div className="header-section">
             <div id="header-line-chart-container" ref={headerLineChartRef}>
@@ -163,7 +173,6 @@ function App() {
           </div>
           <div className="chart-legend side text-align-left">
             <br/><br/><strong>Drug Detected</strong><br/><br/>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(30, 23, 103)" /></svg>Benzos</div>
             <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(113, 129, 167)" /></svg>Meth</div>
             <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(150, 160, 185)" /></svg>Rx Opioids</div>
             <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(108, 56, 111)" /></svg>IMFs</div>

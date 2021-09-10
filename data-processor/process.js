@@ -1,7 +1,61 @@
 const fs = require('fs');
 const csv = require('csv-parse');
 
-const inputFilePath = './state.csv';
+const fips ={
+  "1": "Alabama",
+  "2": "Alaska",
+  "4": "Arizona",
+  "5": "Arkansas",
+  "6": "California",
+  "8": "Colorado",
+  "9": "Connecticut",
+  "10": "Delaware",
+  "11": "District of Columbia",
+  "12": "Florida",
+  "13": "Geogia",
+  "15": "Hawaii",
+  "16": "Idaho",
+  "17": "Illinois",
+  "18": "Indiana",
+  "19": "Iowa",
+  "20": "Kansas",
+  "21": "Kentucky",
+  "22": "Louisiana",
+  "23": "Maine",
+  "24": "Maryland",
+  "25": "Massachusetts",
+  "26": "Michigan",
+  "27": "Minnesota",
+  "28": "Mississippi",
+  "29": "Missouri",
+  "30": "Montana",
+  "31": "Nebraska",
+  "32": "Nevada",
+  "33": "New Hampshire",
+  "34": "New Jersey",
+  "35": "New Mexico",
+  "36": "New York",
+  "37": "North Carolina",
+  "38": "North Dakota",
+  "39": "Ohio",
+  "40": "Oklahoma",
+  "41": "Oregon",
+  "42": "Pennsylvania",
+  "44": "Rhode Island",
+  "45": "South Carolina",
+  "46": "South Dakota",
+  "47": "Tennessee",
+  "48": "Texas",
+  "49": "Utah",
+  "50": "Vermont",
+  "51": "Virginia",
+  "53": "Washington",
+  "54": "West Virginia",
+  "55": "Wisconsin",
+  "56": "Wyoming"
+};
+
+const inputFilePath = './SUDORS 2020 Prelim Data for Dashboard_09SEP2021.csv';
 const typeOfDrugFilePath = '../src/data/causes.json';
 const additionalDrugFilePath = '../src/data/additional-drugs.json';
 const circumstancesFilePath = '../src/data/circumstances.json';
@@ -14,64 +68,53 @@ const interventionFilePath = '../src/data/interventions.json';
 const totalsFilePath = '../src/data/totals.json';
 const timeFilePath = '../src/data/time.json';
 
-const stateKey = 'State';
+const stateKey = 'Site_ID';
 const keys = [
   'Incident_Year',
   'Age',
-  'EMSPresent',
   'Homeless',
-  'InjuryLocation', 
   'Sex',
-  'BystandersPresent',
+  'bystander',
   'NaloxoneAdministered',
-  'antidepressant_r',
-  'benzo_r_cod',
   'meth_r_cod',
   'opioid_r_cod',
   'alcohol_r',
-  'benzo_r',
   'meth_r',  
   'opioid_r_pos',
   'MentalHealthProblem_c',
   'SubstanceAbuseOther_c',
   'age_cat',
-  'race_eth',
+  'race_eth_v2',
   'deathmonth_order',
-  'fentanyl_t',
-  'fentanyl_t_cod',
+  'imfs_pos',
+  'imfs_cod',
   'cocaine_t',
   'cocaine_t_cod',
   'heroin_def_v2',
   'heroin_def_cod_v2',
   'rx_opioid_v2',
-  'rx_illicit_v2',
   'rx_opioid_cod_v2',
-  'rx_illicit_cod_v2',
   'pain_treat',
   'recentinst',
-  'evertx',
+  'evertrt',
   'priorod',
   'recentrelapse',
-  'witnesseddruguse',
-  'sitenum'
+  'witnesseddruguse'
 ];
 const drugTypeMapping = {
-  'benzo_r_cod': 'benzo_r',
   'meth_r_cod': 'meth_r',
   'rx_opioid_cod_v2': 'rx_opioid_v2',
-  'fentanyl_t_cod': 'fentanyl_t',
+  'imfs_cod': 'imfs_pos',
   'heroin_def_cod_v2': 'heroin_def_v2',
   'cocaine_t_cod': 'cocaine_t'
 };
 const drugLabelMapping = {
-  'benzo_r_cod': 'Benzos',
-  'benzo_r': 'Benzos',
   'meth_r_cod': 'Meth',
   'meth_r': 'Meth',
   'rx_opioid_cod_v2': 'Rx Opioids',
   'rx_opioid_v2': 'Rx Opioids',
-  'fentanyl_t_cod': 'IMFs',
-  'fentanyl_t': 'IMFs',
+  'imfs_cod': 'IMFs',
+  'imfs_pos': 'IMFs',
   'heroin_def_cod_v2': 'Heroin',
   'heroin_def_v2': 'Heroin',
   'cocaine_t_cod': 'Cocaine',
@@ -148,17 +191,17 @@ fs.createReadStream(inputFilePath)
 
       first = false;
     } else {
-      const state = row[stateKeyIndex];
+      const state = fips[row[stateKeyIndex]];
 
       increment(totalDeaths, state);
 
-      if(row[keyIndex['fentanyl_t']] === '1' ||
+      if(row[keyIndex['imfs_pos']] === '1' ||
           row[keyIndex['heroin_def_v2']] === '1' ||
           row[keyIndex['rx_opioid_v2']] === '1'){
         increment(allOpioidPresent, state);
       }
 
-      if(row[keyIndex['fentanyl_t_cod']] === '1' ||
+      if(row[keyIndex['imfs_cod']] === '1' ||
           row[keyIndex['heroin_def_cod_v2']] === '1' ||
           row[keyIndex['rx_opioid_cod_v2']] === '1'){
         increment(allOpioidCause, state);
@@ -167,8 +210,8 @@ fs.createReadStream(inputFilePath)
       if(row[keyIndex['recentinst']] === '1' ||
           row[keyIndex['priorod']] === '1' ||
           row[keyIndex['MentalHealthProblem_c']] === '1' ||
-          row[keyIndex['evertx']] === '1' ||
-          row[keyIndex['BystandersPresent']] === '1' ||
+          row[keyIndex['evertrt']] === '1' ||
+          row[keyIndex['bystander']] === '1' ||
           row[keyIndex['witnesseddruguse']] === '1'){
         increment(interventions, state);
       }
@@ -177,6 +220,8 @@ fs.createReadStream(inputFilePath)
         if(row[keyIndex[cause]] === '1'){
           if(!additionalDrugs[state]) additionalDrugs[state] = {};
           if(!additionalDrugs[state][cause]) additionalDrugs[state][cause] = {};
+          if(!additionalDrugs[us]) additionalDrugs[us] = {};
+          if(!additionalDrugs[us][cause]) additionalDrugs[us][cause] = {};
 
           Object.keys(drugTypeMapping).forEach(causeForAdditional => {
             if(causeForAdditional !== cause && row[keyIndex[drugTypeMapping[causeForAdditional]]] === '1'){
@@ -261,8 +306,8 @@ fs.createReadStream(inputFilePath)
         },
         {
           opioid: 'IMFs', 
-          present: percent(keyCounts[state]['fentanyl_t']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['fentanyl_t_cod']['1'], totalDeaths[state])
+          present: percent(keyCounts[state]['imfs_pos']['1'], totalDeaths[state]), 
+          cause: percent(keyCounts[state]['imfs_cod']['1'], totalDeaths[state])
         },
         {
           opioid: 'Cocaine', 
@@ -273,11 +318,6 @@ fs.createReadStream(inputFilePath)
           opioid: 'Heroin', 
           present: percent(keyCounts[state]['heroin_def_v2']['1'], totalDeaths[state]), 
           cause: percent(keyCounts[state]['heroin_def_cod_v2']['1'], totalDeaths[state])
-        },
-        {
-          opioid: 'Benzos', 
-          present: percent(keyCounts[state]['benzo_r']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['benzo_r_cod']['1'], totalDeaths[state])
         },
         {
           opioid: 'Rx Opioids',
@@ -322,14 +362,13 @@ fs.createReadStream(inputFilePath)
     let circumstancesData = {};
     statesFinal.forEach(state => {
       circumstancesData[state] = {
-        home: percent(keyCounts[state]['InjuryLocation']['1'], totalDeaths[state]),
         other: [
           { 
             circumstance: 'Current or past substance abuse/misuse', 
             value: percent(keyCounts[state]['SubstanceAbuseOther_c']['1'], totalDeaths[state]) },
           { 
             circumstance: 'Bystander present', 
-            value: percent(keyCounts[state]['BystandersPresent']['1'], totalDeaths[state]) },
+            value: percent(keyCounts[state]['bystander']['1'], totalDeaths[state]) },
           { 
             circumstance: 'Mental health diagnosis', 
             value: percent(keyCounts[state]['MentalHealthProblem_c']['1'], totalDeaths[state]) },
@@ -338,7 +377,7 @@ fs.createReadStream(inputFilePath)
             value: percent(keyCounts[state]['NaloxoneAdministered']['1'], totalDeaths[state]) },
           { 
             circumstance: 'Ever treated for substance abuse disorder', 
-            value: percent(keyCounts[state]['SubstanceAbuseOther_c']['1'], totalDeaths[state]) },
+            value: percent(keyCounts[state]['evertrt']['1'], totalDeaths[state]) },
           { 
             circumstance: 'Recent release from institution', 
             value: percent(keyCounts[state]['recentinst']['1'], totalDeaths[state]) },
@@ -454,8 +493,10 @@ fs.createReadStream(inputFilePath)
     let raceData = {};
     statesFinal.forEach(state => {
       raceData[state] = [];
-      Object.keys(keyCounts[state]['race_eth']).forEach(raceNum => {
-        raceData[state].push({race: raceMapping[raceNum], value: percent(keyCounts[state]['race_eth'][raceNum], totalDeaths[state])});
+      Object.keys(keyCounts[state]['race_eth_v2']).forEach(raceNum => {
+        if(raceMapping[raceNum]){
+          raceData[state].push({race: raceMapping[raceNum], value: percent(keyCounts[state]['race_eth_v2'][raceNum], totalDeaths[state])});
+        }
       });
     });
 
