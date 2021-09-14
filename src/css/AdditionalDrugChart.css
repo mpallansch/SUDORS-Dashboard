@@ -10,3 +10,14 @@
   display: inline-block;
   width: 110px;
 }
+
+@media (max-width: 800px) {
+  #additional-drug-chart-container {
+    width: 100%;
+    margin-bottom: 0.5em;
+  }
+
+  .chart-legend.side {
+    text-align: middle;
+  }
+}

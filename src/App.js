@@ -172,7 +172,7 @@ function App() {
               state={state} />
           </div>
           <div className="chart-legend side text-align-left">
-            <br/><br/><strong>Drug Detected</strong><br/><br/>
+            <strong>Drug Detected</strong>
             <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(113, 129, 167)" /></svg>Meth</div>
             <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(150, 160, 185)" /></svg>Rx Opioids</div>
             <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(108, 56, 111)" /></svg>IMFs</div>

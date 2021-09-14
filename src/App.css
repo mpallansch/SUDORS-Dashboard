@@ -84,6 +84,11 @@ h3 {
   margin: 0.5em;
 }
 
+.chart-legend.side strong {
+  display: inline-block;
+  margin-bottom: 0.5em;
+}
+
 .indicator {
   width: 1em;
   height: 1em;

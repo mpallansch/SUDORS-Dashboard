@@ -9,9 +9,11 @@ import '../css/CauseChart.css';
 
 function CauseChart(params) {
 
+  const viewportCutoff = 600;
+
   const { width, height, state } = params;
   const data = raw[state];
-  const margin = {top: 20, bottom: 70, left: 70, right: 20};
+  const margin = {top: 20, bottom: 80, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
@@ -67,13 +69,15 @@ function CauseChart(params) {
                 </Group>
               )
             )}
+            {width}
             <AxisBottom
               top={adjustedHeight}
               scale={xScale}
-              tickLabelProps={() => ({
+              tickLabelProps={(label, index, props) => ({
                 fontSize: 'medium',
-                textAnchor: 'middle',
-                transform: 'translate(0, 10)'
+                textAnchor: width < viewportCutoff ? 'end' : 'middle',
+                transform: width < viewportCutoff ? `rotate(-45, ${props[index].to.x}, ${props[index].to.y})` : 'translate(0, 10)',
+                dominantBaseline: 'end'
               })}
             />
           </Group>

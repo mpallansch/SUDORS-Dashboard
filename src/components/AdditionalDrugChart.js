@@ -9,9 +9,11 @@ import '../css/AdditionalDrugChart.css';
 
 function AdditionalDrugChart(params) {
 
+  const viewportCutoff = 600;
+
   const { width, height, state } = params;
   const data = raw[state];
-  const margin = {top: 10, left: 70, right: 20, bottom: 70};
+  const margin = {top: 10, left: 50, right: 20, bottom: 70};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
@@ -20,7 +22,7 @@ function AdditionalDrugChart(params) {
   const xScale = scaleBand({
     domain: groups,
     range:[0, adjustedWidth],
-    padding: 0.2
+    padding: 0.1
   });
 
   const yScale = scaleLinear({
@@ -58,8 +60,7 @@ function AdditionalDrugChart(params) {
 
               const x1Scale = scaleBand({
                 domain: subGroup,
-                range: [0, xScale.bandwidth()],
-                padding: [0.05]
+                range: [0, xScale.bandwidth()]
               });
 
               return (
@@ -80,10 +81,11 @@ function AdditionalDrugChart(params) {
             <AxisBottom
               top={adjustedHeight}
               scale={xScale}
-              tickLabelProps={() => ({
-                textAnchor: 'middle',
+              tickLabelProps={(label, index, props) => ({
                 fontSize: 'medium',
-                transform: 'translate(0, 10)'
+                textAnchor: width < viewportCutoff ? 'end' : 'middle',
+                transform: width < viewportCutoff ? `rotate(-45, ${props[index].to.x}, ${props[index].to.y})` : 'translate(0, 10)',
+                dominantBaseline: 'end'
               })}
               hideAxisLine
               hideTicks
