@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactTooltip from 'react-tooltip';
 import { Group } from '@visx/group';
 import { AlbersUsa } from '@visx/geo';
 import { scaleQuantize } from '@visx/scale';
@@ -31,6 +32,10 @@ function Map(params) {
     'Meth': ['#AEB6BF','#5D6D7E','#34495E','#2E4053','#212F3C']
   };
   const notAvailableColor = '#EEE';
+
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  });
 
   const map = (small, drug) => {
     const mapWidth = small ? smallWidth : adjustedWidth;
@@ -71,7 +76,8 @@ function Map(params) {
             {({ features }) => 
                 features.map(({ feature, path }, i) => {
                   const state = abbreviations[feature.properties.iso.replace(/US-/g,'')];
-                  const color = data[drug][state] ? colorScale(data[drug][state].deaths) : notAvailableColor;
+                  const datum = data[drug][state];
+                  const color = datum ? colorScale(datum.deaths) : notAvailableColor;
 
                   return (
                     <React.Fragment key={`map-feature-${i}`}>
@@ -82,6 +88,7 @@ function Map(params) {
                         stroke={'black'}
                         strokeWidth={0.5}
                         onClick={() => {if(data[drug][state]) setState(state)}}
+                        data-tip={datum ? `<strong>${state}</strong><br/>Deaths: ${datum.deaths < 10 ? '< 10' : datum.deaths}` : 'Data unavailable'}
                       />
                     </React.Fragment>
                   );
@@ -118,6 +125,7 @@ function Map(params) {
           </>
         ) }
       </div>
+      <ReactTooltip html={true} type="light" arrowColor="rgba(0,0,0,0)" className="tooltip"/>
     </>
   );
 }
