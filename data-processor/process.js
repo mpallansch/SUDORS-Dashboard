@@ -129,6 +129,14 @@ const raceMapping = {
   '5': 'Hispanic'
 };
 const us = 'United States';
+const ageTallyInitial = {
+  '1': 0,
+  '2': 0,
+  '3': 0,
+  '4': 0,
+  '5': 0,
+  '6': 0
+}
 
 let stateKeyIndex;
 let first = true;
@@ -140,14 +148,6 @@ let allOpioidCause = {};
 let allOpioidPresent = {};
 let interventions = {};
 let ageData = {};
-let ageCounts = {
-  '15-24': 0,
-  '25-34': 0,
-  '35-44': 0,
-  '45-54': 0,
-  '55-64': 0,
-  '65+': 0
-};
 
 function percent(deaths, total, wholeNumber) {
   if(wholeNumber){
@@ -246,28 +246,13 @@ fs.createReadStream(inputFilePath)
         }
       });
 
-      ageData[state] = ageData[state] || {'male': {...ageCounts}, 'female':{...ageCounts}};
-      ageData[us] = ageData[us] || {'male': {...ageCounts}, 'female': {...ageCounts}};
-      let age = parseInt(row[keyIndex['Age']]);
+      ageData[state] = ageData[state] || {'male': {...ageTallyInitial}, 'female':{...ageTallyInitial}};
+      ageData[us] = ageData[us] || {'male': {...ageTallyInitial}, 'female': {...ageTallyInitial}};
+      let age = row[keyIndex['age_cat']];
       let sex = row[keyIndex['Sex']] === '1' ? 'male' : 'female';
-      if(age >= 15 && age < 25){
-        ageData[state][sex]['15-24'] += 1;
-        ageData[us][sex]['15-24'] += 1;
-      } else if(age >= 25 && age < 35){
-        ageData[state][sex]['25-34'] += 1;
-        ageData[us][sex]['25-34'] += 1;
-      } else if(age >= 35 && age < 45){
-        ageData[state][sex]['35-44'] += 1;
-        ageData[us][sex]['35-44'] += 1;
-      } else if(age >= 45 && age < 55){
-        ageData[state][sex]['45-54'] += 1;
-        ageData[us][sex]['45-54'] += 1;
-      } else if(age >= 55 && age < 65){
-        ageData[state][sex]['55-64'] += 1;
-        ageData[us][sex]['55-64'] += 1;
-      } else if(age >= 65){
-        ageData[state][sex]['65+'] += 1;
-        ageData[us][sex]['65+'] += 1;
+      if(ageData[state][sex][age] !== undefined){
+        ageData[state][sex][age]++;
+        ageData[us][sex][age]++;
       }
 
       keys.forEach(key => {
