@@ -1,7 +1,9 @@
 const fs = require('fs');
 const csv = require('csv-parse');
 
-const stateAgePops = require('./census/state-age-pops');
+const stateAgePops = require('./census/state-age-pops.json');
+const stateAgeSexPops = require('./census/state-age-sex-pops.json');
+const stateAgeRacePops = require('./census/state-age-race-pops.json');
 const weights = require('./census/weights.json');
 
 const fips = {"1": "Alabama","2":"Alaska","4":"Arizona","5":"Arkansas","6":"California","8":"Colorado","9":"Connecticut","10":"Delaware", "11": "District of Columbia", "12": "Florida", "13": "Georgia", "15": "Hawaii", "16": "Idaho", "17": "Illinois", "18": "Indiana", "19": "Iowa", "20": "Kansas", "21": "Kentucky", "22": "Louisiana", "23": "Maine", "24": "Maryland", "25": "Massachusetts", "26": "Michigan", "27": "Minnesota", "28": "Mississippi", "29": "Missouri", "30": "Montana", "31": "Nebraska", "32": "Nevada", "33": "New Hampshire", "34": "New Jersey", "35": "New Mexico", "36": "New York", "37": "North Carolina", "38": "North Dakota", "39": "Ohio", "40": "Oklahoma", "41": "Oregon", "42": "Pennsylvania", "44": "Rhode Island", "45": "South Carolina", "46": "South Dakota", "47": "Tennessee", "48": "Texas", "49": "Utah", "50": "Vermont", "51": "Virginia", "53": "Washington", "54": "West Virginia", "55": "Wisconsin", "56": "Wyoming"};
@@ -20,6 +22,8 @@ const interventionFilePath = '../src/data/interventions.json';
 const totalsFilePath = '../src/data/totals.json';
 const timeFilePath = '../src/data/time.json';
 const ageAdjustedRatesFilePath = '../src/data/age-adjusted-rates.json';
+const ageAdjustedSexRatesFilePath = '../src/data/age-adjusted-sex-rates.json';
+const ageAdjustedRaceRatesFilePath = '../src/data/age-adjusted-race-rates.json';
 
 const stateKey = 'Site_ID';
 const keys = [
@@ -90,6 +94,8 @@ const ageTallyInitial = {
   '5': 0,
   '6': 0
 }
+const ageDataInitial = {'male': {...ageTallyInitial}, 'female':{...ageTallyInitial}};
+const raceDataInitial = {'0': {...ageTallyInitial}, '1': {...ageTallyInitial}, '2': {...ageTallyInitial}, '3': {...ageTallyInitial}, '4': {...ageTallyInitial}, '5': {...ageTallyInitial}};
 
 let stateKeyIndex;
 let first = true;
@@ -101,6 +107,7 @@ let allOpioidCause = {};
 let allOpioidPresent = {};
 let interventions = {};
 let ageData = {};
+let raceAgeData = {};
 
 function percent(deaths, total, wholeNumber) {
   if(wholeNumber){
@@ -199,13 +206,20 @@ fs.createReadStream(inputFilePath)
         }
       });
 
-      ageData[state] = ageData[state] || {'male': {...ageTallyInitial}, 'female':{...ageTallyInitial}};
-      ageData[us] = ageData[us] || {'male': {...ageTallyInitial}, 'female': {...ageTallyInitial}};
+      ageData[state] = ageData[state] || ageDataInitial;
+      ageData[us] = ageData[us] || ageDataInitial;
+      raceAgeData[state] = raceAgeData[state] || raceDataInitial;
+      raceAgeData[us] = raceAgeData[us] || raceDataInitial;
       let age = row[keyIndex['age_cat']];
       let sex = row[keyIndex['Sex']] === '1' ? 'male' : 'female';
+      let race = row[keyIndex['race_eth_v2']];
       if(ageData[state][sex][age] !== undefined){
         ageData[state][sex][age]++;
         ageData[us][sex][age]++;
+      }
+      if(race.length > 0 && raceAgeData[state][race][age] !== undefined){
+        raceAgeData[state][race][age]++;
+        raceAgeData[us][race][age]++;
       }
 
       keys.forEach(key => {
@@ -506,6 +520,62 @@ fs.createReadStream(inputFilePath)
     });
 
     fs.writeFile(ageAdjustedRatesFilePath, JSON.stringify(ageAdjustedRates), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+
+    let ageAdjustedSexRates = {};
+    statesFinal.forEach(state => {
+      if(state === us) return;
+
+      let rateMale = 0;
+      let rateFemale = 0;
+
+      Object.keys(weights).forEach(ageGroup => {
+        if(stateAgeSexPops[reverseFips[state]]){
+          rateMale += (ageData[state]['male'][ageGroup] || 0) / stateAgeSexPops[reverseFips[state]]['1'][ageGroup] * weights[ageGroup];
+          rateFemale += (ageData[state]['female'][ageGroup] || 0) / stateAgeSexPops[reverseFips[state]]['2'][ageGroup] * weights[ageGroup];
+        }
+      });
+
+      ageAdjustedSexRates[state] = [];
+      ageAdjustedSexRates[state].push({sex: 'male', rate: rateMale});
+      ageAdjustedSexRates[state].push({sex: 'female', rate: rateFemale});
+    });
+
+    fs.writeFile(ageAdjustedSexRatesFilePath, JSON.stringify(ageAdjustedSexRates), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+
+    let ageAdjustedRaceRates = {};
+    statesFinal.forEach(state => {
+      if(state === us) return;
+
+      ageAdjustedRaceRates[state] = [];
+
+      Object.keys(keyCounts[state]['race_eth_v2']).forEach(race => {
+        if(race.length === 0) return;
+
+        let rate = 0;
+
+        Object.keys(weights).forEach(ageGroup => {
+          if(stateAgePops[reverseFips[state]]){
+            rate += (raceAgeData[state][race][ageGroup] || 0) / stateAgeRacePops[reverseFips[state]][race][ageGroup] * weights[ageGroup];
+          }
+        });
+
+        ageAdjustedRaceRates[state].push({race: raceMapping[race], rate});
+      });
+    });
+
+    fs.writeFile(ageAdjustedRaceRatesFilePath, JSON.stringify(ageAdjustedRaceRates), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {
