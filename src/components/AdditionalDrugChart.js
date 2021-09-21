@@ -5,6 +5,8 @@ import { scaleBand, scaleLinear, scaleOrdinal } from '@visx/scale';
 
 import raw from '../data/additional-drugs.json';
 
+import { countCutoff } from '../constants.json';
+
 import '../css/AdditionalDrugChart.css';
 
 function AdditionalDrugChart(params) {
@@ -75,6 +77,14 @@ function AdditionalDrugChart(params) {
                   x1Scale={x1Scale}
                   yScale={yScale}
                   color={colorScale}
+                  data-tip={`<strong>${d.cause}</strong><br/>
+                    ${Object.keys(d).map(key => 
+                      key !== 'cause' && key !== 'undefined' && key.indexOf('-Count') === -1 ? 
+                        `${key}: ${d[`${key}-Count`] <= countCutoff ? `&lt; ${countCutoff}` : d[`${key}-Count`]} (${d[key]}%)<br/>` :
+                        ''
+                      ).join('')
+                    }
+                  `}
                 />
               );
             })}

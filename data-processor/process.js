@@ -137,7 +137,8 @@ function increment(obj, state) {
 }
 
 function checkCutoff(value, type) {
-  if(value <= (type === 'count' ? countCutoff : rateCutoff)) return -1;
+  const cutoff = type === 'count' ? countCutoff : rateCutoff;
+  if(value <= cutoff) return cutoff;
   return value;
 }
 
@@ -266,7 +267,6 @@ fs.createReadStream(inputFilePath)
   })
   .on('end', () => {
     let statesFinal = Object.keys(keyCounts);
-    statesFinal.push(us);
 
     let typeOfDrugData = {};
 
@@ -275,32 +275,44 @@ fs.createReadStream(inputFilePath)
         {
           opioid: 'Any Opioids', 
           present: percent(allOpioidPresent[state], totalDeaths[state]), 
-          cause: percent(allOpioidCause[state], totalDeaths[state])
+          cause: percent(allOpioidCause[state], totalDeaths[state]),
+          presentCount: checkCutoff(allOpioidPresent[state], 'count'),
+          causeCount: checkCutoff(allOpioidCause[state], 'count')
         },
         {
           opioid: 'IMFs', 
           present: percent(keyCounts[state]['imfs_pos']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['imfs_cod']['1'], totalDeaths[state])
+          cause: percent(keyCounts[state]['imfs_cod']['1'], totalDeaths[state]),
+          presentCount: checkCutoff(keyCounts[state]['imfs_pos']['1'], 'count'),
+          causeCount: checkCutoff(keyCounts[state]['imfs_cod']['1'], 'count')
         },
         {
           opioid: 'Cocaine', 
           present: percent(keyCounts[state]['cocaine_t']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['cocaine_t_cod']['1'], totalDeaths[state])
+          cause: percent(keyCounts[state]['cocaine_t_cod']['1'], totalDeaths[state]),
+          presentCount: checkCutoff(keyCounts[state]['cocaine_t']['1'], 'count'),
+          causeCount: checkCutoff(keyCounts[state]['cocaine_t_cod']['1'], 'count')
         },
         {
           opioid: 'Heroin', 
           present: percent(keyCounts[state]['heroin_def_v2']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['heroin_def_cod_v2']['1'], totalDeaths[state])
+          cause: percent(keyCounts[state]['heroin_def_cod_v2']['1'], totalDeaths[state]),
+          presentCount: checkCutoff(keyCounts[state]['heroin_def_v2']['1'], 'count'),
+          causeCount: checkCutoff(keyCounts[state]['heroin_def_cod_v2']['1'], 'count')
         },
         {
           opioid: 'Rx Opioids',
           present: percent(keyCounts[state]['rx_opioid_v2']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['rx_opioid_cod_v2']['1'], totalDeaths[state])
+          cause: percent(keyCounts[state]['rx_opioid_cod_v2']['1'], totalDeaths[state]),
+          presentCount: checkCutoff(keyCounts[state]['rx_opioid_v2']['1'], 'count'),
+          causeCount: checkCutoff(keyCounts[state]['rx_opioid_cod_v2']['1'], 'count')
         },
         {
           opioid: 'Meth', 
           present: percent(keyCounts[state]['meth_r']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['meth_r_cod']['1'], totalDeaths[state])
+          cause: percent(keyCounts[state]['meth_r_cod']['1'], totalDeaths[state]),
+          presentCount: checkCutoff(keyCounts[state]['meth_r']['1'], 'count'),
+          causeCount: checkCutoff(keyCounts[state]['meth_r_cod']['1'], 'count')
         }
       ];
     });
@@ -319,7 +331,10 @@ fs.createReadStream(inputFilePath)
       Object.keys(additionalDrugs[state]).forEach(cause => {
         let total = additionalDrugs[state][cause]['total'];
         let row = {cause: drugLabelMapping[cause]};
-        Object.keys(additionalDrugs[state][cause]).forEach(additional => row[drugLabelMapping[additional]] = percent(additionalDrugs[state][cause][additional], total));
+        Object.keys(additionalDrugs[state][cause]).forEach(additional => {
+          row[drugLabelMapping[additional]] = percent(additionalDrugs[state][cause][additional], total);
+          row[`${drugLabelMapping[additional]}-Count`] = checkCutoff(additionalDrugs[state][cause][additional], 'count');
+        });
         additionalDrugData[state].push(row);
       });
     });
@@ -508,10 +523,9 @@ fs.createReadStream(inputFilePath)
 
     let stateData = [];
     statesFinal.forEach(state => {
-      if(state !== us){
-        stateData.push({state: state, value: totalDeaths[state]});
-      }
+      stateData.push({state: state, value: totalDeaths[state]});
     });
+
 
     fs.writeFile(stateFilePath, JSON.stringify(stateData), {flag: 'w'}, (err) => {
       if(err){

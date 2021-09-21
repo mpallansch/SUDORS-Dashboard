@@ -5,6 +5,8 @@ import { scaleBand, scaleLinear } from '@visx/scale';
 
 import raw from '../data/causes.json';
 
+import { countCutoff } from '../constants.json';
+
 import '../css/CauseChart.css';
 
 function CauseChart(params) {
@@ -57,6 +59,11 @@ function CauseChart(params) {
                     width={xScale.bandwidth()}
                     height={adjustedHeight - yScale(d.present)}
                     fill="rgb(198, 209, 230)"
+                    data-tip={`<strong>${d.opioid}</strong><br/>
+                    Percent Present: ${d.present}%<br/>
+                    Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
+                    Percent Cause: ${d.cause}%<br/>
+                    Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
                   />
                   <line 
                     x1={xScale(d.opioid)} 
