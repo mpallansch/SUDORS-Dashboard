@@ -70,7 +70,7 @@ function AgeChart(params) {
                     fill="rgb(58, 88, 161)"
                     data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
-                    Percent: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
+                    Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
                   />
                   <text
                     x={halfWidth - xScale(d.percent) + (xScale(d.percent) > 35 ? 5 : -30)}
@@ -93,7 +93,7 @@ function AgeChart(params) {
                     fill="rgb(198, 209, 230)"
                     data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
-                    Percent: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
+                    Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
                   />
                   <text
                     x={halfWidth + xScale(d.percent) + (xScale(d.percent) > 35 ? -35 : 5)}
