@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ReactTooltip from 'react-tooltip';
 import { Group } from '@visx/group';
 import { AlbersUsa } from '@visx/geo';
 import { scaleQuantize } from '@visx/scale';
@@ -7,7 +6,10 @@ import * as topojson from 'topojson-client';
 import topology from '../geo/usa-topo.json';
 import abbreviations from '../geo/abbreviations.json';
 
-import data from '../data/map.json';
+import countData from '../data/map.json';
+import rateData from '../data/age-adjusted-drug-rates.json';
+
+import { countCutoff, rateCutoff } from '../constants.json';
 
 import '../css/Map.css';
 
@@ -33,10 +35,6 @@ function Map(params) {
   };
   const notAvailableColor = '#EEE';
 
-  useEffect(() => {
-    ReactTooltip.rebuild();
-  });
-
   const map = (small, drug) => {
     const mapWidth = small ? smallWidth : adjustedWidth;
     const mapHeight = small ? smallHeight : adjustedHeight;
@@ -50,7 +48,7 @@ function Map(params) {
     const colorsReverse = [...colors].reverse();
 
     const colorScale = scaleQuantize({
-      domain: [data[drug].min, data[drug].max],
+      domain: [rateData[drug].min, rateData[drug].max],
       range: colors
     });
 
@@ -76,19 +74,23 @@ function Map(params) {
             {({ features }) => 
                 features.map(({ feature, path }, i) => {
                   const state = abbreviations[feature.properties.iso.replace(/US-/g,'')];
-                  const datum = data[drug][state];
-                  const color = datum ? colorScale(datum.deaths) : notAvailableColor;
+                  const datum = rateData[drug][state];
+                  const countDatum = countData[drug][state];
+                  const color = datum ? colorScale(datum.rate) : notAvailableColor;
 
                   return (
                     <React.Fragment key={`map-feature-${i}`}>
                       <path
                         key={`map-feature-${i}`}
+                        tabIndex="-1"
                         d={path || ''}
                         fill={color}
                         stroke={'black'}
                         strokeWidth={0.5}
-                        onClick={() => {if(data[drug][state]) setState(state)}}
-                        data-tip={datum ? `<strong>${state}</strong><br/>Deaths: ${datum.deaths < 10 ? '< 10' : datum.deaths}` : 'Data unavailable'}
+                        onClick={() => {if(datum) setState(state)}}
+                        data-tip={datum ? `<strong>${state}</strong><br/>
+                        Rate: ${datum.rate <= rateCutoff ? `< ${rateCutoff}` : datum.rate}<br/>
+                        Deaths: ${countDatum.deaths <= countCutoff ? `< ${countCutoff}` : countDatum.deaths}` : 'Data unavailable'}
                       />
                     </React.Fragment>
                   );
@@ -125,7 +127,6 @@ function Map(params) {
           </>
         ) }
       </div>
-      <ReactTooltip html={true} type="light" arrowColor="rgba(0,0,0,0)" className="tooltip"/>
     </>
   );
 }

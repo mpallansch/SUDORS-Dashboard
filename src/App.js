@@ -1,4 +1,5 @@
-import { useCallback, useRef, useState } from 'react';  
+import { useEffect, useCallback, useRef, useState } from 'react'; 
+import ReactTooltip from 'react-tooltip'; 
 import ResizeObserver from 'resize-observer-polyfill';
 
 import Map from './components/Map';
@@ -38,6 +39,10 @@ function App() {
     if(width !== dimensions.width || height !== dimensions.height) {
       setDimensions({width, height});
     }
+  });
+
+  useEffect(() => {
+    ReactTooltip.rebuild();
   });
 
   const outerContainerRef = useCallback(node => {
@@ -205,6 +210,7 @@ function App() {
           </div>
         </div>
       </div>
+      <ReactTooltip html={true} type="light" arrowColor="rgba(0,0,0,0)" className="tooltip"/>
     </div>
   );
 }
