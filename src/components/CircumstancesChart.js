@@ -4,6 +4,8 @@ import { scaleBand, scaleLinear } from '@visx/scale';
 
 import raw from '../data/circumstances.json';
 
+import { countCutoff } from '../constants.json';
+
 import '../css/CircumstancesChart.css';
 
 function CircumstancesChart(params) {
@@ -23,7 +25,7 @@ function CircumstancesChart(params) {
 
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: data.other.sort((a, b) => a.value > b.value ? 1 : -1).map(d => d.circumstance),
+    domain: data.other.sort((a, b) => a.percent > b.percent ? 1 : -1).map(d => d.circumstance),
     padding: 0.2
   });
 
@@ -37,18 +39,20 @@ function CircumstancesChart(params) {
                   key={`bar-${d.circumstance}`}
                   x={0}
                   y={yScale(d.circumstance)}
-                  width={xScale(d.value)}
+                  width={xScale(d.percent)}
                   height={barThickness}
                   fill="rgb(198, 209, 230)"
+                  data-tip={`<strong>${d.circumstance}</strong><br/>
+                  Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}`}
                 />
                 <Circle
                   key={`point-${d.circumstance}`}
                   r={5}
-                  cx={xScale(d.value)}
+                  cx={xScale(d.percent)}
                   cy={yScale(d.circumstance) + barThicknessHalf}
                   fill="rgb(58, 88, 161)"
                 />
-                <text x={(xScale(d.value) || 0) + 10} y={yScale(d.circumstance) + barThickness} fontSize="small" fill="rgb(58, 88, 161)">{Math.round(d.value)}%</text>
+                <text x={(xScale(d.percent) || 0) + 10} y={yScale(d.circumstance) + barThickness} fontSize="small" fill="rgb(58, 88, 161)">{Math.round(d.percent)}%</text>
                 <text x={0}  y={yScale(d.circumstance) + barThickness + margin.bar}>{d.circumstance}</text>
               </Group>
             )
