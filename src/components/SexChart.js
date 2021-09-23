@@ -49,8 +49,8 @@ function SexChart(params) {
               {pie.arcs.map((arc, index) => {
                   const [ centroidX, centroidY ] = pie.path.centroid(arc);
                   let rate = 'Unavailable';
-                  if(dataRates) rate = (dataRates[0].sex === 'Male' ? dataRates[0].rate : dataRates[1].rate);
-                  if(rate < rateCutoff) rate = `< ${rateCutoff}`;
+                  if(dataRates) rate = (dataRates[0].sex === arc.data.sex.toLowerCase() ? dataRates[0].rate : dataRates[1].rate);
+                  if(rate <= rateCutoff) rate = `< ${rateCutoff}`;
 
                   return (
                     <g key={`arc-${index}`}>

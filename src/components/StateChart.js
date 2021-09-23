@@ -5,7 +5,7 @@ import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
 import data from '../data/state.json';
-import dataRates from '../data/age-adjusted-rates.json';
+import dataRatesRaw from '../data/age-adjusted-rates.json';
 
 import { countCutoff, rateCutoff } from '../constants.json';
 
@@ -17,6 +17,8 @@ function StateChart(params) {
   const [ sortClass, setSortClass ] = useState('fadein-initial');
   
   const { width, height, state } = params;
+
+  const dataRates = dataRatesRaw.filter(datum => datum.state !== 'United States');
 
   const margin = {top: 10, bottom: 10, left: 130, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom - 60;

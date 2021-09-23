@@ -100,7 +100,7 @@ function RaceChart(params) {
                   height={yScale.bandwidth()}
                   fill="rgb(198, 209, 230)"
                   data-tip={`<strong>${d.race}</strong><br/>
-                  Deaths: ${datum.value <= countCutoff ? `< ${countCutoff}` : datum.value}<br/>
+                  Deaths: ${datum.deaths <= countCutoff ? `< ${countCutoff}` : datum.deaths}<br/>
                   Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
                 />
               )}
