@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Group } from '@visx/group';
-import { AlbersUsa } from '@visx/geo';
+import { CustomProjection } from '@visx/geo';
 import { scaleQuantize } from '@visx/scale';
 import * as topojson from 'topojson-client';
 import topology from '../geo/usa-topo.json';
@@ -20,9 +20,9 @@ function Map(params) {
   const { width, height, setState } = params;
   const margin = {top: 10, bottom: 10, left: 10, right: 10};
   const adjustedWidth = width - margin.left - margin.right;
-  const adjustedHeight = height - margin.top - margin.bottom - 100;
+  const adjustedHeight = height - margin.top - margin.bottom - 80;
   const smallWidth = (adjustedWidth - ((margin.left + margin.right) * 2)) / 2 - 10;
-  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 2 - 30;
+  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 3 - 10;
 
   const unitedStates = topojson.feature(topology, topology.objects.states).features;
   const colorsPalettes = {
@@ -40,9 +40,10 @@ function Map(params) {
     const mapHeight = small ? smallHeight : adjustedHeight;
     const legendSize = small ? 10 : 25;
 
-    const centerX = mapWidth / 2;
-    const centerY = mapHeight / 2 - 5;
-    const scale = Math.min(mapWidth * 1.3, mapHeight * 1.8);
+
+    const scale = Math.min(mapWidth * .8, mapHeight * 1.2);
+    const centerX = mapWidth / 2 + (scale * 1.8);
+    const centerY = mapHeight / 2 + (scale * .75);
 
     const colors = colorsPalettes[drug];
     const colorsReverse = [...colors].reverse();
@@ -66,7 +67,7 @@ function Map(params) {
             marginRight: margin.right,
             marginBottom: margin.bottom
           }}>
-          <AlbersUsa
+          <CustomProjection
             data={unitedStates}
             scale={scale}
             translate={[centerX, centerY]}
@@ -96,7 +97,7 @@ function Map(params) {
                   );
                 })
               }
-          </AlbersUsa>
+          </CustomProjection>
           <Group>
             {colorsReverse.map((color, i) => (
               <rect key={`color-indicator-${drug}-${i}`} x={mapWidth - (i * legendSize) - 50} y={mapHeight - legendSize} width={legendSize} height={legendSize} fill={color}></rect>
