@@ -105,7 +105,8 @@ function App() {
           <Map 
             width={getDimension(mapRef, 'width')} 
             height={getDimension(mapRef, 'height')}
-            setState={setState} />
+            setState={setState}
+            state={state} />
         </div>
       </div>
       <div className="section">

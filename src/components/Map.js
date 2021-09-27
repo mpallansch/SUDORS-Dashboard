@@ -17,12 +17,23 @@ function Map(params) {
 
   const [ compare, setCompare ] = useState('all');
 
-  const { width, height, setState } = params;
+  const labelExceptions = {
+    'ME': 3,
+    'WI': 4,
+    'MI': 4,
+    'WA': 5,
+    'MT': 5,
+    'ND': 5,
+    'MN': 5,
+    'VT': 5
+  };
+
+  const { width, height, setState, state: globalState } = params;
   const margin = {top: 10, bottom: 10, left: 10, right: 10};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom - 80;
   const smallWidth = (adjustedWidth - ((margin.left + margin.right) * 2)) / 2 - 10;
-  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 3 - 10;
+  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 3 - 5;
 
   const unitedStates = topojson.feature(topology, topology.objects.states).features;
   const colorsPalettes = {
@@ -40,10 +51,13 @@ function Map(params) {
     const mapHeight = small ? smallHeight : adjustedHeight;
     const legendSize = small ? 10 : 25;
 
-
     const scale = Math.min(mapWidth * .8, mapHeight * 1.2);
     const centerX = mapWidth / 2 + (scale * 1.8);
     const centerY = mapHeight / 2 + (scale * .75);
+
+    const fullLabelOffset = scale * .07;
+    const smallLabelOffset = fullLabelOffset;
+    const labelOffset = small ? smallLabelOffset : fullLabelOffset;
 
     const colors = colorsPalettes[drug];
     const colorsReverse = [...colors].reverse();
@@ -74,10 +88,12 @@ function Map(params) {
           >
             {({ features }) => 
                 features.map(({ feature, path }, i) => {
-                  const state = abbreviations[feature.properties.iso.replace(/US-/g,'')];
+                  const abbr = feature.properties.iso.replace(/US-/g,'');
+                  const state = abbreviations[abbr];
                   const datum = rateData[drug][state];
                   const countDatum = countData[drug][state];
                   const color = datum ? colorScale(datum.rate) : notAvailableColor;
+                  const center = path.replace(/M/g, '').split('L')[labelExceptions[abbr] || 0].split(',');
 
                   return (
                     <React.Fragment key={`map-feature-${i}`}>
@@ -88,11 +104,29 @@ function Map(params) {
                         fill={color}
                         stroke={'black'}
                         strokeWidth={0.5}
-                        onClick={() => {if(datum) setState(state)}}
+                        opacity={globalState === 'United States' || globalState === state ? 1 : 0.9}
+                        onClick={() => {
+                          if(datum){
+                            if(globalState === state){
+                              setState('United States');
+                            } else {
+                              setState(state);
+                            }
+                          }
+                        }}
                         data-tip={datum ? `<strong>${state}</strong><br/>
                         Rate: ${datum.rate <= rateCutoff ? `< ${rateCutoff}` : datum.rate}<br/>
                         Deaths: ${countDatum.deaths <= countCutoff ? `< ${countCutoff}` : countDatum.deaths}` : 'Data unavailable'}
                       />
+                      <text
+                        x={center[0]}
+                        y={parseInt(center[1]) + labelOffset}
+                        textAnchor="middle"
+                        fontSize={scale * 0.05}
+                        fontWeight="bold"
+                        opacity={globalState === 'United States' || globalState === state ? 1 : 0.3}
+                        pointerEvents="none"
+                      >{abbr}</text>
                     </React.Fragment>
                   );
                 })

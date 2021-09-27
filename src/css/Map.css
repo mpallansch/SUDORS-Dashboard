@@ -23,3 +23,7 @@
 .compare-buttons button.active {
     text-decoration: underline;
 }
+
+#map-container text {
+    user-select: none;
+}
