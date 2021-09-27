@@ -28,10 +28,11 @@ function Map(params) {
     'VT': 5
   };
 
-  const { width, height, setState, state: globalState } = params;
+  const { width, setState, state: globalState } = params;
+  const height = compare === 'all' ? Math.min(width * 0.75, 450) : (width * 1.1);
   const margin = {top: 10, bottom: 10, left: 10, right: 10};
   const adjustedWidth = width - margin.left - margin.right;
-  const adjustedHeight = height - margin.top - margin.bottom - 80;
+  const adjustedHeight = height - margin.top - margin.bottom;
   const smallWidth = (adjustedWidth - ((margin.left + margin.right) * 2)) / 2 - 10;
   const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 3 - 5;
 
@@ -49,13 +50,14 @@ function Map(params) {
   const map = (small, drug) => {
     const mapWidth = small ? smallWidth : adjustedWidth;
     const mapHeight = small ? smallHeight : adjustedHeight;
-    const legendSize = small ? 10 : 25;
 
     const scale = Math.min(mapWidth * .8, mapHeight * 1.2);
     const centerX = mapWidth / 2 + (scale * 1.8);
     const centerY = mapHeight / 2 + (scale * .75);
 
-    const fullLabelOffset = scale * .07;
+    const legendSize = scale * 0.05;
+
+    const fullLabelOffset = scale * .065;
     const smallLabelOffset = fullLabelOffset;
     const labelOffset = small ? smallLabelOffset : fullLabelOffset;
 
@@ -102,8 +104,8 @@ function Map(params) {
                         tabIndex="-1"
                         d={path || ''}
                         fill={color}
-                        stroke={'black'}
-                        strokeWidth={0.5}
+                        stroke={'#FFF'}
+                        strokeWidth={scale * 0.01} 
                         opacity={globalState === 'United States' || globalState === state ? 1 : 0.9}
                         onClick={() => {
                           if(datum){
@@ -122,8 +124,7 @@ function Map(params) {
                         x={center[0]}
                         y={parseInt(center[1]) + labelOffset}
                         textAnchor="middle"
-                        fontSize={scale * 0.05}
-                        fontWeight="bold"
+                        fontSize={scale * 0.03}
                         opacity={globalState === 'United States' || globalState === state ? 1 : 0.3}
                         pointerEvents="none"
                       >{abbr}</text>
@@ -148,7 +149,7 @@ function Map(params) {
         <button className={`${compare === 'all' && 'active'}`} onClick={() => setCompare('all')}>All Substances</button> | 
         <button className={`${compare === 'compare' && 'active'}`} onClick={() => setCompare('compare')}>Compare Substances</button>
       </div>
-      <div className="block-shadow">
+      <div className="block-shadow" style={{ height }}>
         {compare === 'all' ?
           map(false, 'All')
         : (
