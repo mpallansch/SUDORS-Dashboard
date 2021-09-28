@@ -135,6 +135,7 @@ function App() {
                 width={getDimension(ageChartRef, 'width')}
                 height={getDimension(ageChartRef, 'height')}
                 state={state}
+                el={ageChartRef}
               />
             </div>
             <div id="age-chart-legend">

@@ -148,9 +148,12 @@ select {
   padding: 0.25em;
 }
 
-.bar {
-  transform-origin: center;
-  animation: fillin 1s ease;
+.animated-bar {
+  transform: scale(0, 1);
+}
+
+.animated-bar.animated {
+  transform: scale(1);
 }
 
 .fadein-initial {

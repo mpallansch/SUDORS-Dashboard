@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Group } from '@visx/group';
 import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
@@ -21,7 +22,9 @@ function AgeChart(params) {
     '6': '65+'
   };
   
-  const { width, height, state } = params;
+  const { width, height, state, el } = params;
+
+  const [ animated, setAnimated ] = useState(false);
 
   const data = raw[state];
 
@@ -40,6 +43,27 @@ function AgeChart(params) {
     domain: data['male'].map(d => ageMapping[d.age]),
     padding: 0.2
   });
+
+  const onScroll = () => {
+    if(!animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+      window.removeEventListener('scroll', onScroll);
+      setAnimated(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    setTimeout(onScroll, 50);
+  }, []);
+
+  useEffect(() => {
+    if(animated) {
+      setAnimated(false);
+      setTimeout(() => {
+        setAnimated(true);
+      }, 50);
+    }
+  }, [state]);
 
   return width > 0 && (
     <>
@@ -61,7 +85,11 @@ function AgeChart(params) {
             {data['male'].map(d => (
                 <Group key={`group-male-${d.age}`}>
                   <Bar 
-                    className="bar"
+                    className={`animated-bar ${animated ? 'animated' : ''}`}
+                    style={{
+                      'transition': animated ? 'transform 1s ease-in-out' : '',
+                      'transform-origin': `${halfWidth}px 0px`
+                    }}
                     key={`bar-male-${d.age}`}
                     x={halfWidth - xScale(d.percent)}
                     y={yScale(ageMapping[d.age])}
@@ -84,7 +112,11 @@ function AgeChart(params) {
             {data['female'].map(d => (
                 <Group key={`group-female-${d.age}`}>
                   <Bar 
-                    className="bar"
+                    className={`animated-bar ${animated ? 'animated' : ''}`}
+                    style={{
+                      'transition': animated ? 'transform 1s ease-in-out' : '',
+                      'transform-origin': `${halfWidth}px 0px`
+                    }}
                     key={`bar-female-${d.age}`}
                     x={halfWidth}
                     y={yScale(ageMapping[d.age])}
