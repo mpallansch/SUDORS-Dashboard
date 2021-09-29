@@ -43,7 +43,7 @@ function HeaderLineChart(params) {
             data={data}
             x={d => xScale(d.month)}
             y={d => yScale(d.value)}
-            stroke="white"
+            stroke="#712177"
             strokeWidth={3}
           />
       </svg>

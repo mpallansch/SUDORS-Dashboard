@@ -10,7 +10,7 @@ function HeaderWaffleChart(params) {
 
   const data = raw[state];
 
-  const margin = {top: 20, bottom: 0, left: 0, right: 0, dot: 3};
+  const margin = {top: height - width > 0 ? (height - width) / 2 : 0, bottom: 0, left: 0, right: 0, dot: 3};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
   const dotWidth = (adjustedWidth - (margin.dot * 5)) / 4;
@@ -25,7 +25,8 @@ function HeaderWaffleChart(params) {
       <svg
         id="header-waffle-chart" 
         width={adjustedWidth} 
-        height={adjustedHeight}>
+        height={adjustedHeight}
+        style={{marginTop: margin.top}}>
         {oneThroughFour.map(rowIndex => {
           return oneThroughFour.map(colIndex => {
 
@@ -35,7 +36,7 @@ function HeaderWaffleChart(params) {
                 r={dotRadius}
                 cx={colIndex * (dotWidth + margin.dot) - margin.dot}
                 cy={rowIndex * (dotWidth + margin.dot) - margin.dot}
-                fill={rowIndex > rowCutoff || (rowIndex === rowCutoff && colIndex > colCutoff) ? 'rgb(198, 209, 230)' : 'rgb(58, 88, 161)'}
+                fill={rowIndex > rowCutoff || (rowIndex === rowCutoff && colIndex > colCutoff) ? '#712177' : '#b890bb'}
               />
             );
           })

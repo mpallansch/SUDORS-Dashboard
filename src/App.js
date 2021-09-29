@@ -74,13 +74,17 @@ function App() {
   return (
     <div className="App" ref={outerContainerRef}>
       <div className="section">
-        <h2>How many people died of a drug overdose{stateLabel}?</h2>
         <div id="header">
-          <h3>Data Summary At a Glance</h3>
-          <div className="header-section">
-            <span className="enlarged">{formatDeathsNum(totalData[state])}</span> total deaths
+          <span id="preheader-label">Data Summary At a Glance</span><br/>
+          <span id="header-label">How many people died of a drug overdose{stateLabel}?</span>
+        </div>
+        <div className="header-section">
+            <span className="header-text full">
+              <span className="inline-vertical-align"></span>
+              <span className="enlarged">{formatDeathsNum(totalData[state])}</span> total deaths
+            </span>
           </div>
-          <div className="header-section">
+          <div className="header-section middle">
             <div id="header-line-chart-container" ref={headerLineChartRef}>
               <HeaderLineChart 
                 width={getDimension(headerLineChartRef, 'width')}
@@ -88,7 +92,7 @@ function App() {
                 state={state}
               />
             </div>
-            deaths over time
+            <span className="header-text">deaths over time</span>
           </div>
           <div className="header-section">
             <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
@@ -100,7 +104,6 @@ function App() {
             </div>
             <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
           </div>
-        </div>
         <div id="map-container" ref={mapRef}>
           <Map 
             width={getDimension(mapRef, 'width')} 
@@ -110,10 +113,10 @@ function App() {
         </div>
       </div>
       <div className="section">
-        <h2>Who died of a drug overdose{stateLabel}?</h2>
+        <span className="subheader">Who died of a drug overdose{stateLabel}?</span>
         <div className="column column-left">
-          <h3>By Sex</h3>
-          <div className="block-shadow">
+          <span className="subheader">By Sex</span>
+          <div className="subsection">
             <div id="sex-chart-container" ref={sexChartRef}>
               <SexChart 
                 width={getDimension(sexChartRef, 'width')} 
@@ -128,8 +131,8 @@ function App() {
           </div>
         </div>
         <div className="column column-right">
-          <h3 className="margin-top-small-viewport">By Age</h3>
-          <div className="block-shadow">
+          <span className="subheader margin-top-small-viewport">By Age</span>
+          <div className="subsection">
             <div id="age-chart-container" ref={ageChartRef}>
               <AgeChart 
                 width={getDimension(ageChartRef, 'width')}
@@ -144,8 +147,8 @@ function App() {
             </div>
           </div>
         </div>
-        <h3 className="margin-top">By Race/Ethnicity</h3>
-        <div className="block-shadow">
+        <span className="subheader margin-top">By Race/Ethnicity</span>
+        <div className="subsection">
           <div id="race-chart-container" ref={raceChartRef}>
               <RaceChart 
                 width={getDimension(raceChartRef, 'width')}
@@ -158,8 +161,8 @@ function App() {
       </div>
 
       <div className="section">
-        <h2>What drugs were identified{stateLabel}?</h2>
-        <div className="block-shadow">
+        <span className="subheader">What drugs were identified{stateLabel}?</span>
+        <div className="subsection">
           <div className="chart-legend">
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>% with drug present</span>
             <span><svg className="indicator" viewBox="0 0 100 100"><line x1="0" y1="50" x2="100" y2="50" stroke="rgb(58, 88, 161)" strokeDasharray="40 20" strokeWidth="40" /></svg>% with drug listed as cause of death</span>
@@ -171,8 +174,8 @@ function App() {
               state={state} />
           </div>
         </div>
-        <h3 className="margin-top">Additional drug classes detected</h3>
-        <div className="block-shadow">
+        <span className="subheader margin-top">Additional drug classes detected</span>
+        <div className="subsection">
           <div id="additional-drug-chart-container" ref={additionalDrugChartRef}>
             <AdditionalDrugChart 
                 width={getDimension(additionalDrugChartRef, 'width')}
@@ -191,8 +194,8 @@ function App() {
       </div>
       <div className="section">
         <div className="column column-left">
-          <h2>How does my state compare?*</h2>
-          <div className="block-shadow">
+          <span className="subheader">How does my state compare?*</span>
+          <div className="subsection">
             <div id="state-chart-container" ref={stateChartRef}>
               <StateChart
                 width={getDimension(stateChartRef, 'width')}
@@ -202,8 +205,8 @@ function App() {
           </div>
         </div>
         <div className="column column-right">
-          <h2>What are the opportunities for intervention{stateLabel}?*</h2>
-          <div className="block-shadow">
+          <span className="subheader">What are the opportunities for intervention{stateLabel}?*</span>
+          <div className="subsection">
             <div id="circumstances-chart-container" ref={circumstancesChartRef}>
               <CircumstancesChart
                 width={getDimension(circumstancesChartRef, 'width')}

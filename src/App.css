@@ -31,29 +31,10 @@
   }
 }
 
-#root {
-  border-top: 5px solid #712177;
-}
-
 .section {
-  background-color: #EEE;
+  border-top: 5px solid #712177;
   padding: 1em;
   margin: 1em 0;
-}
-
-h2 {
-  color: #712177;
-  margin-top: 0.25em;
-  font-family: sans-serif;
-  font-weight: bold;
-}
-
-h3 {
-  margin: 0.25em 0.5em;
-  font-size: large;
-  font-family: sans-serif;
-  font-weight: bold;
-  text-transform: uppercase;
 }
 
 .column {
@@ -70,9 +51,13 @@ h3 {
   padding-left: 0.5em;
 }
 
-.block-shadow {
-  background-color: white;
-  box-shadow: 5px 5px 5px gray;
+.subheader {
+  display: block;
+  font-size: 1.4em;
+  margin: 0.5em 0;
+}
+
+.subsection {
   padding: 1em;
 }
 
@@ -99,27 +84,48 @@ h3 {
 #header {
   background-color: #712177;
   color: white;
-  padding: 0.5em;
+  padding: 0.5em 1em;
 }
 
-#header h3 {
-  text-transform: none;
-  font-weight: normal;
-  margin-left: 0;
-  margin-right: 0;
+#preheader-label {
+  text-transform: uppercase;
+  font-size: 0.8em
+}
+
+#header-label {
+  font-size: 1.4em;
 }
 
 .header-section {
   display: inline-block;
   vertical-align: middle;
-  text-transform: uppercase;
-  font-size: small;
-  width: 33%;
+  width: calc(33% - 0.25em);
+  border: 1px solid rgba(0,0,0,.125);
+  border-left: 5px solid #b890bb;
+  border-radius: .25rem;
+  min-height: 100px;
+  padding: .5em;
+  margin-top: 1em;
+}
+
+.header-section.middle {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
 }
 
 .header-text {
   display: inline-block;
-  width: calc(100% - 55px);
+  width: calc(100% - 70px);
+  vertical-align: middle;
+}
+
+.header-text.full {
+  width: 100%;
+}
+
+.inline-vertical-align {
+  display: inline-block;
+  height: calc(100px - 1em - 2px);
   vertical-align: middle;
 }
 
@@ -127,11 +133,18 @@ h3 {
   margin-top: 1em;
 }
 
+.compare-buttons button {
+  background: transparent;
+}
+
 .enlarged {
   display: inline-block;
   vertical-align: middle;
-  font-size: x-large;
-  font-weight: bold;
+  font-size: 2.5em;
+  font-weight: 500;
+  color: #712177;
+  padding: 0 .1em;
+  font-family: "Merriweather",serif;
 }
 
 .text-align-left {
@@ -166,7 +179,7 @@ select {
   opacity: 1;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1200px) {
   .column {
     display: block;
     width: 100%;
@@ -183,5 +196,10 @@ select {
 
   .margin-top-small-viewport {
     margin-top: 1em;
+  }
+
+  .header-section.middle {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
