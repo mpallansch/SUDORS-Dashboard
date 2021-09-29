@@ -151,6 +151,7 @@ function App() {
                 width={getDimension(raceChartRef, 'width')}
                 height={getDimension(raceChartRef, 'height')}
                 state={state}
+                el={raceChartRef}
               />
           </div>
         </div>
