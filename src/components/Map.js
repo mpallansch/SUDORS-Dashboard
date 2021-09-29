@@ -30,7 +30,7 @@ function Map(params) {
 
   const { width, setState, state: globalState } = params;
   const height = compare === 'all' ? Math.min(width * 0.75, 450) : (width * 1.1);
-  const margin = {top: 10, bottom: 10, left: 10, right: 10};
+  const margin = {top: 10, bottom: 20, left: 10, right: 10};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
   const smallWidth = (adjustedWidth - ((margin.left + margin.right) * 2)) / 2 - 10;

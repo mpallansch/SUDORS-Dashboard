@@ -32,9 +32,28 @@
 }
 
 .section {
-  border-top: 5px solid #712177;
+  position: relative;
   padding: 1em;
   margin: 1em 0;
+}
+
+.section:first-child {
+  margin-top: 0;
+}
+
+.section::before {
+  content: ' ';
+  position: absolute;
+  display: inline-block;
+  width: 50%;
+  height: 5px;
+  background-color: #712177;
+  margin-left: 25%;
+  top: -0.5em;
+}
+
+.section:first-child::before {
+  display: none;
 }
 
 .column {
@@ -55,6 +74,10 @@
   display: block;
   font-size: 1.4em;
   margin: 0.5em 0;
+}
+
+.subheader.smaller {
+  font-size: 1.2em;
 }
 
 .subsection {

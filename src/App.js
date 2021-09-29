@@ -115,7 +115,7 @@ function App() {
       <div className="section">
         <span className="subheader">Who died of a drug overdose{stateLabel}?</span>
         <div className="column column-left">
-          <span className="subheader">By Sex</span>
+          <span className="subheader smaller">By Sex</span>
           <div className="subsection">
             <div id="sex-chart-container" ref={sexChartRef}>
               <SexChart 
@@ -131,7 +131,7 @@ function App() {
           </div>
         </div>
         <div className="column column-right">
-          <span className="subheader margin-top-small-viewport">By Age</span>
+          <span className="subheader smaller margin-top-small-viewport">By Age</span>
           <div className="subsection">
             <div id="age-chart-container" ref={ageChartRef}>
               <AgeChart 
@@ -147,7 +147,7 @@ function App() {
             </div>
           </div>
         </div>
-        <span className="subheader margin-top">By Race/Ethnicity</span>
+        <span className="subheader smaller margin-top">By Race/Ethnicity</span>
         <div className="subsection">
           <div id="race-chart-container" ref={raceChartRef}>
               <RaceChart 
