@@ -88,7 +88,7 @@ function AgeChart(params) {
                     className={`animated-bar ${animated ? 'animated' : ''}`}
                     style={{
                       'transition': animated ? 'transform 1s ease-in-out' : '',
-                      'transform-origin': `${halfWidth}px 0px`
+                      'transformOrigin': `${halfWidth}px 0px`
                     }}
                     key={`bar-male-${d.age}`}
                     x={halfWidth - xScale(d.percent)}
@@ -115,7 +115,7 @@ function AgeChart(params) {
                     className={`animated-bar ${animated ? 'animated' : ''}`}
                     style={{
                       'transition': animated ? 'transform 1s ease-in-out' : '',
-                      'transform-origin': `${halfWidth}px 0px`
+                      'transformOrigin': `${halfWidth}px 0px`
                     }}
                     key={`bar-female-${d.age}`}
                     x={halfWidth}
