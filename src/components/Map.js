@@ -25,6 +25,13 @@ const labelExceptions = {
   'VT': 5
 };
 const colors = ['#67a9cf','#3690c0','#02818a','#016c59','#014636'];
+const fontColors = {
+  '#67a9cf': 'black',
+  '#3690c0': 'black',
+  '#02818a': 'black',
+  '#016c59': 'white',
+  '#014636': 'white'
+};
 const notAvailableColor = '#EEE';
 
 function Map(params) {
@@ -45,7 +52,7 @@ function Map(params) {
   const labelOffset = scale * .065;
 
   const colorScale = scaleQuantize({
-    domain: [rateData[drug].max, rateData[drug].min],
+    domain: [rateData[drug].min, rateData[drug].max],
     range: colors
   });
 
@@ -114,6 +121,7 @@ function Map(params) {
                         y={parseInt(center[1]) + labelOffset}
                         textAnchor="middle"
                         fontSize={scale * 0.03}
+                        fill={fontColors[color]}
                         opacity={globalState === 'United States' || globalState === state ? 1 : 0.3}
                         pointerEvents="none"
                       >{abbr}</text>
