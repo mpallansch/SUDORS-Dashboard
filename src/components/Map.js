@@ -24,14 +24,7 @@ const labelExceptions = {
   'MN': 5,
   'VT': 5
 };
-const colorsPalettes = {
-  'All': ["#85C1E9", "#5DADE2", "#3498DB", "#2E86C1", "#2874A6"],
-  'Heroin': ['#82E0AA', '#58D68D', '#2ECC71', '#2ECC71', '#28B463'],
-  'IMFs': ['#F0B27A','#E59866','#E67E22','#CA6F1E','#A04000'],
-  'Cocaine': ['#D2B4DE','#A569BD','#8E44AD','#6C3483','#5B2C6F'],
-  'Rx Opioids': ['#F5B7B1','#F1948A','#EC7063','#E74C3C','#B03A2E'],
-  'Meth': ['#AEB6BF','#5D6D7E','#34495E','#2E4053','#212F3C']
-};
+const colors = ['#67a9cf','#3690c0','#02818a','#016c59','#014636'];
 const notAvailableColor = '#EEE';
 
 function Map(params) {
@@ -50,8 +43,6 @@ function Map(params) {
 
   const legendSize = scale * 0.05;
   const labelOffset = scale * .065;
-
-  const colors = colorsPalettes[drug];
 
   const colorScale = scaleQuantize({
     domain: [rateData[drug].max, rateData[drug].min],
