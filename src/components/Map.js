@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Group } from '@visx/group';
 import { CustomProjection } from '@visx/geo';
 import { scaleQuantize } from '@visx/scale';
@@ -13,70 +13,68 @@ import { countCutoff, rateCutoff } from '../constants.json';
 
 import '../css/Map.css';
 
+const unitedStates = topojson.feature(topology, topology.objects.states).features;
+const labelExceptions = {
+  'ME': 3,
+  'WI': 4,
+  'MI': 4,
+  'WA': 5,
+  'MT': 5,
+  'ND': 5,
+  'MN': 5,
+  'VT': 5
+};
+const colorsPalettes = {
+  'All': ["#85C1E9", "#5DADE2", "#3498DB", "#2E86C1", "#2874A6"],
+  'Heroin': ['#82E0AA', '#58D68D', '#2ECC71', '#2ECC71', '#28B463'],
+  'IMFs': ['#F0B27A','#E59866','#E67E22','#CA6F1E','#A04000'],
+  'Cocaine': ['#D2B4DE','#A569BD','#8E44AD','#6C3483','#5B2C6F'],
+  'Rx Opioids': ['#F5B7B1','#F1948A','#EC7063','#E74C3C','#B03A2E'],
+  'Meth': ['#AEB6BF','#5D6D7E','#34495E','#2E4053','#212F3C']
+};
+const notAvailableColor = '#EEE';
+
 function Map(params) {
 
-  const [ compare, setCompare ] = useState('all');
-
-  const labelExceptions = {
-    'ME': 3,
-    'WI': 4,
-    'MI': 4,
-    'WA': 5,
-    'MT': 5,
-    'ND': 5,
-    'MN': 5,
-    'VT': 5
-  };
+  const [ drug, setDrug ] = useState('All');
 
   const { width, setState, state: globalState } = params;
-  const height = compare === 'all' ? Math.min(width * 0.75, 450) : (width * 1.1);
+  const height = Math.min(width * 0.75, 450);
   const margin = {top: 10, bottom: 20, left: 10, right: 10};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
-  const smallWidth = (adjustedWidth - ((margin.left + margin.right) * 2)) / 2 - 10;
-  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 3 - 5;
 
-  const unitedStates = topojson.feature(topology, topology.objects.states).features;
-  const colorsPalettes = {
-    'All': ["#85C1E9", "#5DADE2", "#3498DB", "#2E86C1", "#2874A6"],
-    'Heroin': ['#82E0AA', '#58D68D', '#2ECC71', '#2ECC71', '#28B463'],
-    'IMFs': ['#F0B27A','#E59866','#E67E22','#CA6F1E','#A04000'],
-    'Cocaine': ['#D2B4DE','#A569BD','#8E44AD','#6C3483','#5B2C6F'],
-    'Rx Opioids': ['#F5B7B1','#F1948A','#EC7063','#E74C3C','#B03A2E'],
-    'Meth': ['#AEB6BF','#5D6D7E','#34495E','#2E4053','#212F3C']
-  };
-  const notAvailableColor = '#EEE';
+  const scale = Math.min(adjustedWidth * .8, adjustedHeight * 1.2);
+  const centerX = adjustedWidth / 2 + (scale * 1.8);
+  const centerY = adjustedHeight / 2 + (scale * .75);
 
-  const map = (small, drug) => {
-    const mapWidth = small ? smallWidth : adjustedWidth;
-    const mapHeight = small ? smallHeight : adjustedHeight;
+  const legendSize = scale * 0.05;
+  const labelOffset = scale * .065;
 
-    const scale = Math.min(mapWidth * .8, mapHeight * 1.2);
-    const centerX = mapWidth / 2 + (scale * 1.8);
-    const centerY = mapHeight / 2 + (scale * .75);
+  const colors = colorsPalettes[drug];
 
-    const legendSize = scale * 0.05;
+  const colorScale = scaleQuantize({
+    domain: [rateData[drug].max, rateData[drug].min],
+    range: colors
+  });
 
-    const fullLabelOffset = scale * .065;
-    const smallLabelOffset = fullLabelOffset;
-    const labelOffset = small ? smallLabelOffset : fullLabelOffset;
+  const scaleIncrement = Math.round((rateData[drug].max - rateData[drug].min) / colors.length);
+  const legendWidth = legendSize * colors.length;
 
-    const colors = colorsPalettes[drug];
-    const colorsReverse = [...colors].reverse();
-
-    const colorScale = scaleQuantize({
-      domain: [rateData[drug].min, rateData[drug].max],
-      range: colors
-    });
-
-    return (
+  return width > 0 && (
+    <>
+      <select onChange={(e) => {setDrug(e.target.value)}}>
+        <option value="All">All Substances</option>
+        <option>Heroin</option>
+        <option>IMFs</option>
+        <option>Cocaine</option>
+        <option>Rx Opioids</option>
+        <option>Meth</option>
+      </select>
       <div className="inline-map-container">
-        <div className="map-header">
-          <span>{small ? drug : ''}</span>
-        </div>
         <svg 
-          width={mapWidth}
-          height={mapHeight} 
+          width={adjustedWidth}
+          height={adjustedHeight} 
           style={{
             marginTop: margin.top, 
             marginLeft: margin.left,
@@ -134,34 +132,37 @@ function Map(params) {
               }
           </CustomProjection>
           <Group>
-            {colorsReverse.map((color, i) => (
-              <rect key={`color-indicator-${drug}-${i}`} x={mapWidth - (i * legendSize) - 50} y={mapHeight - legendSize} width={legendSize} height={legendSize} fill={color}></rect>
-            ))}
+            {colors.map((color, i) => {
+              const x = adjustedWidth + (i * legendSize) - legendWidth - 50;
+
+              return (
+                <>
+                  <rect 
+                    key={`color-indicator-${drug}-${i}`} 
+                    x={x} 
+                    y={adjustedHeight - (legendSize * 2)} 
+                    width={legendSize} 
+                    height={legendSize} 
+                    fill={color}
+                    style={{borderRadius: '5px'}}>
+                  </rect>
+                  <text 
+                    x={x + legendSize} 
+                    y={adjustedHeight}
+                    textAnchor="middle"
+                    fontSize={scale * 0.03}
+                  >{scaleIncrement * i + rateData[drug].min}</text>
+                </>
+              )}
+            )}
+            <text 
+              x={adjustedWidth - legendWidth - 50} 
+              y={adjustedHeight}
+              textAnchor="middle"
+              fontSize={scale * 0.03}
+            >{0}</text>
           </Group>
         </svg>
-      </div>
-    )
-  };
-
-  return width > 0 && (
-    <>
-      <div className="compare-buttons">
-        <button className={`${compare === 'all' && 'active'}`} onClick={() => setCompare('all')}>All Substances</button> | 
-        <button className={`${compare === 'compare' && 'active'}`} onClick={() => setCompare('compare')}>Compare Substances</button>
-      </div>
-      <div style={{ height }}>
-        {compare === 'all' ?
-          map(false, 'All')
-        : (
-          <>
-            {map(true, 'All')}
-            {map(true, 'Heroin')}
-            {map(true, 'IMFs')}
-            {map(true, 'Cocaine')}
-            {map(true, 'Rx Opioids')}
-            {map(true, 'Meth')}
-          </>
-        ) }
       </div>
     </>
   );

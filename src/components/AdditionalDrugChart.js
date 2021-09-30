@@ -34,7 +34,7 @@ function AdditionalDrugChart(params) {
 
   const colorScale = scaleOrdinal({
     domain: groups.sort(),
-    range: ['rgb(113, 129, 167)','rgb(150, 160, 185)', 'rgb(108, 56, 111)', 'rgb(76, 140, 126)', 'rgb(132, 178, 170)'],
+    range: ['#00695c','#fbab18', '#bb4d00', '#4b830d', '#007c91'],
   });
 
   return width > 0 && (

@@ -45,7 +45,7 @@ function AgeChart(params) {
   });
 
   const onScroll = () => {
-    if(!animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
       window.removeEventListener('scroll', onScroll);
       setAnimated(true);
     }
@@ -130,7 +130,7 @@ function AgeChart(params) {
                   <text
                     x={halfWidth + xScale(d.percent) + (xScale(d.percent) > 35 ? -35 : 5)}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 2)}
-                    fill={xScale(d.percent) > 30 ? 'white' : 'black'}>
+                    fill={'black'}>
                       {d.percent}%
                   </text>
                 </Group>

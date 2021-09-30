@@ -59,7 +59,7 @@ function SexChart(params) {
                           Deaths: ${arc.data.count <= countCutoff ? `< ${countCutoff}` : arc.data.count}<br/>
                           Rate: ${rate}`} />
                       <text
-                        fill="white"
+                        fill={arc.data.sex === 'Female' ? 'black' : 'white'}
                         x={centroidX}
                         y={centroidY}
                         dy=".33em"

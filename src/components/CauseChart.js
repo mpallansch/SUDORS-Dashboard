@@ -52,8 +52,7 @@ function CauseChart(params) {
             {data.map(d => (
                 <Group key={`group-${d.opioid}`}>
                   <Bar 
-                    className="bar"
-                    key={`bar-${d.opioid}`}
+                    key={`present-bar-${d.opioid}`}
                     x={xScale(d.opioid)}
                     y={yScale(d.present)}
                     width={xScale.bandwidth()}
@@ -65,14 +64,15 @@ function CauseChart(params) {
                     Percent Cause: ${d.cause}%<br/>
                     Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
                   />
-                  <line 
-                    x1={xScale(d.opioid)} 
-                    y1={yScale(d.cause)} 
-                    x2={xScale(d.opioid) + xScale.bandwidth()} 
-                    y2={yScale(d.cause)} 
-                    stroke="rgb(58, 88, 161)"
-                    strokeDasharray="10 5" 
-                    strokeWidth="5" />
+                  <Bar
+                    key={`cause-bar-${d.opioid}`}
+                    x={xScale(d.opioid) + (xScale.bandwidth() * .2)}
+                    y={yScale(d.cause)}
+                    width={xScale.bandwidth() * .6}
+                    height={adjustedHeight - yScale(d.cause)}
+                    fill="rgb(58, 88, 161)"
+                    pointerEvents="none"
+                  />
                 </Group>
               )
             )}

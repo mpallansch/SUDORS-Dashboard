@@ -20,8 +20,11 @@ import './App.css';
 
 function App() {
 
+  const viewportCutoff = 550;
+
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
   const [ state, setState ] = useState('United States');
+  const [ view, setView ] = useState('map');
   const mapRef = useRef();
   const headerLineChartRef = useRef();
   const headerWaffleChartRef = useRef();
@@ -75,48 +78,67 @@ function App() {
     <div className="App" ref={outerContainerRef}>
       <div className="section">
         <div id="header">
-          <span id="preheader-label">Data Summary At a Glance</span><br/>
-          <span id="header-label">How many people died of a drug overdose{stateLabel}?</span>
+          <span id="preheader-label">Data Summary At a Glance</span>
         </div>
         <div className="header-section">
-            <span className="header-text full">
-              <span className="inline-vertical-align"></span>
-              <span className="enlarged">{formatDeathsNum(totalData[state])}</span> total deaths
-            </span>
-          </div>
-          <div className="header-section middle">
-            <div id="header-line-chart-container" ref={headerLineChartRef}>
-              <HeaderLineChart 
-                width={getDimension(headerLineChartRef, 'width')}
-                height={getDimension(headerLineChartRef, 'height')}
-                state={state}
-              />
-            </div>
-            <span className="header-text">deaths over time</span>
-          </div>
-          <div className="header-section">
-            <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
-              <HeaderWaffleChart 
-                width={getDimension(headerWaffleChartRef, 'width')}
-                height={getDimension(headerWaffleChartRef, 'height')}
-                state={state}
-              />
-            </div>
-            <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
-          </div>
-        <div id="map-container" ref={mapRef}>
-          <Map 
-            width={getDimension(mapRef, 'width')} 
-            height={getDimension(mapRef, 'height')}
-            setState={setState}
-            state={state} />
+          <span className="header-text full">
+            <span className="inline-vertical-align"></span>
+            <span className="enlarged">{formatDeathsNum(totalData[state])}</span> total deaths
+          </span>
         </div>
+        <div className="header-section middle">
+          <div id="header-line-chart-container" ref={headerLineChartRef}>
+            <HeaderLineChart 
+              width={getDimension(headerLineChartRef, 'width')}
+              height={getDimension(headerLineChartRef, 'height')}
+              state={state}
+            />
+          </div>
+          <span className="header-text">deaths over time</span>
+        </div>
+        <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth'})}}>
+          <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
+            <HeaderWaffleChart 
+              width={getDimension(headerWaffleChartRef, 'width')}
+              height={getDimension(headerWaffleChartRef, 'height')}
+              state={state}
+            />
+          </div>
+          <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
+        </div>
+        <span>View data for:</span>
+        <select value={state} onChange={(e) => setState(e.target.value)}>
+          {Object.keys(totalData).map(state => (
+            <option>{state}</option>
+          ))}
+        </select>
+        <span className="subheader">How many people died of a drug overdose{stateLabel}?</span>
+        {dimensions.width > viewportCutoff && (<div className="compare-buttons">
+          <button className={`${view === 'map' && 'active'}`} onClick={() => setView('map')}>Map View</button> | 
+          <button className={`${view === 'chart' && 'active'}`} onClick={() => setView('chart')}>Chart View</button>
+        </div>)}
+        {dimensions.width > viewportCutoff && view === 'map' ? (
+          <div id="map-container" ref={mapRef}>
+            <Map 
+              width={getDimension(mapRef, 'width')} 
+              height={getDimension(mapRef, 'height')}
+              setState={setState}
+              state={state} />
+          </div>
+        ) : (
+          <div id="state-chart-container" ref={stateChartRef}>
+            <StateChart
+              width={getDimension(stateChartRef, 'width')}
+              height={getDimension(stateChartRef, 'height')}
+              state={state} />
+          </div>
+        )}
       </div>
       <div className="section">
         <span className="subheader">Who died of a drug overdose{stateLabel}?</span>
         <div className="column column-left">
           <div className="subsection">
-          <span className="individual-header smaller">By Sex</span>
+            <span className="individual-header smaller">By Sex</span>
             <div id="sex-chart-container" ref={sexChartRef}>
               <SexChart 
                 width={getDimension(sexChartRef, 'width')} 
@@ -129,10 +151,8 @@ function App() {
               <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>Female</span>
             </div>
           </div>
-        </div>
-        <div className="column column-right">
           <div className="subsection">
-          <span className="individual-header margin-top-small-viewport">By Age</span>
+            <span className="individual-header margin-top-small-viewport">By Age</span>
             <div id="age-chart-container" ref={ageChartRef}>
               <AgeChart 
                 width={getDimension(ageChartRef, 'width')}
@@ -146,16 +166,28 @@ function App() {
               <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>Female</span>
             </div>
           </div>
+          <div className="subsection">
+            <span className="individual-header margin-top">By Race/Ethnicity</span>
+            <div id="race-chart-container" ref={raceChartRef}>
+                <RaceChart 
+                  width={getDimension(raceChartRef, 'width')}
+                  height={getDimension(raceChartRef, 'height')}
+                  state={state}
+                  el={raceChartRef}
+                />
+            </div>
+            Age-adjusted rate of deaths per 100,000
+          </div>
         </div>
-        <div className="subsection">
-        <span className="individual-header margin-top">By Race/Ethnicity</span>
-          <div id="race-chart-container" ref={raceChartRef}>
-              <RaceChart 
-                width={getDimension(raceChartRef, 'width')}
-                height={getDimension(raceChartRef, 'height')}
-                state={state}
-                el={raceChartRef}
-              />
+        <div className="column column-right">
+          <div className="subsection">
+            <span className="individual-header">Oppotunities for Intervention</span>
+            <div id="circumstances-chart-container" ref={circumstancesChartRef}>
+              <CircumstancesChart
+                width={getDimension(circumstancesChartRef, 'width')}
+                height={getDimension(circumstancesChartRef, 'height')}
+                state={state} />
+            </div>
           </div>
         </div>
       </div>
@@ -165,7 +197,7 @@ function App() {
         <div className="subsection">
           <div className="chart-legend">
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>% with drug present</span>
-            <span><svg className="indicator" viewBox="0 0 100 100"><line x1="0" y1="50" x2="100" y2="50" stroke="rgb(58, 88, 161)" strokeDasharray="40 20" strokeWidth="40" /></svg>% with drug listed as cause of death</span>
+            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)" /></svg>% with drug listed as cause of death</span>
           </div>
           <div id="cause-chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -184,35 +216,11 @@ function App() {
           </div>
           <div className="chart-legend side text-align-left">
             <strong>Drug Detected</strong>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(76, 140, 126)" /></svg>Meth</div>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(150, 160, 185)" /></svg>Heroin</div>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(132, 178, 170)" /></svg>Rx Opioids</div>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(108, 56, 111)" /></svg>IMFs</div>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="rgb(113, 129, 167)" /></svg>Cocaine</div>
-          </div>
-        </div>
-      </div>
-      <div className="section">
-        <div className="column column-left">
-          <span className="subheader">How does my state compare?*</span>
-          <div className="subsection">
-            <div id="state-chart-container" ref={stateChartRef}>
-              <StateChart
-                width={getDimension(stateChartRef, 'width')}
-                height={getDimension(stateChartRef, 'height')}
-                state={state} />
-            </div>
-          </div>
-        </div>
-        <div className="column column-right">
-          <span className="subheader">What are the opportunities for intervention{stateLabel}?*</span>
-          <div className="subsection">
-            <div id="circumstances-chart-container" ref={circumstancesChartRef}>
-              <CircumstancesChart
-                width={getDimension(circumstancesChartRef, 'width')}
-                height={getDimension(circumstancesChartRef, 'height')}
-                state={state} />
-            </div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="#4b830d" /></svg>Meth</div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="#fbab18" /></svg>Heroin</div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="#007c91" /></svg>Rx Opioids</div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="#bb4d00" /></svg>IMFs</div>
+            <div><svg className="indicator"><rect width="100%" height="100%" fill="#00695c" /></svg>Cocaine</div>
           </div>
         </div>
       </div>

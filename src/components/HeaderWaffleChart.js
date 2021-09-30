@@ -29,6 +29,7 @@ function HeaderWaffleChart(params) {
         style={{marginTop: margin.top}}>
         {oneThroughFour.map(rowIndex => {
           return oneThroughFour.map(colIndex => {
+            const active = rowIndex > rowCutoff || (rowIndex === rowCutoff && colIndex > colCutoff);
 
             return (
               <Circle 
@@ -36,7 +37,9 @@ function HeaderWaffleChart(params) {
                 r={dotRadius}
                 cx={colIndex * (dotWidth + margin.dot) - margin.dot}
                 cy={rowIndex * (dotWidth + margin.dot) - margin.dot}
-                fill={rowIndex > rowCutoff || (rowIndex === rowCutoff && colIndex > colCutoff) ? '#712177' : '#b890bb'}
+                fill={active ? '#712177' : 'white'}
+                stroke={!active ? '#b890bb' : 'none'}
+                strokeWidth={!active ? 2 : 0}
               />
             );
           })

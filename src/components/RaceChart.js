@@ -36,7 +36,7 @@ function RaceChart(params) {
   });
 
   const onScroll = () => {
-    if(!animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
       window.removeEventListener('scroll', onScroll);
       setAnimated(true);
     }
@@ -73,21 +73,29 @@ function RaceChart(params) {
               }
 
               return (
-                <Bar 
-                  className={`animated-bar ${animated ? 'animated' : ''}`}
-                  style={{
-                    'transition': animated ? 'transform 1s ease-in-out' : ''
-                  }}
-                  key={`bar-${d.race}`}
-                  x={0}
-                  y={yScale(d.race)}
-                  width={xScale(d.rate)}
-                  height={yScale.bandwidth()}
-                  fill="rgb(198, 209, 230)"
-                  data-tip={`<strong>${d.race}</strong><br/>
-                  Deaths: ${datum.deaths <= countCutoff ? `< ${countCutoff}` : datum.deaths}<br/>
-                  Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
-                />
+                <>
+                  <Bar 
+                    className={`animated-bar ${animated ? 'animated' : ''}`}
+                    style={{
+                      'transition': animated ? 'transform 1s ease-in-out' : ''
+                    }}
+                    key={`bar-${d.race}`}
+                    x={0}
+                    y={yScale(d.race)}
+                    width={xScale(d.rate)}
+                    height={yScale.bandwidth()}
+                    fill="rgb(198, 209, 230)"
+                    data-tip={`<strong>${d.race}</strong><br/>
+                    Deaths: ${datum.deaths <= countCutoff ? `< ${countCutoff}` : datum.deaths}<br/>
+                    Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
+                  />
+                  <text
+                    x={xScale(d.rate)}
+                    y={yScale(d.race) + (yScale.bandwidth() / 2)}
+                    textAnchor={xScale(d.rate) > adjustedWidth - 50 ? 'end' : 'start'}
+                    dx={xScale(d.rate) > adjustedWidth - 50 ? -10 : 10}
+                  >{d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}</text>
+                </>
               )}
             )}
             <AxisLeft 
