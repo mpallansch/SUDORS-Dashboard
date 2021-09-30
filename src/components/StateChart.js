@@ -43,7 +43,7 @@ function StateChart(params) {
 
   const yScaleAlphabetical = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: dataRates.sort((a,b) => (a.rate < b.rate) ? 1 : -1).map(d => d.state),
+    domain: dataRates.sort((a,b) => (a.state < b.state) ? 1 : -1).map(d => d.state),
     padding: 0.2
   });
 
