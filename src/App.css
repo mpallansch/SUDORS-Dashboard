@@ -45,11 +45,11 @@
   content: ' ';
   position: absolute;
   display: inline-block;
-  width: 50%;
-  height: 5px;
+  width: 80%;
+  height: 3px;
   background-color: #712177;
-  margin-left: 25%;
-  top: -0.5em;
+  margin-left: 10%;
+  top: -0.25em;
 }
 
 .section:first-child::before {
@@ -72,16 +72,22 @@
 
 .subheader {
   display: block;
+  text-align: center;
+  color: #712177;
+  font-weight: bold;
   font-size: 1.4em;
   margin: 0.5em 0;
 }
 
-.subheader.smaller {
-  font-size: 1.2em;
+.individual-header {
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .subsection {
+  margin-top: 1em;
   padding: 1em;
+  border: 1px solid lightgray;
 }
 
 .chart-legend {
@@ -206,6 +212,14 @@ select {
   .column {
     display: block;
     width: 100%;
+  }
+
+  .column-left {
+    padding-right: 0;
+  }
+
+  .column-right {
+    padding-left: 0;
   }
 
   #header h3 {

@@ -149,7 +149,7 @@ function Map(params) {
         <button className={`${compare === 'all' && 'active'}`} onClick={() => setCompare('all')}>All Substances</button> | 
         <button className={`${compare === 'compare' && 'active'}`} onClick={() => setCompare('compare')}>Compare Substances</button>
       </div>
-      <div className="subsection" style={{ height }}>
+      <div style={{ height }}>
         {compare === 'all' ?
           map(false, 'All')
         : (

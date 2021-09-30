@@ -115,8 +115,8 @@ function App() {
       <div className="section">
         <span className="subheader">Who died of a drug overdose{stateLabel}?</span>
         <div className="column column-left">
-          <span className="subheader smaller">By Sex</span>
           <div className="subsection">
+          <span className="individual-header smaller">By Sex</span>
             <div id="sex-chart-container" ref={sexChartRef}>
               <SexChart 
                 width={getDimension(sexChartRef, 'width')} 
@@ -131,8 +131,8 @@ function App() {
           </div>
         </div>
         <div className="column column-right">
-          <span className="subheader smaller margin-top-small-viewport">By Age</span>
           <div className="subsection">
+          <span className="individual-header margin-top-small-viewport">By Age</span>
             <div id="age-chart-container" ref={ageChartRef}>
               <AgeChart 
                 width={getDimension(ageChartRef, 'width')}
@@ -147,8 +147,8 @@ function App() {
             </div>
           </div>
         </div>
-        <span className="subheader smaller margin-top">By Race/Ethnicity</span>
         <div className="subsection">
+        <span className="individual-header margin-top">By Race/Ethnicity</span>
           <div id="race-chart-container" ref={raceChartRef}>
               <RaceChart 
                 width={getDimension(raceChartRef, 'width')}
