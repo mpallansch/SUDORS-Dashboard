@@ -37,7 +37,7 @@ function CauseChart(params) {
           <Group top={margin.top} left={margin.left}>
             <AxisLeft
               scale={yScale}
-              tickValues={[0, 25, 50, 75, 100]}
+              numTicks={10}
               tickFormat={num => num + '%'}
               tickLabelProps={() => ({
                 fontSize: 'medium',
