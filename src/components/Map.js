@@ -92,6 +92,7 @@ function Map(params) {
                   const countDatum = countData[drug][state];
                   const color = datum ? colorScale(datum.rate) : notAvailableColor;
                   const center = path.replace(/M/g, '').split('L')[labelExceptions[abbr] || 0].split(',');
+                  const highlight = color === notAvailableColor || globalState === 'United States' || globalState === state;
 
                   return (
                     <React.Fragment key={`map-feature-${i}`}>
@@ -102,7 +103,7 @@ function Map(params) {
                         fill={color}
                         stroke={'#FFF'}
                         strokeWidth={scale * 0.01} 
-                        opacity={globalState === 'United States' || globalState === state ? 1 : 0.9}
+                        opacity={highlight ? 1 : 0.4}
                         onClick={() => {
                           if(datum){
                             if(globalState === state){
@@ -122,7 +123,7 @@ function Map(params) {
                         textAnchor="middle"
                         fontSize={scale * 0.03}
                         fill={fontColors[color]}
-                        opacity={globalState === 'United States' || globalState === state ? 1 : 0.3}
+                        opacity={highlight ? 1 : 0.4}
                         pointerEvents="none"
                       >{abbr}</text>
                     </React.Fragment>
