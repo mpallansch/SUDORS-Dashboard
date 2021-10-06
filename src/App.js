@@ -3,7 +3,7 @@ import ReactTooltip from 'react-tooltip';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import Map from './components/Map';
-import HeaderLineChart from './components/HeaderLineChart';
+import LineChart from './components/LineChart';
 import HeaderWaffleChart from './components/HeaderWaffleChart';
 import SexChart from './components/SexChart';
 import AgeChart from './components/AgeChart';
@@ -35,6 +35,7 @@ function App() {
   const causeChartRef = useRef();
   const additionalDrugChartRef = useRef();
   const circumstancesChartRef = useRef();
+  const lineChartRef = useRef();
 
   const resizeObserver = new ResizeObserver(entries => {
     const { width, height } = entries[0].contentRect;
@@ -86,17 +87,18 @@ function App() {
             <span className="enlarged">{formatDeathsNum(totalData[state])}</span> total deaths
           </span>
         </div>
-        <div className="header-section middle">
+        <div className="header-section middle" onClick={() => {lineChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
           <div id="header-line-chart-container" ref={headerLineChartRef}>
-            <HeaderLineChart 
+            <LineChart 
               width={getDimension(headerLineChartRef, 'width')}
               height={getDimension(headerLineChartRef, 'height')}
+              header={true}
               state={state}
             />
           </div>
           <span className="header-text">deaths over time</span>
         </div>
-        <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth'})}}>
+        <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
           <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
             <HeaderWaffleChart 
               width={getDimension(headerWaffleChartRef, 'width')}
@@ -108,7 +110,7 @@ function App() {
         </div>
         <span>View data for:</span>
         <select value={state} onChange={(e) => setState(e.target.value)}>
-          {Object.keys(totalData).map(state => (
+          {Object.keys(totalData).sort().map(state => (
             <option>{state}</option>
           ))}
         </select>
@@ -187,6 +189,17 @@ function App() {
                 width={getDimension(circumstancesChartRef, 'width')}
                 height={getDimension(circumstancesChartRef, 'height')}
                 state={state} />
+            </div>
+          </div>
+          <div className="subsection">
+            <span className="individual-header">By Month</span>
+            <div id="line-chart-container" ref={lineChartRef}>
+              <LineChart 
+                width={getDimension(lineChartRef, 'width')}
+                height={getDimension(lineChartRef, 'height')}
+                header={false}
+                state={state}
+              />
             </div>
           </div>
         </div>

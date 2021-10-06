@@ -534,6 +534,7 @@ fs.createReadStream(inputFilePath)
     statesFinal.forEach(state => {
       timeData[state] = [];
       Object.keys(keyCounts[state]['deathmonth_order']).forEach(month => {
+        if(!month) return;
         timeData[state].push({month, value: keyCounts[state]['deathmonth_order'][month]})
       });
     });
