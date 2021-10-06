@@ -24,15 +24,15 @@ const labelExceptions = {
   'MN': 5,
   'VT': 5
 };
-const colors = ['#67a9cf','#3690c0','#02818a','#016c59','#014636'];
+const colors = ['#ece2f0','#a6bddb','#67a9cf','#02818a','#014636'];
 const fontColors = {
+  '#ece2f0': 'black',
+  '#a6bddb': 'black',
   '#67a9cf': 'black',
-  '#3690c0': 'black',
-  '#02818a': 'black',
-  '#016c59': 'white',
+  '#02818a': 'white',
   '#014636': 'white'
 };
-const notAvailableColor = '#EEE';
+const notAvailableColor = '#B9B9B9';
 
 function Map(params) {
 
