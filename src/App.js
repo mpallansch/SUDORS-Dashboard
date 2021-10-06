@@ -110,7 +110,15 @@ function App() {
         </div>
         <span>View data for:</span>
         <select value={state} onChange={(e) => setState(e.target.value)}>
-          {Object.keys(totalData).sort().map(state => (
+          {Object.keys(totalData).sort((a, b) => {
+            if(a === 'United States'){
+              return -1;
+            } else if (b === 'United States'){
+              return 1;
+            } else {
+              return a < b ? -1 : 1;
+            }
+          }).map(state => (
             <option>{state}</option>
           ))}
         </select>
