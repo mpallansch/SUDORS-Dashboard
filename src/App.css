@@ -31,6 +31,10 @@
   }
 }
 
+.italics {
+  font-style: italic;
+}
+
 .section {
   position: relative;
   padding: 1em;
@@ -188,6 +192,10 @@ select {
   margin: 1em;
   font-size: medium;
   padding: 0.25em;
+}
+
+.bar {
+  transition: transform 1s ease-in-out;
 }
 
 .animated-bar {

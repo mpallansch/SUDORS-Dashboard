@@ -55,7 +55,8 @@ function App() {
     } // eslint-disable-next-line
   },[]);
 
-  const stateLabel = state && state !== 'United States' ? ` in ${state}` : '';
+  const stateLabel = state && state !== 'United States' ? <span> in <span className="italics">{state}</span></span> : '';
+  const stateLabelOf = state && state !== 'United States' ? <span> of <span className="italics">{state}</span></span> : '';
 
   const getDimension = (ref, dimension) => {
     if(!ref.current){
@@ -79,7 +80,7 @@ function App() {
     <div className="App" ref={outerContainerRef}>
       <div className="section">
         <div id="header">
-          <span id="preheader-label">Data Summary At a Glance</span>
+          <span id="preheader-label">Data Summary {stateLabelOf} At a Glance</span>
         </div>
         <div className="header-section">
           <span className="header-text full">

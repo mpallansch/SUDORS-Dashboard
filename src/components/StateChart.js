@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { Group } from '@visx/group';
 import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
@@ -9,13 +8,26 @@ import dataRatesRaw from '../data/age-adjusted-rates.json';
 
 import { countCutoff, rateCutoff } from '../constants.json';
 
+import abbreviations from '../geo/abbreviations.json';
+
 import '../css/StateChart.css';
+
+function sortPrioritize(state) {
+  return (a,b) => {
+    if(state !== 'United States'){
+      if(a.state === state){
+        return 1;
+      }
+      if(b.state === state){
+        return -1;
+      }
+    }
+    return (a.rate > b.rate) ? 1 : -1;
+  }
+}
 
 function StateChart(params) {
 
-  const [ sort, setSort ] = useState('Descending');
-  const [ sortClass, setSortClass ] = useState('fadein-initial');
-  
   const { width, height, state } = params;
 
   const dataRates = dataRatesRaw.filter(datum => datum.state !== 'United States');
@@ -28,49 +40,24 @@ function StateChart(params) {
     domain: [0, Math.max(...dataRates.map(d => d.rate))],
     range: [ 0, adjustedWidth ]
   });
-  
+
+  let scales = {};
+  Object.keys(abbreviations).forEach(abbrev => {
+    scales[abbreviations[abbrev]] = scaleBand({
+      range: [ adjustedHeight, 0 ],
+      domain: dataRates.sort(sortPrioritize(abbreviations[abbrev])).map(d => d.state),
+      padding: 0.2
+    });
+  });
+
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: dataRates.sort((a,b) => (a.rate > b.rate) ? 1 : -1).map(d => d.state),
+    domain: dataRates.sort(sortPrioritize()).map(d => d.state),
     padding: 0.2
   });
-  
-  const yScaleReverse = scaleBand({
-    range: [ adjustedHeight, 0 ],
-    domain: dataRates.sort((a,b) => (a.rate < b.rate) ? 1 : -1).map(d => d.state),
-    padding: 0.2
-  });
-
-  const yScaleAlphabetical = scaleBand({
-    range: [ adjustedHeight, 0 ],
-    domain: dataRates.sort((a,b) => (a.state < b.state) ? 1 : -1).map(d => d.state),
-    padding: 0.2
-  });
-
-  const sortMapping = {
-    'Descending': yScale,
-    'Ascending': yScaleReverse,
-    'Alphabetical': yScaleAlphabetical
-  };
-
-  const selectChange = (e) => {
-    setSortClass('');
-    setSort(e.target.value);
-  };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setSortClass('fadein');
-    }, 10);
-  }, [sort]);
 
   return width > 0 && (
     <>
-      <select onChange={selectChange}>
-        <option>Descending</option>
-        <option>Ascending</option>
-        <option>Alphabetical</option>
-      </select>
       <svg
         id="state-chart" 
         width={width} 
@@ -89,8 +76,7 @@ function StateChart(params) {
                 <Bar 
                   className="bar"
                   style={{
-                    'transition': 'transform 1s ease-in-out',
-                    'transform': `translate(0px, ${sort !== 'Descending' ? sortMapping[sort](d.state) - yScale(d.state) : 0}px)`
+                    'transform': `translate(0px, ${scales[state](d.state) - yScale(d.state)}px)`
                   }}
                   key={`bar-${d.state}`}
                   x={0}
@@ -118,7 +104,7 @@ function StateChart(params) {
                         className="visx-group visx-axis-tick"
                         style={{
                           'transition': 'transform 1s ease-in-out',
-                          'transform': `translate(0px, ${sort !== 'Descending' ? sortMapping[sort](tick.value) - yScale(tick.value) : 0}px)`
+                          'transform': `translate(0px, ${scales[state](tick.value) - yScale(tick.value)}px)`
                         }}>
                         <text textAnchor="end" fontSize="medium">
                           <tspan y={tick.to.y} dx="-10">{tick.value}</tspan>
