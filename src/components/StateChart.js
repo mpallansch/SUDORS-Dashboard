@@ -41,6 +41,12 @@ function StateChart(params) {
     range: [ 0, adjustedWidth ]
   });
 
+  const yScale = scaleBand({
+    range: [ adjustedHeight, 0 ],
+    domain: dataRates.sort(sortPrioritize()).map(d => d.state),
+    padding: 0.2
+  });
+
   let scales = {};
   Object.keys(abbreviations).forEach(abbrev => {
     scales[abbreviations[abbrev]] = scaleBand({
@@ -50,11 +56,7 @@ function StateChart(params) {
     });
   });
 
-  const yScale = scaleBand({
-    range: [ adjustedHeight, 0 ],
-    domain: dataRates.sort(sortPrioritize()).map(d => d.state),
-    padding: 0.2
-  });
+  scales['United States'] = yScale;
 
   return width > 0 && (
     <>
