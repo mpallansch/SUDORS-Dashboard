@@ -194,6 +194,31 @@ select {
   padding: 0.25em;
 }
 
+.drug-tab-section {
+  display: inline-block;
+  width: 33%;
+  margin-bottom: 0.5em;
+}
+
+.drug-tab {
+  border: none;
+  width: 50%;
+  border-bottom: 1px solid gray;
+  padding: 0.5em 0;
+  background: none;
+}
+
+.drug-tab:focus {
+  outline: none;
+}
+
+.drug-tab.active {
+  border-bottom: none;
+  border-left: 1px solid gray;
+  border-right: 1px solid gray;
+  border-top: 3px solid #712177;
+}
+
 .bar {
   transition: transform 1s ease-in-out;
 }
@@ -216,35 +241,38 @@ select {
   opacity: 1;
 }
 
-@media (max-width: 1200px) {
-  .column {
-    display: block;
-    width: 100%;
-  }
+.App.medium-vp .column {
+  display: block;
+  width: 100%;
+}
 
-  .column-left {
-    padding-right: 0;
-  }
+.App.medium-vp .column-left {
+  padding-right: 0;
+}
 
-  .column-right {
-    padding-left: 0;
-  }
+.App.medium-vp .column-right {
+  padding-left: 0;
+}
 
-  #header h3 {
-    margin-bottom: 1em;
-  }
+.App.medium-vp #header h3 {
+  margin-bottom: 1em;
+}
 
-  .header-section {
-    display: block;
-    width: 100%;
-  }
+.App.medium-vp .header-section {
+  display: block;
+  width: 100%;
+}
 
-  .margin-top-small-viewport {
-    margin-top: 1em;
-  }
+.App.medium-vp .margin-top-small-viewport {
+  margin-top: 1em;
+}
 
-  .header-section.middle {
-    margin-left: 0;
-    margin-right: 0;
-  }
+.App.medium-vp .header-section.middle {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.App.medium-vp .drug-tab-section {
+  display: block;
+  width: 100%;
 }

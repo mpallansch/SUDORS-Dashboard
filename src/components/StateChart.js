@@ -4,7 +4,7 @@ import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
 import data from '../data/state.json';
-import dataRatesRaw from '../data/age-adjusted-rates.json';
+import dataRatesRaw from '../data/age-adjusted-drug-rates.json';
 
 import { countCutoff, rateCutoff } from '../constants.json';
 
@@ -12,38 +12,39 @@ import abbreviations from '../geo/abbreviations.json';
 
 import '../css/StateChart.css';
 
-function sortPrioritize(state) {
-  return (a,b) => {
-    if(state !== 'United States'){
-      if(a.state === state){
-        return 1;
-      }
-      if(b.state === state){
-        return -1;
-      }
-    }
-    return (a.rate > b.rate) ? 1 : -1;
-  }
-}
-
 function StateChart(params) {
 
-  const { width, height, state } = params;
+  const { width, height, state, drug } = params;
 
-  const dataRates = dataRatesRaw.filter(datum => datum.state !== 'United States');
+  const dataRates = dataRatesRaw[drug];
+  const dataKeys = Object.keys(dataRates).filter(name => name !== 'United States' &&  name !== 'max' && name !== 'min');
 
   const margin = {top: 10, bottom: 10, left: 130, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom - 60;
   const adjustedWidth = width - margin.left - margin.right;
 
+  const sortPrioritize = (stateName) => {
+    return (a,b) => {
+      if(state !== 'United States'){
+        if(a === stateName){
+          return 1;
+        }
+        if(b === stateName){
+          return -1;
+        }
+      }
+      return (dataRates[a].rate > dataRates[b].rate) ? 1 : -1;
+    }
+  }
+
   const xScale = scaleLinear({
-    domain: [0, Math.max(...dataRates.map(d => d.rate))],
+    domain: [0, Math.max(...dataKeys.map(d => dataRates[d].rate))],
     range: [ 0, adjustedWidth ]
   });
 
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: dataRates.sort(sortPrioritize()).map(d => d.state),
+    domain: dataKeys.sort(sortPrioritize()),
     padding: 0.2
   });
 
@@ -51,7 +52,7 @@ function StateChart(params) {
   Object.keys(abbreviations).forEach(abbrev => {
     scales[abbreviations[abbrev]] = scaleBand({
       range: [ adjustedHeight, 0 ],
-      domain: dataRates.sort(sortPrioritize(abbreviations[abbrev])).map(d => d.state),
+      domain: dataKeys.sort(sortPrioritize(abbreviations[abbrev])),
       padding: 0.2
     });
   });
@@ -65,10 +66,14 @@ function StateChart(params) {
         width={width} 
         height={height}>
           <Group top={margin.top} left={margin.left}>
-            {dataRates.map(d => {
+            {dataKeys.map(d => {
+              const name = d;
+              const rate = dataRates[name].rate;
+              d = dataRates[d];
+
               let datum;
               for(let i = 0; i < data.length; i++){
-                if(data[i].state === d.state){
+                if(data[i].state === name){
                   datum = data[i];
                   break;
                 }
@@ -78,17 +83,17 @@ function StateChart(params) {
                 <Bar 
                   className="bar"
                   style={{
-                    'transform': `translate(0px, ${scales[state](d.state) - yScale(d.state)}px)`
+                    'transform': `translate(0px, ${scales[state](name) - yScale(name)}px)`
                   }}
-                  key={`bar-${d.state}`}
+                  key={`bar-${name}`}
                   x={0}
-                  y={yScale(d.state)}
-                  width={xScale(d.rate)}
+                  y={yScale(name)}
+                  width={xScale(rate)}
                   height={yScale.bandwidth()}
                   fill="rgb(198, 209, 230)"
-                  stroke={d.state === state ? 'rgb(58, 88, 161)' : 'none'}
+                  stroke={name === state ? 'rgb(58, 88, 161)' : 'none'}
                   strokeWidth="3"
-                  data-tip={`<strong>${d.state}</strong><br/>
+                  data-tip={`<strong>${name}</strong><br/>
                   Deaths: ${datum.value < countCutoff ? `< ${countCutoff}` : datum.value}<br/>
                   Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
                 />
@@ -96,7 +101,7 @@ function StateChart(params) {
             )}
             <AxisLeft 
               scale={yScale}
-              tickValues={dataRates.map(d => d.state)}
+              tickValues={dataKeys}
             >
               {axisLeft => (
                 <g className="visx-group visx-axis visx-axis-left">

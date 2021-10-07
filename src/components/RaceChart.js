@@ -44,7 +44,7 @@ function RaceChart(params) {
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
-    setTimeout(onScroll, 50);
+    setTimeout(onScroll, 50); // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ function RaceChart(params) {
       setTimeout(() => {
         setAnimated(true);
       }, 50);
-    }
+    } // eslint-disable-next-line
   }, [state]);
 
   return width > 0 && (
@@ -73,7 +73,7 @@ function RaceChart(params) {
               }
 
               return (
-                <>
+                <Group key={`bar-container-${d.race}`}>
                   <Bar 
                     className={`animated-bar ${animated ? 'animated' : ''}`}
                     style={{
@@ -90,12 +90,13 @@ function RaceChart(params) {
                     Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
                   />
                   <text
+                    key={`bar-label-${d.race}`}
                     x={xScale(d.rate)}
                     y={yScale(d.race) + (yScale.bandwidth() / 2)}
                     textAnchor={xScale(d.rate) > adjustedWidth - 50 ? 'end' : 'start'}
                     dx={xScale(d.rate) > adjustedWidth - 50 ? -10 : 10}
                   >{d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}</text>
-                </>
+                </Group>
               )}
             )}
             <AxisLeft 
@@ -107,7 +108,7 @@ function RaceChart(params) {
                       <g 
                         key={`tick-${tick.value}`}
                         className="visx-group visx-axis-tick">
-                        <text textAnchor="end" fontSize="medium">
+                        <text key={`tick-label-${tick.value}`} textAnchor="end" fontSize="medium">
                           <tspan y={tick.to.y} dx="-10">{tick.value}</tspan>
                         </text>
                       </g>

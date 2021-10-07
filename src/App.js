@@ -20,10 +20,12 @@ import './App.css';
 
 function App() {
 
-  const viewportCutoff = 550;
+  const viewportCutoffSmall = 550;
+  const viewportCutoffMedium = 800;
 
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
   const [ state, setState ] = useState('United States');
+  const [ drug, setDrug ] = useState('All');
   const [ view, setView ] = useState('map');
   const mapRef = useRef();
   const headerLineChartRef = useRef();
@@ -76,8 +78,16 @@ function App() {
     }
   };
 
+  const drugTab = (drugName, drugLabel) => (
+    <button 
+      className={`drug-tab${drugName === drug ? ' active' : ''}`}
+      onClick={() => {setDrug(drugName)}}
+    >{drugLabel || drugName}</button> 
+  );
+
   return (
-    <div className="App" ref={outerContainerRef}>
+    <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}`} 
+      ref={outerContainerRef}>
       <div className="section">
         <div id="header">
           <span id="preheader-label">Data Summary {stateLabelOf} At a Glance</span>
@@ -120,28 +130,44 @@ function App() {
               return a < b ? -1 : 1;
             }
           }).map(state => (
-            <option>{state}</option>
+            <option key={`dropdown-option-${state}`}>{state}</option>
           ))}
         </select>
         <span className="subheader">How many people died of a drug overdose{stateLabel}?</span>
-        {dimensions.width > viewportCutoff && (<div className="compare-buttons">
+        <div>
+          <div className="drug-tab-section">
+            {drugTab('All', 'All Substances')}
+            {drugTab('Heroin')}
+          </div>
+          <div className="drug-tab-section">
+            {drugTab('IMFs')}
+            {drugTab('Cocaine')}
+          </div>
+          <div className="drug-tab-section">
+            {drugTab('Rx Opioids')}
+            {drugTab('Meth')}
+          </div>
+        </div>
+        {dimensions.width > viewportCutoffSmall && (<div className="compare-buttons">
           <button className={`${view === 'map' && 'active'}`} onClick={() => setView('map')}>Map View</button> | 
           <button className={`${view === 'chart' && 'active'}`} onClick={() => setView('chart')}>Chart View</button>
         </div>)}
-        {dimensions.width > viewportCutoff && view === 'map' ? (
+        {dimensions.width > viewportCutoffSmall && view === 'map' ? (
           <div id="map-container" ref={mapRef}>
             <Map 
               width={getDimension(mapRef, 'width')} 
               height={getDimension(mapRef, 'height')}
               setState={setState}
-              state={state} />
+              state={state}
+              drug={drug} />
           </div>
         ) : (
           <div id="state-chart-container" ref={stateChartRef}>
             <StateChart
               width={getDimension(stateChartRef, 'width')}
               height={getDimension(stateChartRef, 'height')}
-              state={state} />
+              state={state}
+              drug={drug} />
           </div>
         )}
       </div>

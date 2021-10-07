@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Group } from '@visx/group';
 import { CustomProjection } from '@visx/geo';
 import { scaleQuantize } from '@visx/scale';
@@ -36,9 +36,7 @@ const notAvailableColor = '#B9B9B9';
 
 function Map(params) {
 
-  const [ drug, setDrug ] = useState('All');
-
-  const { width, setState, state: globalState } = params;
+  const { width, setState, drug, state: globalState } = params;
   const height = Math.min(width * 0.75, 450);
   const margin = {top: 10, bottom: 20, left: 10, right: 10};
   const adjustedWidth = width - margin.left - margin.right;
@@ -61,14 +59,6 @@ function Map(params) {
 
   return width > 0 && (
     <>
-      <select onChange={(e) => {setDrug(e.target.value)}}>
-        <option value="All">All Substances</option>
-        <option>Heroin</option>
-        <option>IMFs</option>
-        <option>Cocaine</option>
-        <option>Rx Opioids</option>
-        <option>Meth</option>
-      </select>
       <div className="inline-map-container">
         <svg 
           width={adjustedWidth}
@@ -136,7 +126,7 @@ function Map(params) {
               const x = adjustedWidth + (i * legendSize) - legendWidth - 50;
 
               return (
-                <>
+                <Group key={`color-indicator-container-${drug}-${i}`}>
                   <rect 
                     key={`color-indicator-${drug}-${i}`} 
                     x={x} 
@@ -152,7 +142,7 @@ function Map(params) {
                     textAnchor="middle"
                     fontSize={scale * 0.03}
                   >{scaleIncrement * i + rateData[drug].min}</text>
-                </>
+                </Group>
               )}
             )}
             <text 

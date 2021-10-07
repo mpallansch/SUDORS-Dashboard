@@ -53,7 +53,7 @@ function AgeChart(params) {
 
   useEffect(() => {
     window.addEventListener('scroll', onScroll);
-    setTimeout(onScroll, 50);
+    setTimeout(onScroll, 50); // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ function AgeChart(params) {
       setTimeout(() => {
         setAnimated(true);
       }, 50);
-    }
+    } // eslint-disable-next-line
   }, [state]);
 
   return width > 0 && (

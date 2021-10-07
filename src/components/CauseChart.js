@@ -15,7 +15,7 @@ function CauseChart(params) {
 
   const { width, height, state } = params;
   const data = raw[state];
-  const margin = {top: 20, bottom: 30, left: 70, right: 20};
+  const margin = {top: 20, bottom: width < viewportCutoff ? 80 : 30, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 

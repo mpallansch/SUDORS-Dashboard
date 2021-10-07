@@ -42,7 +42,6 @@ function SexChart(params) {
           outerRadius={pieRadius}
           innerRadius={pieRadius * .5}
           color={d => d > 50 ? 'red' : 'blue'}
-          color
         >
           {(pie) => (
             <Group top={halfHeight} left={halfWidth}>

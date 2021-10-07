@@ -15,7 +15,7 @@ function AdditionalDrugChart(params) {
 
   const { width, height, state } = params;
   const data = raw[state];
-  const margin = {top: 10, left: 50, right: 20, bottom: 30};
+  const margin = {top: 10, left: 50, right: 20, bottom: width < viewportCutoff ? 80 : 30};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 

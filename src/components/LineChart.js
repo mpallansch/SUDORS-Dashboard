@@ -79,6 +79,7 @@ function LineChart(params) {
             <>
               {data.map((d, i) => (
                 <rect 
+                  key={`click-area-${d.month}`}
                   x={i * (incrementWidth)} 
                   y={0} 
                   width={incrementWidth} 
