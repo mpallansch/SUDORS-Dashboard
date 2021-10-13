@@ -91,7 +91,17 @@
 .subsection {
   margin-top: 1em;
   padding: 1em;
-  border: 1px solid lightgray;
+  position: relative;
+}
+
+.subsection.marked::before {
+  content: '';
+  position: absolute;
+  top: 30;
+  left: 0;
+  width: 7px;
+  height: 70px;
+  background-color: #712177;
 }
 
 .chart-legend {
@@ -164,10 +174,19 @@
 
 .compare-buttons {
   margin-top: 1em;
+  text-align: center;
 }
 
-.compare-buttons button {
-  background: transparent;
+.compare-buttons input {
+  margin: 0.25em;
+}
+
+.compare-buttons input:first-child {
+  margin-left: 1em;
+}
+
+.compare-buttons label:nth-child(2) {
+  margin-right: 1em;
 }
 
 .enlarged {

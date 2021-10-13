@@ -4,7 +4,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 
 import Map from './components/Map';
 import LineChart from './components/LineChart';
-import HeaderWaffleChart from './components/HeaderWaffleChart';
+import WaffleChart from './components/WaffleChart';
 import SexChart from './components/SexChart';
 import AgeChart from './components/AgeChart';
 import RaceChart from './components/RaceChart';
@@ -38,6 +38,7 @@ function App() {
   const additionalDrugChartRef = useRef();
   const circumstancesChartRef = useRef();
   const lineChartRef = useRef();
+  const waffleChartRef = useRef();
 
   const resizeObserver = new ResizeObserver(entries => {
     const { width, height } = entries[0].contentRect;
@@ -89,6 +90,20 @@ function App() {
     <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}`} 
       ref={outerContainerRef}>
       <div className="section">
+        <span>View data for:</span>
+        <select value={state} onChange={(e) => setState(e.target.value)}>
+          {Object.keys(totalData).sort((a, b) => {
+            if(a === 'United States'){
+              return -1;
+            } else if (b === 'United States'){
+              return 1;
+            } else {
+              return a < b ? -1 : 1;
+            }
+          }).map(state => (
+            <option key={`dropdown-option-${state}`}>{state}</option>
+          ))}
+        </select>
         <div id="header">
           <span id="preheader-label">Data Summary {stateLabelOf} At a Glance</span>
         </div>
@@ -111,29 +126,23 @@ function App() {
         </div>
         <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
           <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
-            <HeaderWaffleChart 
+            <WaffleChart 
               width={getDimension(headerWaffleChartRef, 'width')}
               height={getDimension(headerWaffleChartRef, 'height')}
+              header={true}
               state={state}
             />
           </div>
           <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
         </div>
-        <span>View data for:</span>
-        <select value={state} onChange={(e) => setState(e.target.value)}>
-          {Object.keys(totalData).sort((a, b) => {
-            if(a === 'United States'){
-              return -1;
-            } else if (b === 'United States'){
-              return 1;
-            } else {
-              return a < b ? -1 : 1;
-            }
-          }).map(state => (
-            <option key={`dropdown-option-${state}`}>{state}</option>
-          ))}
-        </select>
         <span className="subheader">How many people died of a drug overdose{stateLabel}?</span>
+        {dimensions.width > viewportCutoffSmall && (<div className="compare-buttons">
+          Select view type: 
+          <input type="radio" name="view-radio" id="map-view-button" checked={view === 'map'} onChange={() => {setView('map')}} />
+          <label for="map-view-button">Map</label>
+          <input type="radio" name="view-radio" id="chart-view-button" checked={view === 'chart'} onChange={() => {setView('chart')}} />
+          <label for="chart-view-button">Chart</label>
+        </div>)}
         <div>
           <div className="drug-tab-section">
             {drugTab('All', 'All Substances')}
@@ -148,10 +157,6 @@ function App() {
             {drugTab('Meth')}
           </div>
         </div>
-        {dimensions.width > viewportCutoffSmall && (<div className="compare-buttons">
-          <button className={`${view === 'map' && 'active'}`} onClick={() => setView('map')}>Map View</button> | 
-          <button className={`${view === 'chart' && 'active'}`} onClick={() => setView('chart')}>Chart View</button>
-        </div>)}
         {dimensions.width > viewportCutoffSmall && view === 'map' ? (
           <div id="map-container" ref={mapRef}>
             <Map 
@@ -171,10 +176,11 @@ function App() {
           </div>
         )}
       </div>
+
       <div className="section">
         <span className="subheader">Who died of a drug overdose{stateLabel}?</span>
         <div className="column column-left">
-          <div className="subsection">
+          <div className="subsection marked">
             <span className="individual-header smaller">By Sex</span>
             <div id="sex-chart-container" ref={sexChartRef}>
               <SexChart 
@@ -188,7 +194,20 @@ function App() {
               <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>Female</span>
             </div>
           </div>
-          <div className="subsection">
+          <div className="subsection marked">
+            <span className="individual-header">By Month</span>
+            <div id="line-chart-container" ref={lineChartRef}>
+              <LineChart 
+                width={getDimension(lineChartRef, 'width')}
+                height={getDimension(lineChartRef, 'height')}
+                header={false}
+                state={state}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="column column-right">
+          <div className="subsection marked">
             <span className="individual-header margin-top-small-viewport">By Age</span>
             <div id="age-chart-container" ref={ageChartRef}>
               <AgeChart 
@@ -203,7 +222,7 @@ function App() {
               <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>Female</span>
             </div>
           </div>
-          <div className="subsection">
+          <div className="subsection marked">
             <span className="individual-header margin-top">By Race/Ethnicity</span>
             <div id="race-chart-container" ref={raceChartRef}>
                 <RaceChart 
@@ -214,28 +233,6 @@ function App() {
                 />
             </div>
             Age-adjusted rate of deaths per 100,000
-          </div>
-        </div>
-        <div className="column column-right">
-          <div className="subsection">
-            <span className="individual-header">Oppotunities for Intervention</span>
-            <div id="circumstances-chart-container" ref={circumstancesChartRef}>
-              <CircumstancesChart
-                width={getDimension(circumstancesChartRef, 'width')}
-                height={getDimension(circumstancesChartRef, 'height')}
-                state={state} />
-            </div>
-          </div>
-          <div className="subsection">
-            <span className="individual-header">By Month</span>
-            <div id="line-chart-container" ref={lineChartRef}>
-              <LineChart 
-                width={getDimension(lineChartRef, 'width')}
-                height={getDimension(lineChartRef, 'height')}
-                header={false}
-                state={state}
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -272,6 +269,34 @@ function App() {
           </div>
         </div>
       </div>
+
+      <div className="section">
+        <span className="subheader">What are the opportunities for for intervention{stateLabel}?</span>
+        <div className="column column-left">
+          <div className="subsection">
+            <div id="waffle-chart-container" ref={waffleChartRef}>
+              <WaffleChart 
+                width={getDimension(waffleChartRef, 'width')}
+                height={getDimension(waffleChartRef, 'height')}
+                header={false}
+                state={state}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="column column-right">
+          <div className="subsection">
+            <span className="individual-header">Oppotunities for Intervention</span>
+            <div id="circumstances-chart-container" ref={circumstancesChartRef}>
+              <CircumstancesChart
+                width={getDimension(circumstancesChartRef, 'width')}
+                height={getDimension(circumstancesChartRef, 'height')}
+                state={state} />
+            </div>
+          </div> 
+        </div> 
+      </div>
+
       <ReactTooltip html={true} type="light" arrowColor="rgba(0,0,0,0)" className="tooltip"/>
     </div>
   );
