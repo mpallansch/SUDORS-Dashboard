@@ -57,7 +57,8 @@ const keys = [
   'evertrt',
   'priorod',
   'recentrelapse',
-  'witnesseddruguse'
+  'witnesseddruguse',
+  'home_dec'
 ];
 const drugTypeMapping = {
   'meth_r_cod': 'meth_r',
@@ -358,6 +359,7 @@ fs.createReadStream(inputFilePath)
     let circumstancesData = {};
     statesFinal.forEach(state => {
       circumstancesData[state] = {
+        home: percent(keyCounts[state]['home_dec']['1'], totalDeaths[state]),
         other: [
           { 
             circumstance: 'Past substance abuse/misuse', 

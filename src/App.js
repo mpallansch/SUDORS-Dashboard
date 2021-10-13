@@ -139,9 +139,9 @@ function App() {
         {dimensions.width > viewportCutoffSmall && (<div className="compare-buttons">
           Select view type: 
           <input type="radio" name="view-radio" id="map-view-button" checked={view === 'map'} onChange={() => {setView('map')}} />
-          <label for="map-view-button">Map</label>
+          <label htmlFor="map-view-button">Map</label>
           <input type="radio" name="view-radio" id="chart-view-button" checked={view === 'chart'} onChange={() => {setView('chart')}} />
-          <label for="chart-view-button">Chart</label>
+          <label htmlFor="chart-view-button">Chart</label>
         </div>)}
         <div>
           <div className="drug-tab-section">
