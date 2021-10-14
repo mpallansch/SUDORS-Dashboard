@@ -58,8 +58,8 @@ function App() {
     } // eslint-disable-next-line
   },[]);
 
-  const stateLabel = state && state !== 'United States' ? <span> in <span className="italics">{state}</span></span> : '';
-  const stateLabelOf = state && state !== 'United States' ? <span> of <span className="italics">{state}</span></span> : '';
+  const stateLabel = <span> in {state === 'United States' ? 'the ' : ''}<span className="italics">{state}</span></span>;
+  const stateLabelOf = <span> of {state === 'United States' ? 'the ' : ''}<span className="italics">{state}</span></span>;
 
   const getDimension = (ref, dimension) => {
     if(!ref.current){
@@ -178,7 +178,7 @@ function App() {
       </div>
 
       <div className="section">
-        <span className="subheader">Who died of a drug overdose{stateLabel}?</span>
+        <span className="subheader">Drug overdose deaths{stateLabel}?</span>
         <div className="column column-left">
           <div className="subsection marked">
             <span className="individual-header smaller">By Sex</span>
@@ -240,10 +240,6 @@ function App() {
       <div className="section">
         <span className="subheader">What drugs were identified{stateLabel}?</span>
         <div className="subsection">
-          <div className="chart-legend">
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>% with drug present</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)" /></svg>% with drug listed as cause of death</span>
-          </div>
           <div id="cause-chart-container" ref={causeChartRef}>
             <CauseChart 
                 width={getDimension(causeChartRef, 'width')}
@@ -251,6 +247,7 @@ function App() {
               state={state} />
           </div>
         </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         <span className="subheader margin-top">Additional drug classes detected</span>
         <div className="subsection">
           <div id="additional-drug-chart-container" ref={additionalDrugChartRef}>
@@ -283,10 +280,11 @@ function App() {
               />
             </div>
           </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
         <div className="column column-right">
           <div className="subsection">
-            <span className="individual-header">Oppotunities for Intervention</span>
+            <span className="individual-header">Opportunities for Intervention</span>
             <div id="circumstances-chart-container" ref={circumstancesChartRef}>
               <CircumstancesChart
                 width={getDimension(circumstancesChartRef, 'width')}

@@ -3,7 +3,6 @@ import { Circle } from '@visx/shape';
 import { Text } from '@visx/text';
 
 import raw from '../data/interventions.json';
-import rawCircumstances from '../data/circumstances.json';
 
 import '../css/WaffleChart.css';
 
@@ -13,7 +12,9 @@ function WaffleChart(params) {
 
   const data = raw[state];
 
-  const inHome = rawCircumstances[state].home;
+  const numDots = header ? 4 : 10;
+  const rowValue = 100 / numDots;
+  const colValue = 100 / Math.pow(numDots, 2);
 
   let margin = {top: header ? (height - width > 0 ? (height - width) / 2 : 0) : 0, bottom: 0, left: 0, right: 0, dot: 3};
   const adjustedWidth = (width - margin.left - margin.right) / (header ? 1 : 2);
@@ -21,12 +22,16 @@ function WaffleChart(params) {
   if(header && width > adjustedHeight){
     margin.left = (width - adjustedWidth) / 2;
   }
-  const dotWidth = (adjustedWidth - (margin.dot * (header ? 5 : 11))) / (header ? 4 : 10);
+  const dotWidth = (adjustedWidth - (margin.dot * (numDots + 1))) / numDots;
   const dotRadius = dotWidth / 2;
-  const arrayList = header ? [1,2,3,4] : [1,2,3,4,5,6,7,8,9,10];
-
-  const rowCutoff = header ? Math.ceil(4 - (data / 25)) : Math.ceil(10 - (inHome / 10));
-  const colCutoff = header ?  4 - Math.ceil((data % 25) / 6.25) : 10 - Math.ceil((inHome % 10) / 10);
+  let rowList = [];
+  let colList = [];
+  for(let i = numDots - 1; i >= 0; i--){
+    rowList.push(i);
+  }
+  for(let i = 1; i <= numDots; i++){
+    colList.push(i);
+  }
 
   return width > 0 && (
     <>
@@ -35,21 +40,22 @@ function WaffleChart(params) {
         width={width} 
         height={header ? height : adjustedHeight}>
         <Group top={margin.top} left={margin.left}>
-          {arrayList.map(rowIndex => {
-            return arrayList.map(colIndex => {
-              const active = rowIndex > rowCutoff || (rowIndex === rowCutoff && colIndex >= colCutoff);
-              const fill = active ? (header ? '#712177' : 'rgb(58, 88, 161)') : 'white';
-              const stroke = !active ? (header ? '#b890bb' : 'rgb(198, 209, 230)') : 'none';
+          {rowList.map(rowIndex => {
+            return colList.map(colIndex => {
+              const value = (rowIndex * rowValue) + (colIndex * colValue);
+              const active = value > data;
+              const fill = active ? 'white' : (header ? '#712177' : 'rgb(58, 88, 161)');
+              const stroke = !active ? 'none' : (header ? '#b890bb' : 'rgb(198, 209, 230)');
 
               return (
                 <Circle 
                   key={`waffle-point-${rowIndex}-${colIndex}`}
                   r={dotRadius}
-                  cx={colIndex * (dotWidth + margin.dot) - dotRadius}
-                  cy={rowIndex * (dotWidth + margin.dot) - dotRadius}
+                  cx={adjustedWidth - (colIndex * (dotWidth + margin.dot) - dotRadius)}
+                  cy={adjustedHeight - ((rowIndex + 1) * (dotWidth + margin.dot) - dotRadius) - margin.top}
                   fill={fill}
                   stroke={stroke}
-                  strokeWidth={!active ? 2 : 0}
+                  strokeWidth={active ? 2 : 0}
                 />
               );
             })
@@ -62,15 +68,14 @@ function WaffleChart(params) {
               y={adjustedWidth / 2 - 20}
               fontSize={adjustedWidth / 3}
               fill="rgb(58, 88, 161)"
-              textAnchor="middle">{Math.round(inHome)}%</Text>
+              textAnchor="middle">{Math.round(data) + '%'}</Text>
             <Text 
-              x={(adjustedWidth * 1.5) + margin.left} 
-              y={adjustedWidth * .7}
+              x={adjustedWidth + margin.left + 20} 
+              y={adjustedWidth * .8}
               width={adjustedWidth / 1.5}
               fontSize={adjustedWidth / 12}
               fontWeight="bold"
-              fill="rgb(158, 169, 190)"
-              textAnchor="middle">of cases occured at home/apartment</Text>
+              fill="rgb(158, 169, 190)">had opportunities for intervention</Text>
           </>
         )}
       </svg>

@@ -37,7 +37,7 @@ function CauseChart(params) {
           <Group top={margin.top} left={margin.left}>
             <AxisLeft
               scale={yScale}
-              numTicks={10}
+              tickValues={[0, 25, 50, 75, 100]}
               tickFormat={num => num + '%'}
               tickLabelProps={() => ({
                 fontSize: 'medium',
@@ -51,27 +51,18 @@ function CauseChart(params) {
             />
             {data.map(d => (
                 <Group key={`group-${d.opioid}`}>
-                  <Bar 
-                    key={`present-bar-${d.opioid}`}
+                  <Bar
+                    key={`cause-bar-${d.opioid}`}
                     x={xScale(d.opioid)}
-                    y={yScale(d.present)}
+                    y={yScale(d.cause)}
                     width={xScale.bandwidth()}
-                    height={adjustedHeight - yScale(d.present)}
-                    fill="rgb(198, 209, 230)"
+                    height={adjustedHeight - yScale(d.cause)}
+                    fill="rgb(58, 88, 161)"
                     data-tip={`<strong>${d.opioid}</strong><br/>
                     Percent Present: ${d.present}%<br/>
                     Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
                     Percent Cause: ${d.cause}%<br/>
                     Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
-                  />
-                  <Bar
-                    key={`cause-bar-${d.opioid}`}
-                    x={xScale(d.opioid) + (xScale.bandwidth() * .2)}
-                    y={yScale(d.cause)}
-                    width={xScale.bandwidth() * .6}
-                    height={adjustedHeight - yScale(d.cause)}
-                    fill="rgb(58, 88, 161)"
-                    pointerEvents="none"
                   />
                 </Group>
               )
