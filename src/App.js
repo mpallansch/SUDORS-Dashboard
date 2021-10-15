@@ -178,7 +178,7 @@ function App() {
       </div>
 
       <div className="section">
-        <span className="subheader">Drug overdose deaths{stateLabel}?</span>
+        <span className="subheader">Drug overdose deaths{stateLabel}</span>
         <div className="column column-left">
           <div className="subsection marked">
             <span className="individual-header smaller">By Sex</span>
