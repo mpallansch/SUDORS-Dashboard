@@ -135,7 +135,7 @@ function App() {
           </div>
           <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
         </div>
-        <span className="subheader">How many people died of a drug overdose{stateLabel}?</span>
+        <span className="subheader">Number and rate of deaths by state and drug or drug type{stateLabel}?</span>
         {dimensions.width > viewportCutoffSmall && (<div className="compare-buttons">
           Select view type: 
           <input type="radio" name="view-radio" id="map-view-button" checked={view === 'map'} onChange={() => {setView('map')}} />

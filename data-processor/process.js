@@ -362,7 +362,7 @@ fs.createReadStream(inputFilePath)
         home: percent(keyCounts[state]['home_dec']['1'], totalDeaths[state]),
         other: [
           { 
-            circumstance: 'Past substance abuse/misuse', 
+            circumstance: 'Past substance use/misuse', 
             percent: percent(keyCounts[state]['SubstanceAbuseOther_c']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['SubstanceAbuseOther_c']['1'], 'count') },
           { 
@@ -374,11 +374,11 @@ fs.createReadStream(inputFilePath)
             percent: percent(keyCounts[state]['MentalHealthProblem_c']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['MentalHealthProblem_c']['1'], 'count') },
           { 
-            circumstance: 'Naloxone Administered', 
+            circumstance: 'Naloxone administered', 
             percent: percent(keyCounts[state]['NaloxoneAdministered']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['NaloxoneAdministered']['1'], 'count') },
           { 
-            circumstance: 'Treated for substance abuse', 
+            circumstance: 'Treated for substance use disorder', 
             percent: percent(keyCounts[state]['evertrt']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['evertrt']['1'], 'count') },
           { 
@@ -398,7 +398,7 @@ fs.createReadStream(inputFilePath)
             percent: percent( keyCounts[state]['priorod']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['priorod']['1'], 'count') },
           { 
-            circumstance: 'Recent opioid use relapse', 
+            circumstance: 'Recent return to use of opioids', 
             percent: percent(keyCounts[state]['recentrelapse']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['recentrelapse']['1'], 'count') },
           { 
