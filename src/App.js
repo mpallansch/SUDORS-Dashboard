@@ -208,7 +208,7 @@ function App() {
         </div>
         <div className="column column-right">
           <div className="subsection marked">
-            <span className="individual-header margin-top-small-viewport">By Age</span>
+            <span className="individual-header margin-top-small-viewport">By Age and Sex</span>
             <div id="age-chart-container" ref={ageChartRef}>
               <AgeChart 
                 width={getDimension(ageChartRef, 'width')}

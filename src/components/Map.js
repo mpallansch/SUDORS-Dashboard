@@ -37,7 +37,7 @@ const notAvailableColor = '#B9B9B9';
 function Map(params) {
 
   const { width, setState, drug, state: globalState } = params;
-  const height = Math.min(width * 0.75, 450);
+  const height = Math.min(width * 0.75, 580);
   const margin = {top: 10, bottom: 20, left: 10, right: 10};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
