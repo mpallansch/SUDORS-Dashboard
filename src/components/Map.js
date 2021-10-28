@@ -82,7 +82,8 @@ function Map(params) {
                   const countDatum = countData[drug][state];
                   const color = datum ? colorScale(datum.rate) : notAvailableColor;
                   const center = path.replace(/M/g, '').split('L')[labelExceptions[abbr] || 0].split(',');
-                  const highlight = color === notAvailableColor || globalState === 'United States' || globalState === state;
+                  const highlight = globalState === 'United States' || globalState === state;
+                  const classes = `${color === notAvailableColor ? 'no-data' : 'data-available'} ${highlight ? 'selected' : 'faded'}`
 
                   return (
                     <React.Fragment key={`map-feature-${i}`}>
@@ -93,7 +94,7 @@ function Map(params) {
                         fill={color}
                         stroke={'#FFF'}
                         strokeWidth={scale * 0.01} 
-                        opacity={highlight ? 1 : 0.4}
+                        className={ classes } 
                         onClick={() => {
                           if(datum){
                             if(globalState === state){

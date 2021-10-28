@@ -247,6 +247,15 @@ select {
   transition: transform 1s ease-in-out;
 }
 
+#month-chart > svg > g {
+  overflow:hidden;
+}
+
+#month-chart .visx-axis-bottom {
+  background-color: #fff;
+  z-index: 999;
+}
+
 .animated-bar {
   transform: scale(0, 1);
 }
@@ -299,4 +308,34 @@ select {
 .App.medium-vp .drug-tab-section {
   display: block;
   width: 100%;
+}
+
+.animated-pie text {
+  transform:translateX(0);
+}
+
+.tooltip,
+.animated-pie path,
+.animated-pie text {
+  transition: all .3s ease-in-out;
+}
+
+#map-container path {
+  transition: all .3s ease-in-out;
+}
+
+#map-container path.hex-tile {
+  opacity: .9;
+}
+
+#map-container path.faded {
+  opacity: .4;
+}
+
+#map-container path.data-available {
+  cursor: pointer;
+}
+
+#map-container path.data-available:hover {
+  opacity: 1;
 }
