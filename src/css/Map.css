@@ -1,3 +1,7 @@
+#map-container {
+    height: 500px;
+}
+
 #map-container .block-shadow {
     padding: 0 0 10px 0;
 }
@@ -18,8 +22,4 @@
 
 .compare-buttons button.active {
     text-decoration: underline;
-}
-
-#map-container text {
-    user-select: none;
 }

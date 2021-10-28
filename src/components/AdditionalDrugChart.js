@@ -15,7 +15,7 @@ function AdditionalDrugChart(params) {
 
   const { width, height, state } = params;
   const data = raw[state];
-  const margin = {top: 10, left: 50, right: 20, bottom: width < viewportCutoff ? 80 : 30};
+  const margin = {top: 10, left: 50, right: 20, bottom: 70};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
@@ -34,7 +34,7 @@ function AdditionalDrugChart(params) {
 
   const colorScale = scaleOrdinal({
     domain: groups.sort(),
-    range: ['#00695c','#fbab18', '#bb4d00', '#4b830d', '#007c91'],
+    range: ['rgb(113, 129, 167)','rgb(150, 160, 185)', 'rgb(108, 56, 111)', 'rgb(76, 140, 126)', 'rgb(132, 178, 170)'],
   });
 
   return width > 0 && (
