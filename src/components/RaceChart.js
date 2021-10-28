@@ -7,7 +7,7 @@ import { AxisLeft } from '@visx/axis';
 import raw from '../data/race.json';
 import rawRates from '../data/age-adjusted-race-rates.json';
 
-import { rateCutoff, countCutoff } from '../constants.json';
+import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
 
 import '../css/RaceChart.css';
 
@@ -82,21 +82,21 @@ function RaceChart(params) {
                     key={`bar-${d.race}`}
                     x={0}
                     y={yScale(d.race)}
-                    width={xScale(d.rate) - 25}
+                    width={Math.max(xScale(d.rate) - 25, 10)}
                     height={yScale.bandwidth()}
                     fill={colorScale.Secondary}
                     data-tip={`<strong>${d.race}</strong><br/>
                     Deaths: ${datum.deaths <= countCutoff ? `< ${countCutoff}` : datum.deaths}<br/>
-                    Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
+                    Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate}`}
                   />
                   <text
                     key={`bar-label-${d.race}`}
-                    x={xScale(d.rate)}
+                    x={Math.max(xScale(d.rate), 35)}
                     y={yScale(d.race) + (yScale.bandwidth() / 1.65)}
                     
                     textAnchor={'start'}
-                    dx={-15}
-                  >{d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}</text>
+                    dx={-18}
+                  >{d.rate <= rateCutoff ? rateCutoffLabel : d.rate}</text>
                 </Group>
               )}
             )}

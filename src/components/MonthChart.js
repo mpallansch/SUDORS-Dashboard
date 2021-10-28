@@ -6,7 +6,7 @@ import { scaleBand, scaleLinear } from '@visx/scale';
 
 import raw from '../data/time.json';
 
-import '../css/CauseChart.css';
+import '../css/MonthChart.css';
 
 const monthMapping = {
   '37': 'Jan',
@@ -97,9 +97,9 @@ function MonthChart(params) {
             )}
             
             {data.map(d => (
-                <Group key={`group-${d.opioid}`} className="animate-bars">
+                <Group key={`group-${d.month}`} className="animate-bars">
                   <Bar
-                    key={`cause-bar-${d.opioid}`}
+                    key={`cause-bar-${d.month}`}
                     className={`animated-bar-vert ${animated ? 'animated' : ''}`}
                     style={{
                       'transition': animated ? 'transform 1s ease-in-out' : ''

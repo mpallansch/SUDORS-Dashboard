@@ -6,7 +6,7 @@ import { AxisLeft } from '@visx/axis';
 import data from '../data/state.json';
 import dataRatesRaw from '../data/age-adjusted-drug-rates.json';
 
-import { countCutoff, rateCutoff } from '../constants.json';
+import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import abbreviations from '../geo/abbreviations.json';
 
@@ -88,14 +88,14 @@ function StateChart(params) {
                   key={`bar-${name}`}
                   x={0}
                   y={yScale(name)}
-                  width={xScale(rate)}
+                  width={Math.max(xScale(rate), 10)}
                   height={yScale.bandwidth()}
                   fill="rgb(198, 209, 230)"
                   stroke={name === state ? 'rgb(58, 88, 161)' : 'none'}
                   strokeWidth="3"
                   data-tip={`<strong>${name}</strong><br/>
                   Deaths: ${datum.value < countCutoff ? `< ${countCutoff}` : datum.value}<br/>
-                  Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
+                  Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate}`}
                 />
               )}
             )}

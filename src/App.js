@@ -3,7 +3,6 @@ import ReactTooltip from 'react-tooltip';
 import ResizeObserver from 'resize-observer-polyfill';
 
 import Map from './components/Map';
-import LineChart from './components/LineChart';
 import WaffleChart from './components/WaffleChart';
 import SexChart from './components/SexChart';
 import AgeChart from './components/AgeChart';
@@ -29,7 +28,7 @@ function App() {
   const [ drug, setDrug ] = useState('All');
   const [ view, setView ] = useState('map');
   const mapRef = useRef();
-  const headerLineChartRef = useRef();
+  const headerMonthChartRef = useRef();
   const headerWaffleChartRef = useRef();
   const sexChartRef = useRef();
   const ageChartRef = useRef();
@@ -38,7 +37,7 @@ function App() {
   const causeChartRef = useRef();
   const additionalDrugChartRef = useRef();
   const circumstancesChartRef = useRef();
-  const lineChartRef = useRef();
+  const monthChartRef = useRef();
   const waffleChartRef = useRef();
 
   const colorScale = {
@@ -121,15 +120,15 @@ function App() {
             <span className="enlarged">{formatDeathsNum(totalData[state])}</span> total deaths
           </span>
         </div>
-        <div className="header-section middle" onClick={() => {lineChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
-          <div id="header-line-chart-container" ref={headerLineChartRef}>
+        <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
+          <div id="header-line-chart-container" ref={headerMonthChartRef}>
             <MonthChart 
-                width={getDimension(headerLineChartRef, 'width')}
-                height={getDimension(headerLineChartRef, 'height')}
+                width={getDimension(headerMonthChartRef, 'width')}
+                height={getDimension(headerMonthChartRef, 'height')}
                 header={true}
                 state={state} 
                 colorScale={colorScale}
-                el={lineChartRef}
+                el={monthChartRef}
               />
           </div>
           <span className="header-text">deaths over time</span>
@@ -207,14 +206,14 @@ function App() {
           </div>
           <div className="subsection marked">
             <span className="individual-header">By Month</span>
-            <div id="line-chart-container" ref={lineChartRef}>
+            <div id="line-chart-container" ref={monthChartRef}>
               <MonthChart 
-                width={getDimension(lineChartRef, 'width')}
-                height={getDimension(lineChartRef, 'height')}
+                width={getDimension(monthChartRef, 'width')}
+                height={getDimension(monthChartRef, 'height')}
                 header={false}
                 state={state} 
                 colorScale={colorScale}
-                el={lineChartRef}
+                el={monthChartRef}
               />
             </div>
           </div>

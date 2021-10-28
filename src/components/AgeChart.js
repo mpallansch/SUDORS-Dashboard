@@ -6,7 +6,7 @@ import { AxisLeft } from '@visx/axis';
 
 import raw from '../data/age.json';
 
-import { countCutoff, rateCutoff } from '../constants.json';
+import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import '../css/AgeChart.css';
 
@@ -35,7 +35,7 @@ function AgeChart(params) {
 
   const xScale = scaleLinear({
     domain: [0, Math.max(...data['male'].map(d => d.percent), ...data['female'].map(d => d.percent))],
-    range: [ 0, halfWidth ]
+    range: [ 0, halfWidth - 30 ]
   });
 
   const yScale = scaleBand({
@@ -91,17 +91,17 @@ function AgeChart(params) {
                       'transformOrigin': `${halfWidth}px 0px`
                     }}
                     key={`bar-male-${d.age}`}
-                    x={halfWidth - xScale(d.percent) + 30}
+                    x={halfWidth - xScale(d.percent)}
                     y={yScale(ageMapping[d.age])}
-                    width={xScale(d.percent) - 25 }
+                    width={xScale(d.percent) }
                     height={yScale.bandwidth()}
                     fill={colorScale.Male}
                     data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
-                    Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
+                    Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate}`}
                   />
                   <text
-                    x={halfWidth - xScale(d.percent) - 10}
+                    x={halfWidth - xScale(d.percent) - 40}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
                     fill={'black'}>
                       {d.percent}%
@@ -125,7 +125,7 @@ function AgeChart(params) {
                     fill={colorScale.Female}
                     data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
-                    Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
+                    Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate}`}
                   />
                   <text
                     x={halfWidth + xScale(d.percent) + 5}

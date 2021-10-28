@@ -9,7 +9,7 @@ const weights = require('./census/weights.json');
 const fips = {"0":"United States", "1": "Alabama","2":"Alaska","4":"Arizona","5":"Arkansas","6":"California","8":"Colorado","9":"Connecticut","10":"Delaware", "11": "DC", "12": "Florida", "13": "Georgia", "15": "Hawaii", "16": "Idaho", "17": "Illinois", "18": "Indiana", "19": "Iowa", "20": "Kansas", "21": "Kentucky", "22": "Louisiana", "23": "Maine", "24": "Maryland", "25": "Massachusetts", "26": "Michigan", "27": "Minnesota", "28": "Mississippi", "29": "Missouri", "30": "Montana", "31": "Nebraska", "32": "Nevada", "33": "New Hampshire", "34": "New Jersey", "35": "New Mexico", "36": "New York", "37": "North Carolina", "38": "North Dakota", "39": "Ohio", "40": "Oklahoma", "41": "Oregon", "42": "Pennsylvania", "44": "Rhode Island", "45": "South Carolina", "46": "South Dakota", "47": "Tennessee", "48": "Texas", "49": "Utah", "50": "Vermont", "51": "Virginia", "53": "Washington", "54": "West Virginia", "55": "Wisconsin", "56": "Wyoming"};
 const reverseFips = {"United States":"0","Alabama":"1","Alaska":"2","Arizona":"4","Arkansas":"5","California":"6","Colorado":"8","Connecticut":"9","Delaware":"10","DC":"11","Florida":"12","Georgia":"13","Hawaii":"15","Idaho":"16","Illinois":"17","Indiana":"18","Iowa":"19","Kansas":"20","Kentucky":"21","Louisiana":"22","Maine":"23","Maryland":"24","Massachusetts":"25","Michigan":"26","Minnesota":"27","Mississippi":"28","Missouri":"29","Montana":"30","Nebraska":"31","Nevada":"32","New Hampshire":"33","New Jersey":"34","New Mexico":"35","New York":"36","North Carolina":"37","North Dakota":"38","Ohio":"39","Oklahoma":"40","Oregon":"41","Pennsylvania":"42","Rhode Island":"44","South Carolina":"45","South Dakota":"46","Tennessee":"47","Texas":"48","Utah":"49","Vermont":"50","Virginia":"51","Washington":"53","West Virginia":"54","Wisconsin":"55","Wyoming":"56"};
 
-const inputFilePath = './SUDORS 2020 Prelim Data for Dashboard_09SEP2021.csv';
+const inputFilePath = './SUDORS 2020 Prelim Data for Dashboard_09SEP2021 original.csv';
 const typeOfDrugFilePath = '../src/data/causes.json';
 const additionalDrugFilePath = '../src/data/additional-drugs.json';
 const circumstancesFilePath = '../src/data/circumstances.json';
@@ -146,9 +146,12 @@ function increment(obj, state) {
   }
 }
 
-function checkCutoff(value, type) {
-  const cutoff = type === 'count' ? countCutoff : rateCutoff;
-  if(value <= cutoff) return cutoff;
+function checkCutoff(value, rate) {
+  if(rate){
+    if(value <= rateCutoff) return -1;
+    return rate;
+  }
+  if(value <= countCutoff) return countCutoff;
   return value;
 }
 
@@ -285,43 +288,43 @@ fs.createReadStream(inputFilePath)
           opioid: 'Any Opioids', 
           present: percent(allOpioidPresent[state], totalDeaths[state]), 
           cause: percent(allOpioidCause[state], totalDeaths[state]),
-          presentCount: checkCutoff(allOpioidPresent[state], 'count'),
-          causeCount: checkCutoff(allOpioidCause[state], 'count')
+          presentCount: checkCutoff(allOpioidPresent[state]),
+          causeCount: checkCutoff(allOpioidCause[state])
         },
         {
           opioid: 'IMFs', 
           present: percent(keyCounts[state]['imfs_pos']['1'], totalDeaths[state]), 
           cause: percent(keyCounts[state]['imfs_cod']['1'], totalDeaths[state]),
-          presentCount: checkCutoff(keyCounts[state]['imfs_pos']['1'], 'count'),
-          causeCount: checkCutoff(keyCounts[state]['imfs_cod']['1'], 'count')
+          presentCount: checkCutoff(keyCounts[state]['imfs_pos']['1']),
+          causeCount: checkCutoff(keyCounts[state]['imfs_cod']['1'])
         },
         {
           opioid: 'Cocaine', 
           present: percent(keyCounts[state]['cocaine_t']['1'], totalDeaths[state]), 
           cause: percent(keyCounts[state]['cocaine_t_cod']['1'], totalDeaths[state]),
-          presentCount: checkCutoff(keyCounts[state]['cocaine_t']['1'], 'count'),
-          causeCount: checkCutoff(keyCounts[state]['cocaine_t_cod']['1'], 'count')
+          presentCount: checkCutoff(keyCounts[state]['cocaine_t']['1']),
+          causeCount: checkCutoff(keyCounts[state]['cocaine_t_cod']['1'])
         },
         {
           opioid: 'Heroin', 
           present: percent(keyCounts[state]['heroin_def_v2']['1'], totalDeaths[state]), 
           cause: percent(keyCounts[state]['heroin_def_cod_v2']['1'], totalDeaths[state]),
-          presentCount: checkCutoff(keyCounts[state]['heroin_def_v2']['1'], 'count'),
-          causeCount: checkCutoff(keyCounts[state]['heroin_def_cod_v2']['1'], 'count')
+          presentCount: checkCutoff(keyCounts[state]['heroin_def_v2']['1']),
+          causeCount: checkCutoff(keyCounts[state]['heroin_def_cod_v2']['1'])
         },
         {
           opioid: 'Rx Opioids',
           present: percent(keyCounts[state]['rx_opioid_v2']['1'], totalDeaths[state]), 
           cause: percent(keyCounts[state]['rx_opioid_cod_v2']['1'], totalDeaths[state]),
-          presentCount: checkCutoff(keyCounts[state]['rx_opioid_v2']['1'], 'count'),
-          causeCount: checkCutoff(keyCounts[state]['rx_opioid_cod_v2']['1'], 'count')
+          presentCount: checkCutoff(keyCounts[state]['rx_opioid_v2']['1']),
+          causeCount: checkCutoff(keyCounts[state]['rx_opioid_cod_v2']['1'])
         },
         {
           opioid: 'Meth', 
           present: percent(keyCounts[state]['meth_r']['1'], totalDeaths[state]), 
           cause: percent(keyCounts[state]['meth_r_cod']['1'], totalDeaths[state]),
-          presentCount: checkCutoff(keyCounts[state]['meth_r']['1'], 'count'),
-          causeCount: checkCutoff(keyCounts[state]['meth_r_cod']['1'], 'count')
+          presentCount: checkCutoff(keyCounts[state]['meth_r']['1']),
+          causeCount: checkCutoff(keyCounts[state]['meth_r_cod']['1'])
         }
       ];
     });
@@ -342,7 +345,7 @@ fs.createReadStream(inputFilePath)
         let row = {cause: drugLabelMapping[cause]};
         Object.keys(additionalDrugs[state][cause]).forEach(additional => {
           row[drugLabelMapping[additional]] = percent(additionalDrugs[state][cause][additional], total);
-          row[`${drugLabelMapping[additional]}-Count`] = checkCutoff(additionalDrugs[state][cause][additional], 'count');
+          row[`${drugLabelMapping[additional]}-Count`] = checkCutoff(additionalDrugs[state][cause][additional]);
         });
         additionalDrugData[state].push(row);
       });
@@ -364,47 +367,47 @@ fs.createReadStream(inputFilePath)
           { 
             circumstance: 'Past substance use/misuse', 
             percent: percent(keyCounts[state]['SubstanceAbuseOther_c']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['SubstanceAbuseOther_c']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['SubstanceAbuseOther_c']['1']) },
           { 
             circumstance: 'Bystander present', 
             percent: percent(keyCounts[state]['bystander']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['bystander']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['bystander']['1']) },
           { 
             circumstance: 'Mental health diagnosis', 
             percent: percent(keyCounts[state]['MentalHealthProblem_c']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['MentalHealthProblem_c']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['MentalHealthProblem_c']['1']) },
           { 
             circumstance: 'Naloxone administered', 
             percent: percent(keyCounts[state]['NaloxoneAdministered']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['NaloxoneAdministered']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['NaloxoneAdministered']['1']) },
           { 
             circumstance: 'Treated for substance use disorder', 
             percent: percent(keyCounts[state]['evertrt']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['evertrt']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['evertrt']['1']) },
           { 
             circumstance: 'Recent release from institution', 
             percent: percent(keyCounts[state]['recentinst']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['recentinst']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['recentinst']['1']) },
           { 
             circumstance: 'Current pain treatment', 
             percent: percent(keyCounts[state]['pain_treat']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['pain_treat']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['pain_treat']['1']) },
           { 
             circumstance: 'Fatal drug use witnessed', 
             percent: percent(keyCounts[state]['witnesseddruguse']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['witnesseddruguse']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['witnesseddruguse']['1']) },
           { 
             circumstance: 'Prior overdose', 
             percent: percent( keyCounts[state]['priorod']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['priorod']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['priorod']['1']) },
           { 
             circumstance: 'Recent return to use of opioids', 
             percent: percent(keyCounts[state]['recentrelapse']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['recentrelapse']['1'], 'count') },
+            count: checkCutoff(keyCounts[state]['recentrelapse']['1']) },
           { 
             circumstance: 'Homeless', 
             percent: percent(keyCounts[state]['Homeless']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['Homeless']['1'], 'count') }
+            count: checkCutoff(keyCounts[state]['Homeless']['1']) }
         ]
       };
     });
@@ -422,13 +425,13 @@ fs.createReadStream(inputFilePath)
       mapData[drugLabelMapping[drug]] = {}
 
       statesFinal.forEach(state => {
-        mapData[drugLabelMapping[drug]][state] = {deaths: checkCutoff(keyCounts[state][drug]['1'], 'count')};
+        mapData[drugLabelMapping[drug]][state] = {deaths: checkCutoff(keyCounts[state][drug]['1'])};
       });  
     }); 
 
     let totalDeathsCutoff = {};
     statesFinal.forEach(state => {
-      totalDeathsCutoff[state] = {deaths: checkCutoff(totalDeaths[state], 'count')};
+      totalDeathsCutoff[state] = {deaths: checkCutoff(totalDeaths[state])};
     });;
     mapData['All'] = totalDeathsCutoff;
 
@@ -444,8 +447,8 @@ fs.createReadStream(inputFilePath)
     let sexData = {};
     statesFinal.forEach(state => {
       sexData[state] = [
-        {sex: 'Male', percent: percent(keyCounts[state]['Sex']['1'], totalDeaths[state], true), count: checkCutoff(keyCounts[state]['Sex']['1'], 'count')},
-        {sex: 'Female', percent: percent(keyCounts[state]['Sex']['2'], totalDeaths[state], true), count: checkCutoff(keyCounts[state]['Sex']['2'], 'count')}
+        {sex: 'Male', percent: percent(keyCounts[state]['Sex']['1'], totalDeaths[state], true), count: checkCutoff(keyCounts[state]['Sex']['1'])},
+        {sex: 'Female', percent: percent(keyCounts[state]['Sex']['2'], totalDeaths[state], true), count: checkCutoff(keyCounts[state]['Sex']['2'])}
       ];
     });
 
@@ -467,14 +470,14 @@ fs.createReadStream(inputFilePath)
         'male': Object.keys(ageData[state]['male']).map(ageGroup => ({
           age: ageGroup, 
           percent: percent(ageData[state]['male'][ageGroup], ageTotal, true),
-          count: checkCutoff(ageData[state]['male'][ageGroup], 'count'),
-          rate: checkCutoff(Math.round(ageData[state]['male'][ageGroup] / stateAgeSexPops[reverseFips[state]]['1'][ageGroup] * 1000000) / 10, 'rate')
+          count: checkCutoff(ageData[state]['male'][ageGroup]),
+          rate: checkCutoff(ageData[state]['male'][ageGroup], Math.round(ageData[state]['male'][ageGroup] / stateAgeSexPops[reverseFips[state]]['1'][ageGroup] * 1000000) / 10)
         })),
         'female': Object.keys(ageData[state]['female']).map(ageGroup => ({
           age: ageGroup, 
           percent: percent(ageData[state]['female'][ageGroup], ageTotal, true),
-          count: checkCutoff(ageData[state]['female'][ageGroup], 'count'),
-          rate: checkCutoff(Math.round(ageData[state]['female'][ageGroup] / stateAgeSexPops[reverseFips[state]]['2'][ageGroup] * 1000000) / 10, 'rate')
+          count: checkCutoff(ageData[state]['female'][ageGroup]),
+          rate: checkCutoff(ageData[state]['female'][ageGroup], Math.round(ageData[state]['female'][ageGroup] / stateAgeSexPops[reverseFips[state]]['2'][ageGroup] * 1000000) / 10)
         }))
       };
     });
@@ -560,7 +563,7 @@ fs.createReadStream(inputFilePath)
       });
 
       rate = Math.round(rate * 100000);
-      rate = checkCutoff(rate, 'rate');
+      rate = checkCutoff(totalDeaths[state], rate);
 
       ageAdjustedRates.push({state, rate});
     });
@@ -588,8 +591,8 @@ fs.createReadStream(inputFilePath)
       rateMale = Math.round(rateMale * 100000);
       rateFemale = Math.round(rateFemale * 100000);
 
-      rateMale = checkCutoff(rateMale, 'rate');
-      rateFemale = checkCutoff(rateFemale, 'rate');
+      rateMale = checkCutoff(keyCounts[state]['Sex']['1'], rateMale);
+      rateFemale = checkCutoff(keyCounts[state]['Sex']['2'], rateFemale);
 
       ageAdjustedSexRates[state] = [];
       ageAdjustedSexRates[state].push({sex: 'male', rate: rateMale});
@@ -620,7 +623,7 @@ fs.createReadStream(inputFilePath)
         });
 
         rate = Math.round(rate * 100000);
-        rate = checkCutoff(rate, 'rate');
+        rate = checkCutoff(keyCounts[state]['race_eth_v2'][race], rate);
 
         ageAdjustedRaceRates[state].push({race: raceMapping[race], rate});
       });
@@ -650,7 +653,7 @@ fs.createReadStream(inputFilePath)
         });
 
         rate = Math.round(rate * 100000);
-        rate = checkCutoff(rate, 'rate');
+        rate = checkCutoff(drugName === 'All' ? totalDeaths[state] : keyCounts[state][drug]['1'], rate);
 
         ageAdjustedDrugRates[drugName][state]['rate'] = rate;
         if(!ageAdjustedDrugRates[drugName].min || rate < ageAdjustedDrugRates[drugName].min) {

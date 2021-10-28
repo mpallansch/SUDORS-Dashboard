@@ -9,7 +9,7 @@ import abbreviations from '../geo/abbreviations.json';
 import countData from '../data/map.json';
 import rateData from '../data/age-adjusted-drug-rates.json';
 
-import { countCutoff, rateCutoff } from '../constants.json';
+import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import '../css/Map.css';
 
@@ -105,7 +105,7 @@ function Map(params) {
                           }
                         }}
                         data-tip={datum ? `<strong>${state}</strong><br/>
-                        Rate: ${datum.rate <= rateCutoff ? `< ${rateCutoff}` : datum.rate}<br/>
+                        Rate: ${datum.rate <= rateCutoff ? rateCutoffLabel : datum.rate}<br/>
                         Deaths: ${countDatum.deaths <= countCutoff ? `< ${countCutoff}` : countDatum.deaths}` : 'Data unavailable'}
                       />
                       <text
@@ -142,7 +142,7 @@ function Map(params) {
                     y={adjustedHeight}
                     textAnchor="middle"
                     fontSize={scale * 0.03}
-                  >{scaleIncrement * i + rateData[drug].min}</text>
+                  >{scaleIncrement * (i + 1) + Math.max(rateData[drug].min, 0)}</text>
                 </Group>
               )}
             )}

@@ -1,4 +1,5 @@
 {
     "countCutoff": 20,
-    "rateCutoff": 10
+    "rateCutoff": 0,
+    "rateCutoffLabel": "Not Available"
 }

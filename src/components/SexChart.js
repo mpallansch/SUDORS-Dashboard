@@ -6,7 +6,7 @@ import { Text } from '@visx/text'
 import raw from '../data/sex.json';
 import rawRates from '../data/age-adjusted-sex-rates.json';
 
-import { countCutoff, rateCutoff } from '../constants.json';
+import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import '../css/SexChart.css';
 
@@ -48,10 +48,9 @@ function SexChart(params) {
           {(pie) => (
             <Group top={halfHeight} left={halfWidth}>
               {pie.arcs.map((arc, index) => {
-                  const [ centroidX, centroidY ] = pie.path.centroid(arc);
                   let rate = 'Unavailable';
                   if(dataRates) rate = (dataRates[0].sex === arc.data.sex.toLowerCase() ? dataRates[0].rate : dataRates[1].rate);
-                  if(rate <= rateCutoff) rate = `< ${rateCutoff}`;
+                  if(rate <= rateCutoff) rate = rateCutoffLabel;
 
                   return (
                     <g 
