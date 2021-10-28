@@ -1,7 +1,5 @@
-import { useState } from 'react'; 
 import { Group } from '@visx/group';
 import { Pie } from '@visx/shape';
-import { Text } from '@visx/text'
 
 import raw from '../data/sex.json';
 import rawRates from '../data/age-adjusted-sex-rates.json';
@@ -11,8 +9,8 @@ import { countCutoff, rateCutoff } from '../constants.json';
 import '../css/SexChart.css';
 
 function SexChart(params) {
-  const [active, setActive] = useState(null);
-  const { width, height, state, colorScale } = params;
+  
+  const { width, height, state } = params;
 
   const data = raw[state];
   const dataRates = rawRates[state];
@@ -23,7 +21,11 @@ function SexChart(params) {
   const halfWidth = adjustedWidth / 2;
   const halfHeight = adjustedHeight / 2;
   const pieRadius = Math.min(halfWidth, halfHeight);
-  const nfObject = new Intl.NumberFormat('en-US');
+
+  const colorScale = {
+    Male: 'rgb(58, 88, 161)',
+    Female: 'rgb(198, 209, 230)'
+  };
 
   return width > 0 && (
     <>
@@ -38,12 +40,9 @@ function SexChart(params) {
           data={data}
           pieValue={d => d.percent}
           outerRadius={pieRadius}
-          innerRadius={({data}) => {
-            const size = active && active.percent === data.percent ? .45 : .5;
-            return pieRadius * size
-          }}
+          innerRadius={pieRadius * .5}
           color={d => d > 50 ? 'red' : 'blue'}
-          padAngle={.05}
+          color
         >
           {(pie) => (
             <Group top={halfHeight} left={halfWidth}>
@@ -54,32 +53,22 @@ function SexChart(params) {
                   if(rate <= rateCutoff) rate = `< ${rateCutoff}`;
 
                   return (
-                    <g 
-                      key={`arc-${index}`} 
-                      className="animated-pie"
-                    >
+                    <g key={`arc-${index}`}>
                       <path d={pie.path(arc)} fill={colorScale[arc.data.sex]}
                         data-tip={`<strong>${arc.data.sex}</strong><br/>
                           Deaths: ${arc.data.count <= countCutoff ? `< ${countCutoff}` : arc.data.count}<br/>
-                          Rate: ${rate}`} 
-                          onMouseEnter={() => setActive(arc.data)} 
-                          onMouseLeave={() => setActive(null)} 
-                      />
-                      {active ? (
-                        <>
-                          <Text textAnchor="middle" dy={-10} fontWeight="bold" fontSize={22}>{`${active.percent}%`}</Text>
-                          <Text textAnchor="middle" dy={10}>{active.sex}</Text>
-                        </>
-                      ) : (
-                        <>
-                          <Text textAnchor="middle" dy={-10} fontWeight="bold" fontSize={22}>{
-                              // Sum all counts in the data
-                              nfObject.format(data.map(item=> item.count).reduce( (prev, curr) => prev + curr, 0 ) )
-                            }</Text>
-                          <Text textAnchor="middle" dy={10}>Total Deaths</Text>
-                        </>
-                      ) }
-                      
+                          Rate: ${rate}`} />
+                      <text
+                        fill="white"
+                        x={centroidX}
+                        y={centroidY}
+                        dy=".33em"
+                        fontSize="medium"
+                        textAnchor="middle"
+                        pointerEvents="none"
+                      >
+                        {arc.data.percent}%
+                      </text>
                     </g>
                   )
                 }
@@ -87,7 +76,6 @@ function SexChart(params) {
             </Group>
           )}
         </Pie>
-        
       </svg>
     </>
   );

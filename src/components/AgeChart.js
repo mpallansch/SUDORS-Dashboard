@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Group } from '@visx/group';
 import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
@@ -22,9 +21,7 @@ function AgeChart(params) {
     '6': '65+'
   };
   
-  const { width, height, state, colorScale, el } = params;
-
-  const [ animated, setAnimated ] = useState(false);
+  const { width, height, state } = params;
 
   const data = raw[state];
 
@@ -44,27 +41,6 @@ function AgeChart(params) {
     padding: 0.2
   });
 
-  const onScroll = () => {
-    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
-      window.removeEventListener('scroll', onScroll);
-      setAnimated(true);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', onScroll);
-    setTimeout(onScroll, 50); // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    if(animated) {
-      setAnimated(false);
-      setTimeout(() => {
-        setAnimated(true);
-      }, 50);
-    } // eslint-disable-next-line
-  }, [state]);
-
   return width > 0 && (
     <>
       <svg
@@ -78,32 +54,28 @@ function AgeChart(params) {
               fontSize: 'medium',
               textAnchor: 'start'
             })}
-            left={-65}
+            left={-55}
             hideTicks
             hideAxisLine
           />
             {data['male'].map(d => (
                 <Group key={`group-male-${d.age}`}>
                   <Bar 
-                    className={`animated-bar ${animated ? 'animated' : ''}`}
-                    style={{
-                      'transition': animated ? 'transform 1s ease-in-out' : '',
-                      'transformOrigin': `${halfWidth}px 0px`
-                    }}
+                    className="bar"
                     key={`bar-male-${d.age}`}
-                    x={halfWidth - xScale(d.percent) + 30}
+                    x={halfWidth - xScale(d.percent)}
                     y={yScale(ageMapping[d.age])}
-                    width={xScale(d.percent) - 25 }
+                    width={xScale(d.percent)}
                     height={yScale.bandwidth()}
-                    fill={colorScale.Male}
+                    fill="rgb(58, 88, 161)"
                     data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                     Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
                   />
                   <text
-                    x={halfWidth - xScale(d.percent) - 10}
-                    y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
-                    fill={'black'}>
+                    x={halfWidth - xScale(d.percent) + (xScale(d.percent) > 35 ? 5 : -30)}
+                    y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 2)}
+                    fill={xScale(d.percent) > 30 ? 'white' : 'black'}>
                       {d.percent}%
                   </text>
                 </Group>
@@ -112,25 +84,21 @@ function AgeChart(params) {
             {data['female'].map(d => (
                 <Group key={`group-female-${d.age}`}>
                   <Bar 
-                    className={`animated-bar ${animated ? 'animated' : ''}`}
-                    style={{
-                      'transition': animated ? 'transform 1s ease-in-out' : '',
-                      'transformOrigin': `${halfWidth}px 0px`
-                    }}
+                    className="bar"
                     key={`bar-female-${d.age}`}
                     x={halfWidth}
                     y={yScale(ageMapping[d.age])}
                     width={xScale(d.percent)}
                     height={yScale.bandwidth()}
-                    fill={colorScale.Female}
+                    fill="rgb(198, 209, 230)"
                     data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                     Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
                   />
                   <text
-                    x={halfWidth + xScale(d.percent) + 5}
-                    y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
-                    fill={'black'}>
+                    x={halfWidth + xScale(d.percent) + (xScale(d.percent) > 35 ? -35 : 5)}
+                    y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 2)}
+                    fill={xScale(d.percent) > 30 ? 'white' : 'black'}>
                       {d.percent}%
                   </text>
                 </Group>

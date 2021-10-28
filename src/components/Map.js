@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Group } from '@visx/group';
-import { CustomProjection } from '@visx/geo';
+import { AlbersUsa } from '@visx/geo';
 import { scaleQuantize } from '@visx/scale';
 import * as topojson from 'topojson-client';
 import topology from '../geo/usa-topo.json';
@@ -13,77 +13,70 @@ import { countCutoff, rateCutoff } from '../constants.json';
 
 import '../css/Map.css';
 
-const unitedStates = topojson.feature(topology, topology.objects.states).features;
-const labelExceptions = {
-  'ME': 3,
-  'WI': 4,
-  'MI': 4,
-  'WA': 5,
-  'MT': 5,
-  'ND': 5,
-  'MN': 5,
-  'VT': 5
-};
-const colors = ['#ece2f0','#a6bddb','#67a9cf','#02818a','#014636'];
-const fontColors = {
-  '#ece2f0': 'black',
-  '#a6bddb': 'black',
-  '#67a9cf': 'black',
-  '#02818a': 'white',
-  '#014636': 'white'
-};
-const notAvailableColor = '#B9B9B9';
-
 function Map(params) {
 
-  const { width, setState, drug, state: globalState } = params;
-  const height = Math.min(width * 0.75, 580);
-  const margin = {top: 10, bottom: 20, left: 10, right: 10};
+  const [ compare, setCompare ] = useState('all');
+
+  const { width, height, setState } = params;
+  const margin = {top: 10, bottom: 10, left: 10, right: 10};
   const adjustedWidth = width - margin.left - margin.right;
-  const adjustedHeight = height - margin.top - margin.bottom;
+  const adjustedHeight = height - margin.top - margin.bottom - 100;
+  const smallWidth = (adjustedWidth - ((margin.left + margin.right) * 2)) / 2 - 10;
+  const smallHeight = (adjustedHeight - ((margin.top + margin.bottom) * 6)) / 2 - 30;
 
-  const scale = Math.min(adjustedWidth * .8, adjustedHeight * 1.2);
-  const centerX = adjustedWidth / 2 + (scale * 1.8);
-  const centerY = adjustedHeight / 2 + (scale * .75);
+  const unitedStates = topojson.feature(topology, topology.objects.states).features;
+  const colorsPalettes = {
+    'All': ["#85C1E9", "#5DADE2", "#3498DB", "#2E86C1", "#2874A6"],
+    'Heroin': ['#82E0AA', '#58D68D', '#2ECC71', '#2ECC71', '#28B463'],
+    'IMFs': ['#F0B27A','#E59866','#E67E22','#CA6F1E','#A04000'],
+    'Cocaine': ['#D2B4DE','#A569BD','#8E44AD','#6C3483','#5B2C6F'],
+    'Rx Opioids': ['#F5B7B1','#F1948A','#EC7063','#E74C3C','#B03A2E'],
+    'Meth': ['#AEB6BF','#5D6D7E','#34495E','#2E4053','#212F3C']
+  };
+  const notAvailableColor = '#EEE';
 
-  const legendSize = scale * 0.05;
-  const labelOffset = scale * .065;
+  const map = (small, drug) => {
+    const mapWidth = small ? smallWidth : adjustedWidth;
+    const mapHeight = small ? smallHeight : adjustedHeight;
+    const legendSize = small ? 10 : 25;
 
-  const colorScale = scaleQuantize({
-    domain: [rateData[drug].min, rateData[drug].max],
-    range: colors
-  });
+    const centerX = mapWidth / 2;
+    const centerY = mapHeight / 2 - 5;
+    const scale = Math.min(mapWidth * 1.3, mapHeight * 1.8);
 
-  const scaleIncrement = Math.round((rateData[drug].max - rateData[drug].min) / colors.length);
-  const legendWidth = legendSize * colors.length;
+    const colors = colorsPalettes[drug];
+    const colorsReverse = [...colors].reverse();
 
-  return width > 0 && (
-    <>
+    const colorScale = scaleQuantize({
+      domain: [rateData[drug].min, rateData[drug].max],
+      range: colors
+    });
+
+    return (
       <div className="inline-map-container">
+        <div className="map-header">
+          <span>{small ? drug : ''}</span>
+        </div>
         <svg 
-          width={adjustedWidth}
-          height={adjustedHeight} 
+          width={mapWidth}
+          height={mapHeight} 
           style={{
             marginTop: margin.top, 
             marginLeft: margin.left,
             marginRight: margin.right,
             marginBottom: margin.bottom
           }}>
-          <CustomProjection
+          <AlbersUsa
             data={unitedStates}
             scale={scale}
             translate={[centerX, centerY]}
           >
             {({ features }) => 
                 features.map(({ feature, path }, i) => {
-                  const abbr = feature.properties.iso.replace(/US-/g,'');
-                  const state = abbreviations[abbr];
+                  const state = abbreviations[feature.properties.iso.replace(/US-/g,'')];
                   const datum = rateData[drug][state];
                   const countDatum = countData[drug][state];
                   const color = datum ? colorScale(datum.rate) : notAvailableColor;
-                  const center = path.replace(/M/g, '').split('L')[labelExceptions[abbr] || 0].split(',');
-                  const highlight = globalState === 'United States' || globalState === state;
-                  const classes = `${color === notAvailableColor ? 'no-data' : 'data-available'} ${highlight ? 'selected' : 'faded'}`
 
                   return (
                     <React.Fragment key={`map-feature-${i}`}>
@@ -92,68 +85,47 @@ function Map(params) {
                         tabIndex="-1"
                         d={path || ''}
                         fill={color}
-                        stroke={'#FFF'}
-                        strokeWidth={scale * 0.01} 
-                        className={ classes } 
-                        onClick={() => {
-                          if(datum){
-                            if(globalState === state){
-                              setState('United States');
-                            } else {
-                              setState(state);
-                            }
-                          }
-                        }}
+                        stroke={'black'}
+                        strokeWidth={0.5}
+                        onClick={() => {if(datum) setState(state)}}
                         data-tip={datum ? `<strong>${state}</strong><br/>
                         Rate: ${datum.rate <= rateCutoff ? `< ${rateCutoff}` : datum.rate}<br/>
                         Deaths: ${countDatum.deaths <= countCutoff ? `< ${countCutoff}` : countDatum.deaths}` : 'Data unavailable'}
                       />
-                      <text
-                        x={center[0]}
-                        y={parseInt(center[1]) + labelOffset}
-                        textAnchor="middle"
-                        fontSize={scale * 0.03}
-                        fill={fontColors[color]}
-                        opacity={highlight ? 1 : 0.4}
-                        pointerEvents="none"
-                      >{abbr}</text>
                     </React.Fragment>
                   );
                 })
               }
-          </CustomProjection>
+          </AlbersUsa>
           <Group>
-            {colors.map((color, i) => {
-              const x = adjustedWidth + (i * legendSize) - legendWidth - 50;
-
-              return (
-                <Group key={`color-indicator-container-${drug}-${i}`}>
-                  <rect 
-                    key={`color-indicator-${drug}-${i}`} 
-                    x={x} 
-                    y={adjustedHeight - (legendSize * 2)} 
-                    width={legendSize} 
-                    height={legendSize} 
-                    fill={color}
-                    style={{borderRadius: '5px'}}>
-                  </rect>
-                  <text 
-                    x={x + legendSize} 
-                    y={adjustedHeight}
-                    textAnchor="middle"
-                    fontSize={scale * 0.03}
-                  >{scaleIncrement * i + rateData[drug].min}</text>
-                </Group>
-              )}
-            )}
-            <text 
-              x={adjustedWidth - legendWidth - 50} 
-              y={adjustedHeight}
-              textAnchor="middle"
-              fontSize={scale * 0.03}
-            >{0}</text>
+            {colorsReverse.map((color, i) => (
+              <rect key={`color-indicator-${drug}-${i}`} x={mapWidth - (i * legendSize) - 50} y={mapHeight - legendSize} width={legendSize} height={legendSize} fill={color}></rect>
+            ))}
           </Group>
         </svg>
+      </div>
+    )
+  };
+
+  return width > 0 && (
+    <>
+      <div className="compare-buttons">
+        <button className={`${compare === 'all' && 'active'}`} onClick={() => setCompare('all')}>All Substances</button> | 
+        <button className={`${compare === 'compare' && 'active'}`} onClick={() => setCompare('compare')}>Compare Substances</button>
+      </div>
+      <div className="block-shadow">
+        {compare === 'all' ?
+          map(false, 'All')
+        : (
+          <>
+            {map(true, 'All')}
+            {map(true, 'Heroin')}
+            {map(true, 'IMFs')}
+            {map(true, 'Cocaine')}
+            {map(true, 'Rx Opioids')}
+            {map(true, 'Meth')}
+          </>
+        ) }
       </div>
     </>
   );
