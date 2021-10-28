@@ -25,8 +25,8 @@ function RaceChart(params) {
   const adjustedWidth = width - margin.left - margin.right;
 
   const xScale = scaleLinear({
-    domain: [0, Math.max(...dataRates.map(d => d.rate))],
-    range: [ 0, adjustedWidth ]
+    domain: [ 0, Math.max(...dataRates.map(d => d.rate))],
+    range: [ 20, adjustedWidth - 25 ]
   });
   
   const yScale = scaleBand({
@@ -82,7 +82,7 @@ function RaceChart(params) {
                     key={`bar-${d.race}`}
                     x={0}
                     y={yScale(d.race)}
-                    width={Math.max(xScale(d.rate) - 25, 10)}
+                    width={d.rate < 0 ? 10 : xScale(d.rate)}
                     height={yScale.bandwidth()}
                     fill={colorScale.Secondary}
                     data-tip={`<strong>${d.race}</strong><br/>
@@ -91,7 +91,7 @@ function RaceChart(params) {
                   />
                   <text
                     key={`bar-label-${d.race}`}
-                    x={Math.max(xScale(d.rate), 35)}
+                    x={(d.rate < 0 ? 10 : xScale(d.rate)) + 25}
                     y={yScale(d.race) + (yScale.bandwidth() / 1.65)}
                     
                     textAnchor={'start'}

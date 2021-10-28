@@ -39,7 +39,7 @@ function StateChart(params) {
 
   const xScale = scaleLinear({
     domain: [0, Math.max(...dataKeys.map(d => dataRates[d].rate))],
-    range: [ 0, adjustedWidth ]
+    range: [ 20, adjustedWidth ]
   });
 
   const yScale = scaleBand({
@@ -88,7 +88,7 @@ function StateChart(params) {
                   key={`bar-${name}`}
                   x={0}
                   y={yScale(name)}
-                  width={Math.max(xScale(rate), 10)}
+                  width={rate < 0 ? 10 : xScale(rate)}
                   height={yScale.bandwidth()}
                   fill="rgb(198, 209, 230)"
                   stroke={name === state ? 'rgb(58, 88, 161)' : 'none'}
