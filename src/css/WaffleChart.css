@@ -1,0 +1,14 @@
+#header-waffle-chart-container {
+    width: 50px;
+    height: calc(100px - 1em - 2px);
+    display: inline-block;
+    margin-right: 15px;
+    vertical-align: middle;
+}
+
+#waffle-chart-container {
+    width: 100%;
+    display: inline-block;
+    margin-right: 15px;
+    vertical-align: middle;
+}

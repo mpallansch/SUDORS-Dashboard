@@ -15,7 +15,7 @@ function CauseChart(params) {
 
   const { width, height, state } = params;
   const data = raw[state];
-  const margin = {top: 20, bottom: 80, left: 70, right: 20};
+  const margin = {top: 20, bottom: width < viewportCutoff ? 80 : 30, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
@@ -51,28 +51,19 @@ function CauseChart(params) {
             />
             {data.map(d => (
                 <Group key={`group-${d.opioid}`}>
-                  <Bar 
-                    className="bar"
-                    key={`bar-${d.opioid}`}
+                  <Bar
+                    key={`cause-bar-${d.opioid}`}
                     x={xScale(d.opioid)}
-                    y={yScale(d.present)}
+                    y={yScale(d.cause)}
                     width={xScale.bandwidth()}
-                    height={adjustedHeight - yScale(d.present)}
-                    fill="rgb(198, 209, 230)"
+                    height={adjustedHeight - yScale(d.cause)}
+                    fill="rgb(58, 88, 161)"
                     data-tip={`<strong>${d.opioid}</strong><br/>
                     Percent Present: ${d.present}%<br/>
                     Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
                     Percent Cause: ${d.cause}%<br/>
                     Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
                   />
-                  <line 
-                    x1={xScale(d.opioid)} 
-                    y1={yScale(d.cause)} 
-                    x2={xScale(d.opioid) + xScale.bandwidth()} 
-                    y2={yScale(d.cause)} 
-                    stroke="rgb(58, 88, 161)"
-                    strokeDasharray="10 5" 
-                    strokeWidth="5" />
                 </Group>
               )
             )}
