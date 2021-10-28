@@ -13,7 +13,7 @@ import '../css/RaceChart.css';
 
 function RaceChart(params) {
   
-  const { width, height, state, el } = params;
+  const { width, height, state, colorScale, el } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -82,9 +82,9 @@ function RaceChart(params) {
                     key={`bar-${d.race}`}
                     x={0}
                     y={yScale(d.race)}
-                    width={xScale(d.rate)}
+                    width={xScale(d.rate) - 25}
                     height={yScale.bandwidth()}
-                    fill="rgb(198, 209, 230)"
+                    fill={colorScale.Secondary}
                     data-tip={`<strong>${d.race}</strong><br/>
                     Deaths: ${datum.deaths <= countCutoff ? `< ${countCutoff}` : datum.deaths}<br/>
                     Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
@@ -92,9 +92,10 @@ function RaceChart(params) {
                   <text
                     key={`bar-label-${d.race}`}
                     x={xScale(d.rate)}
-                    y={yScale(d.race) + (yScale.bandwidth() / 2)}
-                    textAnchor={xScale(d.rate) > adjustedWidth - 50 ? 'end' : 'start'}
-                    dx={xScale(d.rate) > adjustedWidth - 50 ? -10 : 10}
+                    y={yScale(d.race) + (yScale.bandwidth() / 1.65)}
+                    
+                    textAnchor={'start'}
+                    dx={-15}
                   >{d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}</text>
                 </Group>
               )}
@@ -103,13 +104,13 @@ function RaceChart(params) {
               scale={yScale}
             >
               {axisLeft => (
-                <g className="visx-group visx-axis visx-axis-left">
+                <g className="visx-group visx-axis visx-axis-left" style={{'paddingTop':'20'}}>
                   {axisLeft.ticks.map(tick => (
                       <g 
                         key={`tick-${tick.value}`}
                         className="visx-group visx-axis-tick">
                         <text key={`tick-label-${tick.value}`} textAnchor="end" fontSize="medium">
-                          <tspan y={tick.to.y} dx="-10">{tick.value}</tspan>
+                          <tspan y={tick.to.y + 4} dx="-10">{tick.value}</tspan>
                         </text>
                       </g>
                     )

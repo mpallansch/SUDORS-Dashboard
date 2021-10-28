@@ -22,7 +22,7 @@ function AgeChart(params) {
     '6': '65+'
   };
   
-  const { width, height, state, el } = params;
+  const { width, height, state, colorScale, el } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -78,7 +78,7 @@ function AgeChart(params) {
               fontSize: 'medium',
               textAnchor: 'start'
             })}
-            left={-55}
+            left={-65}
             hideTicks
             hideAxisLine
           />
@@ -91,19 +91,19 @@ function AgeChart(params) {
                       'transformOrigin': `${halfWidth}px 0px`
                     }}
                     key={`bar-male-${d.age}`}
-                    x={halfWidth - xScale(d.percent)}
+                    x={halfWidth - xScale(d.percent) + 30}
                     y={yScale(ageMapping[d.age])}
-                    width={xScale(d.percent)}
+                    width={xScale(d.percent) - 25 }
                     height={yScale.bandwidth()}
-                    fill="rgb(58, 88, 161)"
+                    fill={colorScale.Male}
                     data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                     Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
                   />
                   <text
-                    x={halfWidth - xScale(d.percent) + (xScale(d.percent) > 35 ? 5 : -30)}
-                    y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 2)}
-                    fill={xScale(d.percent) > 30 ? 'white' : 'black'}>
+                    x={halfWidth - xScale(d.percent) - 10}
+                    y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
+                    fill={'black'}>
                       {d.percent}%
                   </text>
                 </Group>
@@ -122,14 +122,14 @@ function AgeChart(params) {
                     y={yScale(ageMapping[d.age])}
                     width={xScale(d.percent)}
                     height={yScale.bandwidth()}
-                    fill="rgb(198, 209, 230)"
+                    fill={colorScale.Female}
                     data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                     Rate: ${d.rate <= rateCutoff ? `< ${rateCutoff}` : d.rate}`}
                   />
                   <text
-                    x={halfWidth + xScale(d.percent) + (xScale(d.percent) > 35 ? -35 : 5)}
-                    y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 2)}
+                    x={halfWidth + xScale(d.percent) + 5}
+                    y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
                     fill={'black'}>
                       {d.percent}%
                   </text>

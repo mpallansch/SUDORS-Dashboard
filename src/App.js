@@ -10,6 +10,7 @@ import AgeChart from './components/AgeChart';
 import RaceChart from './components/RaceChart';
 import StateChart from './components/StateChart';
 import CauseChart from './components/CauseChart';
+import MonthChart from './components/MonthChart';
 import CircumstancesChart from './components/CircumstancesChart';
 import AdditionalDrugChart from './components/AdditionalDrugChart';
 
@@ -39,6 +40,13 @@ function App() {
   const circumstancesChartRef = useRef();
   const lineChartRef = useRef();
   const waffleChartRef = useRef();
+
+  const colorScale = {
+    Male: 'rgb(58, 88, 161)',
+    Female: '#88c3ea',
+    Primary: 'rgb(58, 88, 161)',
+    Secondary: '#88c3ea'
+  };
 
   const resizeObserver = new ResizeObserver(entries => {
     const { width, height } = entries[0].contentRect;
@@ -115,12 +123,14 @@ function App() {
         </div>
         <div className="header-section middle" onClick={() => {lineChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
           <div id="header-line-chart-container" ref={headerLineChartRef}>
-            <LineChart 
-              width={getDimension(headerLineChartRef, 'width')}
-              height={getDimension(headerLineChartRef, 'height')}
-              header={true}
-              state={state}
-            />
+            <MonthChart 
+                width={getDimension(headerLineChartRef, 'width')}
+                height={getDimension(headerLineChartRef, 'height')}
+                header={true}
+                state={state} 
+                colorScale={colorScale}
+                el={lineChartRef}
+              />
           </div>
           <span className="header-text">deaths over time</span>
         </div>
@@ -187,21 +197,24 @@ function App() {
                 width={getDimension(sexChartRef, 'width')} 
                 height={getDimension(sexChartRef, 'height')}
                 state={state}
+                colorScale={colorScale}
               />
             </div>
             <div id="sex-chart-legend">
-              <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)" /></svg>Male</span>
-              <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>Female</span>
+              <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
+              <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
             </div>
           </div>
           <div className="subsection marked">
             <span className="individual-header">By Month</span>
             <div id="line-chart-container" ref={lineChartRef}>
-              <LineChart 
+              <MonthChart 
                 width={getDimension(lineChartRef, 'width')}
                 height={getDimension(lineChartRef, 'height')}
                 header={false}
-                state={state}
+                state={state} 
+                colorScale={colorScale}
+                el={lineChartRef}
               />
             </div>
           </div>
@@ -214,12 +227,13 @@ function App() {
                 width={getDimension(ageChartRef, 'width')}
                 height={getDimension(ageChartRef, 'height')}
                 state={state}
+                colorScale={colorScale}
                 el={ageChartRef}
               />
             </div>
             <div id="age-chart-legend">
-              <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)" /></svg>Male</span>
-              <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(198, 209, 230)" /></svg>Female</span>
+              <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
+              <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
             </div>
           </div>
           <div className="subsection marked">
@@ -229,6 +243,7 @@ function App() {
                   width={getDimension(raceChartRef, 'width')}
                   height={getDimension(raceChartRef, 'height')}
                   state={state}
+                  colorScale={colorScale}
                   el={raceChartRef}
                 />
             </div>
