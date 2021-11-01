@@ -109,8 +109,8 @@ const drugDataInitial = () => ({
   'Cocaine': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 });
 
-const countCutoff = 20;
-const rateCutoff = 10;
+const countCutoff = 10;
+const rateCutoff = 20;
 
 let stateKeyIndex;
 let first = true;

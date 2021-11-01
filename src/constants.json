@@ -1,5 +1,5 @@
 {
-    "countCutoff": 20,
+    "countCutoff": 10,
     "rateCutoff": 0,
     "rateCutoffLabel": "Data Suppressed"
 }
