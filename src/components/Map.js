@@ -80,7 +80,7 @@ function Map(params) {
                   const state = abbreviations[abbr];
                   const datum = rateData[drug][state];
                   const countDatum = countData[drug][state];
-                  const color = datum ? colorScale(datum.rate) : notAvailableColor;
+                  const color = datum && datum.rate > rateCutoff ? colorScale(datum.rate) : notAvailableColor;
                   const center = path.replace(/M/g, '').split('L')[labelExceptions[abbr] || 0].split(',');
                   const highlight = globalState === 'United States' || globalState === state;
                   const classes = `${color === notAvailableColor ? 'no-data' : 'data-available'} ${highlight ? 'selected' : 'faded'}`
