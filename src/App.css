@@ -324,6 +324,14 @@ select {
 .animated-pie path,
 .animated-pie text {
   transition: all .3s ease-in-out;
+  border: 1px solid rgba(0,0,0,0.5);
+  border: rgba(0,0,0,.3) 1px solid !important;
+        box-shadow: rgba(0,0,0,.1) 3px 3px 7px;
+        opacity: 1 !important;
+        line-height: 1.4em;
+        font-size: 1em;
+        border-radius: 4px;
+        padding: 8px 12px;
 }
 
 #map-container path {
