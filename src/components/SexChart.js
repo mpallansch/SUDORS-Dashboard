@@ -48,26 +48,42 @@ function SexChart(params) {
           {(pie) => (
             <Group top={halfHeight} left={halfWidth}>
               {pie.arcs.map((arc, index) => {
+                  const [ centroidX, centroidY ] = pie.path.centroid(arc);
                   let rate = 'Unavailable';
                   if(dataRates) rate = (dataRates[0].sex === arc.data.sex.toLowerCase() ? dataRates[0].rate : dataRates[1].rate);
                   if(rate <= rateCutoff) rate = rateCutoffLabel;
-
+                  
+                  arc.data.rate = rate.toFixed(1)
+                  
                   return (
                     <g 
                       key={`arc-${index}`} 
                       className="animated-pie"
                     >
                       <path d={pie.path(arc)} fill={colorScale[arc.data.sex]}
-                        data-tip={`<strong>${arc.data.sex}</strong><br/>
-                          Deaths: ${arc.data.count <= countCutoff ? `< ${countCutoff}` : arc.data.count}<br/>
-                          Rate: ${rate}`} 
+                        // data-tip={
+                        //   `<strong>${arc.data.sex}</strong><br/>
+                        //   Deaths: ${arc.data.count <= countCutoff ? `< ${countCutoff}` : arc.data.count}<br/>
+                        //   Rate: ${rate}`} 
                           onMouseEnter={() => setActive(arc.data)} 
                           onMouseLeave={() => setActive(null)} 
                       />
+                      <text
+                        fill={arc.data.sex === 'Female' ? 'black' : 'white'}
+                        x={centroidX}
+                        y={centroidY}
+                        dy=".33em"
+                        fontSize="medium"
+                        textAnchor="middle"
+                        pointerEvents="none"
+                      >
+                        {arc.data.percent}%
+                      </text>
                       {active ? (
                         <>
-                          <Text textAnchor="middle" dy={-10} fontWeight="bold" fontSize={22}>{`${active.percent}%`}</Text>
-                          <Text textAnchor="middle" dy={10}>{active.sex}</Text>
+                          <Text textAnchor="middle" dy={-10} fontWeight="bold" fontSize={22}>{`${nfObject.format(active.count)}`}</Text>
+                          <Text textAnchor="middle" dy={8} fontSize={14}>{`${active.sex} Deaths`}</Text>
+                          <Text textAnchor="middle" dy={24} fontSize={14}>{`Rate: ${active.rate}`}</Text>
                         </>
                       ) : (
                         <>
@@ -75,7 +91,7 @@ function SexChart(params) {
                               // Sum all counts in the data
                               nfObject.format(data.map(item=> item.count).reduce( (prev, curr) => prev + curr, 0 ) )
                             }</Text>
-                          <Text textAnchor="middle" dy={10}>Total Deaths</Text>
+                          <Text textAnchor="middle" dy={8} fontSize={14}>Total Deaths</Text>
                         </>
                       ) }
                       

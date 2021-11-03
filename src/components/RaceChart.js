@@ -74,7 +74,27 @@ function RaceChart(params) {
 
               return (
                 <Group key={`bar-container-${d.race}`}>
-                  <Bar 
+                  { // render data bar
+                  d.rate > rateCutoff && (
+                    <Bar 
+                      className={`animated-bar ${animated ? 'animated' : ''}`}
+                      style={{
+                        'transition': animated ? 'transform 1s ease-in-out' : ''
+                      }}
+                      key={`bar-${d.race}`}
+                      x={0}
+                      y={yScale(d.race)}
+                      width={d.rate < 0 ? 10 : xScale(d.rate)}
+                      height={yScale.bandwidth()}
+                      fill={colorScale.Secondary}
+                      data-tip={`<strong>${d.race}</strong><br/>
+                      Deaths: ${datum.deaths <= countCutoff ? `< ${countCutoff}` : datum.deaths}<br/>
+                      Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate}`}
+                    />
+                  )}
+                  { // render suppressed bar
+                  d.rate <= rateCutoff && (
+                    <Bar 
                     className={`animated-bar ${animated ? 'animated' : ''}`}
                     style={{
                       'transition': animated ? 'transform 1s ease-in-out' : ''
@@ -82,17 +102,16 @@ function RaceChart(params) {
                     key={`bar-${d.race}`}
                     x={0}
                     y={yScale(d.race)}
-                    width={d.rate < 0 ? 10 : xScale(d.rate)}
+                    width={1}
                     height={yScale.bandwidth()}
-                    fill={colorScale.Secondary}
-                    data-tip={`<strong>${d.race}</strong><br/>
-                    Deaths: ${datum.deaths <= countCutoff ? `< ${countCutoff}` : datum.deaths}<br/>
-                    Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate}`}
+                    fill={'black'}
+                  
                   />
+                  )}
                   <text
                     key={`bar-label-${d.race}`}
                     x={(d.rate < 0 ? 10 : xScale(d.rate)) + 25}
-                    y={yScale(d.race) + (yScale.bandwidth() / 1.65)}
+                    y={yScale(d.race) + (yScale.bandwidth() / 1.75)}
                     
                     textAnchor={'start'}
                     dx={-18}
