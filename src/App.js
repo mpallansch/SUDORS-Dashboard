@@ -256,7 +256,7 @@ function App() {
           </div>
         </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <span className="subheader margin-top">Additional drug classes detected</span>
+        {/* <span className="subheader margin-top">Additional drug classes detected</span>
         <div className="subsection">
           <div id="additional-drug-chart-container" ref={additionalDrugChartRef}>
             <AdditionalDrugChart 
@@ -272,7 +272,7 @@ function App() {
             <div><svg className="indicator"><rect width="100%" height="100%" fill="#bb4d00" /></svg>IMFs</div>
             <div><svg className="indicator"><rect width="100%" height="100%" fill="#00695c" /></svg>Cocaine</div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="section">

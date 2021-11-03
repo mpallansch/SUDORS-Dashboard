@@ -24,15 +24,18 @@ const labelExceptions = {
   'MN': 5,
   'VT': 5
 };
-const colors = ['#ece2f0','#a6bddb','#67a9cf','#02818a','#014636'];
+// const colors = ['#dbefbd', '#74cc95', '#38a3a1', '#8ed3f2', '#6c95c6','#4063c9','#26418f'];
+const colors = ['#dbefbd', '#74cc95', '#8ed3f2', '#4063c9','#26418f'];
 const fontColors = {
-  '#ece2f0': 'black',
-  '#a6bddb': 'black',
-  '#67a9cf': 'black',
-  '#02818a': 'white',
-  '#014636': 'white'
+  '#dbefbd': 'black',
+  '#74cc95': 'black',
+  '#38a3a1': 'black',
+  '#8ed3f2': 'black',
+  '#6c95c6': 'black',
+  '#4063c9': 'white',
+  '#26418f': 'white',
 };
-const notAvailableColor = '#B9B9B9';
+const notAvailableColor = '#e0e0e0';
 
 function Map(params) {
 
