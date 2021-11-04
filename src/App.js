@@ -174,6 +174,7 @@ function App() {
             <StateChart
               width={getDimension(stateChartRef, 'width')}
               height={getDimension(stateChartRef, 'height')}
+              setState={setState}
               state={state}
               drug={drug} />
           </div>

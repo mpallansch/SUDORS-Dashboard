@@ -14,7 +14,7 @@ import '../css/StateChart.css';
 
 function StateChart(params) {
 
-  const { width, height, state, drug } = params;
+  const { width, setState, height, state, drug, state: globalState } = params;
 
   const dataRates = dataRatesRaw[drug];
   const dataKeys = Object.keys(dataRates).filter(name => name !== 'United States' &&  name !== 'max' && name !== 'min');
@@ -93,6 +93,15 @@ function StateChart(params) {
                   fill="rgb(198, 209, 230)"
                   stroke={name === state ? 'rgb(58, 88, 161)' : 'none'}
                   strokeWidth="3"
+                  onClick={() => {
+                    if(datum){
+                      if(globalState === name){
+                        setState('United States');
+                      } else {
+                        setState(name);
+                      }
+                    }
+                  }}
                   data-tip={`<strong>${name}</strong><br/>
                   Deaths: ${datum.value < countCutoff ? `< ${countCutoff}` : datum.value}<br/>
                   Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
