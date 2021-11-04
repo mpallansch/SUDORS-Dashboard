@@ -108,7 +108,7 @@ function Map(params) {
                           }
                         }}
                         data-tip={datum ? `<strong>${state}</strong><br/>
-                        Rate: ${datum.rate <= rateCutoff ? rateCutoffLabel : datum.rate}<br/>
+                        Rate: ${datum.rate <= rateCutoff ? rateCutoffLabel : datum.rate.toFixed(1)}<br/>
                         Deaths: ${countDatum.deaths <= countCutoff ? `< ${countCutoff}` : countDatum.deaths}` : 'Data unavailable'}
                       />
                       <text

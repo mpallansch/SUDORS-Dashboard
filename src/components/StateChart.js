@@ -95,7 +95,7 @@ function StateChart(params) {
                   strokeWidth="3"
                   data-tip={`<strong>${name}</strong><br/>
                   Deaths: ${datum.value < countCutoff ? `< ${countCutoff}` : datum.value}<br/>
-                  Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate}`}
+                  Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                 />
               )}
             )}

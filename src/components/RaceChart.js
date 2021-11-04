@@ -89,7 +89,7 @@ function RaceChart(params) {
                       fill={colorScale.Secondary}
                       data-tip={`<strong>${d.race}</strong><br/>
                       Deaths: ${datum.deaths <= countCutoff ? `< ${countCutoff}` : datum.deaths}<br/>
-                      Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate}`}
+                      Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     />
                   )}
                   { // render suppressed bar
