@@ -25,6 +25,15 @@ function StateChart(params) {
   const adjustedHeight = height - margin.top - margin.bottom - 60;
   const adjustedWidth = width - margin.left - margin.right;
 
+  const colors = {
+    'All': 'rgb(198, 209, 230)',
+    'Meth': 'rgb(75, 131, 13)',
+    'Heroin': 'rgb(251, 171, 24)',
+    'Rx Opioids': 'rgb(0, 124, 145)',
+    'Cocaine': 'rgb(0, 105, 92)',
+    'IMFs': 'rgb(187, 77, 0)'
+  };
+
   const sortPrioritize = (stateName) => {
     return (a,b) => {
       if(state !== 'United States'){
@@ -93,7 +102,7 @@ function StateChart(params) {
                     y={yScale(name)}
                     width={rate < 0 ? 10 : xScale(rate)}
                     height={yScale.bandwidth()}
-                    fill="rgb(198, 209, 230)"
+                    fill={colors[drug]}
                     stroke={name === state ? 'rgb(58, 88, 161)' : 'none'}
                     strokeWidth="3"
                     onClick={() => {
