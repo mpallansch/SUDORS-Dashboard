@@ -1,7 +1,7 @@
 import { Group } from '@visx/group';
 import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
-import { AxisLeft } from '@visx/axis';
+import { AxisLeft, AxisBottom } from '@visx/axis';
 
 import data from '../data/state.json';
 import dataRatesRaw from '../data/age-adjusted-drug-rates.json';
@@ -13,6 +13,8 @@ import abbreviations from '../geo/abbreviations.json';
 import '../css/StateChart.css';
 
 function StateChart(params) {
+
+  const viewportCutoff = 600;
 
   const { width, setState, height, state, drug, state: globalState } = params;
 
@@ -38,8 +40,8 @@ function StateChart(params) {
   }
 
   const xScale = scaleLinear({
-    domain: [0, Math.max(...dataKeys.map(d => dataRates[d].rate))],
-    range: [ 20, adjustedWidth ]
+    domain: [0, Math.max(...dataKeys.map(d => dataRates[d].rate)) * (width < viewportCutoff ? 1.3 : 1.1)],
+    range: [ 0, adjustedWidth ]
   });
 
   const yScale = scaleBand({
@@ -80,32 +82,44 @@ function StateChart(params) {
               }
 
               return (
-                <Bar 
-                  className="bar"
-                  style={{
-                    'transform': `translate(0px, ${scales[state](name) - yScale(name)}px)`
-                  }}
-                  key={`bar-${name}`}
-                  x={0}
-                  y={yScale(name)}
-                  width={rate < 0 ? 10 : xScale(rate)}
-                  height={yScale.bandwidth()}
-                  fill="rgb(198, 209, 230)"
-                  stroke={name === state ? 'rgb(58, 88, 161)' : 'none'}
-                  strokeWidth="3"
-                  onClick={() => {
-                    if(datum){
-                      if(globalState === name){
-                        setState('United States');
-                      } else {
-                        setState(name);
+                <>
+                  <Bar 
+                    className="bar"
+                    style={{
+                      'transform': `translate(0px, ${scales[state](name) - yScale(name)}px)`
+                    }}
+                    key={`bar-${name}`}
+                    x={0}
+                    y={yScale(name)}
+                    width={rate < 0 ? 10 : xScale(rate)}
+                    height={yScale.bandwidth()}
+                    fill="rgb(198, 209, 230)"
+                    stroke={name === state ? 'rgb(58, 88, 161)' : 'none'}
+                    strokeWidth="3"
+                    onClick={() => {
+                      if(datum){
+                        if(globalState === name){
+                          setState('United States');
+                        } else {
+                          setState(name);
+                        }
                       }
-                    }
-                  }}
-                  data-tip={`<strong>${name}</strong><br/>
-                  Deaths: ${datum.value < countCutoff ? `< ${countCutoff}` : datum.value}<br/>
-                  Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
-                />
+                    }}
+                    data-tip={`<strong>${name}</strong><br/>
+                    Deaths: ${datum.value < countCutoff ? `< ${countCutoff}` : datum.value}<br/>
+                    Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                  />
+                  <text 
+                    style={{
+                      'transform': `translate(0px, ${scales[state](name) - yScale(name)}px)`
+                    }}
+                    x={rate < 0 ? 10 : xScale(rate)}
+                    y={yScale(name)}
+                    dy="15"
+                    dx="5">
+                      {d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}
+                  </text>
+                </>
               )}
             )}
             <AxisLeft 
@@ -131,6 +145,22 @@ function StateChart(params) {
                 </g>
               )}
             </AxisLeft>
+            <AxisBottom
+              top={adjustedHeight}
+              scale={xScale}
+              label={width < viewportCutoff ?  'Deaths per 100,000' : 'Age-adjusted Rate of Deaths per 100,000'}
+              numTicks={width < viewportCutoff ? 4 : null}
+              labelProps={{
+                fontSize: 'medium',
+                textAnchor: width < viewportCutoff ? 'end' : 'middle',
+                transform: 'translate(0, 40)'
+              }}
+              tickLabelProps={() => ({
+                fontSize: 'medium',
+                textAnchor: 'middle',
+                transform: 'translate(0, 10)'
+              })}
+            />
           </Group>
       </svg>
     </>
