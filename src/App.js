@@ -10,7 +10,6 @@ import StateChart from './components/StateChart';
 import CauseChart from './components/CauseChart';
 import MonthChart from './components/MonthChart';
 import CircumstancesChart from './components/CircumstancesChart';
-import AdditionalDrugChart from './components/AdditionalDrugChart';
 
 import timeData from './data/time.json';
 import interventionData from './data/interventions.json';
@@ -26,14 +25,12 @@ function App() {
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
   const [ state, setState ] = useState('United States');
   const [ drug, setDrug ] = useState('All');
-  const headerMonthChartRef = useRef();
   const headerWaffleChartRef = useRef();
   const sexChartRef = useRef();
   const ageChartRef = useRef();
   const raceChartRef = useRef();
   const stateChartRef = useRef();
   const causeChartRef = useRef();
-  const additionalDrugChartRef = useRef();
   const circumstancesChartRef = useRef();
   const monthChartRef = useRef();
   const waffleChartRef = useRef();
@@ -236,23 +233,6 @@ function App() {
           </div>
         </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        {/* <span className="subheader margin-top">Additional drug classes detected</span>
-        <div className="subsection">
-          <div id="additional-drug-chart-container" ref={additionalDrugChartRef}>
-            <AdditionalDrugChart 
-                width={getDimension(additionalDrugChartRef, 'width')}
-                height={getDimension(additionalDrugChartRef, 'height')}
-              state={state} />
-          </div>
-          <div className="chart-legend side text-align-left">
-            <strong>Drug Detected</strong>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="#4b830d" /></svg>Meth</div>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="#fbab18" /></svg>Heroin</div>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="#007c91" /></svg>Rx Opioids</div>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="#bb4d00" /></svg>IMFs</div>
-            <div><svg className="indicator"><rect width="100%" height="100%" fill="#00695c" /></svg>Cocaine</div>
-          </div>
-        </div> */}
       </div>
 
       <div className="section">
