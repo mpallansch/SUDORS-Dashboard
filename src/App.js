@@ -2,7 +2,6 @@ import { useEffect, useCallback, useRef, useState } from 'react';
 import ReactTooltip from 'react-tooltip'; 
 import ResizeObserver from 'resize-observer-polyfill';
 
-import Map from './components/Map';
 import WaffleChart from './components/WaffleChart';
 import SexChart from './components/SexChart';
 import AgeChart from './components/AgeChart';
@@ -27,8 +26,6 @@ function App() {
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
   const [ state, setState ] = useState('United States');
   const [ drug, setDrug ] = useState('All');
-  const [ view, setView ] = useState('map');
-  const mapRef = useRef();
   const headerMonthChartRef = useRef();
   const headerWaffleChartRef = useRef();
   const sexChartRef = useRef();
@@ -139,13 +136,6 @@ function App() {
           <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
         </div>
         <span className="subheader">Number and rate of deaths by state and drug or drug type{stateLabel}?</span>
-        {dimensions.width > viewportCutoffSmall && (<div className="compare-buttons">
-          Select view type: 
-          <input type="radio" name="view-radio" id="map-view-button" checked={view === 'map'} onChange={() => {setView('map')}} />
-          <label htmlFor="map-view-button">Map</label>
-          <input type="radio" name="view-radio" id="chart-view-button" checked={view === 'chart'} onChange={() => {setView('chart')}} />
-          <label htmlFor="chart-view-button">Chart</label>
-        </div>)}
         <div>
           <div className="drug-tab-section">
             {drugTab('All', 'All Substances')}
@@ -160,25 +150,14 @@ function App() {
             {drugTab('Meth')}
           </div>
         </div>
-        {dimensions.width > viewportCutoffSmall && view === 'map' ? (
-          <div id="map-container" ref={mapRef}>
-            <Map 
-              width={getDimension(mapRef, 'width')} 
-              height={getDimension(mapRef, 'height')}
-              setState={setState}
-              state={state}
-              drug={drug} />
-          </div>
-        ) : (
-          <div id="state-chart-container" ref={stateChartRef}>
-            <StateChart
-              width={getDimension(stateChartRef, 'width')}
-              height={getDimension(stateChartRef, 'height')}
-              setState={setState}
-              state={state}
-              drug={drug} />
-          </div>
-        )}
+        <div id="state-chart-container" ref={stateChartRef}>
+          <StateChart
+            width={getDimension(stateChartRef, 'width')}
+            height={getDimension(stateChartRef, 'height')}
+            setState={setState}
+            state={state}
+            drug={drug} />
+        </div>
       </div>
 
       <div className="section">
