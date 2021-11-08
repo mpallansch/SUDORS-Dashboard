@@ -91,13 +91,12 @@ function StateChart(params) {
               }
 
               return (
-                <>
+                <Group key={`bar-${name}`}>
                   <Bar 
                     className="bar"
                     style={{
                       'transform': `translate(0px, ${scales[state](name) - yScale(name)}px)`
                     }}
-                    key={`bar-${name}`}
                     x={0}
                     y={yScale(name)}
                     width={rate < 0 ? 10 : xScale(rate)}
@@ -128,7 +127,7 @@ function StateChart(params) {
                     dx="5">
                       {d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}
                   </text>
-                </>
+                </Group>
               )}
             )}
             <AxisLeft 
