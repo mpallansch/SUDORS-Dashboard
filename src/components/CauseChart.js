@@ -67,7 +67,6 @@ function CauseChart(params) {
                 </Group>
               )
             )}
-            {width}
             <AxisBottom
               top={adjustedHeight}
               scale={xScale}
