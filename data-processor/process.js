@@ -21,6 +21,7 @@ const stateFilePath = '../src/data/state.json';
 const interventionFilePath = '../src/data/interventions.json';
 const totalsFilePath = '../src/data/totals.json';
 const timeFilePath = '../src/data/time.json';
+const opioidStimulantFilePath = '../src/data/opioid-stimulant.json';
 const ageAdjustedRatesFilePath = '../src/data/age-adjusted-rates.json';
 const ageAdjustedSexRatesFilePath = '../src/data/age-adjusted-sex-rates.json';
 const ageAdjustedRaceRatesFilePath = '../src/data/age-adjusted-race-rates.json';
@@ -124,6 +125,7 @@ let interventions = {};
 let ageData = {};
 let raceAgeData = {};
 let drugAgeData = {};
+let opioidStimulantData = {};
 
 function percent(deaths, total, wholeNumber) {
   if(wholeNumber){
@@ -178,18 +180,50 @@ fs.createReadStream(inputFilePath)
     } else {
       const state = fips[row[stateKeyIndex]];
 
+      let opioid, stimulant = false;
+
       increment(totalDeaths, state);
 
       if(row[keyIndex['imfs_pos']] === '1' ||
           row[keyIndex['heroin_def_v2']] === '1' ||
           row[keyIndex['rx_opioid_v2']] === '1'){
+        opioid = true;
         increment(allOpioidPresent, state);
       }
 
       if(row[keyIndex['imfs_cod']] === '1' ||
           row[keyIndex['heroin_def_cod_v2']] === '1' ||
           row[keyIndex['rx_opioid_cod_v2']] === '1'){
+        opioid = true;
         increment(allOpioidCause, state);
+      }
+
+      if(row[keyIndex['meth_r_cod']] === '1' ||
+          row[keyIndex['meth_r']] === '1' ||
+          row[keyIndex['cocaine_t_cod']] === '1' ||
+          row[keyIndex['cocaine_t']] === '1'){
+        stimulant = true;
+      }
+
+      if(!opioidStimulantData[state]){
+        opioidStimulantData[state] = {'o': 0, 's': 0, 'os': 0, 'n': 0}
+      }
+      if(!opioidStimulantData[us]){
+        opioidStimulantData[us] = {'o': 0, 's': 0, 'os': 0, 'n': 0}
+      }
+
+      if(opioid && !stimulant){
+        opioidStimulantData[state]['o']++;
+        opioidStimulantData[us]['o']++;
+      } else if(!opioid && stimulant) {
+        opioidStimulantData[state]['s']++;
+        opioidStimulantData[us]['s']++;
+      } else if(opioid && stimulant) {
+        opioidStimulantData[state]['os']++;
+        opioidStimulantData[us]['os']++;
+      } else {
+        opioidStimulantData[state]['n']++;
+        opioidStimulantData[us]['n']++;
       }
 
       if(row[keyIndex['recentinst']] === '1' ||
@@ -546,6 +580,38 @@ fs.createReadStream(inputFilePath)
     });
 
     fs.writeFile(timeFilePath, JSON.stringify(timeData), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+
+    let opioidStimulantDataFinal = {};
+    
+    Object.keys(opioidStimulantData).forEach(state => {
+      opioidStimulantDataFinal[state] = [
+        {
+          oName: 'Opioids without stimulants',
+          oCount: checkCutoff(opioidStimulantData[state]['o']),
+          oPercent: percent(checkCutoff(opioidStimulantData[state]['o']), totalDeaths[state]),
+
+          osName: 'Opioids with stimulants',
+          osCount: checkCutoff(opioidStimulantData[state]['os']),
+          osPercent: percent(checkCutoff(opioidStimulantData[state]['os']), totalDeaths[state]),
+
+          sName: 'Stimulants without opioids',
+          sCount: checkCutoff(opioidStimulantData[state]['s']),
+          sPercent: percent(checkCutoff(opioidStimulantData[state]['s']), totalDeaths[state]),
+
+          nName: 'Neither opioids nor stimulants',
+          nCount: checkCutoff(opioidStimulantData[state]['n']),
+          nPercent: percent(checkCutoff(opioidStimulantData[state]['n']), totalDeaths[state])
+        }
+      ];
+    });
+
+    fs.writeFile(opioidStimulantFilePath, JSON.stringify(opioidStimulantDataFinal), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {
