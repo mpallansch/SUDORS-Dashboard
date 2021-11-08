@@ -462,20 +462,21 @@ fs.createReadStream(inputFilePath)
     
     let ageDataFinal = {};
     statesFinal.forEach(state => {
-      let ageTotal = 0;
-      Object.keys(ageData[state]['male']).forEach(ageGroup => ageTotal += ageData[state]['male'][ageGroup]);
-      Object.keys(ageData[state]['female']).forEach(ageGroup => ageTotal += ageData[state]['female'][ageGroup]);
+      let maleTotal = 0;
+      let femaleTotal = 0;
+      Object.keys(ageData[state]['male']).forEach(ageGroup => maleTotal += ageData[state]['male'][ageGroup]);
+      Object.keys(ageData[state]['female']).forEach(ageGroup => femaleTotal += ageData[state]['female'][ageGroup]);
 
       ageDataFinal[state] = {
         'male': Object.keys(ageData[state]['male']).map(ageGroup => ({
           age: ageGroup, 
-          percent: percent(ageData[state]['male'][ageGroup], ageTotal, true),
+          percent: percent(ageData[state]['male'][ageGroup], maleTotal, true),
           count: checkCutoff(ageData[state]['male'][ageGroup]),
           rate: checkCutoff(ageData[state]['male'][ageGroup], Math.round(ageData[state]['male'][ageGroup] / stateAgeSexPops[reverseFips[state]]['1'][ageGroup] * 1000000) / 10)
         })),
         'female': Object.keys(ageData[state]['female']).map(ageGroup => ({
           age: ageGroup, 
-          percent: percent(ageData[state]['female'][ageGroup], ageTotal, true),
+          percent: percent(ageData[state]['female'][ageGroup], femaleTotal, true),
           count: checkCutoff(ageData[state]['female'][ageGroup]),
           rate: checkCutoff(ageData[state]['female'][ageGroup], Math.round(ageData[state]['female'][ageGroup] / stateAgeSexPops[reverseFips[state]]['2'][ageGroup] * 1000000) / 10)
         }))
