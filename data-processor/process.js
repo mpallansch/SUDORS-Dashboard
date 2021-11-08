@@ -562,7 +562,7 @@ fs.createReadStream(inputFilePath)
         }
       });
 
-      rate = Math.round(rate * 100000);
+      rate = Math.round(rate * 1000000) / 10;
       rate = checkCutoff(totalDeaths[state], rate);
 
       ageAdjustedRates.push({state, rate});
@@ -588,8 +588,8 @@ fs.createReadStream(inputFilePath)
         }
       });
 
-      rateMale = Math.round(rateMale * 100000);
-      rateFemale = Math.round(rateFemale * 100000);
+      rateMale = Math.round(rateMale * 1000000) / 10;
+      rateFemale = Math.round(rateFemale * 1000000) / 10;
 
       rateMale = checkCutoff(keyCounts[state]['Sex']['1'], rateMale);
       rateFemale = checkCutoff(keyCounts[state]['Sex']['2'], rateFemale);
@@ -622,7 +622,7 @@ fs.createReadStream(inputFilePath)
           }
         });
 
-        rate = Math.round(rate * 100000);
+        rate = Math.round(rate * 1000000) / 10;
         rate = checkCutoff(keyCounts[state]['race_eth_v2'][race], rate);
 
         ageAdjustedRaceRates[state].push({race: raceMapping[race], rate});
@@ -652,7 +652,7 @@ fs.createReadStream(inputFilePath)
           }
         });
 
-        rate = Math.round(rate * 100000);
+        rate = Math.round(rate * 1000000) / 10;
         rate = checkCutoff(drugName === 'All' ? totalDeaths[state] : keyCounts[state][drug]['1'], rate);
 
         ageAdjustedDrugRates[drugName][state]['rate'] = rate;
