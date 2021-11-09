@@ -116,8 +116,9 @@ function App() {
         </div>
         <div className="header-section">
           <span className="header-text full">
-            <span className="inline-vertical-align"></span>
-            <span className="enlarged">{formatDeathsNum(totalData[state])}</span> total deaths
+            {/* <span className="inline-vertical-align"></span> */}
+            <span className="enlarged">{formatDeathsNum(totalData[state])}</span> 
+            <span>total deaths</span>
           </span>
         </div>
         <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
