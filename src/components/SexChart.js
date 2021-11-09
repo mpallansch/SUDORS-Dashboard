@@ -6,7 +6,7 @@ import { Text } from '@visx/text'
 import raw from '../data/sex.json';
 import rawRates from '../data/age-adjusted-sex-rates.json';
 
-import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
+import { rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import '../css/SexChart.css';
 
@@ -61,10 +61,6 @@ function SexChart(params) {
                       className="animated-pie"
                     >
                       <path d={pie.path(arc)} fill={colorScale[arc.data.sex]}
-                        // data-tip={
-                        //   `<strong>${arc.data.sex}</strong><br/>
-                        //   Deaths: ${arc.data.count <= countCutoff ? `< ${countCutoff}` : arc.data.count}<br/>
-                        //   Rate: ${rate}`} 
                           onMouseEnter={() => setActive(arc.data)} 
                           onMouseLeave={() => setActive(null)} 
                       />
