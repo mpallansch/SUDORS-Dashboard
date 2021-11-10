@@ -11,8 +11,6 @@ import '../css/OpioidStimulantChart.css';
 
 function OpioidStimulantChart(params) {
 
-  const viewportCutoff = 600;
-
   const { width, height, state } = params;
   const data = raw[state];
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);

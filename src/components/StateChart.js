@@ -3,7 +3,7 @@ import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 
-import data from '../data/state.json';
+import dataRaw from '../data/map.json';
 import dataRatesRaw from '../data/age-adjusted-drug-rates.json';
 
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
@@ -18,6 +18,7 @@ function StateChart(params) {
 
   const { width, setState, height, state, drug, state: globalState } = params;
 
+  const data = dataRaw[drug];
   const dataRates = dataRatesRaw[drug];
   const dataKeys = Object.keys(dataRates).filter(name => name !== 'United States' &&  name !== 'max' && name !== 'min');
 
@@ -80,15 +81,7 @@ function StateChart(params) {
             {dataKeys.map(d => {
               const name = d;
               const rate = dataRates[name].rate;
-              d = dataRates[d];
-
-              let datum;
-              for(let i = 0; i < data.length; i++){
-                if(data[i].state === name){
-                  datum = data[i];
-                  break;
-                }
-              }
+              const deaths = data[name].deaths;
 
               return (
                 <Group key={`bar-${name}`}>
@@ -105,7 +98,7 @@ function StateChart(params) {
                     stroke={name === state ? 'rgb(58, 88, 161)' : 'none'}
                     strokeWidth="3"
                     onClick={() => {
-                      if(datum){
+                      if(deaths){
                         if(globalState === name){
                           setState('United States');
                         } else {
@@ -114,8 +107,8 @@ function StateChart(params) {
                       }
                     }}
                     data-tip={`<strong>${name}</strong><br/>
-                    Deaths: ${datum.value < countCutoff ? `< ${countCutoff}` : datum.value}<br/>
-                    Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                    Deaths: ${deaths < countCutoff ? `< ${countCutoff}` : deaths}<br/>
+                    Rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
                   />
                   <text 
                     style={{
@@ -125,7 +118,7 @@ function StateChart(params) {
                     y={yScale(name)}
                     dy="15"
                     dx="5">
-                      {d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}
+                      {rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}
                   </text>
                 </Group>
               )}
