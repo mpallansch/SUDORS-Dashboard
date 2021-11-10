@@ -12,7 +12,6 @@ import OpioidStimulantChart from './components/OpioidStimulantChart';
 import MonthChart from './components/MonthChart';
 import CircumstancesChart from './components/CircumstancesChart';
 
-import timeData from './data/time.json';
 import interventionData from './data/interventions.json';
 import totalData from './data/totals.json';
 
@@ -26,6 +25,7 @@ function App() {
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
   const [ state, setState ] = useState('United States');
   const [ drug, setDrug ] = useState('All');
+  const headerMonthChartRef = useRef();
   const headerWaffleChartRef = useRef();
   const sexChartRef = useRef();
   const ageChartRef = useRef();
@@ -90,9 +90,6 @@ function App() {
     >{drugLabel || drugName}</button> 
   );
 
-  const endTimeData = timeData[state].filter(datum => datum.month === '60')[0].value;
-  const startTimeData = timeData[state].filter(datum => datum.month === '49')[0].value;
-
   return (
     <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}`} 
       ref={outerContainerRef}>
@@ -116,13 +113,22 @@ function App() {
         </div>
         <div className="header-section">
           <span className="header-text full">
-            {/* <span className="inline-vertical-align"></span> */}
             <span className="enlarged">{formatDeathsNum(totalData[state])}</span> 
             <span>total deaths</span>
           </span>
         </div>
         <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
-          <span className="header-text full"><span className="enlarged">{(endTimeData > startTimeData ? '+' : '-') + Math.round(Math.abs(endTimeData - startTimeData) / startTimeData * 100)}%</span><span className="inline-header-text">deaths in 2020</span></span>
+          <div id="header-line-chart-container" ref={headerMonthChartRef}>
+            <MonthChart 
+                width={getDimension(headerMonthChartRef, 'width')}
+                height={getDimension(headerMonthChartRef, 'height')}
+                header={true}
+                state={state} 
+                colorScale={colorScale}
+                el={monthChartRef}
+              />
+          </div>
+          <span className="header-text">deaths over time</span>
         </div>
         <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
           <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
