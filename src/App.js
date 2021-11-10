@@ -170,7 +170,8 @@ function App() {
                 width={getDimension(sexChartRef, 'width')} 
                 height={getDimension(sexChartRef, 'height')}
                 state={state}
-                colorScale={colorScale}
+                colorScale={colorScale} 
+                el={sexChartRef}
               />
             </div>
             <div id="sex-chart-legend">
