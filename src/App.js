@@ -161,6 +161,33 @@ function App() {
       </div>
 
       <div className="section">
+        <span className="subheader">What drugs were identified{stateLabel}?</span>
+        <div className="subsection">
+          <div id="cause-chart-container" ref={causeChartRef}>
+            <CauseChart 
+                width={getDimension(causeChartRef, 'width')}
+                height={getDimension(causeChartRef, 'height')}
+              state={state} />
+          </div>
+        </div>
+        <div className="subsection">
+          <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
+            <OpioidStimulantChart 
+                width={getDimension(opioidStimulantChartRef, 'width')}
+                height={getDimension(opioidStimulantChartRef, 'height')}
+              state={state} />
+          </div>
+          <div id="opioid-stimulant-chart-legend">
+            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)"/></svg>Opioids with stimulants</span>
+            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(116,148,194)"/></svg>Opioids without stimulants</span>
+            <span><svg className="indicator"><rect width="100%" height="100%" fill="#88c3ea"/></svg>Stimulants without opioids</span>
+            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(220,237,201)"/></svg>Neither opioids nor stimulants</span>
+          </div>
+        </div>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+
+      <div className="section">
         <span className="subheader">Drug overdose deaths{stateLabel}</span>
         <div className="column column-left">
           <div className="subsection marked">
@@ -223,33 +250,6 @@ function App() {
             Age-adjusted rate of deaths per 100,000
           </div>
         </div>
-      </div>
-
-      <div className="section">
-        <span className="subheader">What drugs were identified{stateLabel}?</span>
-        <div className="subsection">
-          <div id="cause-chart-container" ref={causeChartRef}>
-            <CauseChart 
-                width={getDimension(causeChartRef, 'width')}
-                height={getDimension(causeChartRef, 'height')}
-              state={state} />
-          </div>
-        </div>
-        <div className="subsection">
-          <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
-            <OpioidStimulantChart 
-                width={getDimension(opioidStimulantChartRef, 'width')}
-                height={getDimension(opioidStimulantChartRef, 'height')}
-              state={state} />
-          </div>
-          <div id="opioid-stimulant-chart-legend">
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)"/></svg>Opioids with stimulants</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(116,148,194)"/></svg>Opioids without stimulants</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="#88c3ea"/></svg>Stimulants without opioids</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(220,237,201)"/></svg>Neither opioids nor stimulants</span>
-          </div>
-        </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
       </div>
 
       <div className="section">
