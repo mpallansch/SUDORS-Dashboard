@@ -22,6 +22,7 @@ const interventionFilePath = '../src/data/interventions.json';
 const totalsFilePath = '../src/data/totals.json';
 const timeFilePath = '../src/data/time.json';
 const opioidStimulantFilePath = '../src/data/opioid-stimulant.json';
+const drugCombinationFilePath = '../src/data/drug-combination.json';
 const ageAdjustedRatesFilePath = '../src/data/age-adjusted-rates.json';
 const ageAdjustedSexRatesFilePath = '../src/data/age-adjusted-sex-rates.json';
 const ageAdjustedRaceRatesFilePath = '../src/data/age-adjusted-race-rates.json';
@@ -126,6 +127,7 @@ let ageData = {};
 let raceAgeData = {};
 let drugAgeData = {};
 let opioidStimulantData = {};
+let drugCombinationData = {};
 
 function percent(deaths, total, wholeNumber) {
   if(wholeNumber){
@@ -225,6 +227,39 @@ fs.createReadStream(inputFilePath)
         opioidStimulantData[state]['n']++;
         opioidStimulantData[us]['n']++;
       }
+
+      let drugCombination = '';
+      if(row[keyIndex['imfs_cod']] === '1' || row[keyIndex['imfs_pos']] === '1'){
+        drugCombination += '1';
+      } else {
+        drugCombination += '0';
+      }
+      if(row[keyIndex['heroin_def_cod_v2']] === '1' || row[keyIndex['heroin_def_v2']] === '1'){
+        drugCombination += '1';
+      } else {
+        drugCombination += '0';
+      }
+      if(row[keyIndex['rx_opioid_cod_v2']] === '1' || row[keyIndex['rx_opioid_v2']] === '1'){
+        drugCombination += '1';
+      } else {
+        drugCombination += '0';
+      }
+      if(row[keyIndex['cocaine_t_cod']] === '1' || row[keyIndex['cocaine_t']] === '1'){
+        drugCombination += '1';
+      } else {
+        drugCombination += '0';
+      }
+      if(row[keyIndex['meth_r_cod']] === '1' || row[keyIndex['meth_r']] === '1'){
+        drugCombination += '1';
+      } else {
+        drugCombination += '0';
+      }
+      if(!drugCombinationData[us]) drugCombinationData[us] = {};
+      if(!drugCombinationData[state]) drugCombinationData[state] = {};
+      if(!drugCombinationData[us][drugCombination]) drugCombinationData[us][drugCombination] = 0;
+      if(!drugCombinationData[state][drugCombination]) drugCombinationData[state][drugCombination] = 0;
+      drugCombinationData[us][drugCombination]++;
+      drugCombinationData[state][drugCombination]++;
 
       if(row[keyIndex['recentinst']] === '1' ||
           row[keyIndex['priorod']] === '1' ||
@@ -612,6 +647,32 @@ fs.createReadStream(inputFilePath)
     });
 
     fs.writeFile(opioidStimulantFilePath, JSON.stringify(opioidStimulantDataFinal), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+
+    let drugCombinationDataFinal = {};
+    Object.keys(drugCombinationData).forEach(state => {
+      drugCombinationDataFinal[state] = {
+        'illicit': 100 - (drugCombinationData[state]['00100'] ? percent(drugCombinationData[state]['00100'], totalDeaths[state]) : 0),
+        'combinations': Object.keys(drugCombinationData[state]).sort((a, b) => {
+          if(drugCombinationData[state][a] < drugCombinationData[state][b]){
+            return 1;
+          } else if (drugCombinationData[state][a] > drugCombinationData[state][b]){
+            return -1;
+          }
+          return 0;
+        }).slice(0, 10).map(key => ({
+          drugCombination: key,
+          deaths: checkCutoff(drugCombinationData[state][key]),
+          percent: percent(checkCutoff(drugCombinationData[state][key]), totalDeaths[state])
+        }))};
+    });
+
+    fs.writeFile(drugCombinationFilePath, JSON.stringify(drugCombinationDataFinal), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {

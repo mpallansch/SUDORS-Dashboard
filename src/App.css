@@ -104,6 +104,10 @@
   background-color: #712177;
 }
 
+.no-padding {
+  padding: 0;
+}
+
 .chart-legend {
   text-align: center;
 }

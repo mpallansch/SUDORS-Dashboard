@@ -1,0 +1,27 @@
+#drug-combination-chart-container {
+  width: 100%;
+  height: 350px;
+  margin-bottom: 2em;
+  position: relative;
+}
+
+#drug-combination-chart-container #horizontal-scroll {
+  width: 100%;
+  overflow-x: auto;
+}
+
+#drug-combination-chart-container #table-header {
+  position: absolute;
+  background-color: white;
+  top: 0;
+  left: 0;
+}
+
+#drug-combination-chart-container table {
+  border-collapse: collapse;
+}
+
+#drug-combination-chart-container td {
+  text-align: center;
+  border: 1px solid black;
+}

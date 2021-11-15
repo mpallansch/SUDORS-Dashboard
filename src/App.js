@@ -9,6 +9,7 @@ import RaceChart from './components/RaceChart';
 import StateChart from './components/StateChart';
 import CauseChart from './components/CauseChart';
 import OpioidStimulantChart from './components/OpioidStimulantChart';
+import DrugCombinationChart from './components/DrugCombinationChart';
 import MonthChart from './components/MonthChart';
 import CircumstancesChart from './components/CircumstancesChart';
 
@@ -33,6 +34,7 @@ function App() {
   const stateChartRef = useRef();
   const causeChartRef = useRef();
   const opioidStimulantChartRef = useRef();
+  const drugCombinationChartRef = useRef();
   const circumstancesChartRef = useRef();
   const monthChartRef = useRef();
   const waffleChartRef = useRef();
@@ -188,6 +190,14 @@ function App() {
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(116,148,194)"/></svg>Opioids without stimulants</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="#88c3ea"/></svg>Stimulants without opioids</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(220,237,201)"/></svg>Neither opioids nor stimulants</span>
+          </div>
+        </div>
+        <div className="subsection no-padding">
+          <div id="drug-combination-chart-container" ref={drugCombinationChartRef}>
+            <DrugCombinationChart 
+                width={getDimension(drugCombinationChartRef, 'width')}
+                height={getDimension(drugCombinationChartRef, 'height')}
+              state={state} />
           </div>
         </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
