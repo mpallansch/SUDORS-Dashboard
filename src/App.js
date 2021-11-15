@@ -24,7 +24,7 @@ function App() {
   const viewportCutoffMedium = 800;
 
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
-  const [ state, setState ] = useState('United States');
+  const [ state, setState ] = useState('Included States');
   const [ drug, setDrug ] = useState('All');
   const headerMonthChartRef = useRef();
   const headerWaffleChartRef = useRef();
@@ -64,8 +64,8 @@ function App() {
     } // eslint-disable-next-line
   },[]);
 
-  const stateLabel = <span> in {state === 'United States' ? 'the ' : ''}<span className="italics">{state}</span></span>;
-  const stateLabelOf = <span> of {state === 'United States' ? 'the ' : ''}<span className="italics">{state}</span></span>;
+  const stateLabel = <span> in <span className="italics">{state}</span></span>;
+  const stateLabelOf = <span> of <span className="italics">{state}</span></span>;
 
   const getDimension = (ref, dimension) => {
     if(!ref.current){
@@ -99,9 +99,9 @@ function App() {
         <span>View data for:</span>
         <select value={state} onChange={(e) => setState(e.target.value)}>
           {Object.keys(totalData).sort((a, b) => {
-            if(a === 'United States'){
+            if(a === 'Included States'){
               return -1;
-            } else if (b === 'United States'){
+            } else if (b === 'Included States'){
               return 1;
             } else {
               return a < b ? -1 : 1;

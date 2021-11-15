@@ -254,6 +254,7 @@ select {
 }
 
 .bar,
+.bar-label,
 .pie {
   transition: transform 1s ease-in-out;
 }

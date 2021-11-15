@@ -18,9 +18,11 @@ function StateChart(params) {
 
   const { width, setState, height, state, drug, state: globalState } = params;
 
+  console.log(state);
+
   const data = dataRaw[drug];
   const dataRates = dataRatesRaw[drug];
-  const dataKeys = Object.keys(dataRates).filter(name => name !== 'United States' &&  name !== 'max' && name !== 'min');
+  const dataKeys = Object.keys(dataRates).filter(name => name !== 'max' && name !== 'min');
 
   const margin = {top: 10, bottom: 10, left: 130, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom - 60;
@@ -37,13 +39,11 @@ function StateChart(params) {
 
   const sortPrioritize = (stateName) => {
     return (a,b) => {
-      if(state !== 'United States'){
-        if(a === stateName){
-          return 1;
-        }
-        if(b === stateName){
-          return -1;
-        }
+      if(a === stateName){
+        return 1;
+      }
+      if(b === stateName){
+        return -1;
       }
       return (dataRates[a].rate > dataRates[b].rate) ? 1 : -1;
     }
@@ -57,7 +57,7 @@ function StateChart(params) {
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
     domain: dataKeys.sort(sortPrioritize()),
-    padding: 0.2
+    padding: 0.35
   });
 
   let scales = {};
@@ -68,8 +68,6 @@ function StateChart(params) {
       padding: 0.2
     });
   });
-
-  scales['United States'] = yScale;
 
   return width > 0 && (
     <>
@@ -94,13 +92,13 @@ function StateChart(params) {
                     y={yScale(name)}
                     width={rate < 0 ? 10 : xScale(rate)}
                     height={yScale.bandwidth()}
-                    fill={colors[drug]}
-                    stroke={name === state ? 'rgb(58, 88, 161)' : 'none'}
+                    fill={name === 'Included States' ? 'white' : colors[drug]}
+                    stroke={name === state ? 'rgb(58, 88, 161)' : colors[drug]}
                     strokeWidth="3"
                     onClick={() => {
                       if(deaths){
                         if(globalState === name){
-                          setState('United States');
+                          setState('Included States');
                         } else {
                           setState(name);
                         }
@@ -114,6 +112,7 @@ function StateChart(params) {
                     style={{
                       'transform': `translate(0px, ${scales[state](name) - yScale(name)}px)`
                     }}
+                    className="bar-label"
                     x={rate < 0 ? 10 : xScale(rate)}
                     y={yScale(name)}
                     dy="15"
