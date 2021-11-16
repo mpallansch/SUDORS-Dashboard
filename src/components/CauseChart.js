@@ -30,6 +30,15 @@ function CauseChart(params) {
     range: [ adjustedHeight, 0 ]
   });
 
+  const colors = {
+    'Any Opioids': 'rgb(58, 88, 161)',
+    'Meth': 'rgb(75, 131, 13)',
+    'Heroin': 'rgb(251, 171, 24)',
+    'Rx Opioids': 'rgb(0, 124, 145)',
+    'Cocaine': 'rgb(0, 105, 92)',
+    'IMFs': 'rgb(187, 77, 0)'
+  };
+
   return width > 0 && (
     <>
       <div id="cause-chart">
@@ -57,7 +66,7 @@ function CauseChart(params) {
                     y={yScale(d.cause)}
                     width={xScale.bandwidth()}
                     height={adjustedHeight - yScale(d.cause)}
-                    fill="rgb(58, 88, 161)"
+                    fill={colors[d.opioid]}
                     data-tip={`<strong>${d.opioid}</strong><br/>
                     Percent Present: ${d.present}%<br/>
                     Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
