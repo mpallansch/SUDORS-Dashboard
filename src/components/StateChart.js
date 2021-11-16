@@ -29,7 +29,7 @@ function StateChart(params) {
   const adjustedWidth = width - margin.left - margin.right;
 
   const colors = {
-    'All': 'rgb(198, 209, 230)',
+    'All': 'rgb(58, 88, 161)',
     'Meth': 'rgb(75, 131, 13)',
     'Heroin': 'rgb(251, 171, 24)',
     'Rx Opioids': 'rgb(0, 124, 145)',
@@ -93,7 +93,7 @@ function StateChart(params) {
                     width={rate < 0 ? 10 : xScale(rate)}
                     height={yScale.bandwidth()}
                     fill={name === 'Included States' ? 'white' : colors[drug]}
-                    stroke={name === state ? 'rgb(58, 88, 161)' : colors[drug]}
+                    stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colors[drug]}
                     strokeWidth="3"
                     opacity={name === state ? 1 : 0.7}
                     onClick={() => {
