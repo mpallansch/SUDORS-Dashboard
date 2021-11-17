@@ -54,7 +54,7 @@ function DrugCombinationChart(params) {
                       x={xScale(d.drugCombination)}
                       y={yScale(d.percent)}
                       width={xScale.bandwidth()}
-                      height={adjustedHeight - yScale(d.percent)}
+                      height={adjustedHeight - Math.min(yScale(d.percent), adjustedHeight)}
                       fill="rgb(58, 88, 161)"
                       data-tip={`Percent: ${d.deaths <= countCutoff ? '< ' + d.percent.toFixed(1) : d.percent.toFixed(1)}%<br/>
                       Deaths: ${d.deaths <= countCutoff ? `< ${countCutoff}` : d.deaths}`}
@@ -68,7 +68,7 @@ function DrugCombinationChart(params) {
                       {d.deaths <= countCutoff ? '<' + d.percent.toFixed(1) : d.percent.toFixed(1)}%
                     </text>
                     {drugs.map((drug, i) => (
-                      <>
+                      <Group key={`${d.drugCombination}-${drug}`}>
                         <rect 
                           x={xScale(d.drugCombination) - barOffset} 
                           y={adjustedHeight + (tableElHeight * i)} 
@@ -85,7 +85,7 @@ function DrugCombinationChart(params) {
                             fill="rgb(58, 88, 161)"
                           />
                         )}
-                      </>
+                      </Group>
                     ))}
                   </Group>
                 )
@@ -114,7 +114,7 @@ function DrugCombinationChart(params) {
                 const width = margin.left + 7;
 
                 return (
-                  <>
+                  <Group key={`drug-label-${drug}`}>
                     <rect 
                       x={0} 
                       y={y} 
@@ -132,7 +132,7 @@ function DrugCombinationChart(params) {
                       dominantBaseline="middle">
                         {drug}
                     </Text>
-                  </>
+                  </Group>
               )})}
             </Group>
         </svg>
