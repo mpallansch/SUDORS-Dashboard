@@ -55,7 +55,7 @@ function DrugCombinationChart(params) {
                       y={yScale(d.percent)}
                       width={xScale.bandwidth()}
                       height={adjustedHeight - Math.min(yScale(d.percent), adjustedHeight)}
-                      fill="rgb(58, 88, 161)"
+                      fill="rgb(116,148,194)"
                       data-tip={`Percent: ${d.deaths <= countCutoff ? '< ' + d.percent.toFixed(1) : d.percent.toFixed(1)}%<br/>
                       Deaths: ${d.deaths <= countCutoff ? `< ${countCutoff}` : d.deaths}`}
                     />
@@ -82,7 +82,7 @@ function DrugCombinationChart(params) {
                             y={adjustedHeight + quarterTableElHeight + (tableElHeight * i)} 
                             width={halfBarWidth} 
                             height={halfTableElHeight}
-                            fill="rgb(58, 88, 161)"
+                            fill="rgb(116,148,194)"
                           />
                         )}
                       </Group>

@@ -170,6 +170,7 @@ function App() {
 
       <div className="section">
         <span className="subheader">What drugs were identified{stateLabel}?</span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
         <div className="subsection">
           <div id="cause-chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -205,6 +206,7 @@ function App() {
 
       <div className="section">
         <span className="subheader">Drug overdose deaths{stateLabel}</span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
         <div className="column column-left">
           <div className="subsection marked">
             <span className="individual-header smaller">By Sex</span>
@@ -271,6 +273,7 @@ function App() {
 
       <div className="section">
         <span className="subheader">What are the opportunities for for intervention{stateLabel}?</span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
         <div className="column column-left">
           <div className="subsection">
             <div id="waffle-chart-container" ref={waffleChartRef}>
