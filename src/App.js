@@ -179,14 +179,11 @@ function App() {
               state={state} />
           </div>
         </div>
-        <div className="subsection no-padding">
-          <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
-            <OpioidStimulantChart 
-                width={getDimension(opioidStimulantChartRef, 'width')}
-                height={getDimension(opioidStimulantChartRef, 'height')}
-              state={state} />
-          </div>
-        </div>
+      </div>
+
+      <div className="section">
+        <span className="subheader">Title {stateLabel}?</span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
@@ -195,12 +192,47 @@ function App() {
               state={state} />
           </div>
         </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+
+      <div className="section">
+        <span className="subheader">Title {stateLabel}?</span>
+        <div className="subsection no-padding">
+          <div className="column column-left vertical-middle">
+            <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
+              <OpioidStimulantChart 
+                  width={getDimension(opioidStimulantChartRef, 'width')}
+                  height={getDimension(opioidStimulantChartRef, 'height')}
+                state={state} />
+            </div>
+          </div>
+          <div className="column column-right vertical-middle">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+        </div>
       </div>
 
       <div className="section">
         <span className="subheader">Drug overdose deaths{stateLabel}</span>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+        <div className="background-gray">
+          <div className="column column-left">
+            <div className="subsection">
+              <strong>Metric:</strong><br/>
+              <input type="radio" name="metric" checked/><label>Rate per 100,000</label><br/>
+              <input type="radio" name="metric"/><label>Percent</label>
+            </div>
+          </div>
+          <div className="column column-right">
+            <div className="subsection">
+              <strong>Drug Grouping:</strong><br/>
+              <input type="radio" name="drug-grouping" checked/><label>All</label><br/>
+              <input type="radio" name="drug-grouping"/><label>Opioids with stimulants</label><br/>
+              <input type="radio" name="drug-grouping"/><label>Opioids without stimulants</label><br/>
+              <input type="radio" name="drug-grouping"/><label>Stimulants without opioids</label><br/>
+              <input type="radio" name="drug-grouping"/><label>Neither opioids nor stimulants</label>
+            </div>
+          </div>
+        </div>
         <div className="column column-left">
           <div className="subsection marked">
             <span className="individual-header smaller">By Sex</span>

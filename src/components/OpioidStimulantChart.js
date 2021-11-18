@@ -76,17 +76,19 @@ const arc = (center, R, start, end, w, corner) => {
 
 function OpioidStimulantChart(params) {
 
-  const viewportCutoff = 600;
+  const viewportCutoff2 = 450;
+  const viewportCutoff1 = 350;
 
   const { width, height, state } = params;
+  const textSize = width < viewportCutoff2 ? (width < viewportCutoff1 ? 200 : 225) : 320;
   const data = raw[state];
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);
-  const margin = {top: 0, bottom: 0, left: 0, right: 0};
-  const adjustedWidth = width - margin.left - margin.right;
-  const adjustedHeight = height - margin.top - margin.bottom;
+  const remaining = width - textSize;
+  const radius = Math.min(remaining, (height / 2));
+  const padding = (remaining - radius) / 2;
 
   const comboScale = scaleBand({
-    range: [ (adjustedHeight / 6), (adjustedHeight / 2) ],
+    range: [ (radius / 4), radius ],
     domain: keys.sort((a, b) => {
       if(data[0][a] < data[0][b]){
         return -1;
@@ -96,7 +98,7 @@ function OpioidStimulantChart(params) {
         return 0;
       }
     }),
-    padding: 0.3
+    padding: 0.5
   });
 
   const curveScale = scaleLinear({
@@ -113,42 +115,43 @@ function OpioidStimulantChart(params) {
     <>
       <div id="cause-chart">
         <svg width={width} height={height}>
-          <Group top={margin.top} left={margin.left}>
-            {keys.map(key => {
-              const name = data[0][key.replace('Percent', 'Name')];
-              const rawCount = data[0][key.replace('Percent', 'Count')];
-              const rawPercent = data[0][key];
+          {keys.map(key => {
+            const name = data[0][key.replace('Percent', 'Name')];
+            const rawCount = data[0][key.replace('Percent', 'Count')];
+            const rawPercent = data[0][key];
 
-              let count, percent;
-              if(rawCount <= countCutoff){
-                count = '< ' + countCutoff;
-                percent = '< ' + rawPercent.toFixed(1)
-              } else {
-                count = rawCount;
-                percent = rawPercent.toFixed(1);
-              }
+            let count, percent;
+            if(rawCount <= countCutoff){
+              count = '< ' + countCutoff;
+              percent = '< ' + rawPercent.toFixed(1)
+            } else {
+              count = rawCount;
+              percent = rawPercent.toFixed(1);
+            }
 
-              return (
-                <Group key={key}>
-                  {width > viewportCutoff && (
-                    <Text 
-                      x={adjustedWidth / 2 - 10} 
-                      y={adjustedHeight / 2 - comboScale(key)} 
-                      verticalAnchor="start" 
-                      textAnchor="end">
-                        {name}
-                    </Text>
-                  )}
-                  <path 
-                    d={arc([(adjustedWidth / 2), (adjustedHeight / 2)], comboScale(key), 0, curveScale(rawPercent), comboScale.bandwidth(), comboScale.bandwidth() / 2)} 
-                    fill={colorScale(key)}
-                    data-tip={`<strong>${name}</strong><br/>
-                    Percent: ${percent}<br/>
-                    Deaths: ${count}`}/>
-                </Group>
-              )
-            })}
-          </Group>
+            return (
+              <Group key={key}>
+                <Text 
+                  x={padding + textSize - 10} 
+                  y={(height / 2) - comboScale(key)} 
+                  verticalAnchor="start" 
+                  textAnchor="end"
+                  fontSize={width < viewportCutoff2 ? '0.85em' : '1.05em'}
+                  style={{
+                    transformOrigin: `${padding + textSize - 10}px ${(height / 2) - comboScale(key)}px`,
+                    transform: `rotate(${width < viewportCutoff1 ? '-30' : '0'}deg)`
+                  }}>
+                    {`${name} - ${percent}%`}
+                </Text>
+                <path 
+                  d={arc([padding + textSize, (height / 2)], comboScale(key), 0, curveScale(rawPercent), comboScale.bandwidth(), comboScale.bandwidth() / 2)} 
+                  fill={colorScale(key)}
+                  data-tip={`<strong>${name}</strong><br/>
+                  Percent: ${percent}<br/>
+                  Deaths: ${count}`}/>
+              </Group>
+            )
+          })}
         </svg>
       </div>
     </>

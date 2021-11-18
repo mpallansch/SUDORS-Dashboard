@@ -76,6 +76,14 @@
   padding-left: 0.5em;
 }
 
+.background-gray {
+  background-color: lightgray;
+}
+
+input[type="radio"] {
+  margin: 0 5px;
+}
+
 .subheader {
   display: block;
   text-align: center;
@@ -186,6 +194,10 @@
 .inline-vertical-align {
   display: inline-block;
   height: calc(100px - 1em - 2px);
+  vertical-align: middle;
+}
+
+.vertical-middle {
   vertical-align: middle;
 }
 
