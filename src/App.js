@@ -179,18 +179,12 @@ function App() {
               state={state} />
           </div>
         </div>
-        <div className="subsection">
+        <div className="subsection no-padding">
           <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
             <OpioidStimulantChart 
                 width={getDimension(opioidStimulantChartRef, 'width')}
                 height={getDimension(opioidStimulantChartRef, 'height')}
               state={state} />
-          </div>
-          <div id="opioid-stimulant-chart-legend">
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)"/></svg>Opioids with stimulants</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(116,148,194)"/></svg>Opioids without stimulants</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="#88c3ea"/></svg>Stimulants without opioids</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(220,237,201)"/></svg>Neither opioids nor stimulants</span>
           </div>
         </div>
         <div className="subsection no-padding">

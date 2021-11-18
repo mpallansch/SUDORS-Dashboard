@@ -1,32 +1,6 @@
 #opioid-stimulant-chart-container {
   display: inline-block;
   vertical-align: top;
-  width: calc(100% - 260px);
-  height: 140px;
-  margin-bottom: 2em;
-}
-
-#opioid-stimulant-chart-legend {
-  display: inline-block;
-  vertical-align: top;
-  width: 260px;
-  margin-top: 0.5em;
-}
-
-#opioid-stimulant-chart-legend span {
-  display: block;
-}
-
-.App.medium-vp #opioid-stimulant-chart-container,
-.App.medium-vp #opioid-stimulant-chart-legend{
   width: 100%;
-}
-
-.App.medium-vp #opioid-stimulant-chart-legend {
-  text-align: center;
-}
-
-.App.medium-vp #opioid-stimulant-chart-legend span {
-  display: inline-block;
-  margin: 0.25em 0.5em;
+  height: 250px;
 }
