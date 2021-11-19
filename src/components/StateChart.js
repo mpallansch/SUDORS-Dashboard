@@ -8,8 +8,6 @@ import dataRatesRaw from '../data/age-adjusted-drug-rates.json';
 
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
-import abbreviations from '../geo/abbreviations.json';
-
 import '../css/StateChart.css';
 
 function StateChart(params) {
@@ -37,17 +35,7 @@ function StateChart(params) {
     'IMFs': 'rgb(187, 77, 0)'
   };
 
-  const sortPrioritize = (stateName) => {
-    return (a,b) => {
-      if(a === stateName){
-        return 1;
-      }
-      if(b === stateName){
-        return -1;
-      }
-      return (dataRates[a].rate > dataRates[b].rate) ? 1 : -1;
-    }
-  }
+  const sort = (a,b) => (dataRates[a].rate > dataRates[b].rate ? 1 : -1);
 
   const xScale = scaleLinear({
     domain: [0, Math.max(...dataKeys.map(d => dataRates[d].rate)) * (width < viewportCutoff ? 1.3 : 1.1)],
@@ -56,17 +44,8 @@ function StateChart(params) {
 
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: dataKeys.sort(sortPrioritize()),
+    domain: dataKeys.sort(sort),
     padding: 0.35
-  });
-
-  let scales = {};
-  Object.keys(abbreviations).forEach(abbrev => {
-    scales[abbreviations[abbrev]] = scaleBand({
-      range: [ adjustedHeight, 0 ],
-      domain: dataKeys.sort(sortPrioritize(abbreviations[abbrev])),
-      padding: 0.2
-    });
   });
 
   return width > 0 && (
@@ -85,9 +64,6 @@ function StateChart(params) {
                 <Group key={`bar-${name}`}>
                   <Bar 
                     className="bar"
-                    style={{
-                      'transform': `translate(0px, ${scales[state](name) - yScale(name)}px)`
-                    }}
                     x={0}
                     y={yScale(name)}
                     width={rate < 0 ? 10 : xScale(rate)}
@@ -95,7 +71,7 @@ function StateChart(params) {
                     fill={name === 'Included States' ? 'white' : colors[drug]}
                     stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colors[drug]}
                     strokeWidth="3"
-                    opacity={name === state ? 1 : 0.4}
+                    opacity={state === 'Included States' || name === state ? 1 : 0.4}
                     onClick={() => {
                       if(deaths){
                         if(globalState === name){
@@ -110,11 +86,8 @@ function StateChart(params) {
                     Rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
                   />
                   <text 
-                    style={{
-                      'transform': `translate(0px, ${scales[state](name) - yScale(name)}px)`
-                    }}
                     className="bar-label"
-                    opacity={name === state ? 1 : 0.2}
+                    opacity={state === 'Included States' || name === state ? 1 : 0.2}
                     x={rate < 0 ? 10 : xScale(rate)}
                     y={yScale(name)}
                     dy="15"
@@ -133,11 +106,7 @@ function StateChart(params) {
                   {axisLeft.ticks.map(tick => (
                       <g 
                         key={`tick-${tick.value}`}
-                        className="visx-group visx-axis-tick"
-                        style={{
-                          'transition': 'transform 1s ease-in-out',
-                          'transform': `translate(0px, ${scales[state](tick.value) - yScale(tick.value)}px)`
-                        }}>
+                        className="visx-group visx-axis-tick">
                         <text textAnchor="end" fontSize="medium">
                           <tspan y={tick.to.y} dx="-10">{tick.value}</tspan>
                         </text>

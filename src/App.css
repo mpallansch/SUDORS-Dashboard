@@ -267,6 +267,10 @@ select {
   border-top: 3px solid #712177;
 }
 
+.bar {
+  outline: none;
+}
+
 .bar,
 .bar-label,
 .pie {
