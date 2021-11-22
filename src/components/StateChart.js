@@ -16,8 +16,6 @@ function StateChart(params) {
 
   const { width, setState, height, state, drug, state: globalState } = params;
 
-  console.log(state);
-
   const data = dataRaw[drug];
   const dataRates = dataRatesRaw[drug];
   const dataKeys = Object.keys(dataRates).filter(name => name !== 'max' && name !== 'min');
