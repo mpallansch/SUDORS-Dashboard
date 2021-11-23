@@ -159,6 +159,20 @@ function checkCutoff(value, rate) {
   return value;
 }
 
+function nestedAdd(a, b) {
+  let newObj = {};
+  
+  Object.keys(a).forEach(key => {
+    if(typeof a[key] === 'number') {
+      newObj[key] = a[key] + b[key];
+    } else {
+      newObj[key] = nestedAdd(a[key], b[key]);
+    }
+  });
+
+  return newObj;
+}
+
 fs.createReadStream(inputFilePath)
   .pipe(csv())
   .on('data', (row) => {
@@ -348,6 +362,26 @@ fs.createReadStream(inputFilePath)
   })
   .on('end', () => {
     let statesFinal = Object.keys(keyCounts);
+
+    let stateAgePopsOverall;
+    let stateAgeSexPopsOverall;
+    let stateAgeRacePopsOverall;
+    statesFinal.forEach(state => {
+      if(state !== us){
+        if(!stateAgePopsOverall) {
+          stateAgePopsOverall = stateAgePops[reverseFips[state]];
+          stateAgeSexPopsOverall = stateAgeSexPops[reverseFips[state]];
+          stateAgeRacePopsOverall = stateAgeRacePops[reverseFips[state]];
+        } else {
+          stateAgePopsOverall = nestedAdd(stateAgePops[reverseFips[state]], stateAgePopsOverall);
+          stateAgeSexPopsOverall = nestedAdd(stateAgeSexPops[reverseFips[state]], stateAgeSexPopsOverall);
+          stateAgeRacePopsOverall = nestedAdd(stateAgeRacePops[reverseFips[state]], stateAgeRacePopsOverall);
+        }
+      }
+    });
+    stateAgePops[reverseFips[us]] = stateAgePopsOverall;
+    stateAgeSexPops[reverseFips[us]] = stateAgeSexPopsOverall;
+    stateAgeRacePops[reverseFips[us]] = stateAgeRacePopsOverall;
 
     let typeOfDrugData = {};
 
