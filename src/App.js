@@ -24,7 +24,7 @@ function App() {
   const viewportCutoffMedium = 800;
 
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
-  const [ state, setState ] = useState('Included States');
+  const [ state, setState ] = useState('Overall');
   const [ drug, setDrug ] = useState('All');
   const headerMonthChartRef = useRef();
   const headerWaffleChartRef = useRef();
@@ -99,9 +99,9 @@ function App() {
         <span>View data for:</span>
         <select value={state} onChange={(e) => setState(e.target.value)}>
           {Object.keys(totalData).sort((a, b) => {
-            if(a === 'Included States'){
+            if(a === 'Overall'){
               return -1;
-            } else if (b === 'Included States'){
+            } else if (b === 'Overall'){
               return 1;
             } else {
               return a < b ? -1 : 1;

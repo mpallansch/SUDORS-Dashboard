@@ -66,14 +66,14 @@ function StateChart(params) {
                     y={yScale(name)}
                     width={rate < 0 ? 10 : xScale(rate)}
                     height={yScale.bandwidth()}
-                    fill={name === 'Included States' ? 'white' : colors[drug]}
+                    fill={name === 'Overall' ? 'white' : colors[drug]}
                     stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colors[drug]}
                     strokeWidth="3"
-                    opacity={state === 'Included States' || name === state ? 1 : 0.4}
+                    opacity={state === 'Overall' || name === state ? 1 : 0.4}
                     onClick={() => {
                       if(deaths){
                         if(globalState === name){
-                          setState('Included States');
+                          setState('Overall');
                         } else {
                           setState(name);
                         }
@@ -85,7 +85,7 @@ function StateChart(params) {
                   />
                   <text 
                     className="bar-label"
-                    opacity={state === 'Included States' || name === state ? 1 : 0.2}
+                    opacity={state === 'Overall' || name === state ? 1 : 0.2}
                     x={rate < 0 ? 10 : xScale(rate)}
                     y={yScale(name)}
                     dy="15"
