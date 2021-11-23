@@ -68,9 +68,9 @@ function CauseChart(params) {
                     height={adjustedHeight - yScale(d.cause)}
                     fill={colors[d.opioid]}
                     data-tip={`<strong>${d.opioid}</strong><br/>
-                    Percent Present: ${d.present}%<br/>
+                    Percent Present: ${d.present.toFixed(1)}%<br/>
                     Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
-                    Percent Cause: ${d.cause}%<br/>
+                    Percent Cause: ${d.cause.toFixed(1)}%<br/>
                     Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
                   />
                 </Group>

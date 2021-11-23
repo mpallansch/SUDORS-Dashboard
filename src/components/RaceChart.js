@@ -115,7 +115,7 @@ function RaceChart(params) {
                     
                     textAnchor={'start'}
                     dx={-18}
-                  >{d.rate <= rateCutoff ? rateCutoffLabel : d.rate}</text>
+                  >{d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}</text>
                 </Group>
               )}
             )}
