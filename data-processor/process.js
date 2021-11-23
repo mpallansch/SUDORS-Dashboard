@@ -699,6 +699,8 @@ fs.createReadStream(inputFilePath)
             return -1;
           }
           return 0;
+        }).filter(key => {
+          return key !== '00000';
         }).slice(0, 10).map(key => ({
           drugCombination: key,
           deaths: checkCutoff(drugCombinationData[state][key]),
