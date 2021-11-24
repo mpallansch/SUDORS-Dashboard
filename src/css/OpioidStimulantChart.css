@@ -1,7 +1,7 @@
 #opioid-stimulant-chart-container {
   display: inline-block;
   vertical-align: top;
-  width: 100%;
+  width: calc(100% - 260px);
   height: 140px;
   margin-bottom: 2em;
 }

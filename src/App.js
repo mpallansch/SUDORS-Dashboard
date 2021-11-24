@@ -197,13 +197,11 @@ function App() {
       <div className="section">
         <span className="subheader">Title {stateLabel}?</span>
         <div className="subsection">
-          <div className="column column-left vertical-middle">
-            <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
-              <OpioidStimulantChart 
-                  width={getDimension(opioidStimulantChartRef, 'width')}
-                  height={getDimension(opioidStimulantChartRef, 'height')}
-                state={state} />
-            </div>
+          <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
+            <OpioidStimulantChart 
+                width={getDimension(opioidStimulantChartRef, 'width')}
+                height={getDimension(opioidStimulantChartRef, 'height')}
+              state={state} />
           </div>
           <div id="opioid-stimulant-chart-legend">
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)"/></svg>Opioids with stimulants</span>
@@ -211,9 +209,7 @@ function App() {
             <span><svg className="indicator"><rect width="100%" height="100%" fill="#88c3ea"/></svg>Stimulants without opioids</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(220,237,201)"/></svg>Neither opioids nor stimulants</span>
           </div>
-          <div className="column column-right vertical-middle">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
       </div>
 
