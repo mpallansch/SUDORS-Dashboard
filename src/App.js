@@ -256,19 +256,6 @@ function App() {
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
             </div>
           </div>
-          <div className="subsection marked">
-            <span className="individual-header">By Month</span>
-            <div id="line-chart-container" ref={monthChartRef}>
-              <MonthChart 
-                width={getDimension(monthChartRef, 'width')}
-                height={getDimension(monthChartRef, 'height')}
-                header={false}
-                state={state} 
-                colorScale={colorScale}
-                el={monthChartRef}
-              />
-            </div>
-          </div>
         </div>
         <div className="column column-right">
           <div className="subsection marked">
@@ -287,18 +274,35 @@ function App() {
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
             </div>
           </div>
-          <div className="subsection marked">
-            <span className="individual-header margin-top">By Race/Ethnicity</span>
-            <div id="race-chart-container" ref={raceChartRef}>
-                <RaceChart 
-                  width={getDimension(raceChartRef, 'width')}
-                  height={getDimension(raceChartRef, 'height')}
-                  state={state}
-                  colorScale={colorScale}
-                  el={raceChartRef}
-                />
-            </div>
-            Age-adjusted rate of deaths per 100,000
+        </div>
+        <div className="subsection marked">
+          <span className="individual-header margin-top">By Race/Ethnicity</span>
+          <div id="race-chart-container" ref={raceChartRef}>
+              <RaceChart 
+                width={getDimension(raceChartRef, 'width')}
+                height={getDimension(raceChartRef, 'height')}
+                state={state}
+                colorScale={colorScale}
+                el={raceChartRef}
+              />
+          </div>
+          Age-adjusted rate of deaths per 100,000
+        </div>
+      </div>
+
+      <div className="section">
+        <span className="subheader">Title {stateLabel}?</span>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+        <div className="subsection">
+          <div id="line-chart-container" ref={monthChartRef}>
+            <MonthChart 
+              width={getDimension(monthChartRef, 'width')}
+              height={getDimension(monthChartRef, 'height')}
+              header={false}
+              state={state} 
+              colorScale={colorScale}
+              el={monthChartRef}
+            />
           </div>
         </div>
       </div>
