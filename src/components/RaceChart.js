@@ -26,7 +26,7 @@ function RaceChart(params) {
 
   const xScale = scaleLinear({
     domain: [ 0, Math.max(...dataRates.map(d => d.rate))],
-    range: [ 20, adjustedWidth - 25 ]
+    range: [ 20, adjustedWidth - 35 ]
   });
   
   const yScale = scaleBand({
