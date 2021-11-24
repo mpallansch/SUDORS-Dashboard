@@ -216,25 +216,6 @@ function App() {
       <div className="section">
         <span className="subheader">Drug overdose deaths{stateLabel}</span>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-        <div className="background-gray">
-          <div className="column column-left">
-            <div className="subsection">
-              <strong>Metric:</strong><br/>
-              <input type="radio" name="metric" defaultChecked/><label>Rate per 100,000</label><br/>
-              <input type="radio" name="metric"/><label>Percent</label>
-            </div>
-          </div>
-          <div className="column column-right">
-            <div className="subsection">
-              <strong>Drug Grouping:</strong><br/>
-              <input type="radio" name="drug-grouping" defaultChecked/><label>All</label><br/>
-              <input type="radio" name="drug-grouping"/><label>Opioids with stimulants</label><br/>
-              <input type="radio" name="drug-grouping"/><label>Opioids without stimulants</label><br/>
-              <input type="radio" name="drug-grouping"/><label>Stimulants without opioids</label><br/>
-              <input type="radio" name="drug-grouping"/><label>Neither opioids nor stimulants</label>
-            </div>
-          </div>
-        </div>
         <div className="column column-left">
           <div className="subsection marked">
             <span className="individual-header smaller">By Sex</span>
