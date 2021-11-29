@@ -64,7 +64,7 @@ function App() {
     } // eslint-disable-next-line
   },[]);
 
-  const stateLabel = <span> in <span className="italics">{state}</span></span>;
+  const stateLabel = <span> {state === 'Overall' ? '' : 'in'} <span className="italics">{state}</span></span>;
   const stateLabelOf = <span> of <span className="italics">{state}</span></span>;
 
   const getDimension = (ref, dimension) => {
