@@ -26,11 +26,11 @@ function StateChart(params) {
 
   const colors = {
     'All': 'rgb(58, 88, 161)',
-    'Meth': 'rgb(75, 131, 13)',
+    'Methamphetamine': 'rgb(75, 131, 13)',
     'Heroin': 'rgb(251, 171, 24)',
-    'Rx Opioids': 'rgb(0, 124, 145)',
+    'Prescription opioids': 'rgb(0, 124, 145)',
     'Cocaine': 'rgb(0, 105, 92)',
-    'IMFs': 'rgb(187, 77, 0)'
+    'Illicitly manufactured fentanyls': 'rgb(187, 77, 0)'
   };
 
   const sort = (a,b) => (dataRates[a].rate > dataRates[b].rate ? 1 : -1);

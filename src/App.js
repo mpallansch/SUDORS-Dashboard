@@ -147,15 +147,15 @@ function App() {
         <div>
           <div className="drug-tab-section">
             {drugTab('All', 'All Substances')}
+            {drugTab('Illicitly manufactured fentanyls')}
+          </div>
+          <div className="drug-tab-section">
             {drugTab('Heroin')}
+            {drugTab('Prescription opioids')}
           </div>
           <div className="drug-tab-section">
-            {drugTab('IMFs')}
             {drugTab('Cocaine')}
-          </div>
-          <div className="drug-tab-section">
-            {drugTab('Rx Opioids')}
-            {drugTab('Meth')}
+            {drugTab('Methamphetamine')}
           </div>
         </div>
         <div id="state-chart-container" ref={stateChartRef}>

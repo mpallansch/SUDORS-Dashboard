@@ -70,12 +70,12 @@ const drugTypeMapping = {
   'cocaine_t_cod': 'cocaine_t'
 };
 const drugLabelMapping = {
-  'meth_r_cod': 'Meth',
-  'meth_r': 'Meth',
-  'rx_opioid_cod_v2': 'Rx Opioids',
-  'rx_opioid_v2': 'Rx Opioids',
-  'imfs_cod': 'IMFs',
-  'imfs_pos': 'IMFs',
+  'meth_r_cod': 'Methamphetamine',
+  'meth_r': 'Methamphetamine',
+  'rx_opioid_cod_v2': 'Prescription opioids',
+  'rx_opioid_v2': 'Prescription opioids',
+  'imfs_cod': 'Illicitly manufactured fentanyls',
+  'imfs_pos': 'Illicitly manufactured fentanyls',
   'heroin_def_cod_v2': 'Heroin',
   'heroin_def_v2': 'Heroin',
   'cocaine_t_cod': 'Cocaine',
@@ -104,9 +104,9 @@ const raceDataInitial = () => ({
 });
 const drugDataInitial = () => ({
   'All': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  'Meth': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  'Rx Opioids': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  'IMFs': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  'Methamphetamine': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  'Prescription opioids': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  'Illicitly manufactured fentanyls': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
   'Heroin': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
   'Cocaine': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 });
@@ -395,18 +395,11 @@ fs.createReadStream(inputFilePath)
           causeCount: checkCutoff(allOpioidCause[state])
         },
         {
-          opioid: 'IMFs', 
+          opioid: 'Illicitly manufactured fentanyls', 
           present: percent(keyCounts[state]['imfs_pos']['1'], totalDeaths[state]), 
           cause: percent(keyCounts[state]['imfs_cod']['1'], totalDeaths[state]),
           presentCount: checkCutoff(keyCounts[state]['imfs_pos']['1']),
           causeCount: checkCutoff(keyCounts[state]['imfs_cod']['1'])
-        },
-        {
-          opioid: 'Cocaine', 
-          present: percent(keyCounts[state]['cocaine_t']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['cocaine_t_cod']['1'], totalDeaths[state]),
-          presentCount: checkCutoff(keyCounts[state]['cocaine_t']['1']),
-          causeCount: checkCutoff(keyCounts[state]['cocaine_t_cod']['1'])
         },
         {
           opioid: 'Heroin', 
@@ -416,14 +409,21 @@ fs.createReadStream(inputFilePath)
           causeCount: checkCutoff(keyCounts[state]['heroin_def_cod_v2']['1'])
         },
         {
-          opioid: 'Rx Opioids',
+          opioid: 'Prescription opioids',
           present: percent(keyCounts[state]['rx_opioid_v2']['1'], totalDeaths[state]), 
           cause: percent(keyCounts[state]['rx_opioid_cod_v2']['1'], totalDeaths[state]),
           presentCount: checkCutoff(keyCounts[state]['rx_opioid_v2']['1']),
           causeCount: checkCutoff(keyCounts[state]['rx_opioid_cod_v2']['1'])
         },
         {
-          opioid: 'Meth', 
+          opioid: 'Cocaine', 
+          present: percent(keyCounts[state]['cocaine_t']['1'], totalDeaths[state]), 
+          cause: percent(keyCounts[state]['cocaine_t_cod']['1'], totalDeaths[state]),
+          presentCount: checkCutoff(keyCounts[state]['cocaine_t']['1']),
+          causeCount: checkCutoff(keyCounts[state]['cocaine_t_cod']['1'])
+        },
+        {
+          opioid: 'Methamphetamine', 
           present: percent(keyCounts[state]['meth_r']['1'], totalDeaths[state]), 
           cause: percent(keyCounts[state]['meth_r_cod']['1'], totalDeaths[state]),
           presentCount: checkCutoff(keyCounts[state]['meth_r']['1']),

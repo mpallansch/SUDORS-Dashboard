@@ -19,7 +19,7 @@ function DrugCombinationChart(params) {
   const margin = {top: 40, bottom: 200, left: 140, right: 0};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
-  const drugs = ['IMFs', 'Heroin', 'Rx Opioids', 'Cocaine', 'Meth'];
+  const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
   const tableElHeight = margin.bottom / drugs.length - 5;
   const halfTableElHeight = tableElHeight / 2;
 
@@ -42,11 +42,11 @@ function DrugCombinationChart(params) {
 
   const colors = {
     'Any Opioids': 'rgb(58, 88, 161)',
-    'Meth': 'rgb(75, 131, 13)',
+    'Methamphetamine': 'rgb(75, 131, 13)',
     'Heroin': 'rgb(251, 171, 24)',
-    'Rx Opioids': 'rgb(0, 124, 145)',
+    'Prescription opioids': 'rgb(0, 124, 145)',
     'Cocaine': 'rgb(0, 105, 92)',
-    'IMFs': 'rgb(187, 77, 0)'
+    'Illicitly manufactured fentanyls': 'rgb(187, 77, 0)'
   };
 
   return width > 0 && (
