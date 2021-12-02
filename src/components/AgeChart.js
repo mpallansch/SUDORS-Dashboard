@@ -22,7 +22,7 @@ function AgeChart(params) {
     '6': '65+'
   };
   
-  const { width, height, state, colorScale, el } = params;
+  const { width, height, metric, state, colorScale, el } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -34,7 +34,7 @@ function AgeChart(params) {
   const halfWidth = adjustedWidth / 2;
 
   const xScale = scaleLinear({
-    domain: [0, Math.max(...data['male'].map(d => d.percent), ...data['female'].map(d => d.percent))],
+    domain: [0, Math.max(...data['male'].map(d => d[metric]), ...data['female'].map(d => d[metric]))],
     range: [ 0, halfWidth - 30 ]
   });
 
@@ -92,9 +92,9 @@ function AgeChart(params) {
                       'transformOrigin': `${halfWidth}px 0px`
                     }}
                     key={`bar-male-${d.age}`}
-                    x={halfWidth - xScale(d.percent)}
+                    x={halfWidth - xScale(d[metric])}
                     y={yScale(ageMapping[d.age])}
-                    width={xScale(d.percent) }
+                    width={xScale(d[metric]) }
                     height={yScale.bandwidth()}
                     fill={colorScale.Male}
                     data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
@@ -102,10 +102,10 @@ function AgeChart(params) {
                     Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                   />
                   <text
-                    x={halfWidth - xScale(d.percent) - 40}
+                    x={halfWidth - xScale(d[metric]) - 40}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
                     fill={'black'}>
-                      {d.percent}%
+                      {d[metric]}{metric === 'rate' ? '' : '%'}
                   </text>
                 </Group>
               )
@@ -121,7 +121,7 @@ function AgeChart(params) {
                     key={`bar-female-${d.age}`}
                     x={halfWidth}
                     y={yScale(ageMapping[d.age])}
-                    width={xScale(d.percent)}
+                    width={xScale(d[metric])}
                     height={yScale.bandwidth()}
                     fill={colorScale.Female}
                     data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
@@ -129,10 +129,10 @@ function AgeChart(params) {
                     Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                   />
                   <text
-                    x={halfWidth + xScale(d.percent) + 5}
+                    x={halfWidth + xScale(d[metric]) + 5}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
                     fill={'black'}>
-                      {d.percent}%
+                      {d[metric]}{metric === 'rate' ? '' : '%'}
                   </text>
                 </Group>
               )

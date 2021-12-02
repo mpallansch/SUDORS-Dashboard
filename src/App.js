@@ -26,6 +26,7 @@ function App() {
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
   const [ state, setState ] = useState('Overall');
   const [ drug, setDrug ] = useState('All');
+  const [ metric, setMetric ] = useState('rate');
   const headerMonthChartRef = useRef();
   const headerWaffleChartRef = useRef();
   const sexChartRef = useRef();
@@ -216,6 +217,32 @@ function App() {
       <div className="section">
         <span className="subheader">Drug overdose deaths{stateLabel}</span>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+        
+        <div id="metric-selectors">
+          <strong>Metric: </strong>
+          <div>
+            <input 
+              id="rate-metric" 
+              name="metric" 
+              type="radio" 
+              value="rate" 
+              checked={metric === 'rate'}
+              onChange={(e) => setMetric(e.target.value)} />
+            <label htmlFor="rate-metric">Rate per 100,000</label>
+          </div>
+
+          <div>
+            <input 
+              id="percent-metric" 
+              name="metric" 
+              type="radio" 
+              value="percent" 
+              checked={metric === 'percent'}
+              onChange={(e) => setMetric(e.target.value)} />
+            <label htmlFor="percent-metric">Percent</label>
+          </div>
+        </div><br/>
+        
         <div className="column column-left">
           <div className="subsection marked">
             <span className="individual-header smaller">By Sex</span>
@@ -223,15 +250,16 @@ function App() {
               <SexChart 
                 width={getDimension(sexChartRef, 'width')} 
                 height={getDimension(sexChartRef, 'height')}
+                metric={metric}
                 state={state}
                 colorScale={colorScale} 
                 el={sexChartRef}
               />
             </div>
-            <div id="sex-chart-legend">
+            {metric !== 'rate' && (<div id="sex-chart-legend">
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
-            </div>
+            </div>)}
           </div>
         </div>
         <div className="column column-right">
@@ -241,6 +269,7 @@ function App() {
               <AgeChart 
                 width={getDimension(ageChartRef, 'width')}
                 height={getDimension(ageChartRef, 'height')}
+                metric={metric}
                 state={state}
                 colorScale={colorScale}
                 el={ageChartRef}
@@ -258,6 +287,7 @@ function App() {
               <RaceChart 
                 width={getDimension(raceChartRef, 'width')}
                 height={getDimension(raceChartRef, 'height')}
+                metric={metric}
                 state={state}
                 colorScale={colorScale}
                 el={raceChartRef}

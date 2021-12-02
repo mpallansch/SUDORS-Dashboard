@@ -134,6 +134,26 @@ input[type="radio"] {
   margin: 0.25em;
 }
 
+#metric-selectors {
+  display: inline-block;
+  border: 1px solid black;
+  border-left: 7px solid #712177;
+  padding: 0.75em;
+}
+
+#metric-selectors strong {
+  margin: 0 1em;
+}
+
+#metric-selectors div {
+  display: inline-block;
+}
+
+#metric-selectors label {
+  margin-bottom: 0;
+  margin-right: 1em;
+}
+
 #header {
   background-color: #712177;
   color: white;

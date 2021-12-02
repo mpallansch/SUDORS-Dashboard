@@ -13,25 +13,40 @@ import '../css/RaceChart.css';
 
 function RaceChart(params) {
   
-  const { width, height, state, colorScale, el } = params;
+  const { width, height, metric, state, colorScale, el } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
   const data = raw[state];
   const dataRates = rawRates[state];
+  const currentData = metric === 'rate' ? dataRates : data;
+  const otherData = metric === 'rate' ? data : dataRates;
 
   const margin = {top: 10, bottom: 10, left: 160, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
+  const isSuppressed = (datum) => {
+    if(metric === 'rate' && datum.rate < rateCutoff) return true;
+    return false;
+  };
+
+  const getData = (datum, label) => {
+    if(metric === 'rate'){
+      if(datum.rate < rateCutoff) return rateCutoffLabel;
+      return (label === true ? datum.rate.toFixed(1) : datum.rate);
+    }
+    return (label === true ? `${Math.round(datum.percent)}%` : datum.percent);
+  };
+
   const xScale = scaleLinear({
-    domain: [ 0, Math.max(...dataRates.map(d => d.rate))],
+    domain: [ 0, Math.max(...(currentData).map(getData))],
     range: [ 20, adjustedWidth - 35 ]
   });
   
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: dataRates.sort((a,b) => (a.rate > b.rate) ? 1 : -1).map(d => d.race),
+    domain: currentData.sort((a,b) => (getData(a) > getData(b)) ? 1 : -1).map(d => d.race),
     padding: 0.2
   });
 
@@ -63,11 +78,11 @@ function RaceChart(params) {
         width={width} 
         height={height}>
           <Group top={margin.top} left={margin.left}>
-            {dataRates.map(d => {
+            {currentData.map(d => {
               let datum;
-              for(let i = 0; i < data.length; i++){
-                if(data[i].race === d.race){
-                  datum = data[i];
+              for(let i = 0; i < otherData.length; i++){
+                if(otherData[i].race === d.race){
+                  datum = otherData[i];
                   break;
                 }
               }
@@ -75,7 +90,7 @@ function RaceChart(params) {
               return (
                 <Group key={`bar-container-${d.race}`}>
                   { // render data bar
-                  d.rate > rateCutoff && (
+                  !isSuppressed(d) && (
                     <Bar 
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
@@ -84,16 +99,16 @@ function RaceChart(params) {
                       key={`bar-${d.race}`}
                       x={0}
                       y={yScale(d.race)}
-                      width={d.rate < 0 ? 10 : xScale(d.rate)}
+                      width={xScale(getData(d))}
                       height={yScale.bandwidth()}
                       fill={colorScale.Secondary}
                       data-tip={`<strong>${d.race}</strong><br/>
-                      Deaths: ${datum.deaths <= countCutoff ? `< ${countCutoff}` : datum.deaths}<br/>
-                      Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                      Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : (d.deaths || datum.deaths)}<br/>
+                      Rate: ${(d.rate || datum.rate) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
                     />
                   )}
                   { // render suppressed bar
-                  d.rate <= rateCutoff && (
+                  isSuppressed(d) && (
                     <Bar 
                     className={`animated-bar ${animated ? 'animated' : ''}`}
                     style={{
@@ -110,12 +125,12 @@ function RaceChart(params) {
                   )}
                   <text
                     key={`bar-label-${d.race}`}
-                    x={(d.rate < 0 ? 10 : xScale(d.rate)) + 25}
+                    x={xScale(getData(d)) + 25}
                     y={yScale(d.race) + (yScale.bandwidth() / 1.75)}
                     
                     textAnchor={'start'}
                     dx={-18}
-                  >{d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}</text>
+                  >{getData(d, true)}</text>
                 </Group>
               )}
             )}
