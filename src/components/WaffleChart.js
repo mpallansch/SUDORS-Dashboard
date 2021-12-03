@@ -75,7 +75,7 @@ function WaffleChart(params) {
               width={adjustedWidth / 1.5}
               fontSize={adjustedWidth / 12}
               fontWeight="bold"
-              fill="rgb(158, 169, 190)">had opportunities for intervention</Text>
+              fill="rgb(158, 169, 190)">of drug overdoses had opportunities for intervention</Text>
           </>
         )}
       </svg>

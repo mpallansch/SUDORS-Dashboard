@@ -11,12 +11,14 @@ import '../css/DrugCombinationChart.css';
 
 function DrugCombinationChart(params) {
 
+  const viewportCutoff = 600;
+
   const { width: rawWidth, height, state } = params;
   const data = raw[state].combinations;
   const illicitValue = raw[state].illicit;
-  const width = Math.max(data.length * 55, rawWidth);
+  const width = Math.max(data.length * 110, rawWidth);
   const barPadding = 0.45;
-  const margin = {top: 40, bottom: 200, left: 140, right: 0};
+  const margin = {top: 40, bottom: 200, left: rawWidth < viewportCutoff ? 175 : 280, right: 0};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
   const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
@@ -148,22 +150,6 @@ function DrugCombinationChart(params) {
           </svg>
         </div>
         <svg id="table-header" width={margin.left + xScale(data[0].drugCombination) - quarterBarWidth} height={height}>
-          <Text
-            x={margin.left / 2} 
-            y={10} 
-            width={margin.left}
-            fill="rgb(77,126,119)"
-            verticalAnchor="start"
-            textAnchor="middle"
-            fontSize="xx-large"
-            fontWeight="bold"
-          >{`${illicitValue.toFixed(1)}%`}</Text>
-          <Text 
-            x={5} 
-            y={50} 
-            width={margin.left}
-            verticalAnchor="start">of drug overdose deaths involved one or more illicit drugs</Text>
-          {illicitValue.toFixed(1)}%
           <Group top={adjustedHeight + margin.top} left={xScale(data[0].drugCombination) - quarterBarWidth}>
             {drugs.map((drug, i) => {
                 const y = i * tableElHeight;
@@ -188,7 +174,7 @@ function DrugCombinationChart(params) {
                       textAnchor="middle" 
                       dominantBaseline="middle"
                       fontWeight="bold">
-                        {drug}
+                        {rawWidth < viewportCutoff && drug === 'Illicitly manufactured fentanyls' ? 'IMFs' : drug}
                     </Text>
                   </Group>
               )})}

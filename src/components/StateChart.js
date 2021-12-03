@@ -106,7 +106,7 @@ function StateChart(params) {
                         key={`tick-${tick.value}`}
                         className="visx-group visx-axis-tick">
                         <text textAnchor="end" fontSize="medium">
-                          <tspan y={tick.to.y} dx="-10">{tick.value}</tspan>
+                          <tspan y={tick.to.y} dx="-10" dy="5">{tick.value}</tspan>
                         </text>
                       </g>
                     )

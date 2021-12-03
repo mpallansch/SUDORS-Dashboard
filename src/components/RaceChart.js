@@ -33,7 +33,7 @@ function RaceChart(params) {
 
   const getData = (datum, label) => {
     if(metric === 'rate'){
-      if(datum.rate < rateCutoff) return rateCutoffLabel;
+      if(datum.rate < rateCutoff) return label === true ? '*' : 0;
       return (label === true ? datum.rate.toFixed(1) : datum.rate);
     }
     return (label === true ? `${Math.round(datum.percent)}%` : datum.percent);

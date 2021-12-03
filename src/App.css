@@ -134,6 +134,10 @@ input[type="radio"] {
   margin: 0.25em;
 }
 
+.text-align-center {
+  text-align: center;
+}
+
 #metric-selectors {
   display: inline-block;
   border: 1px solid black;

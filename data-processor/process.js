@@ -508,7 +508,7 @@ fs.createReadStream(inputFilePath)
             percent: percent(keyCounts[state]['recentrelapse']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['recentrelapse']['1']) },
           { 
-            circumstance: 'Homeless', 
+            circumstance: 'Experiencing homelessness', 
             percent: percent(keyCounts[state]['Homeless']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['Homeless']['1']) }
         ]
@@ -701,7 +701,7 @@ fs.createReadStream(inputFilePath)
           return 0;
         }).filter(key => {
           return key !== '00000';
-        }).slice(0, 10).map(key => ({
+        }).slice(0, 5).map(key => ({
           drugCombination: key,
           deaths: checkCutoff(drugCombinationData[state][key]),
           percent: percent(checkCutoff(drugCombinationData[state][key]), totalDeaths[state])

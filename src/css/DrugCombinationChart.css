@@ -1,7 +1,6 @@
 #drug-combination-chart-container {
   width: 100%;
   height: 350px;
-  margin-bottom: 2em;
   position: relative;
 }
 
@@ -24,4 +23,9 @@
 #drug-combination-chart-container td {
   text-align: center;
   border: 1px solid black;
+}
+
+.App.small-vp #drug-combination-chart-container {
+  width: calc(100% + 2em);
+  margin: 0 -1em 2em -1em;
 }

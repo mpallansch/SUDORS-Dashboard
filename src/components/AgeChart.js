@@ -44,6 +44,16 @@ function AgeChart(params) {
     padding: 0.2
   });
 
+  const isSuppressed = (value) => {
+    if(metric === 'rate' && value <= rateCutoff) return true;
+    return false;
+  };
+
+  const suppressedValue = (value) => {
+    if(metric === 'rate' && value <= rateCutoff) return '*';
+    return value;
+  }
+
   const onScroll = () => {
     if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
       window.removeEventListener('scroll', onScroll);
@@ -85,54 +95,60 @@ function AgeChart(params) {
           />
             {data['male'].map(d => (
                 <Group key={`group-male-${d.age}`}>
-                  <Bar 
-                    className={`animated-bar ${animated ? 'animated' : ''}`}
-                    style={{
-                      'transition': animated ? 'transform 1s ease-in-out' : '',
-                      'transformOrigin': `${halfWidth}px 0px`
-                    }}
-                    key={`bar-male-${d.age}`}
-                    x={halfWidth - xScale(d[metric])}
-                    y={yScale(ageMapping[d.age])}
-                    width={xScale(d[metric]) }
-                    height={yScale.bandwidth()}
-                    fill={colorScale.Male}
-                    data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
-                    Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
-                    Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
-                  />
+                  {!isSuppressed(d[metric]) && (
+                    <Bar 
+                      className={`animated-bar ${animated ? 'animated' : ''}`}
+                      style={{
+                        'transition': animated ? 'transform 1s ease-in-out' : '',
+                        'transformOrigin': `${halfWidth}px 0px`
+                      }}
+                      key={`bar-male-${d.age}`}
+                      x={halfWidth - xScale(d[metric])}
+                      y={yScale(ageMapping[d.age])}
+                      width={xScale(d[metric])}
+                      height={yScale.bandwidth()}
+                      fill={colorScale.Male}
+                      data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
+                      Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
+                      Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                    />
+                  )}
                   <text
                     x={halfWidth - xScale(d[metric]) - 40}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
+                    dx={isSuppressed(d[metric]) ? '15px' : '0'}
                     fill={'black'}>
-                      {d[metric]}{metric === 'rate' ? '' : '%'}
+                      {suppressedValue(d[metric])}{metric === 'rate' ? '' : '%'}
                   </text>
                 </Group>
               )
             )}
             {data['female'].map(d => (
                 <Group key={`group-female-${d.age}`}>
-                  <Bar 
-                    className={`animated-bar ${animated ? 'animated' : ''}`}
-                    style={{
-                      'transition': animated ? 'transform 1s ease-in-out' : '',
-                      'transformOrigin': `${halfWidth}px 0px`
-                    }}
-                    key={`bar-female-${d.age}`}
-                    x={halfWidth}
-                    y={yScale(ageMapping[d.age])}
-                    width={xScale(d[metric])}
-                    height={yScale.bandwidth()}
-                    fill={colorScale.Female}
-                    data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
-                    Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
-                    Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
-                  />
+                  {!isSuppressed(d[metric]) && (
+                    <Bar 
+                      className={`animated-bar ${animated ? 'animated' : ''}`}
+                      style={{
+                        'transition': animated ? 'transform 1s ease-in-out' : '',
+                        'transformOrigin': `${halfWidth}px 0px`
+                      }}
+                      key={`bar-female-${d.age}`}
+                      x={halfWidth}
+                      y={yScale(ageMapping[d.age])}
+                      width={xScale(d[metric])}
+                      height={yScale.bandwidth()}
+                      fill={colorScale.Female}
+                      data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
+                      Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
+                      Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                    />
+                  )}
                   <text
                     x={halfWidth + xScale(d[metric]) + 5}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
-                    fill={'black'}>
-                      {d[metric]}{metric === 'rate' ? '' : '%'}
+                    dx={isSuppressed(d[metric]) ? '15px' : '0'}
+                    fill="black">
+                      {suppressedValue(d[metric])}{metric === 'rate' ? '' : '%'}
                   </text>
                 </Group>
               )
