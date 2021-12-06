@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Group } from '@visx/group';
 import { Pie, Bar } from '@visx/shape';
 import { Text } from '@visx/text';
-import { AxisLeft } from '@visx/axis';
+import { AxisBottom } from '@visx/axis';
 import { scaleLinear, scaleBand } from '@visx/scale';
 
 import raw from '../data/sex.json';
@@ -20,7 +20,7 @@ function SexChart(params) {
   const dataRates = rawRates[state];
   const [ animated, setAnimated ] = useState(false);
 
-  const margin = {top: 10, bottom: 10, left: metric === 'rate' ? 65 : 10, right: 10};
+  const margin = {top: 10, bottom: 30, left: metric === 'rate' ? 65 : 10, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
   const halfWidth = adjustedWidth / 2;
@@ -52,16 +52,16 @@ function SexChart(params) {
   const caps = (string) => {
     return string.charAt(0).toUpperCase() + string.substring(1, string.length);
   };
-
-  const xScale = scaleLinear({
-    domain: [ 0, Math.max(...(dataRates).map(d => parseFloat(d.rate)))],
-    range: [ 20, adjustedWidth - 35 ]
-  });
   
-  const yScale = scaleBand({
-    range: [ adjustedHeight, 0 ],
-    domain: dataRates.sort((a,b) => (a.rate > b.rate) ? 1 : -1).map(d => caps(d.sex)),
+  const xScale = scaleBand({
+    range: [ 0, adjustedWidth ],
+    domain: dataRates.sort((a,b) => (a.rate > b.rate) ? -1 : 1).map(d => caps(d.sex)),
     padding: 0.2
+  });
+
+  const yScale = scaleLinear({
+    domain: [ 0, Math.max(...(dataRates).map(d => parseFloat(d.rate)))],
+    range: [ 0, adjustedHeight - 35 ]
   });
 
   return width > 0 && (
@@ -84,15 +84,16 @@ function SexChart(params) {
                   { // render data bar
                   rate > rateCutoff && (
                     <Bar 
-                      className={`animated-bar ${animated ? 'animated' : ''}`}
+                      className={`animated-bar vertical ${animated ? 'animated' : ''}`}
                       style={{
-                        'transition': animated ? 'transform 1s ease-in-out' : ''
+                        'transition': animated ? 'transform 1s ease-in-out' : '',
+                        'transformOrigin': `0px ${adjustedHeight}px`
                       }}
                       key={`bar-${d.sex}`}
-                      x={0}
-                      y={yScale(d.sex)}
-                      width={xScale(rate)}
-                      height={yScale.bandwidth()}
+                      x={xScale(d.sex)}
+                      y={adjustedHeight - yScale(rate)}
+                      width={xScale.bandwidth()}
+                      height={yScale(rate)}
                       fill={colorScale[d.sex]}
                       data-tip={`<strong>${d.sex}</strong><br/>
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
@@ -102,47 +103,48 @@ function SexChart(params) {
                   { // render suppressed bar
                   rate <= rateCutoff && (
                     <Bar 
-                      className={`animated-bar ${animated ? 'animated' : ''}`}
+                      className={`animated-bar vertical ${animated ? 'animated' : ''}`}
                       style={{
-                        'transition': animated ? 'transform 1s ease-in-out' : ''
+                        'transition': animated ? 'transform 1s ease-in-out' : '',
+                        'transformOrigin': `0px ${adjustedHeight}px`
                       }}
                       key={`bar-${d.sex}`}
-                      x={0}
-                      y={yScale(d.sex)}
-                      width={1}
-                      height={yScale.bandwidth()}
-                      fill={'black'}
+                      x={xScale(d.sex)}
+                      y={adjustedHeight - yScale(rate)}
+                      width={xScale.bandwidth()}
+                      height={yScale(rate)}
+                      fill="black"
                     />
                   )}
                   <text
                     key={`bar-label-${d.sex}`}
-                    x={xScale(rate) + 25}
-                    y={yScale(d.sex) + (yScale.bandwidth() / 1.75)}
-                    
-                    textAnchor={'start'}
-                    dx={-18}
+                    x={xScale(d.sex) + xScale.bandwidth() / 2}
+                    y={adjustedHeight - yScale(rate)}
+                    textAnchor="middle"
+                    dy={-15}
                   >{rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}</text>
                 </Group>
               )}
             )}
-            <AxisLeft 
-              scale={yScale}
+            <AxisBottom
+              top={adjustedHeight}
+              scale={xScale}
             >
-              {axisLeft => (
-                <g className="visx-group visx-axis visx-axis-left" style={{'paddingTop':'20'}}>
-                  {axisLeft.ticks.map(tick => (
+              {axisBottom => (
+                <g className="visx-group visx-axis visx-axis-bottom">
+                  {axisBottom.ticks.map(tick => (
                       <g 
                         key={`tick-${tick.value}`}
                         className="visx-group visx-axis-tick">
-                        <text key={`tick-label-${tick.value}`} textAnchor="end" fontSize="medium">
-                          <tspan y={tick.to.y + 4} dx="-10">{tick.value}</tspan>
+                        <text key={`tick-label-${tick.value}`} textAnchor="middle" fontSize="medium">
+                          <tspan x={tick.to.x} y={tick.to.y} dy="15">{tick.value}</tspan>
                         </text>
                       </g>
                     )
                   )}
                 </g>
               )}
-            </AxisLeft>
+            </AxisBottom>
           </Group>
         )}
         {metric !== 'rate' && (

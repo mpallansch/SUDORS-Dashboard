@@ -1,0 +1,11 @@
+#age-by-sex-chart-container {
+    height: 300px;
+}
+
+.age-chart-legend {
+    text-align: center;
+}
+
+.age-chart-legend span {
+    margin: 0 0.5em;
+}

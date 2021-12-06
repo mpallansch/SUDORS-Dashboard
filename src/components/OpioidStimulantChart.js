@@ -51,14 +51,13 @@ function OpioidStimulantChart(params) {
                     const name = bar.bar.data[bar.key.replace('Percent', 'Name')];
                     const rawCount = bar.bar.data[bar.key.replace('Percent', 'Count')];
                     const rawPercent = bar.bar.data[bar.key];
+                    const percent = rawPercent.toFixed(1);
 
-                    let count, percent;
+                    let count;
                     if(rawCount <= countCutoff){
                       count = '< ' + countCutoff;
-                      percent = '< ' + rawPercent.toFixed(1)
                     } else {
                       count = rawCount;
-                      percent = rawPercent.toFixed(1);
                     }
 
                     return (

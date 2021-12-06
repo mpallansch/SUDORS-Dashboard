@@ -16,6 +16,7 @@ const circumstancesFilePath = '../src/data/circumstances.json';
 const mapFilePath = '../src/data/map.json';
 const sexFilePath = '../src/data/sex.json';
 const ageFilePath = '../src/data/age.json';
+const ageBySexFilePath = '../src/data/age-by-sex.json';
 const raceFilePath = '../src/data/race.json';
 const stateFilePath = '../src/data/state.json';
 const interventionFilePath = '../src/data/interventions.json';
@@ -90,7 +91,10 @@ const raceMapping = {
   '5': 'Hispanic'
 };
 const us = 'Overall';
-const ageDataInitial = () => ({
+const ageDataInitial = () => (
+  {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
+);
+const ageDataBySexInitial = () => ({
   'male': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
   'female': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 });
@@ -122,8 +126,13 @@ let additionalDrugs = {};
 let totalDeaths = {};
 let allOpioidCause = {};
 let allOpioidPresent = {};
+let opioidByAge = {};
+let allStimulantCause = {};
+let allStimulantPresent = {};
+let stimulantByAge = {};
 let interventions = {};
 let ageData = {};
+let ageDataBySex = {};
 let raceAgeData = {};
 let drugAgeData = {};
 let opioidStimulantData = {};
@@ -195,10 +204,23 @@ fs.createReadStream(inputFilePath)
       first = false;
     } else {
       const state = fips[row[stateKeyIndex]];
+      const age = row[keyIndex['age_cat']];
 
       let opioid, stimulant = false;
 
       increment(totalDeaths, state);
+
+      opioidByAge[state] = opioidByAge[state] || ageDataInitial();
+      opioidByAge[us] = opioidByAge[us] || ageDataInitial();
+
+      if(row[keyIndex['imfs_cod']] === '1' ||
+          row[keyIndex['heroin_def_cod_v2']] === '1' ||
+          row[keyIndex['rx_opioid_cod_v2']] === '1'){
+        opioid = true;
+        opioidByAge[state][age]++;
+        opioidByAge[us][age]++;
+        increment(allOpioidCause, state);
+      }
 
       if(row[keyIndex['imfs_pos']] === '1' ||
           row[keyIndex['heroin_def_v2']] === '1' ||
@@ -207,18 +229,21 @@ fs.createReadStream(inputFilePath)
         increment(allOpioidPresent, state);
       }
 
-      if(row[keyIndex['imfs_cod']] === '1' ||
-          row[keyIndex['heroin_def_cod_v2']] === '1' ||
-          row[keyIndex['rx_opioid_cod_v2']] === '1'){
-        opioid = true;
-        increment(allOpioidCause, state);
-      }
+      stimulantByAge[state] = stimulantByAge[state] || ageDataInitial();
+      stimulantByAge[us] = stimulantByAge[us] || ageDataInitial();
 
       if(row[keyIndex['meth_r_cod']] === '1' ||
-          row[keyIndex['meth_r']] === '1' ||
-          row[keyIndex['cocaine_t_cod']] === '1' ||
-          row[keyIndex['cocaine_t']] === '1'){
+          row[keyIndex['cocaine_t_cod']] === '1'){
         stimulant = true;
+        stimulantByAge[state][age]++;
+        stimulantByAge[us][age]++;
+        increment(allStimulantCause, state);
+      }
+
+      if(row[keyIndex['meth_r']] === '1' ||
+          row[keyIndex['cocaine_t']] === '1') {
+        stimulant = true;
+        increment(allStimulantPresent, state);
       }
 
       if(!opioidStimulantData[state]){
@@ -316,16 +341,21 @@ fs.createReadStream(inputFilePath)
 
       ageData[state] = ageData[state] || ageDataInitial();
       ageData[us] = ageData[us] || ageDataInitial();
+      ageDataBySex[state] = ageDataBySex[state] || ageDataBySexInitial();
+      ageDataBySex[us] = ageDataBySex[us] || ageDataBySexInitial();
       raceAgeData[state] = raceAgeData[state] || raceDataInitial();
       raceAgeData[us] = raceAgeData[us] || raceDataInitial();
       drugAgeData[state] = drugAgeData[state] || drugDataInitial();
       drugAgeData[us] = drugAgeData[us] || drugDataInitial();
-      let age = row[keyIndex['age_cat']];
       let sex = row[keyIndex['Sex']] === '1' ? 'male' : 'female';
       let race = row[keyIndex['race_eth_v2']];
-      if(ageData[state][sex][age] !== undefined){
-        ageData[state][sex][age]++;
-        ageData[us][sex][age]++;
+      if(ageData[state][age] !== undefined){
+        ageData[state][age]++;
+        ageData[us][age]++;
+      }
+      if(ageDataBySex[state][sex][age] !== undefined){
+        ageDataBySex[state][sex][age]++;
+        ageDataBySex[us][sex][age]++;
       }
       if(race.length > 0 && raceAgeData[state][race][age] !== undefined){
         raceAgeData[state][race][age]++;
@@ -414,6 +444,13 @@ fs.createReadStream(inputFilePath)
           cause: percent(keyCounts[state]['rx_opioid_cod_v2']['1'], totalDeaths[state]),
           presentCount: checkCutoff(keyCounts[state]['rx_opioid_v2']['1']),
           causeCount: checkCutoff(keyCounts[state]['rx_opioid_cod_v2']['1'])
+        },
+        {
+          opioid: 'Any Stimulant', 
+          present: percent(allStimulantPresent[state], totalDeaths[state]), 
+          cause: percent(allStimulantCause[state], totalDeaths[state]),
+          presentCount: checkCutoff(allStimulantPresent[state]),
+          causeCount: checkCutoff(allStimulantCause[state])
         },
         {
           opioid: 'Cocaine', 
@@ -523,7 +560,7 @@ fs.createReadStream(inputFilePath)
       }
     });
 
-    let mapData = {'All': {}};
+    let mapData = {'All': {}, 'Opioid': {}, 'Stimulant': {}};
     Object.keys(drugTypeMapping).forEach(drug => {
       mapData[drugLabelMapping[drug]] = {}
 
@@ -533,11 +570,16 @@ fs.createReadStream(inputFilePath)
     }); 
 
     let totalDeathsCutoff = {};
+    let opioidDeathsCutoff = {};
+    let stimulantDeathsCutoff = {};
     statesFinal.forEach(state => {
       totalDeathsCutoff[state] = {deaths: checkCutoff(totalDeaths[state])};
+      opioidDeathsCutoff[state] = {deaths: checkCutoff(allOpioidCause[state])};
+      stimulantDeathsCutoff[state] = {deaths: checkCutoff(allStimulantCause[state])};
     });;
     mapData['All'] = totalDeathsCutoff;
-
+    mapData['Opioid'] = opioidDeathsCutoff;
+    mapData['Stimulant'] = stimulantDeathsCutoff;
 
     fs.writeFile(mapFilePath, JSON.stringify(mapData), {flag: 'w'}, (err) => {
       if(err){
@@ -565,28 +607,46 @@ fs.createReadStream(inputFilePath)
     
     let ageDataFinal = {};
     statesFinal.forEach(state => {
+      ageDataFinal[state] = Object.keys(ageData[state]).map(ageGroup => ({
+          age: ageGroup, 
+          percent: percent(ageData[state][ageGroup], totalDeaths[state], true),
+          count: checkCutoff(ageData[state][ageGroup]),
+          rate: checkCutoff(ageData[state][ageGroup], Math.round(ageData[state][ageGroup] / stateAgePops[reverseFips[state]][ageGroup] * 1000000) / 10)
+        }));
+    });
+
+    fs.writeFile(ageFilePath, JSON.stringify(ageDataFinal), {flag: 'w'}, (err) => {
+      if(err){
+        console.log(err);
+      } else {
+        console.log('Data processed successfully');
+      }
+    });
+    
+    let ageDataBySexFinal = {};
+    statesFinal.forEach(state => {
       let maleTotal = 0;
       let femaleTotal = 0;
-      Object.keys(ageData[state]['male']).forEach(ageGroup => maleTotal += ageData[state]['male'][ageGroup]);
-      Object.keys(ageData[state]['female']).forEach(ageGroup => femaleTotal += ageData[state]['female'][ageGroup]);
+      Object.keys(ageDataBySex[state]['male']).forEach(ageGroup => maleTotal += ageDataBySex[state]['male'][ageGroup]);
+      Object.keys(ageDataBySex[state]['female']).forEach(ageGroup => femaleTotal += ageDataBySex[state]['female'][ageGroup]);
 
-      ageDataFinal[state] = {
-        'male': Object.keys(ageData[state]['male']).map(ageGroup => ({
+      ageDataBySexFinal[state] = {
+        'male': Object.keys(ageDataBySex[state]['male']).map(ageGroup => ({
           age: ageGroup, 
-          percent: percent(ageData[state]['male'][ageGroup], maleTotal, true),
-          count: checkCutoff(ageData[state]['male'][ageGroup]),
-          rate: checkCutoff(ageData[state]['male'][ageGroup], Math.round(ageData[state]['male'][ageGroup] / stateAgeSexPops[reverseFips[state]]['1'][ageGroup] * 1000000) / 10)
+          percent: percent(ageDataBySex[state]['male'][ageGroup], maleTotal, true),
+          count: checkCutoff(ageDataBySex[state]['male'][ageGroup]),
+          rate: checkCutoff(ageDataBySex[state]['male'][ageGroup], Math.round(ageDataBySex[state]['male'][ageGroup] / stateAgeSexPops[reverseFips[state]]['1'][ageGroup] * 1000000) / 10)
         })),
-        'female': Object.keys(ageData[state]['female']).map(ageGroup => ({
+        'female': Object.keys(ageDataBySex[state]['female']).map(ageGroup => ({
           age: ageGroup, 
-          percent: percent(ageData[state]['female'][ageGroup], femaleTotal, true),
-          count: checkCutoff(ageData[state]['female'][ageGroup]),
-          rate: checkCutoff(ageData[state]['female'][ageGroup], Math.round(ageData[state]['female'][ageGroup] / stateAgeSexPops[reverseFips[state]]['2'][ageGroup] * 1000000) / 10)
+          percent: percent(ageDataBySex[state]['female'][ageGroup], femaleTotal, true),
+          count: checkCutoff(ageDataBySex[state]['female'][ageGroup]),
+          rate: checkCutoff(ageDataBySex[state]['female'][ageGroup], Math.round(ageDataBySex[state]['female'][ageGroup] / stateAgeSexPops[reverseFips[state]]['2'][ageGroup] * 1000000) / 10)
         }))
       };
     });
 
-    fs.writeFile(ageFilePath, JSON.stringify(ageDataFinal), {flag: 'w'}, (err) => {
+    fs.writeFile(ageBySexFilePath, JSON.stringify(ageDataBySexFinal), {flag: 'w'}, (err) => {
       if(err){
         console.log(err);
       } else {
@@ -641,10 +701,11 @@ fs.createReadStream(inputFilePath)
 
     let timeData = {};
     statesFinal.forEach(state => {
-      timeData[state] = [];
+      timeData[state] = {month: [], quarter: [{quarter: 0, value: 0}, {quarter: 1, value: 0}, {quarter: 2, value: 0}, {quarter: 3, value: 0}]};
       Object.keys(keyCounts[state]['deathmonth_order']).forEach(month => {
         if(!month) return;
-        timeData[state].push({month, value: keyCounts[state]['deathmonth_order'][month]})
+        timeData[state].month.push({month, value: keyCounts[state]['deathmonth_order'][month]})
+        timeData[state].quarter[Math.floor((parseInt(month) - 49) / 3)].value += keyCounts[state]['deathmonth_order'][month];
       });
     });
 
@@ -663,19 +724,19 @@ fs.createReadStream(inputFilePath)
         {
           oName: 'Opioids without stimulants',
           oCount: checkCutoff(opioidStimulantData[state]['o']),
-          oPercent: percent(checkCutoff(opioidStimulantData[state]['o']), totalDeaths[state]),
+          oPercent: percent(opioidStimulantData[state]['o'], totalDeaths[state]),
 
           osName: 'Opioids with stimulants',
           osCount: checkCutoff(opioidStimulantData[state]['os']),
-          osPercent: percent(checkCutoff(opioidStimulantData[state]['os']), totalDeaths[state]),
+          osPercent: percent(opioidStimulantData[state]['os'], totalDeaths[state]),
 
           sName: 'Stimulants without opioids',
           sCount: checkCutoff(opioidStimulantData[state]['s']),
-          sPercent: percent(checkCutoff(opioidStimulantData[state]['s']), totalDeaths[state]),
+          sPercent: percent(opioidStimulantData[state]['s'], totalDeaths[state]),
 
           nName: 'Neither opioids nor stimulants',
           nCount: checkCutoff(opioidStimulantData[state]['n']),
-          nPercent: percent(checkCutoff(opioidStimulantData[state]['n']), totalDeaths[state])
+          nPercent: percent(opioidStimulantData[state]['n'], totalDeaths[state])
         }
       ];
     });
@@ -747,8 +808,8 @@ fs.createReadStream(inputFilePath)
 
       Object.keys(weights).forEach(ageGroup => {
         if(stateAgeSexPops[reverseFips[state]]){
-          rateMale += (ageData[state]['male'][ageGroup] || 0) / stateAgeSexPops[reverseFips[state]]['1'][ageGroup] * weights[ageGroup];
-          rateFemale += (ageData[state]['female'][ageGroup] || 0) / stateAgeSexPops[reverseFips[state]]['2'][ageGroup] * weights[ageGroup];
+          rateMale += (ageDataBySex[state]['male'][ageGroup] || 0) / stateAgeSexPops[reverseFips[state]]['1'][ageGroup] * weights[ageGroup];
+          rateFemale += (ageDataBySex[state]['female'][ageGroup] || 0) / stateAgeSexPops[reverseFips[state]]['2'][ageGroup] * weights[ageGroup];
         }
       });
 
@@ -812,12 +873,30 @@ fs.createReadStream(inputFilePath)
 
         Object.keys(weights).forEach(ageGroup => {
           if(stateAgePops[reverseFips[state]]){
-            rate += ((drugName === 'All' ? (ageData[state]['male'][ageGroup] + ageData[state]['female'][ageGroup]) : drugAgeData[state][drugName][ageGroup]) || 0) / stateAgePops[reverseFips[state]][ageGroup] * weights[ageGroup];
+            let value;
+            if(drugName === 'All'){
+              value = ageData[state][ageGroup];
+            } else if(drugName === 'Opioid'){
+              value = opioidByAge[state][ageGroup];
+            } else if(drugName === 'Stimulant'){
+              value = stimulantByAge[state][ageGroup];
+            } else {
+              value = drugAgeData[state][drugName][ageGroup];
+            }
+            rate += (value || 0) / stateAgePops[reverseFips[state]][ageGroup] * weights[ageGroup];
           }
         });
 
         rate = Math.round(rate * 1000000) / 10;
-        rate = checkCutoff(drugName === 'All' ? totalDeaths[state] : keyCounts[state][drug]['1'], rate);
+        if(drugName === 'All'){
+          rate = checkCutoff(totalDeaths[state], rate);
+        } else if(drugName === 'Opioid'){
+          rate = checkCutoff(allOpioidCause[state], rate);
+        } else if(drugName === 'Stimulant'){
+          rate = checkCutoff(allStimulantCause[state], rate);
+        } else {
+          rate = checkCutoff(keyCounts[state][drug]['1'], rate);
+        }
 
         ageAdjustedDrugRates[drugName][state]['rate'] = rate;
         if(!ageAdjustedDrugRates[drugName].min || rate < ageAdjustedDrugRates[drugName].min) {
@@ -834,6 +913,8 @@ fs.createReadStream(inputFilePath)
       processDrugAdjusted(drug);
     });
     processDrugAdjusted('All');
+    processDrugAdjusted('Opioid');
+    processDrugAdjusted('Stimulant');
 
     fs.writeFile(ageAdjustedDrugRatesFilePath, JSON.stringify(ageAdjustedDrugRates), {flag: 'w'}, (err) => {
       if(err){

@@ -13,9 +13,9 @@ function CauseChart(params) {
 
   const viewportCutoff = 600;
 
-  const { width, height, state } = params;
+  const { width, height, state, colorScale } = params;
   const data = raw[state];
-  const margin = {top: 20, bottom: width < viewportCutoff ? 80 : 30, left: 70, right: 20};
+  const margin = {top: 20, bottom: width < viewportCutoff ? 220 : 140, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
@@ -29,15 +29,6 @@ function CauseChart(params) {
     domain: [0, 100],
     range: [ adjustedHeight, 0 ]
   });
-
-  const colors = {
-    'Any Opioids': 'rgb(58, 88, 161)',
-    'Methamphetamine': 'rgb(75, 131, 13)',
-    'Heroin': 'rgb(251, 171, 24)',
-    'Prescription opioids': 'rgb(0, 124, 145)',
-    'Cocaine': 'rgb(0, 105, 92)',
-    'Illicitly manufactured fentanyls': 'rgb(187, 77, 0)'
-  };
 
   return width > 0 && (
     <>
@@ -66,7 +57,7 @@ function CauseChart(params) {
                     y={yScale(d.cause)}
                     width={xScale.bandwidth()}
                     height={adjustedHeight - yScale(d.cause)}
-                    fill={colors[d.opioid]}
+                    fill={colorScale[d.opioid]}
                     data-tip={`<strong>${d.opioid}</strong><br/>
                     Percent Present: ${d.present.toFixed(1)}%<br/>
                     Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
@@ -81,8 +72,9 @@ function CauseChart(params) {
               scale={xScale}
               tickLabelProps={(label, index, props) => ({
                 fontSize: 'medium',
-                textAnchor: width < viewportCutoff ? 'end' : 'middle',
-                transform: width < viewportCutoff ? `rotate(-45, ${props[index].to.x}, ${props[index].to.y})` : 'translate(0, 10)',
+                textAnchor: 'end',
+                transform: `rotate(-${width < viewportCutoff ? 65 : 30}, ${props[index].to.x}, ${props[index].to.y})`,
+                dy: 5,
                 dominantBaseline: 'end'
               })}
             />

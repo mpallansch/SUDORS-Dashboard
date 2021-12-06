@@ -15,7 +15,6 @@ function DrugCombinationChart(params) {
 
   const { width: rawWidth, height, state } = params;
   const data = raw[state].combinations;
-  const illicitValue = raw[state].illicit;
   const width = Math.max(data.length * 110, rawWidth);
   const barPadding = 0.45;
   const margin = {top: 40, bottom: 200, left: rawWidth < viewportCutoff ? 175 : 280, right: 0};
@@ -35,6 +34,7 @@ function DrugCombinationChart(params) {
   const barWidth = xScale.bandwidth() * (1 + (barPadding * 2));
   const halfBarWidth = barWidth / 2;
   const quarterBarWidth = halfBarWidth / 2;
+  const radius = quarterBarWidth / 2;
   const halfXBandwidth = xScale.bandwidth() / 2;
 
   const yScale = scaleLinear({
@@ -61,18 +61,18 @@ function DrugCombinationChart(params) {
                   <Group key={`group-${d.drugCombination}`}>
                     <Bar
                       key={`cause-bar-${d.drugCombination}`}
-                      x={xScale(d.drugCombination)}
+                      x={xScale(d.drugCombination) + radius}
                       y={yScale(d.percent)}
-                      width={xScale.bandwidth()}
+                      width={quarterBarWidth}
                       height={adjustedHeight - Math.min(yScale(d.percent), adjustedHeight)}
                       fill="rgb(77,126,119)"
                       data-tip={`Percent: ${d.deaths <= countCutoff ? '< ' + d.percent.toFixed(1) : d.percent.toFixed(1)}%<br/>
                       Deaths: ${d.deaths <= countCutoff ? `< ${countCutoff}` : d.deaths}`}
                     />
                     <circle
-                      cx={xScale(d.drugCombination) + halfXBandwidth}
+                      cx={xScale(d.drugCombination) + quarterBarWidth}
                       cy={yScale(d.percent)}
-                      r={halfXBandwidth}
+                      r={radius}
                       fill="rgb(77,126,119)"
                       style={{
                         pointerEvents: 'none'
@@ -92,7 +92,7 @@ function DrugCombinationChart(params) {
                       verticalAnchor="middle"
                       fontSize="small"
                       fontWeight="bold">
-                      {`${d.deaths <= countCutoff ? '<' + d.percent.toFixed(1) : d.percent.toFixed(1)}%`}
+                      {`${d.deaths <= countCutoff ? '*' : (d.percent.toFixed(1) + '%')}`}
                     </Text>
                     {drugs.map((drug, j) => (
                       <Group key={`${d.drugCombination}-${drug}`}>

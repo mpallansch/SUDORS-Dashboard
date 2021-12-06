@@ -14,7 +14,7 @@ function StateChart(params) {
 
   const viewportCutoff = 600;
 
-  const { width, setState, height, state, drug, state: globalState } = params;
+  const { width, setState, height, state, drug, colorScale, state: globalState } = params;
 
   const data = dataRaw[drug];
   const dataRates = dataRatesRaw[drug];
@@ -23,15 +23,6 @@ function StateChart(params) {
   const margin = {top: 10, bottom: 10, left: 130, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom - 60;
   const adjustedWidth = width - margin.left - margin.right;
-
-  const colors = {
-    'All': 'rgb(58, 88, 161)',
-    'Methamphetamine': 'rgb(75, 131, 13)',
-    'Heroin': 'rgb(251, 171, 24)',
-    'Prescription opioids': 'rgb(0, 124, 145)',
-    'Cocaine': 'rgb(0, 105, 92)',
-    'Illicitly manufactured fentanyls': 'rgb(187, 77, 0)'
-  };
 
   const sort = (a,b) => (dataRates[a].rate > dataRates[b].rate ? 1 : -1);
 
@@ -66,8 +57,8 @@ function StateChart(params) {
                     y={yScale(name)}
                     width={rate < 0 ? 10 : xScale(rate)}
                     height={yScale.bandwidth()}
-                    fill={name === 'Overall' ? 'white' : colors[drug]}
-                    stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colors[drug]}
+                    fill={name === 'Overall' ? 'white' : colorScale[drug]}
+                    stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colorScale[drug]}
                     strokeWidth="3"
                     opacity={state === 'Overall' || name === state ? 1 : 0.4}
                     onClick={() => {

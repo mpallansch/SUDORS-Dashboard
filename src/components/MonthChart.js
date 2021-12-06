@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Bar } from '@visx/shape';
+import { Bar, LinePath } from '@visx/shape';
 import { Group } from '@visx/group';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear } from '@visx/scale';
@@ -73,20 +73,23 @@ function MonthChart(params) {
   const { width, height, state, header, colorScale, el } = params;
   const [ animated, setAnimated ] = useState(false);
 
-  const data = raw[state];
+  const data = raw[state].month;
+  const dataQuarter = raw[state].quarter;
   const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : 55), right: 0};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
   const xScale = scaleBand({
-    domain: data.map(d => d.month),
+    domain: header ? dataQuarter.map(d => d.quarter) : data.map(d => d.month),
     range: [ 0, adjustedWidth ],
     padding: 0.35
   });
 
+  const halfBandwidth = xScale.bandwidth() / 2;
+
   const yScale = scaleLinear({
     range: [ adjustedHeight, 0 ],
-    domain: [0, Math.max(...data.map(d => d.value))]
+    domain: [ 0, Math.max(...(header ? dataQuarter : data).map(d => d.value)) * (header ? 1.3 : 1)]
   });
 
   const onScroll = () => {
@@ -116,58 +119,78 @@ function MonthChart(params) {
         <svg width={width} height={height}>
         
           <Group top={margin.top} left={margin.left}>
-            {!header && (
-              <AxisLeft
-                scale={yScale}
-                tickLabelProps={() => ({
-                  fontSize: 'medium',
-                  textAnchor: 'end',
-                  transform: 'translate(-5, 5)'
-                })}
-              />
-            )}
-            
-            {data.map(d => (
-                <Group key={`group-${d.month}`} className="animate-bars">
-                  {d.value >= countCutoff && (
-                    <Bar
-                      key={`cause-bar-${d.month}`}
-                      className={`animated-bar-vert ${animated ? 'animated' : ''}`}
-                      style={{
-                        'transition': animated ? 'transform 1s ease-in-out' : ''
-                      }}
-                      x={xScale(d.month)}
-                      y={yScale(d.value)}
-                      width={xScale.bandwidth()}
-                      height={adjustedHeight - yScale(d.value)}
-                      fill={colorScale.Primary}
-                      data-tip={`<strong>${monthMappingFull[d.month]}</strong><br/>Deaths: ${d.value}`}
+            {header && (
+              <>
+                {dataQuarter.map(d => (
+                    <circle
+                      key={`point-${d.quarter}`}
+                      r={3}
+                      cx={xScale(d.quarter)}
+                      cy={yScale(d.value)}
+                      fill="#712177"
                     />
-                  )}
-                  {d.value < countCutoff && (
-                    <text
-                      x={xScale(d.month)}
-                      y={adjustedHeight - 5}
-                      fill="black"
-                      textAnchor="middle"
-                    >*</text>
-                  )}
-                </Group>
-              )
+                ))}
+                <LinePath 
+                  data={dataQuarter}
+                  x={d => xScale(d.quarter)}
+                  y={d => yScale(d.value)}
+                  stroke="#712177"
+                  strokeWidth="2"
+                />
+              </>
             )}
-            {width}
+
             {!header && (
-              <AxisBottom
-                top={adjustedHeight}
-                scale={xScale}
-                numTicks={width < viewportCutoff ? 6 : null}
-                tickLabelProps={() => ({
-                  fontSize: 'medium',
-                  textAnchor: 'middle',
-                  transform: 'translate(0, 10)'
-                })}
-                tickFormat={(monthNum) => monthMapping[monthNum]}
-              />
+              <>
+                <AxisLeft
+                  scale={yScale}
+                  tickLabelProps={() => ({
+                    fontSize: 'medium',
+                    textAnchor: 'end',
+                    transform: 'translate(-5, 5)'
+                  })}
+                />
+
+                {data.map(d => (
+                  <Group key={`group-${d.month}`} className="animate-bars">
+                    {d.value >= countCutoff && (
+                      <Bar
+                        key={`cause-bar-${d.month}`}
+                        className={`animated-bar-vert ${animated ? 'animated' : ''}`}
+                        style={{
+                          'transition': animated ? 'transform 1s ease-in-out' : ''
+                        }}
+                        x={xScale(d.month)}
+                        y={yScale(d.value)}
+                        width={xScale.bandwidth()}
+                        height={adjustedHeight - yScale(d.value)}
+                        fill={colorScale.Primary}
+                        data-tip={`<strong>${monthMappingFull[d.month]}</strong><br/>Deaths: ${d.value}`}
+                      />
+                    )}
+                    {d.value < countCutoff && (
+                      <text
+                        x={xScale(d.month) + halfBandwidth}
+                        y={adjustedHeight - 5}
+                        fill="black"
+                        textAnchor="middle"
+                      >*</text>
+                    )}
+                  </Group>
+                ))}
+
+                <AxisBottom
+                  top={adjustedHeight}
+                  scale={xScale}
+                  numTicks={width < viewportCutoff ? 6 : null}
+                  tickLabelProps={() => ({
+                    fontSize: 'medium',
+                    textAnchor: 'middle',
+                    transform: 'translate(0, 10)'
+                  })}
+                  tickFormat={(monthNum) => monthMapping[monthNum]}
+                />
+              </>
             )}
           </Group>
         </svg>

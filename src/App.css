@@ -38,8 +38,8 @@
 
 .section {
   position: relative;
-  padding: 2em 1em 1em 1em;
-  margin: 1em 0;
+  padding: 0.5em 1em;
+  margin: 0 0;
 }
 
 .section:first-child {
@@ -47,7 +47,15 @@
   padding-top: 1em;
 }
 
-.section::before {
+.section:first-child::before {
+  display: none;
+}
+
+.section.divider {
+  margin-top: 2em;
+}
+
+.section.divider::before {
   content: ' ';
   position: absolute;
   display: inline-block;
@@ -56,10 +64,6 @@
   background-color: #712177;
   margin-left: 10%;
   top: -0.25em;
-}
-
-.section:first-child::before {
-  display: none;
 }
 
 .column {
@@ -158,19 +162,19 @@ input[type="radio"] {
   margin-right: 1em;
 }
 
-#header {
+.header {
   background-color: #712177;
   color: white;
   padding: 0.5em 1em;
 }
 
-#preheader-label {
-  text-transform: uppercase;
-  font-size: 0.8em
+.header.margin {
+  margin: 1em 0;
 }
 
-#header-label {
-  font-size: 1.4em;
+.preheader-label {
+  text-transform: uppercase;
+  font-size: 0.8em
 }
 
 .header-section {
@@ -182,7 +186,6 @@ input[type="radio"] {
   border-radius: .25rem;
   min-height: 100px;
   padding: .5em;
-  margin-top: 1em;
   transition: .25s box-shadow;
 }
 
@@ -264,7 +267,7 @@ select {
 
 .drug-tab-section {
   display: inline-block;
-  width: 33%;
+  width: 50%;
   margin-bottom: 0.5em;
 }
 
@@ -310,6 +313,10 @@ select {
   transform: scale(0, 1);
 }
 
+.animated-bar.vertical {
+  transform: scale(1, 0);
+}
+
 .animated-bar.animated {
   transform: scale(1);
 }
@@ -335,10 +342,6 @@ select {
 
 .App.medium-vp .column-right {
   padding-left: 0;
-}
-
-.App.medium-vp #header h3 {
-  margin-bottom: 1em;
 }
 
 .App.medium-vp .header-section {
