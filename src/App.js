@@ -16,6 +16,13 @@ import CircumstancesChart from './components/CircumstancesChart';
 
 import interventionData from './data/interventions.json';
 import totalData from './data/totals.json';
+import combinationData from './data/drug-combination.json';
+import additionalDrugData from './data/additional-drugs.json';
+import opioidStimulantData from './data/opioid-stimulant.json';
+import sexData from './data/sex.json';
+import ageData from './data/age.json';
+import raceData from './data/race.json';
+import ageBySexData from './data/age-by-sex.json';
 
 import './App.css';
 
@@ -58,6 +65,18 @@ function App() {
     'Cocaine': 'rgb(0, 105, 92)',
     'Illicitly manufactured fentanyls': 'rgb(187, 77, 0)'
   };
+
+  const ageMapping = {
+    '0': '0-14',
+    '1': '15-24',
+    '2': '25-34',
+    '3': '35-44',
+    '4': '45-54',
+    '5': '55-64',
+    '6': '65+'
+  };
+
+  const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
 
   const resizeObserver = new ResizeObserver(entries => {
     const { width, height } = entries[0].contentRect;
@@ -103,6 +122,27 @@ function App() {
       onClick={() => {setDrug(drugName)}}
     >{drugLabel || drugName}</button> 
   );
+
+  const listDrugs = (drugCombination) => {
+    let drugCombinationNames = [];
+    for(let i = 0; i < drugCombination.length; i++){
+      if(drugCombination.charAt(i) === '1') {
+        drugCombinationNames.push(drugs[i].toLowerCase());
+      }
+    }
+    return [
+      drugCombinationNames.slice(0, -1).join(', '), 
+      drugCombinationNames.slice(-1)[0]
+    ].join(drugCombinationNames.length < 2 ? '' : 
+      drugCombinationNames.length === 2 ? ' and ' : ', and ')
+  };
+
+  const multipleCombo = combinationData[state].combinations.filter(combo => (combo.drugCombination.match(/1/g) || []).length > 1);
+  const sexMax = sexData[state].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const ageMax = ageData[state].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const raceMax = raceData[state].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const maleAgeMax = ageBySexData[state].male.sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const femaleAgeMax = ageBySexData[state].female.sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
 
   return (
     <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}`} 
@@ -190,7 +230,7 @@ function App() {
 
       <div className="section divider">
         <span className="subheader">What drugs were identified, {stateLabel}?</span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+        <p>{additionalDrugData[state].isMostDeathsOpioid && 'Most deaths involved at least one opioid. '}{additionalDrugData[state].commonOpioid} were the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -204,7 +244,7 @@ function App() {
 
       <div className="section divider">
         <span className="subheader">Title, {stateLabel}?</span>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+        <p>The 5 most frequently occurring opioid and stimulant combinations accounted for {combinationData[state].total.toFixed(1)}% of overdose deaths. {multipleCombo.length > 0 && `For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}`}</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
@@ -218,6 +258,7 @@ function App() {
 
       <div className="section divider">
         <span className="subheader">Title, {stateLabel}?</span>
+        <p>The largest percentage of deaths involved {opioidStimulantData[state].max.toLowerCase()}. Very few overdose deaths involved {opioidStimulantData[state].min.toLowerCase()}.</p>
         <div className="subsection">
           <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
             <OpioidStimulantChart 
@@ -257,8 +298,9 @@ function App() {
         <div className="header margin">
           <span className="preheader-label">Who died of a drug overdose, {stateLabel}?</span>
         </div>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
-        
+        <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
+        The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}.</p>
+
         <div id="metric-selectors">
           <strong>Metric: </strong>
           <div>

@@ -12,7 +12,7 @@ import '../css/OpioidStimulantChart.css';
 function OpioidStimulantChart(params) {
 
   const { width, height, state } = params;
-  const data = raw[state];
+  const data = raw[state].horizontalBarData;
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);
   const margin = {top: 10, bottom: 40, left: 20, right: 20};
   const adjustedWidth = width - margin.left - margin.right;

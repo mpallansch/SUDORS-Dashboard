@@ -479,7 +479,7 @@ fs.createReadStream(inputFilePath)
 
     let additionalDrugData = {};
     statesFinal.forEach(state => {
-      additionalDrugData[state] = [];
+      let additionalDrugDataByState = [];
       Object.keys(additionalDrugs[state]).forEach(cause => {
         let total = additionalDrugs[state][cause]['total'];
         let row = {cause: drugLabelMapping[cause]};
@@ -487,8 +487,20 @@ fs.createReadStream(inputFilePath)
           row[drugLabelMapping[additional]] = percent(additionalDrugs[state][cause][additional], total);
           row[`${drugLabelMapping[additional]}-Count`] = checkCutoff(additionalDrugs[state][cause][additional]);
         });
-        additionalDrugData[state].push(row);
+        additionalDrugDataByState.push(row);
       });
+
+      let opioids = ['rx_opioid_cod_v2','imfs_cod','heroin_def_cod_v2'];
+      let stimulants = ['meth_r_cod','cocaine_t_cod'];
+      let opioidMaxValue = Math.max.apply(Math, opioids.map(drug => keyCounts[state][drug]['1']));
+      let stimulantMaxValue = Math.max.apply(Math, stimulants.map(drug => keyCounts[state][drug]['1']));
+
+      additionalDrugData[state] = {
+        isMostDeathsOpioid: allOpioidCause[state] > (totalDeaths[state] / 2) || allOpioidPresent[state] > (totalDeaths[state] / 2),
+        commonOpioid: drugLabelMapping[opioids.find(drug => keyCounts[state][drug]['1'] === opioidMaxValue)],
+        commonStimulant: drugLabelMapping[stimulants.find(drug => keyCounts[state][drug]['1'] === stimulantMaxValue)],
+        drugData: additionalDrugDataByState
+      }
     });
 
     fs.writeFile(additionalDrugFilePath, JSON.stringify(additionalDrugData), {flag: 'w'}, (err) => {
@@ -718,27 +730,34 @@ fs.createReadStream(inputFilePath)
     });
 
     let opioidStimulantDataFinal = {};
-    
+
+    const drugGroupLabels = {'o': 'Opioids without stimulants', 'os': 'Opioids with stimulants', 's': 'Stimulants without opioids', 'n': 'Neither opioids nor stimulants'};
+
     Object.keys(opioidStimulantData).forEach(state => {
-      opioidStimulantDataFinal[state] = [
-        {
-          oName: 'Opioids without stimulants',
-          oCount: checkCutoff(opioidStimulantData[state]['o']),
-          oPercent: percent(opioidStimulantData[state]['o'], totalDeaths[state]),
+      const drugGroupsOrdered = Object.keys(drugGroupLabels).sort((drug1, drug2) => opioidStimulantData[state][drug1] > opioidStimulantData[state][drug2] ? -1 : 1);
 
-          osName: 'Opioids with stimulants',
-          osCount: checkCutoff(opioidStimulantData[state]['os']),
-          osPercent: percent(opioidStimulantData[state]['os'], totalDeaths[state]),
+      opioidStimulantDataFinal[state] = {
+        max: drugGroupLabels[drugGroupsOrdered[0]],
+        min: drugGroupLabels[drugGroupsOrdered[drugGroupsOrdered.length - 1]],
+        horizontalBarData: [
+          {
+            oName: drugGroupLabels['o'],
+            oCount: checkCutoff(opioidStimulantData[state]['o']),
+            oPercent: percent(opioidStimulantData[state]['o'], totalDeaths[state]),
 
-          sName: 'Stimulants without opioids',
-          sCount: checkCutoff(opioidStimulantData[state]['s']),
-          sPercent: percent(opioidStimulantData[state]['s'], totalDeaths[state]),
+            osName: drugGroupLabels['os'],
+            osCount: checkCutoff(opioidStimulantData[state]['os']),
+            osPercent: percent(opioidStimulantData[state]['os'], totalDeaths[state]),
 
-          nName: 'Neither opioids nor stimulants',
-          nCount: checkCutoff(opioidStimulantData[state]['n']),
-          nPercent: percent(opioidStimulantData[state]['n'], totalDeaths[state])
-        }
-      ];
+            sName: drugGroupLabels['s'],
+            sCount: checkCutoff(opioidStimulantData[state]['s']),
+            sPercent: percent(opioidStimulantData[state]['s'], totalDeaths[state]),
+
+            nName: drugGroupLabels['n'],
+            nCount: checkCutoff(opioidStimulantData[state]['n']),
+            nPercent: percent(opioidStimulantData[state]['n'], totalDeaths[state])
+          }
+        ]};
     });
 
     fs.writeFile(opioidStimulantFilePath, JSON.stringify(opioidStimulantDataFinal), {flag: 'w'}, (err) => {
@@ -751,9 +770,7 @@ fs.createReadStream(inputFilePath)
 
     let drugCombinationDataFinal = {};
     Object.keys(drugCombinationData).forEach(state => {
-      drugCombinationDataFinal[state] = {
-        'illicit': 100 - (drugCombinationData[state]['00100'] ? percent(drugCombinationData[state]['00100'], totalDeaths[state]) : 0),
-        'combinations': Object.keys(drugCombinationData[state]).sort((a, b) => {
+      const top5 = Object.keys(drugCombinationData[state]).sort((a, b) => {
           if(drugCombinationData[state][a] < drugCombinationData[state][b]){
             return 1;
           } else if (drugCombinationData[state][a] > drugCombinationData[state][b]){
@@ -762,7 +779,12 @@ fs.createReadStream(inputFilePath)
           return 0;
         }).filter(key => {
           return key !== '00000';
-        }).slice(0, 5).map(key => ({
+        }).slice(0, 5);
+
+      drugCombinationDataFinal[state] = {
+        'total': percent(top5.map(combo => drugCombinationData[state][combo]).reduce((prev, next) => prev + next), totalDeaths[state]),
+        'illicit': 100 - (drugCombinationData[state]['00100'] ? percent(drugCombinationData[state]['00100'], totalDeaths[state]) : 0),
+        'combinations': top5.map(key => ({
           drugCombination: key,
           deaths: checkCutoff(drugCombinationData[state][key]),
           percent: percent(checkCutoff(drugCombinationData[state][key]), totalDeaths[state])
