@@ -229,7 +229,7 @@ function App() {
       </div>
 
       <div className="section divider">
-        <span className="subheader">What drugs were identified, {stateLabel}?</span>
+        <span className="subheader">Percentages of overdose deaths involving select drugs and drug classes</span>
         <p>{additionalDrugData[state].isMostDeathsOpioid && 'Most deaths involved at least one opioid. '}{additionalDrugData[state].commonOpioid} were the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" ref={causeChartRef}>
@@ -243,7 +243,7 @@ function App() {
       </div>
 
       <div className="section divider">
-        <span className="subheader">Title, {stateLabel}?</span>
+        <span className="subheader">Percentages of deaths involving the most common opioids and stimulants alone or in combination</span>
         <p>The 5 most frequently occurring opioid and stimulant combinations accounted for {combinationData[state].total.toFixed(1)}% of overdose deaths. {multipleCombo.length > 0 && `For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}`}</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" ref={drugCombinationChartRef}>
@@ -257,7 +257,7 @@ function App() {
       </div>
 
       <div className="section divider">
-        <span className="subheader">Title, {stateLabel}?</span>
+        <span className="subheader">Distribution of overdose deaths by opioid and stimulant involvement</span>
         <p>The largest percentage of deaths involved {opioidStimulantData[state].max.toLowerCase()}. Very few overdose deaths involved {opioidStimulantData[state].min.toLowerCase()}.</p>
         <div className="subsection">
           <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
