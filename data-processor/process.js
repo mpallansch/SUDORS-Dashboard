@@ -741,13 +741,13 @@ fs.createReadStream(inputFilePath)
         min: drugGroupLabels[drugGroupsOrdered[drugGroupsOrdered.length - 1]],
         horizontalBarData: [
           {
-            oName: drugGroupLabels['o'],
-            oCount: checkCutoff(opioidStimulantData[state]['o']),
-            oPercent: percent(opioidStimulantData[state]['o'], totalDeaths[state]),
-
             osName: drugGroupLabels['os'],
             osCount: checkCutoff(opioidStimulantData[state]['os']),
             osPercent: percent(opioidStimulantData[state]['os'], totalDeaths[state]),
+
+            oName: drugGroupLabels['o'],
+            oCount: checkCutoff(opioidStimulantData[state]['o']),
+            oPercent: percent(opioidStimulantData[state]['o'], totalDeaths[state]),
 
             sName: drugGroupLabels['s'],
             sCount: checkCutoff(opioidStimulantData[state]['s']),
