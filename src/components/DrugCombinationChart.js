@@ -61,9 +61,9 @@ function DrugCombinationChart(params) {
                   <Group key={`group-${d.drugCombination}`}>
                     <Bar
                       key={`cause-bar-${d.drugCombination}`}
-                      x={xScale(d.drugCombination) + radius}
+                      x={xScale(d.drugCombination)}
                       y={yScale(d.percent)}
-                      width={quarterBarWidth}
+                      width={halfBarWidth}
                       height={adjustedHeight - Math.min(yScale(d.percent), adjustedHeight)}
                       fill="rgb(77,126,119)"
                       data-tip={`Percent: ${d.deaths <= countCutoff ? '< ' + d.percent.toFixed(1) : d.percent.toFixed(1)}%<br/>
@@ -72,7 +72,7 @@ function DrugCombinationChart(params) {
                     <circle
                       cx={xScale(d.drugCombination) + quarterBarWidth}
                       cy={yScale(d.percent)}
-                      r={radius}
+                      r={quarterBarWidth}
                       fill="rgb(77,126,119)"
                       style={{
                         pointerEvents: 'none'
@@ -90,7 +90,7 @@ function DrugCombinationChart(params) {
                       fill="white"
                       textAnchor="middle"
                       verticalAnchor="middle"
-                      fontSize="small"
+                      fontSize="medium"
                       fontWeight="bold">
                       {`${d.deaths <= countCutoff ? '*' : (d.percent.toFixed(1) + '%')}`}
                     </Text>

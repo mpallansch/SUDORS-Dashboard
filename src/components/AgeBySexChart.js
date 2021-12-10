@@ -51,7 +51,7 @@ function AgeBySexChart(params) {
 
   const suppressedValue = (value) => {
     if(metric === 'rate' && value <= rateCutoff) return '*';
-    return value;
+    return value.toFixed(1);
   }
 
   const onScroll = () => {

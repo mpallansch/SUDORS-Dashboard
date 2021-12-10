@@ -92,11 +92,11 @@ const raceMapping = {
 };
 const us = 'Overall';
 const ageDataInitial = () => (
-  {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
+  {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 );
 const ageDataBySexInitial = () => ({
-  'male': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  'female': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
+  'male': {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  'female': {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 });
 const raceDataInitial = () => ({
   '0': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
@@ -160,7 +160,7 @@ function increment(obj, state) {
 }
 
 function checkCutoff(value, rate) {
-  if(rate){
+  if(rate !== undefined){
     if(value <= rateCutoff) return -1;
     return rate;
   }

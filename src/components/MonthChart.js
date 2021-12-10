@@ -75,7 +75,7 @@ function MonthChart(params) {
 
   const data = raw[state].month;
   const dataQuarter = raw[state].quarter;
-  const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : 55), right: 0};
+  const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : 80), right: 0};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
@@ -149,6 +149,12 @@ function MonthChart(params) {
                     textAnchor: 'end',
                     transform: 'translate(-5, 5)'
                   })}
+                  label="Count"
+                  labelProps={() => ({
+                    fontSize: 'medium',
+                    textAnchor: 'middle'
+                  })}
+                  labelOffset={60}
                 />
 
                 {data.map(d => (
@@ -183,12 +189,13 @@ function MonthChart(params) {
                   top={adjustedHeight}
                   scale={xScale}
                   numTicks={width < viewportCutoff ? 6 : null}
+                  tickFormat={(monthNum) => monthMapping[monthNum]}
+                  tickStroke="transparent"
                   tickLabelProps={() => ({
                     fontSize: 'medium',
                     textAnchor: 'middle',
                     transform: 'translate(0, 10)'
                   })}
-                  tickFormat={(monthNum) => monthMapping[monthNum]}
                 />
               </>
             )}

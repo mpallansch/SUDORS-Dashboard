@@ -138,11 +138,11 @@ function App() {
   };
 
   const multipleCombo = combinationData[state].combinations.filter(combo => (combo.drugCombination.match(/1/g) || []).length > 1);
-  const sexMax = sexData[state].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const ageMax = ageData[state].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const raceMax = raceData[state].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const maleAgeMax = ageBySexData[state].male.sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const femaleAgeMax = ageBySexData[state].female.sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const sexMax = [...sexData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const ageMax = [...ageData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const raceMax = [...raceData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const maleAgeMax = [...ageBySexData[state].male].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const femaleAgeMax = [...ageBySexData[state].female].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
 
   return (
     <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}`} 
@@ -168,7 +168,7 @@ function App() {
         <div className="header-section">
           <span className="header-text full">
             <span className="enlarged">{formatDeathsNum(totalData[state])}</span> 
-            <span>total deaths</span>
+            <span>total deaths in 2020</span>
           </span>
         </div>
         <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
@@ -229,7 +229,7 @@ function App() {
       </div>
 
       <div className="section divider">
-        <span className="subheader">Percentages of overdose deaths involving select drugs and drug classes</span>
+        <span className="subheader">Percentages of overdose deaths involving select drugs and drug classes, {stateLabel}</span>
         <p>{additionalDrugData[state].isMostDeathsOpioid && 'Most deaths involved at least one opioid. '}{additionalDrugData[state].commonOpioid} were the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" ref={causeChartRef}>
@@ -243,8 +243,8 @@ function App() {
       </div>
 
       <div className="section divider">
-        <span className="subheader">Percentages of deaths involving the most common opioids and stimulants alone or in combination</span>
-        <p>The 5 most frequently occurring opioid and stimulant combinations accounted for {combinationData[state].total.toFixed(1)}% of overdose deaths. {multipleCombo.length > 0 && `For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}`}</p>
+        <span className="subheader">Percentages of deaths involving the most common opioids and stimulants alone or in combination, {stateLabel}</span>
+        <p>The five most frequently occurring opioid and stimulant combinations accounted for {combinationData[state].total.toFixed(1)}% of overdose deaths. {multipleCombo.length > 0 && `For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}`}</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
@@ -257,7 +257,7 @@ function App() {
       </div>
 
       <div className="section divider">
-        <span className="subheader">Distribution of overdose deaths by opioid and stimulant involvement</span>
+        <span className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</span>
         <p>The largest percentage of deaths involved {opioidStimulantData[state].max.toLowerCase()}. Very few overdose deaths involved {opioidStimulantData[state].min.toLowerCase()}.</p>
         <div className="subsection">
           <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
@@ -272,7 +272,6 @@ function App() {
             <span><svg className="indicator"><rect width="100%" height="100%" fill="#88c3ea"/></svg>Stimulants without opioids</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(220,237,201)"/></svg>Neither opioids nor stimulants</span>
           </div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
       </div>
 
@@ -363,7 +362,7 @@ function App() {
         </div>
         <div className="column column-left">
           <div className="subsection marked">
-            <span className="individual-header margin-top">By Age</span>
+            <span className="individual-header margin-top">By Age (In Years)</span>
             <div id="age-chart-container" ref={ageChartRef}>
                 <AgeChart 
                   width={getDimension(ageChartRef, 'width')}
