@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Bar, LinePath } from '@visx/shape';
+import { LinePath } from '@visx/shape';
 import { Group } from '@visx/group';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear } from '@visx/scale';
 
 import raw from '../data/time.json';
 
+import Utils from '../shared/Utils';
 import { countCutoff } from '../constants.json';
 
 import '../css/MonthChart.css';
@@ -160,19 +161,16 @@ function MonthChart(params) {
                 {data.map(d => (
                   <Group key={`group-${d.month}`} className="animate-bars">
                     {d.value >= countCutoff && (
-                      <Bar
+                      <path
                         key={`cause-bar-${d.month}`}
                         className={`animated-bar-vert ${animated ? 'animated' : ''}`}
                         style={{
                           'transition': animated ? 'transform 1s ease-in-out' : ''
                         }}
-                        x={xScale(d.month)}
-                        y={yScale(d.value)}
-                        width={xScale.bandwidth()}
-                        height={adjustedHeight - yScale(d.value)}
+                        d={Utils.verticalBarPath(xScale(d.month), yScale(d.value), xScale.bandwidth(), adjustedHeight - yScale(d.value), 15)}
                         fill={colorScale.Primary}
                         data-tip={`<strong>${monthMappingFull[d.month]}</strong><br/>Deaths: ${d.value}`}
-                      />
+                      ></path>
                     )}
                     {d.value < countCutoff && (
                       <text

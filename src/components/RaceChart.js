@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Group } from '@visx/group';
 import { Bar } from '@visx/shape';
+import { Group } from '@visx/group';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
 import raw from '../data/race.json';
 import rawRates from '../data/age-adjusted-race-rates.json';
 
+import Utils from '../shared/Utils';
 import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
 
 import '../css/RaceChart.css';
@@ -91,7 +92,22 @@ function RaceChart(params) {
                 <Group key={`bar-container-${d.race}`}>
                   { // render data bar
                   !isSuppressed(d) && (
-                    <Bar 
+                    <path 
+                      className={`animated-bar ${animated ? 'animated' : ''}`}
+                      style={{
+                        'transition': animated ? 'transform 1s ease-in-out' : ''
+                      }}
+                      key={`bar-${d.race}`}
+                      d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d)), yScale.bandwidth(), 0, 15)}
+                      fill={colorScale.Secondary}
+                      data-tip={`<strong>${d.race}</strong><br/>
+                      Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : (d.deaths || datum.deaths)}<br/>
+                      Rate: ${(d.rate || datum.rate) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
+                    ></path>
+                  )}
+                  { // render suppressed bar
+                  isSuppressed(d) && (
+                    <Bar
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
                         'transition': animated ? 'transform 1s ease-in-out' : ''
@@ -99,29 +115,10 @@ function RaceChart(params) {
                       key={`bar-${d.race}`}
                       x={0}
                       y={yScale(d.race)}
-                      width={xScale(getData(d))}
+                      width={1}
                       height={yScale.bandwidth()}
-                      fill={colorScale.Secondary}
-                      data-tip={`<strong>${d.race}</strong><br/>
-                      Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : (d.deaths || datum.deaths)}<br/>
-                      Rate: ${(d.rate || datum.rate) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
+                      fill={'black'}
                     />
-                  )}
-                  { // render suppressed bar
-                  isSuppressed(d) && (
-                    <Bar 
-                    className={`animated-bar ${animated ? 'animated' : ''}`}
-                    style={{
-                      'transition': animated ? 'transform 1s ease-in-out' : ''
-                    }}
-                    key={`bar-${d.race}`}
-                    x={0}
-                    y={yScale(d.race)}
-                    width={1}
-                    height={yScale.bandwidth()}
-                    fill={'black'}
-                  
-                  />
                   )}
                   <text
                     key={`bar-label-${d.race}`}

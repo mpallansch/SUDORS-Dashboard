@@ -1,11 +1,11 @@
 import { Group } from '@visx/group';
-import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 
 import dataRaw from '../data/map.json';
 import dataRatesRaw from '../data/age-adjusted-drug-rates.json';
 
+import Utils from '../shared/Utils';
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import '../css/StateChart.css';
@@ -51,12 +51,9 @@ function StateChart(params) {
 
               return (
                 <Group key={`bar-${name}`}>
-                  <Bar 
+                  <path 
                     className="bar"
-                    x={0}
-                    y={yScale(name)}
-                    width={rate < 0 ? 10 : xScale(rate)}
-                    height={yScale.bandwidth()}
+                    d={Utils.horizontalBarPath(true, 0, yScale(name), rate < 0 ? 10 : xScale(rate), yScale.bandwidth(), 3, 10)}
                     fill={name === 'Overall' ? 'white' : colorScale[drug]}
                     stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colorScale[drug]}
                     strokeWidth="3"
@@ -73,7 +70,7 @@ function StateChart(params) {
                     data-tip={`<strong>${name}</strong><br/>
                     Deaths: ${deaths < countCutoff ? `< ${countCutoff}` : deaths}<br/>
                     Rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
-                  />
+                  ></path>
                   <text 
                     className="bar-label"
                     opacity={state === 'Overall' || name === state ? 1 : 0.2}

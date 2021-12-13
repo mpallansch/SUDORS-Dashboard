@@ -8,6 +8,7 @@ import { scaleLinear, scaleBand } from '@visx/scale';
 import raw from '../data/sex.json';
 import rawRates from '../data/age-adjusted-sex-rates.json';
 
+import Utils from '../shared/Utils';
 import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
 
 import '../css/SexChart.css';
@@ -83,22 +84,19 @@ function SexChart(params) {
                 <Group key={`bar-container-${d.sex}`}>
                   { // render data bar
                   rate > rateCutoff && (
-                    <Bar 
+                    <path
                       className={`animated-bar vertical ${animated ? 'animated' : ''}`}
                       style={{
                         'transition': animated ? 'transform 1s ease-in-out' : '',
                         'transformOrigin': `0px ${adjustedHeight}px`
                       }}
                       key={`bar-${d.sex}`}
-                      x={xScale(d.sex)}
-                      y={adjustedHeight - yScale(rate)}
-                      width={xScale.bandwidth()}
-                      height={yScale(rate)}
+                      d={Utils.verticalBarPath(xScale(d.sex), adjustedHeight - yScale(rate), xScale.bandwidth(), yScale(rate), 15)}
                       fill={colorScale[d.sex]}
                       data-tip={`<strong>${d.sex}</strong><br/>
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                       Rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
-                    />
+                    ></path>
                   )}
                   { // render suppressed bar
                   rate <= rateCutoff && (

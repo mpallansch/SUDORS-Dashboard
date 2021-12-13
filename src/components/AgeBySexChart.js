@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Group } from '@visx/group';
-import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
 import raw from '../data/age-by-sex.json';
 
+import Utils from '../shared/Utils';
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import '../css/AgeBySexChart.css';
@@ -35,7 +35,7 @@ function AgeBySexChart(params) {
 
   const xScale = scaleLinear({
     domain: [0, Math.max(...data['male'].map(d => d[metric]), ...data['female'].map(d => d[metric]))],
-    range: [ 0, halfWidth - 30 ]
+    range: [ 10, halfWidth - 40 ]
   });
 
   const yScale = scaleBand({
@@ -96,22 +96,19 @@ function AgeBySexChart(params) {
             {data['male'].map(d => (
                 <Group key={`group-male-${d.age}`}>
                   {!isSuppressed(d[metric]) && (
-                    <Bar 
+                    <path
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
                         'transition': animated ? 'transform 1s ease-in-out' : '',
                         'transformOrigin': `${halfWidth}px 0px`
                       }}
                       key={`bar-male-${d.age}`}
-                      x={halfWidth - xScale(d[metric])}
-                      y={yScale(ageMapping[d.age])}
-                      width={xScale(d[metric])}
-                      height={yScale.bandwidth()}
+                      d={Utils.horizontalBarPath(false, halfWidth - xScale(d[metric]), yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, 15)}
                       fill={colorScale.Male}
                       data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
-                    />
+                    ></path>
                   )}
                   <text
                     x={halfWidth - xScale(d[metric]) - 5}
@@ -127,22 +124,19 @@ function AgeBySexChart(params) {
             {data['female'].map(d => (
                 <Group key={`group-female-${d.age}`}>
                   {!isSuppressed(d[metric]) && (
-                    <Bar 
+                    <path
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
                         'transition': animated ? 'transform 1s ease-in-out' : '',
                         'transformOrigin': `${halfWidth}px 0px`
                       }}
                       key={`bar-female-${d.age}`}
-                      x={halfWidth}
-                      y={yScale(ageMapping[d.age])}
-                      width={xScale(d[metric])}
-                      height={yScale.bandwidth()}
+                      d={Utils.horizontalBarPath(true, halfWidth, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, 15)}
                       fill={colorScale.Female}
                       data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
-                    />
+                    ></path>
                   )}
                   <text
                     x={halfWidth + xScale(d[metric]) + 5}

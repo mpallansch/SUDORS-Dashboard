@@ -1,10 +1,10 @@
-import { Bar } from '@visx/shape';
 import { Group } from '@visx/group';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear } from '@visx/scale';
 
 import raw from '../data/causes.json';
 
+import Utils from '../shared/Utils';
 import { countCutoff } from '../constants.json';
 
 import '../css/CauseChart.css';
@@ -51,19 +51,16 @@ function CauseChart(params) {
             />
             {data.map(d => (
                 <Group key={`group-${d.opioid}`}>
-                  <Bar
+                  <path
                     key={`cause-bar-${d.opioid}`}
-                    x={xScale(d.opioid)}
-                    y={yScale(d.cause)}
-                    width={xScale.bandwidth()}
-                    height={adjustedHeight - yScale(d.cause)}
+                    d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.cause), xScale.bandwidth(), adjustedHeight - yScale(d.cause), 20)}
                     fill={colorScale[d.opioid]}
                     data-tip={`<strong>${d.opioid}</strong><br/>
                     Percent Present: ${d.present.toFixed(1)}%<br/>
                     Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
                     Percent Cause: ${d.cause.toFixed(1)}%<br/>
                     Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
-                  />
+                  ></path>
                 </Group>
               )
             )}

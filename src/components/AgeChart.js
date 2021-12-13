@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Group } from '@visx/group';
-import { Bar } from '@visx/shape';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
 import raw from '../data/age.json';
 
+import Utils from '../shared/Utils';
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import '../css/AgeChart.css';
@@ -34,7 +34,7 @@ function AgeChart(params) {
 
   const xScale = scaleLinear({
     domain: [0, Math.max(...data.map(d => d[metric]))],
-    range: [ 0, adjustedWidth - 30 ]
+    range: [ 10, adjustedWidth - 30 ]
   });
 
   const yScale = scaleBand({
@@ -95,22 +95,19 @@ function AgeChart(params) {
             {data.map(d => (
                 <Group key={`group-${d.age}`}>
                   {!isSuppressed(d[metric]) && (
-                    <Bar 
+                    <path 
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
                         'transition': animated ? 'transform 1s ease-in-out' : '',
                         'transformOrigin': '0px 0px'
                       }}
                       key={`bar-female-${d.age}`}
-                      x={0}
-                      y={yScale(ageMapping[d.age])}
-                      width={xScale(d[metric])}
-                      height={yScale.bandwidth()}
+                      d={Utils.horizontalBarPath(true, 0, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, 15)}
                       fill={colorScale.Female}
                       data-tip={`<strong>${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
-                    />
+                    ></path>
                   )}
                   <text
                     x={xScale(d[metric]) + 5}
