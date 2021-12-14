@@ -47,7 +47,7 @@ function RaceChart(params) {
   
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: currentData.sort((a,b) => (getData(a) > getData(b)) ? 1 : -1).map(d => d.race),
+    domain: currentData.sort((a,b) => (a.race < b.race) ? 1 : -1).map(d => d.race),
     padding: 0.2
   });
 
@@ -70,7 +70,7 @@ function RaceChart(params) {
         setAnimated(true);
       }, 50);
     } // eslint-disable-next-line
-  }, [state]);
+  }, [state, metric]);
 
   return width > 0 && (
     <>

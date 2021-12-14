@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { BarStackHorizontal } from '@visx/shape';
 import { Group } from '@visx/group';
 import { AxisBottom } from '@visx/axis';
@@ -11,7 +12,9 @@ import '../css/OpioidStimulantChart.css';
 
 function OpioidStimulantChart(params) {
 
-  const { width, height, state } = params;
+  const [ animated, setAnimated ] = useState(false);
+
+  const { width, height, state, el } = params;
   const data = raw[state].horizontalBarData;
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);
   const margin = {top: 10, bottom: 40, left: 20, right: 20};
@@ -31,7 +34,19 @@ function OpioidStimulantChart(params) {
   const colorScale = scaleOrdinal({
     domain: keys,
     range: ['rgb(58, 88, 161)', 'rgb(116,148,194)', '#88c3ea', 'rgb(220,237,201)']
-  })
+  });
+
+  const onScroll = () => {
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+      window.removeEventListener('scroll', onScroll);
+      setAnimated(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    setTimeout(onScroll, 50); // eslint-disable-next-line
+  }, []);
 
   return width > 0 && (
     <>
@@ -66,6 +81,11 @@ function OpioidStimulantChart(params) {
                     return (
                       <Group key={`barstack-horizontal-${barStack.index}-${bar.index}`}>
                         <path 
+                          className={`animated-bar ${animated ? 'animated' : ''}`}
+                          style={{
+                            'transition': animated ? 'transform 1s ease-in-out' : '',
+                            'transformOrigin': `${adjustedWidth / 2}px 0px`
+                          }}
                           d={barStack.index === 0 ? 
                             `M${bar.x + cornerRadius} ${bar.y}
                               L${xEnd} ${bar.y}
@@ -95,6 +115,11 @@ function OpioidStimulantChart(params) {
                         />
                         {bar.width > 50 && (
                           <text
+                            className={`animated-bar ${animated ? 'animated' : ''}`}
+                            style={{
+                              'transition': animated ? 'transform 1s ease-in-out' : '',
+                              'transformOrigin': `${adjustedWidth / 2}px 0px`
+                            }}
                             x={bar.x + (bar.width / 2)}
                             y={bar.y + (adjustedHeight / 2) + 5}
                             textAnchor="middle"

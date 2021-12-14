@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Group } from '@visx/group';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft, AxisBottom } from '@visx/axis';
@@ -14,7 +15,9 @@ function StateChart(params) {
 
   const viewportCutoff = 600;
 
-  const { width, setState, height, state, drug, colorScale, state: globalState } = params;
+  const [ animated, setAnimated ] = useState(false);
+
+  const { width, setState, height, state, el, drug, colorScale, state: globalState } = params;
 
   const data = dataRaw[drug];
   const dataRates = dataRatesRaw[drug];
@@ -37,6 +40,27 @@ function StateChart(params) {
     padding: 0.35
   });
 
+  const onScroll = () => {
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+      window.removeEventListener('scroll', onScroll);
+      setAnimated(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    setTimeout(onScroll, 50); // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if(animated) {
+      setAnimated(false);
+      setTimeout(() => {
+        setAnimated(true);
+      }, 50);
+    } // eslint-disable-next-line
+  }, [drug]);
+
   return width > 0 && (
     <>
       <svg
@@ -53,6 +77,11 @@ function StateChart(params) {
                 <Group key={`bar-${name}`}>
                   <path 
                     className="bar"
+                    className={`animated-bar ${animated ? 'animated' : ''}`}
+                    style={{
+                      'transition': animated ? 'transform 1s ease-in-out' : '',
+                      'transformOrigin': `0px 0px`
+                    }}
                     d={Utils.horizontalBarPath(true, 0, yScale(name), rate < 0 ? 10 : xScale(rate), yScale.bandwidth(), 3, 10)}
                     fill={name === 'Overall' ? 'white' : colorScale[drug]}
                     stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colorScale[drug]}

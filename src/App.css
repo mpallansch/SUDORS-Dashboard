@@ -86,7 +86,6 @@ input[type="radio"] {
 
 .subheader {
   display: block;
-  text-align: center;
   color: #712177;
   font-weight: bold;
   font-size: 1.4em;
@@ -273,10 +272,18 @@ select {
 
 .drug-tab {
   border: none;
-  width: 50%;
-  border-bottom: 1px solid gray;
-  padding: 0.5em 0;
+  width: 46%;
+  height: 60px;
+  padding: 0.25em 0;
+  margin: 0 2%;
   background: none;
+  border-radius: 30px;
+  box-shadow: 0px 2px 5px lightgrey;
+  vertical-align: middle;
+}
+
+.drug-tab:hover {
+  box-shadow: 0px 2px 7px gray;
 }
 
 .drug-tab:focus {
@@ -284,10 +291,8 @@ select {
 }
 
 .drug-tab.active {
-  border-bottom: none;
-  border-left: 1px solid gray;
-  border-right: 1px solid gray;
-  border-top: 3px solid #712177;
+  background-color: rgb(58, 88, 161);
+  color: white;
 }
 
 .bar {

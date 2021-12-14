@@ -106,16 +106,6 @@ function App() {
     return dimension === 'width' ? ref.current.clientWidth : ref.current.clientHeight
   }
 
-  const formatDeathsNum = (num) => {
-    if(num < 10) {
-      return '< ' + 10;
-    } else if(num < 1000) {
-      return num;
-    } else {
-      return Math.floor(num / 1000) + 'k';
-    }
-  };
-
   const drugTab = (drugName, drugLabel) => (
     <button 
       className={`drug-tab${drugName === drug ? ' active' : ''}`}
@@ -167,7 +157,7 @@ function App() {
         </div>
         <div className="header-section">
           <span className="header-text full">
-            <span className="enlarged">{formatDeathsNum(totalData[state])}</span> 
+            <span className="enlarged">{totalData[state]}</span> 
             <span>total deaths in 2020</span>
           </span>
         </div>
@@ -205,7 +195,7 @@ function App() {
             {drugTab('Opioid', 'Any Opioid')}
           </div>
           <div className="drug-tab-section">
-            {drugTab('Illicitly manufactured fentanyls')}
+            {drugTab('Illicitly manufactured fentanyls', dimensions.width < viewportCutoffSmall ? 'IMFs' : 'Illicitly manufactured fentanyls')}
             {drugTab('Heroin')}
           </div>
           <div className="drug-tab-section">
@@ -214,7 +204,7 @@ function App() {
           </div>
           <div className="drug-tab-section">
             {drugTab('Cocaine')}
-            {drugTab('Methamphetamine')}
+            {drugTab('Methamphetamine', dimensions.width < viewportCutoffSmall ? 'Meth' : 'Methamphetamine')}
           </div>
         </div>
         <div id="state-chart-container" ref={stateChartRef}>
@@ -223,6 +213,7 @@ function App() {
             height={getDimension(stateChartRef, 'height')}
             setState={setState}
             state={state}
+            el={stateChartRef}
             drug={drug}
             colorScale={colorScale} />
         </div>
@@ -237,6 +228,7 @@ function App() {
               width={getDimension(causeChartRef, 'width')}
               height={getDimension(causeChartRef, 'height')}
               state={state}
+              el={causeChartRef}
               colorScale={colorScale} />
           </div>
         </div>
@@ -248,9 +240,10 @@ function App() {
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
-                width={getDimension(drugCombinationChartRef, 'width')}
-                height={getDimension(drugCombinationChartRef, 'height')}
-              state={state} />
+              width={getDimension(drugCombinationChartRef, 'width')}
+              height={getDimension(drugCombinationChartRef, 'height')}
+              state={state}
+              el={drugCombinationChartRef} />
           </div>
           <p>*Data suppressed</p>
         </div>
@@ -264,7 +257,8 @@ function App() {
             <OpioidStimulantChart 
                 width={getDimension(opioidStimulantChartRef, 'width')}
                 height={getDimension(opioidStimulantChartRef, 'height')}
-              state={state} />
+                state={state}
+                el={opioidStimulantChartRef} />
           </div>
           <div id="opioid-stimulant-chart-legend">
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)"/></svg>Opioids with stimulants</span>
@@ -412,7 +406,6 @@ function App() {
               />
             </div>
           </div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, nulla luctus pharetra vulputate, felis tellus mollis orci, sed rhoncus sapien nunc eget odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
         </div>
         <div className="column column-right">
           <div className="subsection">

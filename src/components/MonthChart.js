@@ -82,8 +82,8 @@ function MonthChart(params) {
 
   const xScale = scaleBand({
     domain: header ? dataQuarter.map(d => d.quarter) : data.map(d => d.month),
-    range: [ 0, adjustedWidth ],
-    padding: 0.35
+    range: [ header ? 5 : 0, adjustedWidth ],
+    padding: header ? 0 : 0.35
   });
 
   const halfBandwidth = xScale.bandwidth() / 2;
@@ -105,15 +105,6 @@ function MonthChart(params) {
     setTimeout(onScroll, 50); // eslint-disable-next-line
   }, []);
 
-  useEffect(() => {
-    if(animated) {
-      setAnimated(false);
-      setTimeout(() => {
-        setAnimated(true);
-      }, 50);
-    } // eslint-disable-next-line
-  }, [state]);
-
   return width > 0 && (
     <>
       <div id="month-chart">
@@ -123,20 +114,31 @@ function MonthChart(params) {
             {header && (
               <>
                 {dataQuarter.map(d => (
-                    <circle
-                      key={`point-${d.quarter}`}
-                      r={3}
-                      cx={xScale(d.quarter)}
-                      cy={yScale(d.value)}
-                      fill="#712177"
-                    />
-                ))}
+                    <>
+                      <circle
+                        key={`point-${d.quarter}`}
+                        r={3}
+                        cx={xScale(d.quarter)}
+                        cy={yScale(d.value)}
+                        fill="#712177"
+                      />
+                      <rect
+                        x={xScale(d.quarter)}
+                        y={0}
+                        width={xScale.bandwidth()}
+                        height={adjustedHeight}
+                        fill="transparent"
+                        data-tip={`<strong>Q${d.quarter + 1} 2020</strong><br/>Deaths: ${d.value}`}
+                      />
+                    </>
+                ))} 
                 <LinePath 
                   data={dataQuarter}
                   x={d => xScale(d.quarter)}
                   y={d => yScale(d.value)}
                   stroke="#712177"
                   strokeWidth="2"
+                  pointerEvents="none"
                 />
               </>
             )}
@@ -163,9 +165,10 @@ function MonthChart(params) {
                     {d.value >= countCutoff && (
                       <path
                         key={`cause-bar-${d.month}`}
-                        className={`animated-bar-vert ${animated ? 'animated' : ''}`}
+                        className={`animated-bar vertical ${animated ? 'animated' : ''}`}
                         style={{
-                          'transition': animated ? 'transform 1s ease-in-out' : ''
+                          'transition': animated ? 'transform 1s ease-in-out' : '',
+                          'transformOrigin': `0px ${adjustedHeight}px`
                         }}
                         d={Utils.verticalBarPath(xScale(d.month), yScale(d.value), xScale.bandwidth(), adjustedHeight - yScale(d.value), 15)}
                         fill={colorScale.Primary}

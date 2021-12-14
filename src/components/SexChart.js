@@ -48,7 +48,7 @@ function SexChart(params) {
         setAnimated(true);
       }, 50);
     } // eslint-disable-next-line
-  }, [state]);
+  }, [state, metric]);
   
   const caps = (string) => {
     return string.charAt(0).toUpperCase() + string.substring(1, string.length);

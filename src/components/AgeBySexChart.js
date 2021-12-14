@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Bar } from '@visx/shape';
 import { Group } from '@visx/group';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
@@ -73,7 +74,7 @@ function AgeBySexChart(params) {
         setAnimated(true);
       }, 50);
     } // eslint-disable-next-line
-  }, [state]);
+  }, [state, metric]);
 
   return width > 0 && (
     <>
@@ -110,6 +111,15 @@ function AgeBySexChart(params) {
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
+                  {isSuppressed(d[metric]) && (
+                    <Bar 
+                      x={halfWidth - 1}
+                      y={yScale(ageMapping[d.age])}
+                      width={1}
+                      height={yScale.bandwidth()}
+                      fill={colorScale.Male}
+                    />
+                  )}
                   <text
                     x={halfWidth - xScale(d[metric]) - 5}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
@@ -137,6 +147,15 @@ function AgeBySexChart(params) {
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
+                  )}
+                  {isSuppressed(d[metric]) && (
+                    <Bar 
+                      x={halfWidth}
+                      y={yScale(ageMapping[d.age])}
+                      width={1}
+                      height={yScale.bandwidth()}
+                      fill={colorScale.Male}
+                    />
                   )}
                   <text
                     x={halfWidth + xScale(d[metric]) + 5}

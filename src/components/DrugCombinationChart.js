@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Bar } from '@visx/shape';
 import { Group } from '@visx/group';
 import { Text } from '@visx/text';
@@ -8,16 +9,19 @@ import raw from '../data/drug-combination.json';
 import { countCutoff } from '../constants.json';
 
 import '../css/DrugCombinationChart.css';
+import Utils from '../shared/Utils';
 
 function DrugCombinationChart(params) {
 
   const viewportCutoff = 600;
 
-  const { width: rawWidth, height, state } = params;
+  const [ animated, setAnimated ] = useState(false);
+
+  const { width: rawWidth, height, state, el } = params;
   const data = raw[state].combinations;
   const width = Math.max(data.length * 110, rawWidth);
   const barPadding = 0.45;
-  const margin = {top: 40, bottom: 200, left: rawWidth < viewportCutoff ? 175 : 280, right: 0};
+  const margin = {top: 10, bottom: 200, left: rawWidth < viewportCutoff ? 175 : 280, right: 0};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
   const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
@@ -39,7 +43,7 @@ function DrugCombinationChart(params) {
 
   const yScale = scaleLinear({
     domain: [0, Math.max(...data.map(d => d.percent))],
-    range: [ adjustedHeight - 35, 0 ]
+    range: [ adjustedHeight - 60, 0 ]
   });
 
   const colors = {
@@ -51,6 +55,18 @@ function DrugCombinationChart(params) {
     'Illicitly manufactured fentanyls': 'rgb(187, 77, 0)'
   };
 
+  const onScroll = () => {
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+      window.removeEventListener('scroll', onScroll);
+      setAnimated(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    setTimeout(onScroll, 50); // eslint-disable-next-line
+  }, []);
+
   return width > 0 && (
     <>
       <div id="cause-chart">
@@ -59,29 +75,22 @@ function DrugCombinationChart(params) {
             <Group top={margin.top} left={margin.left}>
               {data.map((d, i) => (
                   <Group key={`group-${d.drugCombination}`}>
-                    <Bar
+                    <path
                       key={`cause-bar-${d.drugCombination}`}
-                      x={xScale(d.drugCombination)}
-                      y={yScale(d.percent)}
-                      width={halfBarWidth}
-                      height={adjustedHeight - Math.min(yScale(d.percent), adjustedHeight)}
+                      className={`animated-bar vertical ${animated ? 'animated' : ''}`}
+                      style={{
+                        'transition': animated ? 'transform 1s ease-in-out' : '',
+                        'transformOrigin': `0px ${adjustedHeight}px`
+                      }}
+                      d={Utils.verticalBarPath(xScale(d.drugCombination), yScale(d.percent), halfBarWidth, adjustedHeight - Math.min(yScale(d.percent), adjustedHeight), halfBarWidth - 2)}
                       fill="rgb(77,126,119)"
                       data-tip={`Percent: ${d.deaths <= countCutoff ? '< ' + d.percent.toFixed(1) : d.percent.toFixed(1)}%<br/>
                       Deaths: ${d.deaths <= countCutoff ? `< ${countCutoff}` : d.deaths}`}
-                    />
-                    <circle
-                      cx={xScale(d.drugCombination) + quarterBarWidth}
-                      cy={yScale(d.percent)}
-                      r={quarterBarWidth}
-                      fill="rgb(77,126,119)"
-                      style={{
-                        pointerEvents: 'none'
-                      }}
-                    ></circle>
+                    ></path>
                     <Text
                       x={xScale(d.drugCombination) + halfXBandwidth}
                       y={yScale(d.percent)}
-                      dy={15}
+                      dy={35}
                       style={{
                         transformOrigin: `${xScale(d.drugCombination) + halfXBandwidth}px ${yScale(d.percent)}px`,
                         transform: 'rotate(-90deg)',

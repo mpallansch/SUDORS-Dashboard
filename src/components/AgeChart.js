@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Bar } from '@visx/shape';
 import { Group } from '@visx/group';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
@@ -72,7 +73,7 @@ function AgeChart(params) {
         setAnimated(true);
       }, 50);
     } // eslint-disable-next-line
-  }, [state]);
+  }, [state, metric]);
 
   return width > 0 && (
     <>
@@ -108,6 +109,15 @@ function AgeChart(params) {
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
+                  )}
+                  {isSuppressed(d[metric]) && (
+                    <Bar 
+                      x={0}
+                      y={yScale(ageMapping[d.age])}
+                      width={1}
+                      height={yScale.bandwidth()}
+                      fill={colorScale.Male}
+                    />
                   )}
                   <text
                     x={xScale(d[metric]) + 5}

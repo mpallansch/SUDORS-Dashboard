@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Group } from '@visx/group';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear } from '@visx/scale';
@@ -13,7 +14,9 @@ function CauseChart(params) {
 
   const viewportCutoff = 600;
 
-  const { width, height, state, colorScale } = params;
+  const [ animated, setAnimated ] = useState(false);
+
+  const { width, height, state, el, colorScale } = params;
   const data = raw[state];
   const margin = {top: 20, bottom: width < viewportCutoff ? 220 : 140, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
@@ -29,6 +32,27 @@ function CauseChart(params) {
     domain: [0, 100],
     range: [ adjustedHeight, 0 ]
   });
+
+  const onScroll = () => {
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+      window.removeEventListener('scroll', onScroll);
+      setAnimated(true);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    setTimeout(onScroll, 50); // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    if(animated) {
+      setAnimated(false);
+      setTimeout(() => {
+        setAnimated(true);
+      }, 50);
+    } // eslint-disable-next-line
+  }, [state]);
 
   return width > 0 && (
     <>
@@ -53,6 +77,11 @@ function CauseChart(params) {
                 <Group key={`group-${d.opioid}`}>
                   <path
                     key={`cause-bar-${d.opioid}`}
+                    className={`animated-bar vertical ${animated ? 'animated' : ''}`}
+                    style={{
+                      'transition': animated ? 'transform 1s ease-in-out' : '',
+                      'transformOrigin': `0px ${adjustedHeight}px`
+                    }}
                     d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.cause), xScale.bandwidth(), adjustedHeight - yScale(d.cause), 20)}
                     fill={colorScale[d.opioid]}
                     data-tip={`<strong>${d.opioid}</strong><br/>
