@@ -87,8 +87,9 @@ input[type="radio"] {
 .subheader {
   display: block;
   color: #712177;
+  font-size: 1.625em;
   font-weight: bold;
-  font-size: 1.4em;
+  font-family: "Merriweather", serif;
   margin: 0.5em 0.5em;
 }
 
@@ -179,9 +180,9 @@ input[type="radio"] {
 
 .preheader-label {
   display: inline-block;
-  text-transform: uppercase;
-  margin: 1em;
-  font-size: 0.8em
+  margin: .5em;
+  font-size: 1.4em;
+  font-family: sans-serif;
 }
 
 .header-section {
@@ -213,10 +214,12 @@ input[type="radio"] {
   display: inline-block;
   width: calc(100% - 70px);
   vertical-align: middle;
+  font-size: .85em;
 }
 
 .header-text.full {
   width: 100%;
+  font-size: 1em;
 }
 
 .inline-header-text {
