@@ -76,7 +76,6 @@ function StateChart(params) {
               return (
                 <Group key={`bar-${name}`}>
                   <path 
-                    className="bar"
                     className={`animated-bar ${animated ? 'animated' : ''}`}
                     style={{
                       'transition': animated ? 'transform 1s ease-in-out' : '',

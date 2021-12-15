@@ -114,9 +114,8 @@ function MonthChart(params) {
             {header && (
               <>
                 {dataQuarter.map(d => (
-                    <>
+                    <Group key={`point-${d.quarter}`}>
                       <circle
-                        key={`point-${d.quarter}`}
                         r={3}
                         cx={xScale(d.quarter)}
                         cy={yScale(d.value)}
@@ -130,7 +129,7 @@ function MonthChart(params) {
                         fill="transparent"
                         data-tip={`<strong>Q${d.quarter + 1} 2020</strong><br/>Deaths: ${d.value}`}
                       />
-                    </>
+                    </Group>
                 ))} 
                 <LinePath 
                   data={dataQuarter}

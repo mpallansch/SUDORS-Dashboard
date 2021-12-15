@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { Bar } from '@visx/shape';
 import { Group } from '@visx/group';
 import { Text } from '@visx/text';
 import { scaleBand, scaleLinear } from '@visx/scale';
@@ -38,7 +37,6 @@ function DrugCombinationChart(params) {
   const barWidth = xScale.bandwidth() * (1 + (barPadding * 2));
   const halfBarWidth = barWidth / 2;
   const quarterBarWidth = halfBarWidth / 2;
-  const radius = quarterBarWidth / 2;
   const halfXBandwidth = xScale.bandwidth() / 2;
 
   const yScale = scaleLinear({
