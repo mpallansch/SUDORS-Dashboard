@@ -13,6 +13,7 @@ import OpioidStimulantChart from './components/OpioidStimulantChart';
 import DrugCombinationChart from './components/DrugCombinationChart';
 import MonthChart from './components/MonthChart';
 import CircumstancesChart from './components/CircumstancesChart';
+import Footer from './components/Footer';
 
 import interventionData from './data/interventions.json';
 import totalData from './data/totals.json';
@@ -422,6 +423,8 @@ function App() {
           </div> 
         </div> 
       </div>
+
+      <Footer />
 
       <ReactTooltip html={true} type="light" arrowColor="rgba(0,0,0,0)" className="tooltip"/>
     </div>

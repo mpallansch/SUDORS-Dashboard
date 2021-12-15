@@ -276,6 +276,12 @@ select {
   padding: 0.25em;
 }
 
+.toggle-indicator {
+  float: right;
+  margin: 0.5em;
+  font-weight: bold;
+}
+
 .drug-tab-section {
   display: inline-block;
   width: 50%;
