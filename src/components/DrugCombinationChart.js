@@ -69,7 +69,7 @@ function DrugCombinationChart(params) {
 
   return width > 0 && (
     <>
-      <div id="cause-chart">
+      <div id="drug-combination-chart">
         <div id="horizontal-scroll">
           <svg width={width} height={height}>
             <Group top={margin.top} left={margin.left}>

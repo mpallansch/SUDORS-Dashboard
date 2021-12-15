@@ -134,24 +134,28 @@ function App() {
   const maleAgeMax = [...ageBySexData[state].male].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const femaleAgeMax = [...ageBySexData[state].female].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
 
+  const stateSelector = (
+    <select value={state} onChange={(e) => setState(e.target.value)}>
+      {Object.keys(totalData).sort((a, b) => {
+        if(a === 'Overall'){
+          return -1;
+        } else if (b === 'Overall'){
+          return 1;
+        } else {
+          return a < b ? -1 : 1;
+        }
+      }).map(state => (
+        <option key={`dropdown-option-${state}`}>{state}</option>
+      ))}
+    </select>
+  );
+
   return (
     <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}`} 
       ref={outerContainerRef}>
       <div className="section">
         <span>View data for:</span>
-        <select value={state} onChange={(e) => setState(e.target.value)}>
-          {Object.keys(totalData).sort((a, b) => {
-            if(a === 'Overall'){
-              return -1;
-            } else if (b === 'Overall'){
-              return 1;
-            } else {
-              return a < b ? -1 : 1;
-            }
-          }).map(state => (
-            <option key={`dropdown-option-${state}`}>{state}</option>
-          ))}
-        </select>
+        {stateSelector}
         <div className="header">
           <span className="preheader-label">Data Summary at a Glance, {stateLabel}</span>
         </div>
@@ -186,7 +190,7 @@ function App() {
           <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
         </div>
         <div className="header margin">
-          <span className="preheader-label">What drugs were involved in overdose deaths, {stateLabel}?</span>
+          <span className="preheader-label">What drugs were involved in overdose deaths, {stateLabel}?{stateSelector}</span>
         </div>
         <span className="subheader">Rate of overdose deaths by state and drug or drug type</span>
         <div>
@@ -271,7 +275,7 @@ function App() {
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">How many drug overdose deaths occurred each month, {stateLabel}?</span>
+          <span className="preheader-label">How many drug overdose deaths occurred each month, {stateLabel}?{stateSelector}</span>
         </div>
         <div className="subsection">
           <div id="line-chart-container" ref={monthChartRef}>
@@ -289,7 +293,7 @@ function App() {
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">Who died of a drug overdose, {stateLabel}?</span>
+          <span className="preheader-label">Who died of a drug overdose, {stateLabel}?{stateSelector}</span>
         </div>
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}.</p>
@@ -392,7 +396,7 @@ function App() {
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">Opportunities for intervention, {stateLabel}?</span>
+          <span className="preheader-label">Opportunities for intervention, {stateLabel}?{stateSelector}</span>
         </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
         <div className="column column-left">
