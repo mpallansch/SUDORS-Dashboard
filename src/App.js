@@ -159,10 +159,10 @@ function App() {
         <div className="header">
           <span className="preheader-label">Data Summary at a Glance, {stateLabel}</span>
         </div>
-        <div className="header-section">
+        <div className="header-section first">
           <span className="header-text full">
-            <span className="enlarged">{totalData[state]}</span> 
-            <span>total deaths in 2020</span>
+            <span className="enlarged">{Number(totalData[state]).toLocaleString()}</span> 
+            <span className="header-text">total deaths in 2020</span>
           </span>
         </div>
         <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
@@ -190,7 +190,7 @@ function App() {
           <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
         </div>
         <div className="header margin">
-          <span className="preheader-label">What drugs were involved in overdose deaths, {stateLabel}?{stateSelector}</span>
+          <span className="preheader-label">What drugs were involved in overdose deaths, {stateLabel}?</span>{stateSelector}
         </div>
         <span className="subheader">Rate of overdose deaths by state and drug or drug type</span>
         <div>
@@ -249,7 +249,6 @@ function App() {
               state={state}
               el={drugCombinationChartRef} />
           </div>
-          <p>*Data suppressed</p>
         </div>
       </div>
 
@@ -275,7 +274,7 @@ function App() {
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">How many drug overdose deaths occurred each month, {stateLabel}?{stateSelector}</span>
+          <span className="preheader-label">How many drug overdose deaths occurred each month, {stateLabel}?</span>{stateSelector}
         </div>
         <div className="subsection">
           <div id="line-chart-container" ref={monthChartRef}>
@@ -293,7 +292,7 @@ function App() {
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">Who died of a drug overdose, {stateLabel}?{stateSelector}</span>
+          <span className="preheader-label">Who died of a drug overdose, {stateLabel}?</span>{stateSelector}
         </div>
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}.</p>
@@ -396,7 +395,7 @@ function App() {
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">Opportunities for intervention, {stateLabel}?{stateSelector}</span>
+          <span className="preheader-label">Opportunities for intervention, {stateLabel}?</span>{stateSelector}
         </div>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan et viverra justo commodo. Proin sodales pulvinar tempor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
         <div className="column column-left">

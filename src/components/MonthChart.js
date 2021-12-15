@@ -181,6 +181,8 @@ function MonthChart(params) {
                         y={adjustedHeight - 5}
                         fill="black"
                         textAnchor="middle"
+                        cursor="default"
+                        data-tip="*Data suppressed"
                       >*</text>
                     )}
                   </Group>

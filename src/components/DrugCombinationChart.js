@@ -84,8 +84,8 @@ function DrugCombinationChart(params) {
                       }}
                       d={Utils.verticalBarPath(xScale(d.drugCombination), yScale(d.percent), halfBarWidth, adjustedHeight - Math.min(yScale(d.percent), adjustedHeight), halfBarWidth - 2)}
                       fill="rgb(77,126,119)"
-                      data-tip={`Percent: ${d.deaths <= countCutoff ? '< ' + d.percent.toFixed(1) : d.percent.toFixed(1)}%<br/>
-                      Deaths: ${d.deaths <= countCutoff ? `< ${countCutoff}` : d.deaths}`}
+                      data-tip={d.deaths <= countCutoff ? '* Data suppressed' : `Percent: ${d.percent.toFixed(1)}%<br/>
+                      Deaths: ${d.deaths}`}
                     ></path>
                     <Text
                       x={xScale(d.drugCombination) + halfXBandwidth}
@@ -175,12 +175,12 @@ function DrugCombinationChart(params) {
                       fill="white"
                     />
                     <Text 
-                      x={margin.left / 2} 
+                      x={5} 
                       y={y + halfTableElHeight} 
                       width={width} 
                       height={tableElHeight} 
                       fill={colors[drug]}
-                      textAnchor="middle" 
+                      textAnchor="start" 
                       dominantBaseline="middle"
                       fontWeight="bold">
                         {rawWidth < viewportCutoff && drug === 'Illicitly manufactured fentanyls' ? 'IMFs' : drug}

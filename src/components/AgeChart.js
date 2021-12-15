@@ -111,13 +111,23 @@ function AgeChart(params) {
                     ></path>
                   )}
                   {isSuppressed(d[metric]) && (
-                    <Bar 
-                      x={0}
-                      y={yScale(ageMapping[d.age])}
-                      width={1}
-                      height={yScale.bandwidth()}
-                      fill={colorScale.Male}
-                    />
+                    <>
+                      <Bar 
+                        x={0}
+                        y={yScale(ageMapping[d.age])}
+                        width={1}
+                        height={yScale.bandwidth()}
+                        fill={colorScale.Male}
+                      />
+                      <Bar 
+                        x={0}
+                        y={yScale(ageMapping[d.age])}
+                        width={40}
+                        height={yScale.bandwidth()}
+                        fill="transparent"
+                        data-tip={`<strong>${ageMapping[d.age]}</strong><br/>*Data suppressed`}
+                      />
+                    </>
                   )}
                   <text
                     x={xScale(d[metric]) + 5}

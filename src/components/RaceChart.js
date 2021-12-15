@@ -107,18 +107,29 @@ function RaceChart(params) {
                   )}
                   { // render suppressed bar
                   isSuppressed(d) && (
-                    <Bar
-                      className={`animated-bar ${animated ? 'animated' : ''}`}
-                      style={{
-                        'transition': animated ? 'transform 1s ease-in-out' : ''
-                      }}
-                      key={`bar-${d.race}`}
-                      x={0}
-                      y={yScale(d.race)}
-                      width={1}
-                      height={yScale.bandwidth()}
-                      fill={'black'}
-                    />
+                    <>
+                      <Bar
+                        className={`animated-bar ${animated ? 'animated' : ''}`}
+                        style={{
+                          'transition': animated ? 'transform 1s ease-in-out' : ''
+                        }}
+                        key={`bar-${d.race}`}
+                        x={0}
+                        y={yScale(d.race)}
+                        width={1}
+                        height={yScale.bandwidth()}
+                        fill="black"
+                      />
+                      <Bar
+                        key={`bar-hover-${d.race}`}
+                        x={0}
+                        y={yScale(d.race)}
+                        width={40}
+                        height={yScale.bandwidth()}
+                        fill="transparent"
+                        data-tip={`<strong>${d.race}</strong><br/>*Data suppressed`}
+                      />
+                    </>
                   )}
                   <text
                     key={`bar-label-${d.race}`}

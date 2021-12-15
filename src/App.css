@@ -162,9 +162,15 @@ input[type="radio"] {
 }
 
 .header {
+  display: inline-block;
+  width: 100%;
   background-color: #712177;
   color: white;
-  padding: 0.5em 1em;
+}
+
+.header select {
+  float: right;
+  margin: .5em;
 }
 
 .header.margin {
@@ -172,13 +178,10 @@ input[type="radio"] {
 }
 
 .preheader-label {
+  display: inline-block;
   text-transform: uppercase;
+  margin: 1em;
   font-size: 0.8em
-}
-
-.preheader-label select {
-  float: right;
-  margin: -0.125em 0 0 0;
 }
 
 .header-section {
@@ -195,6 +198,10 @@ input[type="radio"] {
 
 .header-section:hover {
   box-shadow: 0 5px 11px 0 rgb(0 0 0 / 18%), 0 4px 15px 0 rgb(0 0 0 / 15%);
+}
+
+.header-section.first .header-text .header-text {
+  width: calc(100% - 150px);
 }
 
 .header-section.middle {

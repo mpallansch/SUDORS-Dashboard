@@ -112,13 +112,23 @@ function AgeBySexChart(params) {
                     ></path>
                   )}
                   {isSuppressed(d[metric]) && (
-                    <Bar 
-                      x={halfWidth - 1}
-                      y={yScale(ageMapping[d.age])}
-                      width={1}
-                      height={yScale.bandwidth()}
-                      fill={colorScale.Male}
-                    />
+                    <>
+                      <Bar 
+                        x={halfWidth - 1}
+                        y={yScale(ageMapping[d.age])}
+                        width={1}
+                        height={yScale.bandwidth()}
+                        fill={colorScale.Male}
+                      />
+                      <Bar 
+                        x={0}
+                        y={yScale(ageMapping[d.age])}
+                        width={halfWidth}
+                        height={yScale.bandwidth()}
+                        fill="transparent"
+                        data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>*Data suppressed`}
+                      />
+                    </>
                   )}
                   <text
                     x={halfWidth - xScale(d[metric]) - 5}
@@ -149,13 +159,23 @@ function AgeBySexChart(params) {
                     ></path>
                   )}
                   {isSuppressed(d[metric]) && (
-                    <Bar 
-                      x={halfWidth}
-                      y={yScale(ageMapping[d.age])}
-                      width={1}
-                      height={yScale.bandwidth()}
-                      fill={colorScale.Male}
-                    />
+                    <>
+                      <Bar 
+                        x={halfWidth}
+                        y={yScale(ageMapping[d.age])}
+                        width={1}
+                        height={yScale.bandwidth()}
+                        fill={colorScale.Male}
+                      />
+                      <Bar 
+                        x={halfWidth}
+                        y={yScale(ageMapping[d.age])}
+                        width={halfWidth}
+                        height={yScale.bandwidth()}
+                        fill="transparent"
+                        data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>*Data suppressed`}
+                      />
+                    </>
                   )}
                   <text
                     x={halfWidth + xScale(d[metric]) + 5}
