@@ -479,27 +479,14 @@ fs.createReadStream(inputFilePath)
 
     let additionalDrugData = {};
     statesFinal.forEach(state => {
-      let additionalDrugDataByState = [];
-      Object.keys(additionalDrugs[state]).forEach(cause => {
-        let total = additionalDrugs[state][cause]['total'];
-        let row = {cause: drugLabelMapping[cause]};
-        Object.keys(additionalDrugs[state][cause]).forEach(additional => {
-          row[drugLabelMapping[additional]] = percent(additionalDrugs[state][cause][additional], total);
-          row[`${drugLabelMapping[additional]}-Count`] = checkCutoff(additionalDrugs[state][cause][additional]);
-        });
-        additionalDrugDataByState.push(row);
-      });
-
       let opioids = ['rx_opioid_cod_v2','imfs_cod','heroin_def_cod_v2'];
       let stimulants = ['meth_r_cod','cocaine_t_cod'];
       let opioidMaxValue = Math.max.apply(Math, opioids.map(drug => keyCounts[state][drug]['1']));
       let stimulantMaxValue = Math.max.apply(Math, stimulants.map(drug => keyCounts[state][drug]['1']));
 
       additionalDrugData[state] = {
-        isMostDeathsOpioid: allOpioidCause[state] > (totalDeaths[state] / 2) || allOpioidPresent[state] > (totalDeaths[state] / 2),
         commonOpioid: drugLabelMapping[opioids.find(drug => keyCounts[state][drug]['1'] === opioidMaxValue)],
-        commonStimulant: drugLabelMapping[stimulants.find(drug => keyCounts[state][drug]['1'] === stimulantMaxValue)],
-        drugData: additionalDrugDataByState
+        commonStimulant: drugLabelMapping[stimulants.find(drug => keyCounts[state][drug]['1'] === stimulantMaxValue)]
       }
     });
 
@@ -739,6 +726,7 @@ fs.createReadStream(inputFilePath)
       opioidStimulantDataFinal[state] = {
         max: drugGroupLabels[drugGroupsOrdered[0]],
         min: drugGroupLabels[drugGroupsOrdered[drugGroupsOrdered.length - 1]],
+        minPercent: percent(opioidStimulantData[state][drugGroupsOrdered[drugGroupsOrdered.length - 1]], totalDeaths[state]),
         horizontalBarData: [
           {
             osName: drugGroupLabels['os'],

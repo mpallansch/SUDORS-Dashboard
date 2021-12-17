@@ -18,12 +18,15 @@ import Footer from './components/Footer';
 import interventionData from './data/interventions.json';
 import totalData from './data/totals.json';
 import combinationData from './data/drug-combination.json';
+import causeData from './data/causes.json';
 import additionalDrugData from './data/additional-drugs.json';
 import opioidStimulantData from './data/opioid-stimulant.json';
 import sexData from './data/sex.json';
 import ageData from './data/age.json';
 import raceData from './data/race.json';
 import ageBySexData from './data/age-by-sex.json';
+
+import { countCutoff } from './constants.json';
 
 import './App.css';
 
@@ -128,7 +131,7 @@ function App() {
       drugCombinationNames.length === 2 ? ' and ' : ', and ')
   };
 
-  const multipleCombo = combinationData[state].combinations.filter(combo => (combo.drugCombination.match(/1/g) || []).length > 1);
+  const multipleCombo = combinationData[state].combinations.filter(combo => (combo.deaths > countCutoff && combo.drugCombination.match(/1/g) || []).length > 1);
   const sexMax = [...sexData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const ageMax = [...ageData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const raceMax = [...raceData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
@@ -226,7 +229,7 @@ function App() {
 
       <div className="section divider">
         <span className="subheader">Percentages of overdose deaths involving select drugs and drug classes, {stateLabel}</span>
-        <p>{additionalDrugData[state].isMostDeathsOpioid && 'Most deaths involved at least one opioid. '}{additionalDrugData[state].commonOpioid} were the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
+        <p>{causeData[state].find(d => d.opioid === 'Any Opioids').cause.toFixed(1)}% of deaths involved at least one opioid and {causeData[state].find(d => d.opioid === 'Any Stimulant').cause.toFixed(1)}% involved at least one stimulant. {additionalDrugData[state].commonOpioid} {additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -241,7 +244,10 @@ function App() {
 
       <div className="section divider">
         <span className="subheader">Percentages of deaths involving the most common opioids and stimulants alone or in combination, {stateLabel}</span>
-        <p>The five most frequently occurring opioid and stimulant combinations accounted for {combinationData[state].total.toFixed(1)}% of overdose deaths. {multipleCombo.length > 0 && `For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}`}</p>
+        <p>The five most frequently occurring opioid and stimulant combinations accounted for {combinationData[state].total.toFixed(1)}% of overdose deaths. 
+          {multipleCombo.length > 0 ? 
+            ` For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}` :
+            ` ${combinationData[state].combinations[0].percent.toFixed(1)}% of deaths involved ${listDrugs(combinationData[state].combinations[0].drugCombination)}, one of the most common ${combinationData[state].combinations[0].drugCombination.charAt(3) === '1' || combinationData[state].combinations[0].drugCombination.charAt(4) === '1' ? 'stimulants' : 'opioids'}`}.</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
@@ -255,7 +261,7 @@ function App() {
 
       <div className="section divider">
         <span className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</span>
-        <p>The largest percentage of deaths involved {opioidStimulantData[state].max.toLowerCase()}. Very few overdose deaths involved {opioidStimulantData[state].min.toLowerCase()}.</p>
+        <p>The largest percentage of deaths involved {opioidStimulantData[state].max.toLowerCase()}, while {opioidStimulantData[state].minPercent.toFixed(1)}% of overdose deaths involved {opioidStimulantData[state].min.toLowerCase()}.</p>
         <div className="subsection">
           <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
             <OpioidStimulantChart 
