@@ -20,7 +20,7 @@ function DrugCombinationChart(params) {
   const data = raw[state].combinations;
   const width = Math.max(data.length * 110, rawWidth);
   const barPadding = 0.45;
-  const margin = {top: 10, bottom: 200, left: rawWidth < viewportCutoff ? 175 : 280, right: 0};
+  const margin = {top: 10, bottom: 200, left: rawWidth < viewportCutoff ? 175 : 280, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
   const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
@@ -80,7 +80,7 @@ function DrugCombinationChart(params) {
                         'transition': animated ? 'transform 1s ease-in-out' : '',
                         'transformOrigin': `0px ${adjustedHeight}px`
                       }}
-                      d={Utils.verticalBarPath(xScale(d.drugCombination), yScale(d.percent), halfBarWidth, adjustedHeight - Math.min(yScale(d.percent), adjustedHeight), halfBarWidth - 2)}
+                      d={Utils.verticalBarPath(xScale(d.drugCombination), yScale(d.percent), halfBarWidth, adjustedHeight - Math.min(yScale(d.percent), adjustedHeight), barWidth * .35)}
                       fill="rgb(77,126,119)"
                       data-tip={d.deaths <= countCutoff ? '* Data suppressed' : `Percent: ${d.percent.toFixed(1)}%<br/>
                       Deaths: ${d.deaths}`}

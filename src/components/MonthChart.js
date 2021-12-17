@@ -169,7 +169,7 @@ function MonthChart(params) {
                           'transition': animated ? 'transform 1s ease-in-out' : '',
                           'transformOrigin': `0px ${adjustedHeight}px`
                         }}
-                        d={Utils.verticalBarPath(xScale(d.month), yScale(d.value), xScale.bandwidth(), adjustedHeight - yScale(d.value), 15)}
+                        d={Utils.verticalBarPath(xScale(d.month), yScale(d.value), xScale.bandwidth(), adjustedHeight - yScale(d.value), xScale.bandwidth() * .35)}
                         fill={colorScale.Primary}
                         data-tip={`<strong>${monthMappingFull[d.month]}</strong><br/>Deaths: ${d.value}`}
                       ></path>

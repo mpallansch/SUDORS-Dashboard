@@ -23,8 +23,8 @@
   background-image: linear-gradient(to right, transparent , white);
 }
 
-#drug-combination-chart-container svg {
-  margin-right: 20px;
+#drug-combination-chart-container #horizontal-scroll svg {
+  padding-right: 20px;
 }
 
 #drug-combination-chart-container #table-header {

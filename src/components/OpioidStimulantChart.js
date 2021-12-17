@@ -12,12 +12,14 @@ import '../css/OpioidStimulantChart.css';
 
 function OpioidStimulantChart(params) {
 
+  const viewportCutoff = 800;
+
   const [ animated, setAnimated ] = useState(false);
 
   const { width, height, state, el } = params;
   const data = raw[state].horizontalBarData;
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);
-  const margin = {top: 10, bottom: 40, left: 20, right: 20};
+  const margin = {top: 10, bottom: 40, left: 20, right: width < viewportCutoff ? 60 : 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
@@ -50,7 +52,7 @@ function OpioidStimulantChart(params) {
 
   return width > 0 && (
     <>
-      <div id="cause-chart">
+      <div id="opioid-stimulant-chart">
         <svg width={width} height={height}>
           <Group top={margin.top} left={margin.left}>
             <BarStackHorizontal
@@ -67,7 +69,7 @@ function OpioidStimulantChart(params) {
                     const rawCount = bar.bar.data[bar.key.replace('Percent', 'Count')];
                     const rawPercent = bar.bar.data[bar.key];
                     const percent = rawPercent.toFixed(1);
-                    const cornerRadius = 25;
+                    const cornerRadius = adjustedHeight * .35;
                     const xEnd = bar.x + bar.width;
                     const yEnd = bar.y + adjustedHeight;
 
@@ -134,7 +136,8 @@ function OpioidStimulantChart(params) {
             <AxisBottom
               top={adjustedHeight + 10}
               scale={xScale}
-              tickValues={[0, 25, 50, 75, 100]}
+              tickStroke="none"
+              tickValues={[0, 50, 100]}
               tickFormat={val => val + '%'}
               tickLabelProps={() => ({
                 fontSize: 'medium',

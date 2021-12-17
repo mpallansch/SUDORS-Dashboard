@@ -81,7 +81,7 @@ function StateChart(params) {
                       'transition': animated ? 'transform 1s ease-in-out' : '',
                       'transformOrigin': `0px 0px`
                     }}
-                    d={Utils.horizontalBarPath(true, 0, yScale(name), rate < 0 ? 10 : xScale(rate), yScale.bandwidth(), 3, 10)}
+                    d={Utils.horizontalBarPath(true, 0, yScale(name), rate < 0 ? 10 : xScale(rate), yScale.bandwidth(), 3, yScale.bandwidth() * .35)}
                     fill={name === 'Overall' ? 'white' : colorScale[drug]}
                     stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colorScale[drug]}
                     strokeWidth="3"
@@ -133,8 +133,9 @@ function StateChart(params) {
             <AxisBottom
               top={adjustedHeight}
               scale={xScale}
-              label={width < viewportCutoff ?  'Deaths per 100,000' : 'Age-adjusted Rate of Deaths per 100,000'}
+              label={width < viewportCutoff ?  'Deaths per 100,000' : 'Age-adjusted rate of deaths per 100,000'}
               numTicks={width < viewportCutoff ? 4 : null}
+              tickStroke="none"
               labelProps={{
                 fontSize: 'medium',
                 textAnchor: width < viewportCutoff ? 'end' : 'middle',

@@ -82,7 +82,7 @@ function CauseChart(params) {
                       'transition': animated ? 'transform 1s ease-in-out' : '',
                       'transformOrigin': `0px ${adjustedHeight}px`
                     }}
-                    d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.cause), xScale.bandwidth(), adjustedHeight - yScale(d.cause), 20)}
+                    d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.cause), xScale.bandwidth(), adjustedHeight - yScale(d.cause), xScale.bandwidth() * .35)}
                     fill={colorScale[d.opioid]}
                     data-tip={`<strong>${d.opioid}</strong><br/>
                     Percent Present: ${d.present.toFixed(1)}%<br/>
@@ -96,6 +96,7 @@ function CauseChart(params) {
             <AxisBottom
               top={adjustedHeight}
               scale={xScale}
+              tickStroke="none"
               tickLabelProps={(label, index, props) => ({
                 fontSize: 'medium',
                 textAnchor: 'end',
