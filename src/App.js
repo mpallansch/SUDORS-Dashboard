@@ -131,7 +131,7 @@ function App() {
       drugCombinationNames.length === 2 ? ' and ' : ', and ')
   };
 
-  const multipleCombo = combinationData[state].combinations.filter(combo => (combo.deaths > countCutoff && combo.drugCombination.match(/1/g) || []).length > 1);
+  const multipleCombo = combinationData[state].combinations.filter(combo => ((combo.deaths > countCutoff && combo.drugCombination.match(/1/g)) || []).length > 1);
   const sexMax = [...sexData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const ageMax = [...ageData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const raceMax = [...raceData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
@@ -361,7 +361,6 @@ function App() {
                   el={raceChartRef}
                 />
             </div>
-            <div className="text-align-center">Age-adjusted Rate of Deaths per 100,000</div>
           </div>
         </div>
         <div className="column column-left">
@@ -418,7 +417,7 @@ function App() {
           </div>
         </div>
         <div className="column column-right">
-          <div className="subsection">
+          <div className="subsection marked">
             <span className="individual-header">Circumstances surrounding overdoses and opportunities for intervention</span>
             <div id="circumstances-chart-container" ref={circumstancesChartRef}>
               <CircumstancesChart

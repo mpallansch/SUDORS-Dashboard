@@ -14,7 +14,7 @@ import '../css/AgeChart.css';
 function AgeChart(params) {
 
   const ageMapping = {
-    '0': '0-14',
+    '0': '< 15',
     '1': '15-24',
     '2': '25-34',
     '3': '35-44',
@@ -35,7 +35,7 @@ function AgeChart(params) {
 
   const xScale = scaleLinear({
     domain: [0, Math.max(...data.map(d => d[metric]))],
-    range: [ 10, adjustedWidth - 30 ]
+    range: [ 10, adjustedWidth - 50 ]
   });
 
   const yScale = scaleBand({
@@ -45,13 +45,15 @@ function AgeChart(params) {
   });
 
   const isSuppressed = (value) => {
-    if(metric === 'rate' && value <= rateCutoff) return true;
-    return false;
+    if(metric === 'rate' && value[metric] <= rateCutoff) return true;
+    return value.count <= countCutoff ? true : false;
   };
 
   const suppressedValue = (value) => {
-    if(metric === 'rate' && value <= rateCutoff) return '*';
-    return value.toFixed(1);
+    if(metric === 'rate'){
+      return value[metric] <= rateCutoff ? '*' : value[metric].toFixed(1);
+    }
+    return value.count <= countCutoff ? '*' : (value[metric].toFixed(1) + '%');
   }
 
   const onScroll = () => {
@@ -95,7 +97,7 @@ function AgeChart(params) {
             />
             {data.map(d => (
                 <Group key={`group-${d.age}`}>
-                  {!isSuppressed(d[metric]) && (
+                  {!isSuppressed(d) && (
                     <path 
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
@@ -110,7 +112,7 @@ function AgeChart(params) {
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
-                  {isSuppressed(d[metric]) && (
+                  {isSuppressed(d) && (
                     <>
                       <Bar 
                         x={0}
@@ -130,11 +132,11 @@ function AgeChart(params) {
                     </>
                   )}
                   <text
-                    x={xScale(d[metric]) + 5}
+                    x={isSuppressed(d) ? 5 : xScale(d[metric]) + 5}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
-                    dx={isSuppressed(d[metric]) ? '15px' : '0'}
+                    dx={isSuppressed(d) ? '15px' : '0'}
                     fill="black">
-                      {suppressedValue(d[metric])}{metric === 'rate' ? '' : '%'}
+                      {suppressedValue(d)}
                   </text>
                 </Group>
               )

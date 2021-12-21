@@ -1,5 +1,6 @@
 import { Bar, Circle } from '@visx/shape';
 import { Group } from '@visx/group';
+import { Text } from '@visx/text';
 import { scaleBand, scaleLinear } from '@visx/scale';
 
 import raw from '../data/circumstances.json';
@@ -12,7 +13,7 @@ function CircumstancesChart(params) {
 
   const { width, height, state } = params;
   const data = raw[state];
-  const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 20};
+  const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 10};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
   const barThickness = 6;
@@ -47,13 +48,13 @@ function CircumstancesChart(params) {
                 />
                 <Circle
                   key={`point-${d.circumstance}`}
-                  r={5}
+                  r={7}
                   cx={xScale(d.percent)}
                   cy={yScale(d.circumstance) + barThicknessHalf}
                   fill="rgb(58, 88, 161)"
                 />
-                <text x={(xScale(d.percent) || 0) + 10} y={yScale(d.circumstance) + barThickness} fontSize="small" fill="rgb(58, 88, 161)">{Math.round(d.percent)}%</text>
-                <text x={0}  y={yScale(d.circumstance) + barThickness + margin.bar}>{d.circumstance}</text>
+                <text x={(xScale(d.percent) || 0) + 10} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill="rgb(58, 88, 161)">{Math.round(d.percent)}%</text>
+                <Text width={adjustedWidth} x={0}  y={yScale(d.circumstance) + barThickness + margin.bar} verticalAnchor="start">{d.circumstance}</Text>
               </Group>
             )
           )}

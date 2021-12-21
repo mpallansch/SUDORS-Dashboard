@@ -14,7 +14,7 @@ import '../css/AgeBySexChart.css';
 function AgeBySexChart(params) {
 
   const ageMapping = {
-    '0': '0-14',
+    '0': '< 15',
     '1': '15-24',
     '2': '25-34',
     '3': '35-44',
@@ -36,7 +36,7 @@ function AgeBySexChart(params) {
 
   const xScale = scaleLinear({
     domain: [0, Math.max(...data['male'].map(d => d[metric]), ...data['female'].map(d => d[metric]))],
-    range: [ 10, halfWidth - 40 ]
+    range: [ 10, halfWidth - 50 ]
   });
 
   const yScale = scaleBand({
@@ -46,13 +46,15 @@ function AgeBySexChart(params) {
   });
 
   const isSuppressed = (value) => {
-    if(metric === 'rate' && value <= rateCutoff) return true;
-    return false;
+    if(metric === 'rate' && value[metric] <= rateCutoff) return true;
+    return value.count <= countCutoff ? true : false;
   };
 
   const suppressedValue = (value) => {
-    if(metric === 'rate' && value <= rateCutoff) return '*';
-    return value.toFixed(1);
+    if(metric === 'rate'){
+      return value[metric] <= rateCutoff ? '*' : value[metric].toFixed(1);
+    }
+    return value.count <= countCutoff ? '*' : (value[metric].toFixed(1) + '%');
   }
 
   const onScroll = () => {
@@ -96,7 +98,7 @@ function AgeBySexChart(params) {
           />
             {data['male'].map(d => (
                 <Group key={`group-male-${d.age}`}>
-                  {!isSuppressed(d[metric]) && (
+                  {!isSuppressed(d) && (
                     <path
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
@@ -111,7 +113,7 @@ function AgeBySexChart(params) {
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
-                  {isSuppressed(d[metric]) && (
+                  {isSuppressed(d) && (
                     <>
                       <Bar 
                         x={halfWidth - 1}
@@ -131,19 +133,19 @@ function AgeBySexChart(params) {
                     </>
                   )}
                   <text
-                    x={halfWidth - xScale(d[metric]) - 5}
+                    x={halfWidth - (isSuppressed(d) ? 10 : xScale(d[metric])) - 5}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
-                    dx={isSuppressed(d[metric]) ? '-15px' : '0'}
+                    dx={isSuppressed(d) ? '-15px' : '0'}
                     fill="black"
                     textAnchor="end">
-                      {suppressedValue(d[metric])}{metric === 'rate' ? '' : '%'}
+                      {suppressedValue(d, true)}
                   </text>
                 </Group>
               )
             )}
             {data['female'].map(d => (
                 <Group key={`group-female-${d.age}`}>
-                  {!isSuppressed(d[metric]) && (
+                  {!isSuppressed(d) && (
                     <path
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
@@ -158,7 +160,7 @@ function AgeBySexChart(params) {
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
-                  {isSuppressed(d[metric]) && (
+                  {isSuppressed(d) && (
                     <>
                       <Bar 
                         x={halfWidth}
@@ -178,11 +180,11 @@ function AgeBySexChart(params) {
                     </>
                   )}
                   <text
-                    x={halfWidth + xScale(d[metric]) + 5}
+                    x={halfWidth + (isSuppressed(d) ? 10 : xScale(d[metric])) + 5}
                     y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
-                    dx={isSuppressed(d[metric]) ? '15px' : '0'}
+                    dx={isSuppressed(d) ? '15px' : '0'}
                     fill="black">
-                      {suppressedValue(d[metric])}{metric === 'rate' ? '' : '%'}
+                      {suppressedValue(d, true)}
                   </text>
                 </Group>
               )

@@ -4,8 +4,13 @@
 
 .age-chart-legend {
     text-align: center;
+    margin-left: 80px;
 }
 
 .age-chart-legend span {
     margin: 0 0.5em;
+}
+
+.App.small-vp .age-chart-legend {
+    margin-left: 40px;
 }

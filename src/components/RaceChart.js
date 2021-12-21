@@ -18,6 +18,11 @@ function RaceChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
+  const raceLabels = {
+    'AI/AN, non-Hispanic': 'American Indian/Alaska Native, non-Hispanic',
+    'A/PI, non-Hispanic': 'Asian/Pacific Islander, non-Hispanic'
+  };
+
   const data = raw[state];
   const dataRates = rawRates[state];
   const currentData = metric === 'rate' ? dataRates : data;
@@ -27,9 +32,9 @@ function RaceChart(params) {
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
-  const isSuppressed = (datum) => {
-    if(metric === 'rate' && datum.rate < rateCutoff) return true;
-    return false;
+  const isSuppressed = (value) => {
+    if(metric === 'rate' && value[metric] <= rateCutoff) return true;
+    return value.deaths <= countCutoff ? true : false;
   };
 
   const getData = (datum, label) => {
@@ -37,6 +42,7 @@ function RaceChart(params) {
       if(datum.rate < rateCutoff) return label === true ? '*' : 0;
       return (label === true ? datum.rate.toFixed(1) : datum.rate);
     }
+    if(datum.deaths <= countCutoff) return label === true ? '*' : 0
     return (label === true ? `${Math.round(datum.percent)}%` : datum.percent);
   };
 
@@ -100,7 +106,7 @@ function RaceChart(params) {
                       key={`bar-${d.race}`}
                       d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d)), yScale.bandwidth(), 0, yScale.bandwidth() * .35)}
                       fill={colorScale.Secondary}
-                      data-tip={`<strong>${d.race}</strong><br/>
+                      data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
                       Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : (d.deaths || datum.deaths)}<br/>
                       Rate: ${(d.rate || datum.rate) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
                     ></path>
@@ -127,7 +133,7 @@ function RaceChart(params) {
                         width={40}
                         height={yScale.bandwidth()}
                         fill="transparent"
-                        data-tip={`<strong>${d.race}</strong><br/>*Data suppressed`}
+                        data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>*Data suppressed`}
                       />
                     </>
                   )}
@@ -135,7 +141,6 @@ function RaceChart(params) {
                     key={`bar-label-${d.race}`}
                     x={xScale(getData(d)) + 25}
                     y={yScale(d.race) + (yScale.bandwidth() / 1.75)}
-                    
                     textAnchor={'start'}
                     dx={-18}
                   >{getData(d, true)}</text>

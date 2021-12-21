@@ -76,7 +76,7 @@ function MonthChart(params) {
 
   const data = raw[state].month;
   const dataQuarter = raw[state].quarter;
-  const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : 80), right: 0};
+  const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : width < viewportCutoff ? 55 : 80), right: 5};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
@@ -190,7 +190,7 @@ function MonthChart(params) {
                 <AxisBottom
                   top={adjustedHeight}
                   scale={xScale}
-                  numTicks={width < viewportCutoff ? 6 : null}
+                  tickValues={width < viewportCutoff ? ['49', '52', '56', '60'] : null}
                   tickFormat={(monthNum) => monthMapping[monthNum]}
                   tickStroke="transparent"
                   tickLabelProps={() => ({

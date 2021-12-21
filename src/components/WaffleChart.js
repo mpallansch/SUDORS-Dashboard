@@ -64,18 +64,17 @@ function WaffleChart(params) {
         {!header && (
           <>
             <Text 
-              x={(adjustedWidth * 1.5) + margin.left} 
+              x={adjustedWidth + margin.left + 20} 
               y={adjustedWidth / 2 - 20}
               fontSize={adjustedWidth / 3}
-              fill="rgb(58, 88, 161)"
-              textAnchor="middle">{Math.round(data) + '%'}</Text>
+              fill="rgb(58, 88, 161)">{Math.round(data) + '%'}</Text>
             <Text 
               x={adjustedWidth + margin.left + 20} 
               y={adjustedWidth * .8}
               width={adjustedWidth / 1.5}
               fontSize={adjustedWidth / 12}
               fontWeight="bold"
-              fill="rgb(158, 169, 190)">of drug overdoses had opportunities for intervention</Text>
+              fill="rgb(58, 88, 161)">of drug overdoses had opportunities for intervention</Text>
           </>
         )}
       </svg>

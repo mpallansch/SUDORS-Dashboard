@@ -6,3 +6,7 @@
 #circumstances-chart-container svg {
     overflow: visible;
 }
+
+.App.small-vp #circumstances-chart-container {
+    height: 850px;
+}
