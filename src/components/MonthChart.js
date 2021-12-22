@@ -88,9 +88,12 @@ function MonthChart(params) {
 
   const halfBandwidth = xScale.bandwidth() / 2;
 
+  const max = Math.max(...(header ? dataQuarter : data).map(d => d.value));
+  const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : max;
+
   const yScale = scaleLinear({
     range: [ adjustedHeight, 0 ],
-    domain: [ 0, Math.max(...(header ? dataQuarter : data).map(d => d.value)) * (header ? 1.3 : 1)]
+    domain: [ 0, header ? max * 1.3 : scaleMax]
   });
 
   const onScroll = () => {
@@ -146,6 +149,7 @@ function MonthChart(params) {
               <>
                 <AxisLeft
                   scale={yScale}
+                  numTicks={6}
                   tickLabelProps={() => ({
                     fontSize: 'medium',
                     textAnchor: 'end',

@@ -70,11 +70,12 @@ function WaffleChart(params) {
               fill="rgb(58, 88, 161)">{Math.round(data) + '%'}</Text>
             <Text 
               x={adjustedWidth + margin.left + 20} 
-              y={adjustedWidth * .8}
+              y={adjustedWidth / 2 - 10}
               width={adjustedWidth / 1.5}
               fontSize={adjustedWidth / 12}
               fontWeight="bold"
-              fill="rgb(58, 88, 161)">of drug overdoses had opportunities for intervention</Text>
+              verticalAnchor="start"
+              fill="rgb(58, 88, 161)">of drug overdoses had at least one opportunity for intervention</Text>
           </>
         )}
       </svg>

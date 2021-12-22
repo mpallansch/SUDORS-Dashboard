@@ -501,44 +501,45 @@ fs.createReadStream(inputFilePath)
     let circumstancesData = {};
     statesFinal.forEach(state => {
       circumstancesData[state] = {
-        home: percent(keyCounts[state]['home_dec']['1'], totalDeaths[state]),
-        other: [
+        intervention: [
           { 
-            circumstance: 'Past substance use/misuse', 
-            percent: percent(keyCounts[state]['SubstanceAbuseOther_c']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['SubstanceAbuseOther_c']['1']) },
+            circumstance: 'Recent release from institutional setting', 
+            percent: percent(keyCounts[state]['recentinst']['1'], totalDeaths[state]),
+            count: checkCutoff(keyCounts[state]['recentinst']['1']) },
           { 
-            circumstance: 'Bystander present', 
-            percent: percent(keyCounts[state]['bystander']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['bystander']['1']) },
+            circumstance: 'Prior overdose', 
+            percent: percent( keyCounts[state]['priorod']['1'], totalDeaths[state]),
+            count: checkCutoff(keyCounts[state]['priorod']['1']) },
           { 
             circumstance: 'Mental health diagnosis', 
             percent: percent(keyCounts[state]['MentalHealthProblem_c']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['MentalHealthProblem_c']['1']) },
           { 
-            circumstance: 'Naloxone administered', 
-            percent: percent(keyCounts[state]['NaloxoneAdministered']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['NaloxoneAdministered']['1']) },
-          { 
-            circumstance: 'Treated for substance use disorder', 
+            circumstance: 'Current treatment for substance use disorder', 
             percent: percent(keyCounts[state]['evertrt']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['evertrt']['1']) },
           { 
-            circumstance: 'Recent release from institution', 
-            percent: percent(keyCounts[state]['recentinst']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['recentinst']['1']) },
-          { 
-            circumstance: 'Current pain treatment', 
-            percent: percent(keyCounts[state]['pain_treat']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['pain_treat']['1']) },
+            circumstance: 'Potential bystander present', 
+            percent: percent(keyCounts[state]['bystander']['1'], totalDeaths[state]),
+            count: checkCutoff(keyCounts[state]['bystander']['1']) },
           { 
             circumstance: 'Fatal drug use witnessed', 
             percent: percent(keyCounts[state]['witnesseddruguse']['1'], totalDeaths[state]),
             count: checkCutoff(keyCounts[state]['witnesseddruguse']['1']) },
+        ],
+        other: [
           { 
-            circumstance: 'Prior overdose', 
-            percent: percent( keyCounts[state]['priorod']['1'], totalDeaths[state]),
-            count: checkCutoff(keyCounts[state]['priorod']['1']) },
+            circumstance: 'History of substance use/misuse', 
+            percent: percent(keyCounts[state]['SubstanceAbuseOther_c']['1'], totalDeaths[state]),
+            count: checkCutoff(keyCounts[state]['SubstanceAbuseOther_c']['1']) },
+          { 
+            circumstance: 'Naloxone administered', 
+            percent: percent(keyCounts[state]['NaloxoneAdministered']['1'], totalDeaths[state]),
+            count: checkCutoff(keyCounts[state]['NaloxoneAdministered']['1']) },
+          { 
+            circumstance: 'Current pain treatment', 
+            percent: percent(keyCounts[state]['pain_treat']['1'], totalDeaths[state]),
+            count: checkCutoff(keyCounts[state]['pain_treat']['1']) },
           { 
             circumstance: 'Recent return to use of opioids', 
             percent: percent(keyCounts[state]['recentrelapse']['1'], totalDeaths[state]),

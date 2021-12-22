@@ -11,7 +11,8 @@ import '../css/CircumstancesChart.css';
 
 function CircumstancesChart(params) {
 
-  const { width, height, state } = params;
+  const { width, height, state, interventions } = params;
+  const metric = interventions ? 'intervention' : 'other';
   const data = raw[state];
   const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 10};
   const adjustedWidth = width - margin.left - margin.right;
@@ -26,7 +27,7 @@ function CircumstancesChart(params) {
 
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: data.other.sort((a, b) => a.percent > b.percent ? 1 : -1).map(d => d.circumstance),
+    domain: data[metric].sort((a, b) => a.percent > b.percent ? 1 : -1).map(d => d.circumstance),
     padding: 0.2
   });
 
@@ -34,7 +35,7 @@ function CircumstancesChart(params) {
     <>
       <svg width={width} height={height}>
         <Group top={margin.top} left={margin.left}>
-          {data.other.map(d => (
+          {data[metric].map(d => (
               <Group key={`group-${d.circumstance}`}>
                 <Bar 
                   key={`bar-${d.circumstance}`}
