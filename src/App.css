@@ -389,6 +389,10 @@ select {
   width: 100%;
 }
 
+.App.accessible .chart-container {
+  height: auto !important;
+}
+
 .animated-pie text {
   transform:translateX(0);
 }

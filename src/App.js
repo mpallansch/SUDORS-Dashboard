@@ -31,7 +31,9 @@ import { countCutoff } from './constants.json';
 
 import './App.css';
 
-function App() {
+function App(params) {
+
+  const { accessible } = params;
 
   const viewportCutoffSmall = 550;
   const viewportCutoffMedium = 800;
@@ -157,7 +159,7 @@ function App() {
   );
 
   return (
-    <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}`} 
+    <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}${accessible ? ' accessible' : ''}`} 
       ref={outerContainerRef}>
       <div className="section">
         <span>View data for:</span>
@@ -217,7 +219,7 @@ function App() {
             {drugTab('Methamphetamine', dimensions.width < viewportCutoffSmall ? 'Meth' : 'Methamphetamine')}
           </div>
         </div>
-        <div id="state-chart-container" ref={stateChartRef}>
+        <div id="state-chart-container" className="chart-container" ref={stateChartRef}>
           <StateChart
             width={getDimension(stateChartRef, 'width')}
             height={getDimension(stateChartRef, 'height')}
@@ -225,6 +227,7 @@ function App() {
             state={state}
             el={stateChartRef}
             drug={drug}
+            accessible={accessible}
             colorScale={colorScale} />
         </div>
       </div>
@@ -233,12 +236,13 @@ function App() {
         <span className="subheader">Percentages of overdose deaths involving select drugs and drug classes, {stateLabel}</span>
         <p>{causeData[state].find(d => d.opioid === 'Any Opioids').cause.toFixed(1)}% of deaths involved at least one opioid and {causeData[state].find(d => d.opioid === 'Any Stimulant').cause.toFixed(1)}% involved at least one stimulant. {additionalDrugData[state].commonOpioid} {additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
-          <div id="cause-chart-container" ref={causeChartRef}>
+          <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
             <CauseChart 
               width={getDimension(causeChartRef, 'width')}
               height={getDimension(causeChartRef, 'height')}
               state={state}
               el={causeChartRef}
+              accessible={accessible}
               colorScale={colorScale} />
           </div>
         </div>

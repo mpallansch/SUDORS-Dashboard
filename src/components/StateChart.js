@@ -7,6 +7,7 @@ import dataRaw from '../data/map.json';
 import dataRatesRaw from '../data/age-adjusted-drug-rates.json';
 
 import Utils from '../shared/Utils';
+import DataTable from './DataTable';
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import '../css/StateChart.css';
@@ -17,7 +18,7 @@ function StateChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { width, setState, height, state, el, drug, colorScale, state: globalState } = params;
+  const { width, setState, height, state, el, drug, accessible, colorScale, state: globalState } = params;
 
   const data = dataRaw[drug];
   const dataRates = dataRatesRaw[drug];
@@ -63,92 +64,100 @@ function StateChart(params) {
 
   return width > 0 && (
     <>
-      <svg
-        id="state-chart" 
-        width={width} 
-        height={height}>
-          <Group top={margin.top} left={margin.left}>
-            {dataKeys.map(d => {
-              const name = d;
-              const rate = dataRates[name].rate;
-              const deaths = data[name].deaths;
+      {accessible ? (
+        <DataTable
+          data={data}
+          rates={dataRates}
+          highlight={state}
+        />
+      ) : (
+        <svg
+          id="state-chart" 
+          width={width} 
+          height={height}>
+            <Group top={margin.top} left={margin.left}>
+              {dataKeys.map(d => {
+                const name = d;
+                const rate = dataRates[name].rate;
+                const deaths = data[name].deaths;
 
-              return (
-                <Group key={`bar-${name}`}>
-                  <path 
-                    className={`animated-bar ${animated ? 'animated' : ''}`}
-                    style={{
-                      'transition': animated ? 'transform 1s ease-in-out' : '',
-                      'transformOrigin': `0px 0px`
-                    }}
-                    d={Utils.horizontalBarPath(true, 0, yScale(name), rate < 0 ? 10 : xScale(rate), yScale.bandwidth(), 3, yScale.bandwidth() * .35)}
-                    fill={name === 'Overall' ? 'white' : colorScale[drug]}
-                    stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colorScale[drug]}
-                    strokeWidth="3"
-                    opacity={state === 'Overall' || name === state ? 1 : 0.4}
-                    onClick={() => {
-                      if(deaths){
-                        if(globalState === name){
-                          setState('Overall');
-                        } else {
-                          setState(name);
+                return (
+                  <Group key={`bar-${name}`}>
+                    <path 
+                      className={`animated-bar ${animated ? 'animated' : ''}`}
+                      style={{
+                        'transition': animated ? 'transform 1s ease-in-out' : '',
+                        'transformOrigin': `0px 0px`
+                      }}
+                      d={Utils.horizontalBarPath(true, 0, yScale(name), rate < 0 ? 10 : xScale(rate), yScale.bandwidth(), 3, yScale.bandwidth() * .35)}
+                      fill={name === 'Overall' ? 'white' : colorScale[drug]}
+                      stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colorScale[drug]}
+                      strokeWidth="3"
+                      opacity={state === 'Overall' || name === state ? 1 : 0.4}
+                      onClick={() => {
+                        if(deaths){
+                          if(globalState === name){
+                            setState('Overall');
+                          } else {
+                            setState(name);
+                          }
                         }
-                      }
-                    }}
-                    data-tip={`<strong>${name}</strong><br/>
-                    Deaths: ${deaths < countCutoff ? `< ${countCutoff}` : deaths}<br/>
-                    Rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
-                  ></path>
-                  <text 
-                    className="bar-label"
-                    opacity={state === 'Overall' || name === state ? 1 : 0.2}
-                    x={rate < 0 ? 10 : xScale(rate)}
-                    y={yScale(name)}
-                    dy="15"
-                    dx="5">
-                      {rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}
-                  </text>
-                </Group>
+                      }}
+                      data-tip={`<strong>${name}</strong><br/>
+                      Deaths: ${deaths < countCutoff ? `< ${countCutoff}` : deaths}<br/>
+                      Rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
+                    ></path>
+                    <text 
+                      className="bar-label"
+                      opacity={state === 'Overall' || name === state ? 1 : 0.2}
+                      x={rate < 0 ? 10 : xScale(rate)}
+                      y={yScale(name)}
+                      dy="15"
+                      dx="5">
+                        {rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}
+                    </text>
+                  </Group>
+                )}
               )}
-            )}
-            <AxisLeft 
-              scale={yScale}
-              tickValues={dataKeys}
-            >
-              {axisLeft => (
-                <g className="visx-group visx-axis visx-axis-left">
-                  {axisLeft.ticks.map(tick => (
-                      <g 
-                        key={`tick-${tick.value}`}
-                        className="visx-group visx-axis-tick">
-                        <text textAnchor="end" fontSize="medium">
-                          <tspan y={tick.to.y} dx="-10" dy="5">{tick.value}</tspan>
-                        </text>
-                      </g>
-                    )
-                  )}
-                </g>
-              )}
-            </AxisLeft>
-            <AxisBottom
-              top={adjustedHeight}
-              scale={xScale}
-              label={width < viewportCutoff ?  'Deaths per 100,000' : 'Age-adjusted rate of deaths per 100,000'}
-              numTicks={width < viewportCutoff ? 4 : null}
-              tickStroke="none"
-              labelProps={{
-                fontSize: 'medium',
-                textAnchor: width < viewportCutoff ? 'end' : 'middle',
-                transform: 'translate(0, 40)'
-              }}
-              tickLabelProps={() => ({
-                fontSize: 'medium',
-                textAnchor: 'middle',
-                transform: 'translate(0, 10)'
-              })}
-            />
-          </Group>
-      </svg>
+              <AxisLeft 
+                scale={yScale}
+                tickValues={dataKeys}
+              >
+                {axisLeft => (
+                  <g className="visx-group visx-axis visx-axis-left">
+                    {axisLeft.ticks.map(tick => (
+                        <g 
+                          key={`tick-${tick.value}`}
+                          className="visx-group visx-axis-tick">
+                          <text textAnchor="end" fontSize="medium">
+                            <tspan y={tick.to.y} dx="-10" dy="5">{tick.value}</tspan>
+                          </text>
+                        </g>
+                      )
+                    )}
+                  </g>
+                )}
+              </AxisLeft>
+              <AxisBottom
+                top={adjustedHeight}
+                scale={xScale}
+                label={width < viewportCutoff ?  'Deaths per 100,000' : 'Age-adjusted rate of deaths per 100,000'}
+                numTicks={width < viewportCutoff ? 4 : null}
+                tickStroke="none"
+                labelProps={{
+                  fontSize: 'medium',
+                  textAnchor: width < viewportCutoff ? 'end' : 'middle',
+                  transform: 'translate(0, 40)'
+                }}
+                tickLabelProps={() => ({
+                  fontSize: 'medium',
+                  textAnchor: 'middle',
+                  transform: 'translate(0, 10)'
+                })}
+              />
+            </Group>
+        </svg>
+      )}
     </>
   );
 }
