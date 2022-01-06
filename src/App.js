@@ -409,7 +409,7 @@ function App(params) {
         <div className="header margin">
           <span className="preheader-label">What were the characteristics and circumstances of the overdose deaths, {stateLabel}?</span>{stateSelector}
         </div>
-        <p>{interventionData[state]}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {Math.round(circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent)}% had a documented history of substance use or misuse.</p>
+        <p>{interventionData[state].toFixed(1)}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
         <div className="column column-left">
           <div className="subsection">
             <div id="waffle-chart-container" ref={waffleChartRef}>

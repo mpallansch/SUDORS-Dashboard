@@ -138,11 +138,9 @@ let drugAgeData = {};
 let opioidStimulantData = {};
 let drugCombinationData = {};
 
-function percent(deaths, total, wholeNumber) {
-  if(wholeNumber){
-    return Math.round(deaths / total * 100);
-  }
-  return Math.round(deaths / total * 10000) / 100;
+function percent(deaths, total) {
+  if(deaths === undefined) return 0;
+  return Math.round(deaths / total * 1000) / 10;
 }
 
 function increment(obj, state) {
@@ -592,8 +590,8 @@ fs.createReadStream(inputFilePath)
     let sexData = {};
     statesFinal.forEach(state => {
       sexData[state] = [
-        {sex: 'Male', percent: percent(keyCounts[state]['Sex']['1'], totalDeaths[state], true), count: checkCutoff(keyCounts[state]['Sex']['1'])},
-        {sex: 'Female', percent: percent(keyCounts[state]['Sex']['2'], totalDeaths[state], true), count: checkCutoff(keyCounts[state]['Sex']['2'])}
+        {sex: 'Male', percent: percent(keyCounts[state]['Sex']['1'], totalDeaths[state]), count: checkCutoff(keyCounts[state]['Sex']['1'])},
+        {sex: 'Female', percent: percent(keyCounts[state]['Sex']['2'], totalDeaths[state]), count: checkCutoff(keyCounts[state]['Sex']['2'])}
       ];
     });
 
@@ -609,7 +607,7 @@ fs.createReadStream(inputFilePath)
     statesFinal.forEach(state => {
       ageDataFinal[state] = Object.keys(ageData[state]).map(ageGroup => ({
           age: ageGroup, 
-          percent: percent(ageData[state][ageGroup], totalDeaths[state], true),
+          percent: percent(ageData[state][ageGroup], totalDeaths[state]),
           count: checkCutoff(ageData[state][ageGroup]),
           rate: checkCutoff(ageData[state][ageGroup], Math.round(ageData[state][ageGroup] / stateAgePops[reverseFips[state]][ageGroup] * 1000000) / 10)
         }));
@@ -633,13 +631,13 @@ fs.createReadStream(inputFilePath)
       ageDataBySexFinal[state] = {
         'male': Object.keys(ageDataBySex[state]['male']).map(ageGroup => ({
           age: ageGroup, 
-          percent: percent(ageDataBySex[state]['male'][ageGroup], maleTotal, true),
+          percent: percent(ageDataBySex[state]['male'][ageGroup], maleTotal),
           count: checkCutoff(ageDataBySex[state]['male'][ageGroup]),
           rate: checkCutoff(ageDataBySex[state]['male'][ageGroup], Math.round(ageDataBySex[state]['male'][ageGroup] / stateAgeSexPops[reverseFips[state]]['1'][ageGroup] * 1000000) / 10)
         })),
         'female': Object.keys(ageDataBySex[state]['female']).map(ageGroup => ({
           age: ageGroup, 
-          percent: percent(ageDataBySex[state]['female'][ageGroup], femaleTotal, true),
+          percent: percent(ageDataBySex[state]['female'][ageGroup], femaleTotal),
           count: checkCutoff(ageDataBySex[state]['female'][ageGroup]),
           rate: checkCutoff(ageDataBySex[state]['female'][ageGroup], Math.round(ageDataBySex[state]['female'][ageGroup] / stateAgeSexPops[reverseFips[state]]['2'][ageGroup] * 1000000) / 10)
         }))
@@ -657,9 +655,10 @@ fs.createReadStream(inputFilePath)
     let raceData = {};
     statesFinal.forEach(state => {
       raceData[state] = [];
-      Object.keys(keyCounts[state]['race_eth_v2']).forEach(raceNum => {
+
+      Object.keys(raceDataInitial()).forEach(raceNum => {
         if(raceMapping[raceNum]){
-          raceData[state].push({race: raceMapping[raceNum], deaths: checkCutoff(keyCounts[state]['race_eth_v2'][raceNum]), percent: percent(keyCounts[state]['race_eth_v2'][raceNum], totalDeaths[state])});
+          raceData[state].push({race: raceMapping[raceNum], deaths: checkCutoff(keyCounts[state]['race_eth_v2'][raceNum] || 0), percent: percent(keyCounts[state]['race_eth_v2'][raceNum] || 0, totalDeaths[state])});
         }
       });
     });
@@ -688,7 +687,7 @@ fs.createReadStream(inputFilePath)
 
     let interventionsDataFinal = {};
     statesFinal.forEach(state => {
-      interventionsDataFinal[state] = percent(interventions[state], totalDeaths[state], true)
+      interventionsDataFinal[state] = percent(interventions[state], totalDeaths[state]);
     });
 
     fs.writeFile(interventionFilePath, JSON.stringify(interventionsDataFinal), {flag: 'w'}, (err) => {
