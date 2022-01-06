@@ -43,12 +43,12 @@ function RaceChart(params) {
       return (label === true ? datum.rate.toFixed(1) : datum.rate);
     }
     if(datum.deaths <= countCutoff) return label === true ? '*' : 0
-    return (label === true ? `${Math.round(datum.percent)}%` : datum.percent);
+    return (label === true ? `${datum.percent.toFixed(1)}%` : datum.percent);
   };
 
   const xScale = scaleLinear({
     domain: [ 0, Math.max(...(currentData).map(getData))],
-    range: [ 20, adjustedWidth - 35 ]
+    range: [ 20, adjustedWidth - 45 ]
   });
   
   const yScale = scaleBand({

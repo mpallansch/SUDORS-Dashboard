@@ -31,6 +31,10 @@
   }
 }
 
+.App svg *:focus {
+  outline: none;
+}
+
 .italics {
   font-style: italic;
   white-space: nowrap;
@@ -62,7 +66,7 @@
   width: 80%;
   height: 3px;
   background-color: #712177;
-  margin-left: 10%;
+  margin-left: calc(10% - 1em);
   top: -0.25em;
 }
 
@@ -305,10 +309,6 @@ select {
 
 .drug-tab:hover {
   box-shadow: 0px 2px 7px gray;
-}
-
-.drug-tab:focus {
-  outline: none;
 }
 
 .drug-tab.active {

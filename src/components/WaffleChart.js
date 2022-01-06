@@ -66,8 +66,8 @@ function WaffleChart(params) {
             <Text 
               x={adjustedWidth + margin.left + 20} 
               y={adjustedWidth / 2 - 20}
-              fontSize={adjustedWidth / 3}
-              fill="rgb(58, 88, 161)">{Math.round(data) + '%'}</Text>
+              fontSize={adjustedWidth / 4}
+              fill="rgb(58, 88, 161)">{data.toFixed(1) + '%'}</Text>
             <Text 
               x={adjustedWidth + margin.left + 20} 
               y={adjustedWidth / 2 - 10}
