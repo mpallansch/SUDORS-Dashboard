@@ -47,3 +47,16 @@
   width: calc(100% + 2em);
   margin: 0 -1em 2em -1em;
 }
+
+.App.accessible #drug-combination-chart-container #drug-combination-chart::after {
+  display: none;
+}
+
+.App.accessible #drug-combination-chart-container table {
+  border-collapse: separate;
+}
+
+.App.accessible #drug-combination-chart-container td {
+  border-left: none;
+  border-top: none;
+}

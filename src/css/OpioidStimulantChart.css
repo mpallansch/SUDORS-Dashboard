@@ -18,15 +18,19 @@
 }
 
 .App.medium-vp #opioid-stimulant-chart-container,
-.App.medium-vp #opioid-stimulant-chart-legend{
+.App.medium-vp #opioid-stimulant-chart-legend,
+.App.accessible #opioid-stimulant-chart-container,
+.App.accessible #opioid-stimulant-chart-legend {
   width: 100%;
 }
 
-.App.medium-vp #opioid-stimulant-chart-legend {
+.App.medium-vp #opioid-stimulant-chart-legend,
+.App.accessible #opioid-stimulant-chart-legend {
   text-align: center;
 }
 
-.App.medium-vp #opioid-stimulant-chart-legend span {
+.App.medium-vp #opioid-stimulant-chart-legend span,
+.App.accessible #opioid-stimulant-chart-legend span {
   display: inline-block;
   margin: 0.25em 0.5em;
 }

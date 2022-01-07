@@ -68,6 +68,7 @@ function CauseChart(params) {
               'present': 'Present Percent',
               'causeCount': 'Cause',
               'cause': 'Cause Percent',
+              'opioid': 'Drug'
             }}
           />
         ) : (

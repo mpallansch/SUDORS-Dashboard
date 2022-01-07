@@ -167,15 +167,11 @@ function App(params) {
         <div className="header">
           <span className="preheader-label">Data Summary at a Glance, {stateLabel}</span>
         </div>
-        <div className="header-section first">
-          <span className="header-text full">
-            <span className="enlarged">{Number(totalData[state]).toLocaleString()}</span> 
-            <span className="header-text">total deaths in 2020</span>
-          </span>
-        </div>
-        <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
-          <div id="header-line-chart-container" className="chart-container" ref={headerMonthChartRef}>
-            <MonthChart 
+        {accessible ? (
+          <>
+            <p>{Number(totalData[state]).toLocaleString()} total deaths in 2020</p>
+            <div id="header-line-chart-container" className="chart-container" ref={headerMonthChartRef}>
+              <MonthChart 
                 width={getDimension(headerMonthChartRef, 'width')}
                 height={getDimension(headerMonthChartRef, 'height')}
                 header={true}
@@ -184,20 +180,44 @@ function App(params) {
                 el={monthChartRef}
                 accessible={accessible}
               />
-          </div>
-          <span className="header-text">deaths by quarter in 2020</span>
-        </div>
-        <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
-          <div id="header-waffle-chart-container" className="chart-container" ref={headerWaffleChartRef}>
-            <WaffleChart 
-              width={getDimension(headerWaffleChartRef, 'width')}
-              height={getDimension(headerWaffleChartRef, 'height')}
-              header={true}
-              state={state}
-            />
-          </div>
-          <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
-        </div>
+            </div>
+            <p>{interventionData[state]}% had opportunities for intervention</p>
+          </>
+        ) : (
+          <>
+            <div className="header-section first">
+              <span className="header-text full">
+                <span className="enlarged">{Number(totalData[state]).toLocaleString()}</span> 
+                <span className="header-text">total deaths in 2020</span>
+              </span>
+            </div>
+            <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
+              <div id="header-line-chart-container" className="chart-container" ref={headerMonthChartRef}>
+                <MonthChart 
+                    width={getDimension(headerMonthChartRef, 'width')}
+                    height={getDimension(headerMonthChartRef, 'height')}
+                    header={true}
+                    state={state} 
+                    colorScale={colorScale}
+                    el={monthChartRef}
+                    accessible={accessible}
+                  />
+              </div>
+              <span className="header-text">deaths by quarter in 2020</span>
+            </div>
+            <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
+              <div id="header-waffle-chart-container" className="chart-container" ref={headerWaffleChartRef}>
+                <WaffleChart 
+                  width={getDimension(headerWaffleChartRef, 'width')}
+                  height={getDimension(headerWaffleChartRef, 'height')}
+                  header={true}
+                  state={state}
+                />
+              </div>
+              <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
+            </div>
+          </>
+        )}
         <div className="header margin">
           <span className="preheader-label">What drugs were involved in overdose deaths, {stateLabel}?</span>{stateSelector}
         </div>
@@ -279,12 +299,12 @@ function App(params) {
                 el={opioidStimulantChartRef}
                 accessible={accessible} />
           </div>
-          <div id="opioid-stimulant-chart-legend">
+          {!accessible && (<div id="opioid-stimulant-chart-legend">
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)"/></svg>Opioids with stimulants</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(116,148,194)"/></svg>Opioids without stimulants</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="#88c3ea"/></svg>Stimulants without opioids</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(220,237,201)"/></svg>Neither opioids nor stimulants</span>
-          </div>
+          </div>)}
         </div>
       </div>
 
@@ -353,7 +373,7 @@ function App(params) {
                 accessible={accessible}
               />
             </div>
-            {metric !== 'rate' && (<div id="sex-chart-legend">
+            {metric !== 'rate' && !accessible && (<div id="sex-chart-legend">
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
             </div>)}
@@ -405,10 +425,10 @@ function App(params) {
                 accessible={accessible}
               />
             </div>
-            <div className="age-chart-legend">
+            {!accessible && (<div className="age-chart-legend">
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
-            </div>
+            </div>)}
           </div>
         </div>
       </div>
@@ -426,6 +446,7 @@ function App(params) {
                 height={getDimension(waffleChartRef, 'height')}
                 state={state}
                 header={false}
+                accessible={accessible}
               />
             </div>
             <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
@@ -434,6 +455,7 @@ function App(params) {
                 height={getDimension(interventionChartRef, 'height')}
                 state={state}
                 interventions={true}
+                accessible={accessible}
               />
             </div>
           </div>
@@ -447,6 +469,7 @@ function App(params) {
                 height={getDimension(circumstancesChartRef, 'height')}
                 state={state}
                 interventions={false}
+                accessible={accessible}
               />
             </div>
           </div> 

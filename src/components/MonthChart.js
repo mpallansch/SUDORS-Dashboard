@@ -6,6 +6,7 @@ import { scaleBand, scaleLinear } from '@visx/scale';
 
 import raw from '../data/time.json';
 
+import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { countCutoff } from '../constants.json';
 
@@ -71,7 +72,7 @@ function MonthChart(params) {
 
   const viewportCutoff = 600;
 
-  const { width, height, state, header, colorScale, el } = params;
+  const { width, height, state, header, colorScale, el, accessible } = params;
   const [ animated, setAnimated ] = useState(false);
 
   const data = raw[state].month;
@@ -108,8 +109,16 @@ function MonthChart(params) {
     setTimeout(onScroll, 50); // eslint-disable-next-line
   }, []);
 
-  return width > 0 && (
-    <>
+  console.log(dataQuarter);
+
+  return width > 0 && 
+    (accessible) ? (
+      <DataTable
+        data={header ? dataQuarter : data}
+        xAxisKey={header ? 'quarter' : 'month'}
+        labelOverrides={header ? {'0': 'Q1', '1': 'Q2', '2': 'Q3', '3': 'Q4', 'value': 'Deaths'} : {...monthMapping, value: 'Deaths'}}
+      />
+    ) : (
       <div id="month-chart">
         <svg width={width} height={height}>
         
@@ -208,8 +217,7 @@ function MonthChart(params) {
           </Group>
         </svg>
       </div>
-    </>
-  );
+    );
 }
 
 export default MonthChart;

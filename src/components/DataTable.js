@@ -21,6 +21,8 @@ function DataTable(params) {
   };
 
   const formatLabel = (key) => {
+    if(!key) return 'State';
+
     let words = [];
 
     let start = 0;
@@ -43,41 +45,34 @@ function DataTable(params) {
         <table>
           <thead>
             <tr>
-              <th></th>
+              <th>{labelOverrides[xAxisKey] || formatLabel(xAxisKey)}</th>
               {isArray && keys.map(key => key !== xAxisKey && (
-                <th>{labelOverrides[key] || formatLabel(key)}</th>
+                <th key={`th-${key}`}>{labelOverrides[key] || formatLabel(key)}</th>
               ))}
 
               {!isArray && [data, rates].map(d => 
                 Object.keys(d[keys[0]]).map(rowKey => (
-                  <>
-                    <th>{labelOverrides[rowKey] || formatLabel(rowKey)}</th>
-                  </>
+                  <th key={`th-${rowKey}`}>{labelOverrides[rowKey] || formatLabel(rowKey)}</th>
                 )
               ))}
-              {/*!isArray && keys.map(key => (
-                <th className={key === highlight ? 'highlight' : ''}>{labelOverrides[key] || key}</th>
-              ))*/}
             </tr>
           </thead>
           <tbody>
             {isArray && data.map(d => (
-              <>
-                <tr>
-                  <th>{labelOverrides[d[xAxisKey]] || d[xAxisKey]}</th>
-                  {keys.map(key => key !== xAxisKey && (
-                    <td>{labelOverrides[d[key]] || d[key]}</td>
-                  ))}
-                </tr>
-              </>
+              <tr key={`tr-${d[xAxisKey]}`}>
+                <th key={`th-${d[xAxisKey]}`}>{labelOverrides[d[xAxisKey]] || d[xAxisKey]}</th>
+                {keys.map(key => key !== xAxisKey && (
+                  <td key={`td-${d[key]}`}>{d[key] <= countCutoff ? 'Data suppressed' : d[key]}</td>
+                ))}
+              </tr>
             ))}
 
             {!isArray && keys.map(rowKey => (
-                <tr>
-                  <th className={rowKey === highlight ? 'highlight' : ''}>{labelOverrides[rowKey] || rowKey}</th>
-                  {[data, rates].map(d => 
+                <tr key={`tr-${rowKey}`}>
+                  <th key={`th-${rowKey}`} className={rowKey === highlight ? 'highlight' : ''}>{labelOverrides[rowKey] || rowKey}</th>
+                  {[data, rates].map((d, i) => 
                     Object.keys(d[keys[0]]).map(colKey => (
-                      <td>{d[rowKey][colKey] <= countCutoff ? 'Data suppressed' : d[rowKey][colKey]}</td>
+                      <td key={`td-${d[rowKey][colKey]}`}>{d[rowKey][colKey] <= [countCutoff, rateCutoff][i] ? 'Data suppressed' : d[rowKey][colKey]}</td>
                     ))
                   )}
                 </tr>

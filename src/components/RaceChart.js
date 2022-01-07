@@ -7,6 +7,7 @@ import { AxisLeft } from '@visx/axis';
 import raw from '../data/race.json';
 import rawRates from '../data/age-adjusted-race-rates.json';
 
+import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
 
@@ -14,7 +15,7 @@ import '../css/RaceChart.css';
 
 function RaceChart(params) {
   
-  const { width, height, metric, state, colorScale, el } = params;
+  const { width, height, metric, state, colorScale, el, accessible} = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -79,7 +80,12 @@ function RaceChart(params) {
   }, [state, metric]);
 
   return width > 0 && (
-    <>
+    accessible ? (
+      <DataTable
+        data={metric === 'rate' ? dataRates : data}
+        xAxisKey={'race'}
+      />
+    ) : (
       <svg
         id="race-chart" 
         width={width} 
@@ -167,7 +173,7 @@ function RaceChart(params) {
             </AxisLeft>
           </Group>
       </svg>
-    </>
+    )
   );
 }
 

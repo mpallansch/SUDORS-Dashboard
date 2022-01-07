@@ -8,7 +8,7 @@ import '../css/WaffleChart.css';
 
 function WaffleChart(params) {
 
-  const { width, height, state, header } = params;
+  const { width, height, state, header, accessible } = params;
 
   const data = raw[state];
 
@@ -33,54 +33,52 @@ function WaffleChart(params) {
     colList.push(i);
   }
 
-  return width > 0 && (
-    <>
-      <svg
-        id="waffle-chart" 
-        width={width} 
-        height={header ? height : adjustedHeight}>
-        <Group top={margin.top} left={margin.left}>
-          {rowList.map(rowIndex => {
-            return colList.map(colIndex => {
-              const value = (rowIndex * rowValue) + (colIndex * colValue);
-              const active = value > data;
-              const fill = active ? 'white' : (header ? '#712177' : 'rgb(58, 88, 161)');
-              const stroke = !active ? 'none' : (header ? '#b890bb' : 'rgb(198, 209, 230)');
+  return width > 0 && !accessible && (
+    <svg
+      id="waffle-chart" 
+      width={width} 
+      height={header ? height : adjustedHeight}>
+      <Group top={margin.top} left={margin.left}>
+        {rowList.map(rowIndex => {
+          return colList.map(colIndex => {
+            const value = (rowIndex * rowValue) + (colIndex * colValue);
+            const active = value > data;
+            const fill = active ? 'white' : (header ? '#712177' : 'rgb(58, 88, 161)');
+            const stroke = !active ? 'none' : (header ? '#b890bb' : 'rgb(198, 209, 230)');
 
-              return (
-                <Circle 
-                  key={`waffle-point-${rowIndex}-${colIndex}`}
-                  r={dotRadius}
-                  cx={adjustedWidth - (colIndex * (dotWidth + margin.dot) - dotRadius)}
-                  cy={adjustedHeight - ((rowIndex + 1) * (dotWidth + margin.dot) - dotRadius) - margin.top}
-                  fill={fill}
-                  stroke={stroke}
-                  strokeWidth={active ? 2 : 0}
-                />
-              );
-            })
-          })}
-        </Group>
-        {!header && (
-          <>
-            <Text 
-              x={adjustedWidth + margin.left + 20} 
-              y={adjustedWidth / 2 - 20}
-              fontSize={adjustedWidth / 4}
-              fill="rgb(58, 88, 161)">{data.toFixed(1) + '%'}</Text>
-            <Text 
-              x={adjustedWidth + margin.left + 20} 
-              y={adjustedWidth / 2 - 10}
-              width={adjustedWidth / 1.5}
-              fontSize={adjustedWidth / 12}
-              fontWeight="bold"
-              verticalAnchor="start"
-              fill="rgb(58, 88, 161)">of drug overdoses had at least one opportunity for intervention</Text>
-          </>
-        )}
-      </svg>
-    </>
-  );
+            return (
+              <Circle 
+                key={`waffle-point-${rowIndex}-${colIndex}`}
+                r={dotRadius}
+                cx={adjustedWidth - (colIndex * (dotWidth + margin.dot) - dotRadius)}
+                cy={adjustedHeight - ((rowIndex + 1) * (dotWidth + margin.dot) - dotRadius) - margin.top}
+                fill={fill}
+                stroke={stroke}
+                strokeWidth={active ? 2 : 0}
+              />
+            );
+          })
+        })}
+      </Group>
+      {!header && (
+        <>
+          <Text 
+            x={adjustedWidth + margin.left + 20} 
+            y={adjustedWidth / 2 - 20}
+            fontSize={adjustedWidth / 4}
+            fill="rgb(58, 88, 161)">{data.toFixed(1) + '%'}</Text>
+          <Text 
+            x={adjustedWidth + margin.left + 20} 
+            y={adjustedWidth / 2 - 10}
+            width={adjustedWidth / 1.5}
+            fontSize={adjustedWidth / 12}
+            fontWeight="bold"
+            verticalAnchor="start"
+            fill="rgb(58, 88, 161)">of drug overdoses had at least one opportunity for intervention</Text>
+        </>
+      )}
+    </svg>
+  )
 }
 
 export default WaffleChart;

@@ -6,6 +6,7 @@ import { AxisLeft } from '@visx/axis';
 
 import raw from '../data/age.json';
 
+import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
@@ -23,7 +24,7 @@ function AgeChart(params) {
     '6': '65+'
   };
   
-  const { width, height, metric, state, colorScale, el } = params;
+  const { width, height, metric, state, colorScale, el, accessible } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -78,7 +79,14 @@ function AgeChart(params) {
   }, [state, metric]);
 
   return width > 0 && (
-    <>
+    accessible ? (
+      <DataTable 
+        data={data}
+        xAxisKey={'age'}
+        orderedKeys={metric === 'rate' ? ['rate'] : ['count', 'percent']}
+        labelOverrides={{...ageMapping, 'count': 'Deaths'}}
+      />
+    ) : (
       <svg
         id="age-chart" 
         width={width} 
@@ -143,7 +151,7 @@ function AgeChart(params) {
             )}
           </Group>
       </svg>
-    </>
+    )
   );
 }
 

@@ -6,6 +6,7 @@ import { AxisLeft } from '@visx/axis';
 
 import raw from '../data/age-by-sex.json';
 
+import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
 
@@ -23,7 +24,7 @@ function AgeBySexChart(params) {
     '6': '65+'
   };
   
-  const { width, height, metric, state, colorScale, el } = params;
+  const { width, height, metric, state, colorScale, el, accessible } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -79,7 +80,24 @@ function AgeBySexChart(params) {
   }, [state, metric]);
 
   return width > 0 && (
-    <>
+    accessible ? (
+      <>
+        <strong>Male</strong>
+        <DataTable
+          data={data['male']}
+          xAxisKey={'age'}
+          orderedKeys={metric === 'rate' ? ['rate'] : ['count', 'percent']}
+          labelOverrides={{...ageMapping, 'count': 'Deaths'}}
+        />
+        <strong>Female</strong>
+        <DataTable
+          data={data['female']}
+          xAxisKey={'age'}
+          orderedKeys={metric === 'rate' ? ['rate'] : ['count', 'percent']}
+          labelOverrides={{...ageMapping, 'count': 'Deaths'}}
+        />
+      </>
+    ) : (
       <svg
         id="age-by-sex-chart" 
         width={width} 
@@ -191,7 +209,7 @@ function AgeBySexChart(params) {
             )}
           </Group>
       </svg>
-    </>
+    )
   );
 }
 
