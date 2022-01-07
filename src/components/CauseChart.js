@@ -62,6 +62,13 @@ function CauseChart(params) {
           <DataTable 
             data={data}
             xAxisKey={'opioid'}
+            orderedKeys={['presentCount', 'present', 'causeCount', 'cause']}
+            labelOverrides={{
+              'presentCount': 'Present',
+              'present': 'Present Percent',
+              'causeCount': 'Cause',
+              'cause': 'Cause Percent',
+            }}
           />
         ) : (
           <svg width={width} height={height}>
