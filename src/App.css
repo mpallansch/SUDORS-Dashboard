@@ -357,9 +357,11 @@ select {
   opacity: 1;
 }
 
-.App.medium-vp .column {
+.App.medium-vp .column,
+.App.accessible .opioid-section .column {
   display: block;
   width: 100%;
+  padding: 0;
 }
 
 .App.medium-vp .column-left {
@@ -391,6 +393,14 @@ select {
 
 .App.accessible .chart-container {
   height: auto !important;
+}
+
+.App.accessible .subsection {
+  padding: 0;
+}
+
+.App.accessible .individual-header {
+  margin-left: 1em;
 }
 
 .animated-pie text {

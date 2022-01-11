@@ -82,14 +82,15 @@ function AgeBySexChart(params) {
   return width > 0 && (
     accessible ? (
       <>
-        <strong>Male</strong>
+        <br/>
+        <strong className="individual-header">Male</strong>
         <DataTable
           data={data['male']}
           xAxisKey={'age'}
           orderedKeys={metric === 'rate' ? ['rate'] : ['count', 'percent']}
           labelOverrides={{...ageMapping, 'count': 'Deaths'}}
         />
-        <strong>Female</strong>
+        <strong className="individual-header">Female</strong>
         <DataTable
           data={data['female']}
           xAxisKey={'age'}

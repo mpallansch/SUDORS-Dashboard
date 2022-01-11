@@ -11,5 +11,5 @@
 }
 
 .App.accessible #header-line-chart-container {
-    width: auto;
+    width: 100%;
 }

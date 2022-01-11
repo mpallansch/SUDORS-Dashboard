@@ -433,35 +433,35 @@ function App(params) {
         </div>
       </div>
 
-      <div className="section">
+      <div className="section opioid-section">
         <div className="header margin">
           <span className="preheader-label">What were the characteristics and circumstances of the overdose deaths, {stateLabel}?</span>{stateSelector}
         </div>
-        <p>{interventionData[state].toFixed(1)}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
         <div className="column column-left">
-          <div className="subsection">
-            <div id="waffle-chart-container" className="chart-container" ref={waffleChartRef}>
-              <WaffleChart 
-                width={getDimension(waffleChartRef, 'width')}
-                height={getDimension(waffleChartRef, 'height')}
-                state={state}
-                header={false}
-                accessible={accessible}
-              />
-            </div>
-            <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
-              <CircumstancesChart 
-                width={getDimension(interventionChartRef, 'width')}
-                height={getDimension(interventionChartRef, 'height')}
-                state={state}
-                interventions={true}
-                accessible={accessible}
-              />
-            </div>
+          <div id="waffle-chart-container" className="chart-container" ref={waffleChartRef}>
+            <WaffleChart 
+              width={getDimension(waffleChartRef, 'width')}
+              height={getDimension(waffleChartRef, 'height')}
+              state={state}
+              header={false}
+              accessible={accessible}
+            />
           </div>
+          <p>{interventionData[state].toFixed(1)}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
         </div>
         <div className="column column-right">
-          <div className="subsection marked">
+          <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
+            <CircumstancesChart 
+              width={getDimension(interventionChartRef, 'width')}
+              height={getDimension(interventionChartRef, 'height')}
+              state={state}
+              interventions={true}
+              accessible={accessible}
+            />
+          </div>
+        </div> 
+        <div className="subsection marked">
+          <div className="column column-left">
             <span className="individual-header margin-bottom">Circumstances surrounding overdoses</span>
             <div id="circumstances-chart-container" className="chart-container" ref={circumstancesChartRef}>
               <CircumstancesChart
@@ -472,8 +472,8 @@ function App(params) {
                 accessible={accessible}
               />
             </div>
-          </div> 
-        </div> 
+          </div>
+        </div>
       </div>
 
       <Footer />
