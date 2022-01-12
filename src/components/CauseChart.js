@@ -55,6 +55,20 @@ function CauseChart(params) {
     } // eslint-disable-next-line
   }, [state]);
 
+  let labelOverrides = {
+    'presentCount': 'Present',
+    'present': 'Present Percent',
+    'causeCount': 'Cause',
+    'cause': 'Cause Percent',
+    'opioid': 'Drug'
+  };
+
+  if(width < viewportCutoff){
+    labelOverrides['Illicitly manufactured fentanyls'] = 'IMFs';
+    labelOverrides['Prescription opioids'] = 'Rx Opioids';
+    labelOverrides['Methamphetamine'] = 'Meth';
+  }
+
   return width > 0 && (
     <>
       <div id="cause-chart">
@@ -63,13 +77,7 @@ function CauseChart(params) {
             data={data}
             xAxisKey={'opioid'}
             orderedKeys={['presentCount', 'present', 'causeCount', 'cause']}
-            labelOverrides={{
-              'presentCount': 'Present',
-              'present': 'Present Percent',
-              'causeCount': 'Cause',
-              'cause': 'Cause Percent',
-              'opioid': 'Drug'
-            }}
+            labelOverrides={labelOverrides}
           />
         ) : (
           <svg width={width} height={height}>

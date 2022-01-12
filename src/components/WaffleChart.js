@@ -17,7 +17,7 @@ function WaffleChart(params) {
   const colValue = 100 / Math.pow(numDots, 2);
 
   let margin = {top: header ? (height - width > 0 ? (height - width) / 2 : 0) : 0, bottom: 0, left: 0, right: 0, dot: 3};
-  const adjustedWidth = (width - margin.left - margin.right) / (header ? 1 : 2);
+  const adjustedWidth = (width - margin.left - margin.right);
   const adjustedHeight = header ? height - margin.top - margin.bottom : adjustedWidth;
   if(header && width > adjustedHeight){
     margin.left = (width - adjustedWidth) / 2;
@@ -60,23 +60,6 @@ function WaffleChart(params) {
           })
         })}
       </Group>
-      {!header && (
-        <>
-          <Text 
-            x={adjustedWidth + margin.left + 20} 
-            y={adjustedWidth / 2 - 20}
-            fontSize={adjustedWidth / 4}
-            fill="rgb(58, 88, 161)">{data.toFixed(1) + '%'}</Text>
-          <Text 
-            x={adjustedWidth + margin.left + 20} 
-            y={adjustedWidth / 2 - 10}
-            width={adjustedWidth / 1.5}
-            fontSize={adjustedWidth / 12}
-            fontWeight="bold"
-            verticalAnchor="start"
-            fill="rgb(58, 88, 161)">of drug overdoses had at least one opportunity for intervention</Text>
-        </>
-      )}
     </svg>
   )
 }

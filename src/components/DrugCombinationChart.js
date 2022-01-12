@@ -70,9 +70,22 @@ function DrugCombinationChart(params) {
     let drugCombinationNames = [];
     for(let i = 0; i < drugCombination.length; i++){
       if(drugCombination.charAt(i) === '1') {
-        drugCombinationNames.push(drugs[i]);
+        if(width < viewportCutoff){
+          if(drugs[i] === 'Illicitly manufactured fentanyls'){
+            drugCombinationNames.push('IMFs');
+          } else if(drugs[i] === 'Prescription opioids'){
+            drugCombinationNames.push('Rx Opioids');
+          } else if(drugs[i] === 'Methamphetamine') {
+            drugCombinationNames.push('Meth');
+          } else {
+            drugCombinationNames.push(drugs[i]);
+          }
+        } else {
+          drugCombinationNames.push(drugs[i]);
+        }
       }
     }
+    
     return [
       drugCombinationNames.slice(0, -1).join(', '), 
       drugCombinationNames.slice(-1)[0]

@@ -22,8 +22,8 @@ function CircumstancesChart(params) {
   const barThicknessHalf = barThickness / 2;
 
   const xScale = scaleLinear({
-    domain: [0, 100],
-    range: [ 0, adjustedWidth ]
+    domain: [0, Math.max(...data[metric].map(d => d.percent))],
+    range: [ 0, adjustedWidth - 75 ]
   });
 
   const yScale = scaleBand({

@@ -165,7 +165,7 @@ function App(params) {
         <span>View data for:</span>
         {stateSelector}
         <div className="header">
-          <span className="preheader-label">Data Summary at a Glance, {stateLabel}</span>
+          <span className="preheader-label">2020 Data Summary at a Glance, {stateLabel}</span>
         </div>
         {accessible ? (
           <>
@@ -219,7 +219,7 @@ function App(params) {
           </>
         )}
         <div className="header margin">
-          <span className="preheader-label">What drugs were involved in overdose deaths, {stateLabel}?</span>{stateSelector}
+          <span className="preheader-label">What drugs were involved in overdose deaths in 2020, {stateLabel}?</span>{stateSelector}
         </div>
         <span className="subheader">Rate of overdose deaths by state and drug or drug type</span>
         <div>
@@ -251,6 +251,7 @@ function App(params) {
             accessible={accessible}
             colorScale={colorScale} />
         </div>
+        {!accessible && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
       </div>
 
       <div className="section divider">
@@ -310,7 +311,7 @@ function App(params) {
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">How many drug overdose deaths occurred each month, {stateLabel}?</span>{stateSelector}
+          <span className="preheader-label">How many drug overdose deaths occurred each month in 2020, {stateLabel}?</span>{stateSelector}
         </div>
         <div className="subsection">
           <div id="line-chart-container" className="chart-container" ref={monthChartRef}>
@@ -324,12 +325,13 @@ function App(params) {
               accessible={accessible}
             />
           </div>
+          {!accessible && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
         </div>
       </div>
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">Who died of a drug overdose, {stateLabel}?</span>{stateSelector}
+          <span className="preheader-label">Who died of a drug overdose in 2020, {stateLabel}?</span>{stateSelector}
         </div>
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}.</p>
@@ -435,8 +437,9 @@ function App(params) {
 
       <div className="section opioid-section">
         <div className="header margin">
-          <span className="preheader-label">What were the characteristics and circumstances of the overdose deaths, {stateLabel}?</span>{stateSelector}
+          <span className="preheader-label">What were the characteristics and circumstances of the overdose deaths in 2020, {stateLabel}?</span>{stateSelector}
         </div>
+        <p>{interventionData[state].toFixed(1)}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
         <div className="column column-left">
           <div id="waffle-chart-container" className="chart-container" ref={waffleChartRef}>
             <WaffleChart 
@@ -447,22 +450,33 @@ function App(params) {
               accessible={accessible}
             />
           </div>
-          <p>{interventionData[state].toFixed(1)}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
+          {!accessible && (
+            <>
+              <span className="waffle-label font-xxl">{interventionData[state].toFixed(1)}%</span><br/>
+              <span className="waffle-label">of drug overdoses had at least one opportunity for intervention</span>
+            </>
+          )}
         </div>
         <div className="column column-right">
-          <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
-            <CircumstancesChart 
-              width={getDimension(interventionChartRef, 'width')}
-              height={getDimension(interventionChartRef, 'height')}
-              state={state}
-              interventions={true}
-              accessible={accessible}
-            />
+          <div className="subsection marked">
+            <span className="individual-header margin-bottom">Potential opportunities for prevention</span>
+            <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
+              <CircumstancesChart 
+                width={getDimension(interventionChartRef, 'width')}
+                height={getDimension(interventionChartRef, 'height')}
+                state={state}
+                interventions={true}
+                accessible={accessible}
+              />
+            </div>
           </div>
         </div> 
+      </div>
+
+      <div className="section divider">
         <div className="subsection marked">
-          <div className="column column-left">
-            <span className="individual-header margin-bottom">Circumstances surrounding overdoses</span>
+          <div className="column">
+            <span className="individual-header margin-bottom">Additional circumstances surrounding overdoses</span>
             <div id="circumstances-chart-container" className="chart-container" ref={circumstancesChartRef}>
               <CircumstancesChart
                 width={getDimension(circumstancesChartRef, 'width')}

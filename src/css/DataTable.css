@@ -36,3 +36,9 @@
     background-color: white;
     border-left: 1px solid black;
 }
+
+.App.small-vp .table-container table tbody th,
+.App.small-vp .table-container table thead th:first-child {
+    max-width: 150px;
+    white-space: normal;
+}

@@ -40,6 +40,10 @@
   white-space: nowrap;
 }
 
+.font-xxl {
+  font-size: 50px;
+}
+
 .section {
   position: relative;
   padding: 0.5em 1em;
@@ -283,6 +287,16 @@ select {
   padding: 0.25em;
 }
 
+.scale-note {
+  margin-top: 1em;
+  font-size: small;
+}
+
+table caption {
+  position: absolute;
+  left: -1000px;
+}
+
 .toggle-indicator {
   float: right;
   margin: 0.5em;
@@ -355,6 +369,20 @@ select {
 .fadein {
   animation: fadein 1s ease;
   opacity: 1;
+}
+
+.opioid-section .waffle-label {
+  color:rgb(58, 88, 161);
+  font-weight: bold;
+}
+
+.opioid-section .column-left {
+  width: 33%;
+  margin-right: 2em;
+}
+
+.opioid-section .column-right {
+  width: calc(66% - 2em);
 }
 
 .App.medium-vp .column,
