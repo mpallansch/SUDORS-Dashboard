@@ -162,7 +162,7 @@ function checkCutoff(value, rate) {
     if(value <= rateCutoff) return -1;
     return rate;
   }
-  if(value <= countCutoff) return countCutoff;
+  if(!value || value <= countCutoff) return countCutoff;
   return value;
 }
 
@@ -417,50 +417,50 @@ fs.createReadStream(inputFilePath)
       typeOfDrugData[state] = [
         {
           opioid: 'Any Opioids', 
-          present: percent(allOpioidPresent[state], totalDeaths[state]), 
-          cause: percent(allOpioidCause[state], totalDeaths[state]),
+          presentPercent: percent(allOpioidPresent[state], totalDeaths[state]), 
+          causePercent: percent(allOpioidCause[state], totalDeaths[state]),
           presentCount: checkCutoff(allOpioidPresent[state]),
           causeCount: checkCutoff(allOpioidCause[state])
         },
         {
           opioid: 'Illicitly manufactured fentanyls', 
-          present: percent(keyCounts[state]['imfs_pos']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['imfs_cod']['1'], totalDeaths[state]),
+          presentPercent: percent(keyCounts[state]['imfs_pos']['1'], totalDeaths[state]), 
+          causePercent: percent(keyCounts[state]['imfs_cod']['1'], totalDeaths[state]),
           presentCount: checkCutoff(keyCounts[state]['imfs_pos']['1']),
           causeCount: checkCutoff(keyCounts[state]['imfs_cod']['1'])
         },
         {
           opioid: 'Heroin', 
-          present: percent(keyCounts[state]['heroin_def_v2']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['heroin_def_cod_v2']['1'], totalDeaths[state]),
+          presentPercent: percent(keyCounts[state]['heroin_def_v2']['1'], totalDeaths[state]), 
+          causePercent: percent(keyCounts[state]['heroin_def_cod_v2']['1'], totalDeaths[state]),
           presentCount: checkCutoff(keyCounts[state]['heroin_def_v2']['1']),
           causeCount: checkCutoff(keyCounts[state]['heroin_def_cod_v2']['1'])
         },
         {
           opioid: 'Prescription opioids',
-          present: percent(keyCounts[state]['rx_opioid_v2']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['rx_opioid_cod_v2']['1'], totalDeaths[state]),
+          presentPercent: percent(keyCounts[state]['rx_opioid_v2']['1'], totalDeaths[state]), 
+          causePercent: percent(keyCounts[state]['rx_opioid_cod_v2']['1'], totalDeaths[state]),
           presentCount: checkCutoff(keyCounts[state]['rx_opioid_v2']['1']),
           causeCount: checkCutoff(keyCounts[state]['rx_opioid_cod_v2']['1'])
         },
         {
           opioid: 'Any Stimulant', 
-          present: percent(allStimulantPresent[state], totalDeaths[state]), 
-          cause: percent(allStimulantCause[state], totalDeaths[state]),
+          presentPercent: percent(allStimulantPresent[state], totalDeaths[state]), 
+          causePercent: percent(allStimulantCause[state], totalDeaths[state]),
           presentCount: checkCutoff(allStimulantPresent[state]),
           causeCount: checkCutoff(allStimulantCause[state])
         },
         {
           opioid: 'Cocaine', 
-          present: percent(keyCounts[state]['cocaine_t']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['cocaine_t_cod']['1'], totalDeaths[state]),
+          presentPercent: percent(keyCounts[state]['cocaine_t']['1'], totalDeaths[state]), 
+          causePercent: percent(keyCounts[state]['cocaine_t_cod']['1'], totalDeaths[state]),
           presentCount: checkCutoff(keyCounts[state]['cocaine_t']['1']),
           causeCount: checkCutoff(keyCounts[state]['cocaine_t_cod']['1'])
         },
         {
           opioid: 'Methamphetamine', 
-          present: percent(keyCounts[state]['meth_r']['1'], totalDeaths[state]), 
-          cause: percent(keyCounts[state]['meth_r_cod']['1'], totalDeaths[state]),
+          presentPercent: percent(keyCounts[state]['meth_r']['1'], totalDeaths[state]), 
+          causePercent: percent(keyCounts[state]['meth_r_cod']['1'], totalDeaths[state]),
           presentCount: checkCutoff(keyCounts[state]['meth_r']['1']),
           causeCount: checkCutoff(keyCounts[state]['meth_r_cod']['1'])
         }

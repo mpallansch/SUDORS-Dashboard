@@ -1,6 +1,5 @@
 import { Group } from '@visx/group';
 import { Circle } from '@visx/shape';
-import { Text } from '@visx/text';
 
 import raw from '../data/interventions.json';
 

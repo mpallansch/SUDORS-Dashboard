@@ -62,8 +62,8 @@ function DataTable(params) {
             {isArray && data.map(d => (
               <tr key={`tr-${d[xAxisKey]}`}>
                 <th key={`th-${d[xAxisKey]}`} scope="row">{labelOverrides[d[xAxisKey]] || d[xAxisKey]}</th>
-                {keys.map(key => key !== xAxisKey && (
-                  <td key={`td-${d[key]}`}>{d[key] <= countCutoff ? 'Data suppressed' : d[key]}</td>
+                {keys.map((key, i) => key !== xAxisKey && (
+                  <td key={`td-${xAxisKey}-${i}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[i - 1]] <= countCutoff ? 'Data suppressed' : d[key]) : (d[key] <= countCutoff ? 'Data suppressed' : d[key])}</td>
                 ))}
               </tr>
             ))}

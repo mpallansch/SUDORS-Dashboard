@@ -57,9 +57,9 @@ function CauseChart(params) {
 
   let labelOverrides = {
     'presentCount': 'Present',
-    'present': 'Present Percent',
+    'presentPercent': 'Present Percent',
     'causeCount': 'Cause',
-    'cause': 'Cause Percent',
+    'causePercent': 'Cause Percent',
     'opioid': 'Drug'
   };
 
@@ -76,8 +76,9 @@ function CauseChart(params) {
           <DataTable 
             data={data}
             xAxisKey={'opioid'}
-            orderedKeys={['presentCount', 'present', 'causeCount', 'cause']}
+            orderedKeys={['presentCount', 'presentPercent', 'causeCount', 'causePercent']}
             labelOverrides={labelOverrides}
+            caption="log"
           />
         ) : (
           <svg width={width} height={height}>
@@ -105,12 +106,12 @@ function CauseChart(params) {
                         'transition': animated ? 'transform 1s ease-in-out' : '',
                         'transformOrigin': `0px ${adjustedHeight}px`
                       }}
-                      d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.cause), xScale.bandwidth(), adjustedHeight - yScale(d.cause), xScale.bandwidth() * .35)}
+                      d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.causePercent), xScale.bandwidth(), adjustedHeight - yScale(d.causePercent), xScale.bandwidth() * .35)}
                       fill={colorScale[d.opioid]}
                       data-tip={`<strong>${d.opioid}</strong><br/>
-                      Percent Present: ${d.present.toFixed(1)}%<br/>
+                      Percent Present: ${d.presentPercent.toFixed(1)}%<br/>
                       Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
-                      Percent Cause: ${d.cause.toFixed(1)}%<br/>
+                      Percent Cause: ${d.causePercent.toFixed(1)}%<br/>
                       Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
                     ></path>
                   </Group>

@@ -256,7 +256,7 @@ function App(params) {
 
       <div className="section divider">
         <span className="subheader">Percentages of overdose deaths involving select drugs and drug classes, {stateLabel}</span>
-        <p>{causeData[state].find(d => d.opioid === 'Any Opioids').cause.toFixed(1)}% of deaths involved at least one opioid and {causeData[state].find(d => d.opioid === 'Any Stimulant').cause.toFixed(1)}% involved at least one stimulant. {additionalDrugData[state].commonOpioid} {additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
+        <p>{causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {causeData[state].find(d => d.opioid === 'Any Stimulant').causePercent.toFixed(1)}% involved at least one stimulant. {additionalDrugData[state].commonOpioid} {additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -475,7 +475,7 @@ function App(params) {
 
       <div className="section divider">
         <div className="subsection marked">
-          <div className="column">
+          <div className={accessible ? '' : 'column'}>
             <span className="individual-header margin-bottom">Additional circumstances surrounding overdoses</span>
             <div id="circumstances-chart-container" className="chart-container" ref={circumstancesChartRef}>
               <CircumstancesChart

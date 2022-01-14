@@ -169,7 +169,7 @@ function MonthChart(params) {
                   })}
                   labelOffset={60}
                 />
-                <text x={adjustedHeight / -2} y={-65} textAnchor="middle" transform="rotate(-90)">Count <tspan baseline-shift="super" dominant-baseline="auto">†</tspan></text>
+                <text x={adjustedHeight / -2} y={-65} textAnchor="middle" transform="rotate(-90)">Count <tspan baselineShift="super" dominantBaseline="auto">†</tspan></text>
 
                 {data.map(d => (
                   <Group key={`group-${d.month}`} className="animate-bars">
