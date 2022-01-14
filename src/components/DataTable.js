@@ -69,8 +69,8 @@ function DataTable(params) {
             ))}
 
             {!isArray && keys.map(rowKey => (
-                <tr key={`tr-${rowKey}`}>
-                  <th key={`th-${rowKey}`} scope="row" className={rowKey === highlight ? 'highlight' : ''}>{labelOverrides[rowKey] || rowKey}</th>
+                <tr key={`tr-${rowKey}`} className={rowKey === highlight ? 'highlight' : ''}>
+                  <th key={`th-${rowKey}`} scope="row">{labelOverrides[rowKey] || rowKey}</th>
                   {[data, rates].map((d, i) => 
                     Object.keys(d[keys[0]]).map(colKey => (
                       <td key={`td-${d[rowKey][colKey]}`}>{d[rowKey][colKey] <= [countCutoff, rateCutoff][i] ? 'Data suppressed' : d[rowKey][colKey]}</td>
