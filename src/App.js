@@ -459,7 +459,7 @@ function App(params) {
         </div>
         <div className="column column-right">
           <div className="subsection marked">
-            <span className="individual-header margin-bottom">Potential opportunities for prevention</span>
+            <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
             <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
               <CircumstancesChart 
                 width={getDimension(interventionChartRef, 'width')}
