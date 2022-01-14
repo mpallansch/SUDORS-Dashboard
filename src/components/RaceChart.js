@@ -40,7 +40,7 @@ function RaceChart(params) {
 
   const getData = (datum, label) => {
     if(metric === 'rate'){
-      if(datum.rate < rateCutoff) return label === true ? '*' : 0;
+      if(datum.rate <= rateCutoff) return label === true ? '*' : 0;
       return (label === true ? datum.rate.toFixed(1) : datum.rate);
     }
     if(datum.deaths <= countCutoff) return label === true ? '*' : 0

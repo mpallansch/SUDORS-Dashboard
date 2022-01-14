@@ -846,7 +846,7 @@ fs.createReadStream(inputFilePath)
     statesFinal.forEach(state => {
       ageAdjustedRaceRates[state] = [];
 
-      Object.keys(keyCounts[state]['race_eth_v2']).forEach(race => {
+      Object.keys(raceDataInitial()).forEach(race => {
         if(race.length === 0) return;
 
         let rate = 0;
