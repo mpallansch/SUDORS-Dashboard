@@ -40,6 +40,10 @@
   white-space: nowrap;
 }
 
+.font-xxl {
+  font-size: 50px;
+}
+
 .section {
   position: relative;
   padding: 0.5em 1em;
@@ -283,6 +287,16 @@ select {
   padding: 0.25em;
 }
 
+.scale-note {
+  margin-top: 1em;
+  font-size: small;
+}
+
+table caption {
+  position: absolute;
+  left: -1000px;
+}
+
 .toggle-indicator {
   float: right;
   margin: 0.5em;
@@ -357,9 +371,25 @@ select {
   opacity: 1;
 }
 
-.App.medium-vp .column {
+.opioid-section .waffle-label {
+  color:rgb(58, 88, 161);
+  font-weight: bold;
+}
+
+.opioid-section .column-left {
+  width: 33%;
+  margin-right: 2em;
+}
+
+.opioid-section .column-right {
+  width: calc(66% - 2em);
+}
+
+.App.medium-vp .column,
+.App.accessible .opioid-section .column {
   display: block;
   width: 100%;
+  padding: 0;
 }
 
 .App.medium-vp .column-left {
@@ -387,6 +417,18 @@ select {
 .App.medium-vp .drug-tab-section {
   display: block;
   width: 100%;
+}
+
+.App.accessible .chart-container {
+  height: auto !important;
+}
+
+.App.accessible .subsection {
+  padding: 0;
+}
+
+.App.accessible .individual-header {
+  margin-left: 1em;
 }
 
 .animated-pie text {

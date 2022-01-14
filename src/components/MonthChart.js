@@ -6,6 +6,7 @@ import { scaleBand, scaleLinear } from '@visx/scale';
 
 import raw from '../data/time.json';
 
+import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { countCutoff } from '../constants.json';
 
@@ -71,12 +72,12 @@ function MonthChart(params) {
 
   const viewportCutoff = 600;
 
-  const { width, height, state, header, colorScale, el } = params;
+  const { width, height, state, header, colorScale, el, accessible } = params;
   const [ animated, setAnimated ] = useState(false);
 
   const data = raw[state].month;
   const dataQuarter = raw[state].quarter;
-  const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : width < viewportCutoff ? 55 : 80), right: 5};
+  const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : width < viewportCutoff ? 55 : 90), right: 5};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
@@ -108,8 +109,15 @@ function MonthChart(params) {
     setTimeout(onScroll, 50); // eslint-disable-next-line
   }, []);
 
-  return width > 0 && (
-    <>
+  return width > 0 && 
+    (accessible) ? (
+      <DataTable
+        data={header ? dataQuarter : data}
+        xAxisKey={header ? 'quarter' : 'month'}
+        labelOverrides={header ? {'0': 'Q1', '1': 'Q2', '2': 'Q3', '3': 'Q4', 'value': 'Deaths'} : {...monthMapping, value: 'Deaths'}}
+        caption={"Death data by month"}
+      />
+    ) : (
       <div id="month-chart">
         <svg width={width} height={height}>
         
@@ -155,13 +163,13 @@ function MonthChart(params) {
                     textAnchor: 'end',
                     transform: 'translate(-5, 5)'
                   })}
-                  label="Count"
                   labelProps={() => ({
                     fontSize: 'medium',
                     textAnchor: 'middle'
                   })}
                   labelOffset={60}
                 />
+                <text x={adjustedHeight / -2} y={-65} textAnchor="middle" transform="rotate(-90)">Count <tspan baseline-shift="super" dominant-baseline="auto">†</tspan></text>
 
                 {data.map(d => (
                   <Group key={`group-${d.month}`} className="animate-bars">
@@ -208,8 +216,7 @@ function MonthChart(params) {
           </Group>
         </svg>
       </div>
-    </>
-  );
+    );
 }
 
 export default MonthChart;

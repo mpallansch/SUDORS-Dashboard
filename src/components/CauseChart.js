@@ -6,6 +6,7 @@ import { scaleBand, scaleLinear } from '@visx/scale';
 import raw from '../data/causes.json';
 
 import Utils from '../shared/Utils';
+import DataTable from './DataTable';
 import { countCutoff } from '../constants.json';
 
 import '../css/CauseChart.css';
@@ -16,7 +17,7 @@ function CauseChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { width, height, state, el, colorScale } = params;
+  const { width, height, state, el, accessible, colorScale } = params;
   const data = raw[state];
   const margin = {top: 20, bottom: width < viewportCutoff ? 220 : 140, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
@@ -54,59 +55,82 @@ function CauseChart(params) {
     } // eslint-disable-next-line
   }, [state]);
 
+  let labelOverrides = {
+    'presentCount': 'Present',
+    'present': 'Present Percent',
+    'causeCount': 'Cause',
+    'cause': 'Cause Percent',
+    'opioid': 'Drug'
+  };
+
+  if(width < viewportCutoff){
+    labelOverrides['Illicitly manufactured fentanyls'] = 'IMFs';
+    labelOverrides['Prescription opioids'] = 'Rx Opioids';
+    labelOverrides['Methamphetamine'] = 'Meth';
+  }
+
   return width > 0 && (
     <>
       <div id="cause-chart">
-        <svg width={width} height={height}>
-          <Group top={margin.top} left={margin.left}>
-            <AxisLeft
-              scale={yScale}
-              tickValues={[0, 25, 50, 75, 100]}
-              tickFormat={num => num + '%'}
-              tickLabelProps={() => ({
-                fontSize: 'medium',
-                textAnchor: 'end',
-                transform: 'translate(-10, 5)'
-              })}
-              tickTransform={`translate(${adjustedWidth}, 0)`}
-              tickStroke="lightgray"
-              tickLength={adjustedWidth}
-              hideAxisLine
-            />
-            {data.map(d => (
-                <Group key={`group-${d.opioid}`}>
-                  <path
-                    key={`cause-bar-${d.opioid}`}
-                    className={`animated-bar vertical ${animated ? 'animated' : ''}`}
-                    style={{
-                      'transition': animated ? 'transform 1s ease-in-out' : '',
-                      'transformOrigin': `0px ${adjustedHeight}px`
-                    }}
-                    d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.cause), xScale.bandwidth(), adjustedHeight - yScale(d.cause), xScale.bandwidth() * .35)}
-                    fill={colorScale[d.opioid]}
-                    data-tip={`<strong>${d.opioid}</strong><br/>
-                    Percent Present: ${d.present.toFixed(1)}%<br/>
-                    Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
-                    Percent Cause: ${d.cause.toFixed(1)}%<br/>
-                    Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
-                  ></path>
-                </Group>
-              )
-            )}
-            <AxisBottom
-              top={adjustedHeight}
-              scale={xScale}
-              tickStroke="none"
-              tickLabelProps={(label, index, props) => ({
-                fontSize: 'medium',
-                textAnchor: 'end',
-                transform: `rotate(-${width < viewportCutoff ? 65 : 30}, ${props[index].to.x}, ${props[index].to.y})`,
-                dy: 5,
-                dominantBaseline: 'end'
-              })}
-            />
-          </Group>
-        </svg>
+        {accessible ? (
+          <DataTable 
+            data={data}
+            xAxisKey={'opioid'}
+            orderedKeys={['presentCount', 'present', 'causeCount', 'cause']}
+            labelOverrides={labelOverrides}
+          />
+        ) : (
+          <svg width={width} height={height}>
+            <Group top={margin.top} left={margin.left}>
+              <AxisLeft
+                scale={yScale}
+                tickValues={[0, 25, 50, 75, 100]}
+                tickFormat={num => num + '%'}
+                tickLabelProps={() => ({
+                  fontSize: 'medium',
+                  textAnchor: 'end',
+                  transform: 'translate(-10, 5)'
+                })}
+                tickTransform={`translate(${adjustedWidth}, 0)`}
+                tickStroke="lightgray"
+                tickLength={adjustedWidth}
+                hideAxisLine
+              />
+              {data.map(d => (
+                  <Group key={`group-${d.opioid}`}>
+                    <path
+                      key={`cause-bar-${d.opioid}`}
+                      className={`animated-bar vertical ${animated ? 'animated' : ''}`}
+                      style={{
+                        'transition': animated ? 'transform 1s ease-in-out' : '',
+                        'transformOrigin': `0px ${adjustedHeight}px`
+                      }}
+                      d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.cause), xScale.bandwidth(), adjustedHeight - yScale(d.cause), xScale.bandwidth() * .35)}
+                      fill={colorScale[d.opioid]}
+                      data-tip={`<strong>${d.opioid}</strong><br/>
+                      Percent Present: ${d.present.toFixed(1)}%<br/>
+                      Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
+                      Percent Cause: ${d.cause.toFixed(1)}%<br/>
+                      Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
+                    ></path>
+                  </Group>
+                )
+              )}
+              <AxisBottom
+                top={adjustedHeight}
+                scale={xScale}
+                tickStroke="none"
+                tickLabelProps={(label, index, props) => ({
+                  fontSize: 'medium',
+                  textAnchor: 'end',
+                  transform: `rotate(-${width < viewportCutoff ? 65 : 30}, ${props[index].to.x}, ${props[index].to.y})`,
+                  dy: 5,
+                  dominantBaseline: 'end'
+                })}
+              />
+            </Group>
+          </svg>
+        )}
       </div>
     </>
   );

@@ -1,0 +1,44 @@
+.table-container {
+    width: 100%;
+    overflow-y: visible;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-top: 2em;
+    padding-bottom: 1em;
+}
+
+.table-container table {
+    min-width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.table-container table th,
+.table-container table td {
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    padding: 0.25em 1em;
+}
+
+.table-container table thead th {
+    border-top: 1px solid black;
+}
+
+.table-container table th.highlight {
+    border: 3px solid rgba(255, 102, 1, 0.9);
+}
+
+.table-container table tbody th,
+.table-container table thead th:first-child {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    background-color: white;
+    border-left: 1px solid black;
+}
+
+.App.small-vp .table-container table tbody th,
+.App.small-vp .table-container table thead th:first-child {
+    max-width: 150px;
+    white-space: normal;
+}

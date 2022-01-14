@@ -31,7 +31,9 @@ import { countCutoff } from './constants.json';
 
 import './App.css';
 
-function App() {
+function App(params) {
+
+  const { accessible } = params;
 
   const viewportCutoffSmall = 550;
   const viewportCutoffMedium = 800;
@@ -157,46 +159,67 @@ function App() {
   );
 
   return (
-    <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}`} 
+    <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}${accessible ? ' accessible' : ''}`} 
       ref={outerContainerRef}>
       <div className="section">
         <span>View data for:</span>
         {stateSelector}
         <div className="header">
-          <span className="preheader-label">Data Summary at a Glance, {stateLabel}</span>
+          <span className="preheader-label">2020 Data Summary at a Glance, {stateLabel}</span>
         </div>
-        <div className="header-section first">
-          <span className="header-text full">
-            <span className="enlarged">{Number(totalData[state]).toLocaleString()}</span> 
-            <span className="header-text">total deaths in 2020</span>
-          </span>
-        </div>
-        <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
-          <div id="header-line-chart-container" ref={headerMonthChartRef}>
-            <MonthChart 
+        {accessible ? (
+          <>
+            <p>{Number(totalData[state]).toLocaleString()} total deaths in 2020</p>
+            <div id="header-line-chart-container" className="chart-container" ref={headerMonthChartRef}>
+              <MonthChart 
                 width={getDimension(headerMonthChartRef, 'width')}
                 height={getDimension(headerMonthChartRef, 'height')}
                 header={true}
                 state={state} 
                 colorScale={colorScale}
                 el={monthChartRef}
+                accessible={accessible}
               />
-          </div>
-          <span className="header-text">deaths by quarter in 2020</span>
-        </div>
-        <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
-          <div id="header-waffle-chart-container" ref={headerWaffleChartRef}>
-            <WaffleChart 
-              width={getDimension(headerWaffleChartRef, 'width')}
-              height={getDimension(headerWaffleChartRef, 'height')}
-              header={true}
-              state={state}
-            />
-          </div>
-          <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
-        </div>
+            </div>
+            <p>{interventionData[state]}% had opportunities for intervention</p>
+          </>
+        ) : (
+          <>
+            <div className="header-section first">
+              <span className="header-text full">
+                <span className="enlarged">{Number(totalData[state]).toLocaleString()}</span> 
+                <span className="header-text">total deaths in 2020</span>
+              </span>
+            </div>
+            <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
+              <div id="header-line-chart-container" className="chart-container" ref={headerMonthChartRef}>
+                <MonthChart 
+                    width={getDimension(headerMonthChartRef, 'width')}
+                    height={getDimension(headerMonthChartRef, 'height')}
+                    header={true}
+                    state={state} 
+                    colorScale={colorScale}
+                    el={monthChartRef}
+                    accessible={accessible}
+                  />
+              </div>
+              <span className="header-text">deaths by quarter in 2020</span>
+            </div>
+            <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
+              <div id="header-waffle-chart-container" className="chart-container" ref={headerWaffleChartRef}>
+                <WaffleChart 
+                  width={getDimension(headerWaffleChartRef, 'width')}
+                  height={getDimension(headerWaffleChartRef, 'height')}
+                  header={true}
+                  state={state}
+                />
+              </div>
+              <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
+            </div>
+          </>
+        )}
         <div className="header margin">
-          <span className="preheader-label">What drugs were involved in overdose deaths, {stateLabel}?</span>{stateSelector}
+          <span className="preheader-label">What drugs were involved in overdose deaths in 2020, {stateLabel}?</span>{stateSelector}
         </div>
         <span className="subheader">Rate of overdose deaths by state and drug or drug type</span>
         <div>
@@ -217,7 +240,7 @@ function App() {
             {drugTab('Methamphetamine', dimensions.width < viewportCutoffSmall ? 'Meth' : 'Methamphetamine')}
           </div>
         </div>
-        <div id="state-chart-container" ref={stateChartRef}>
+        <div id="state-chart-container" className="chart-container" ref={stateChartRef}>
           <StateChart
             width={getDimension(stateChartRef, 'width')}
             height={getDimension(stateChartRef, 'height')}
@@ -225,20 +248,23 @@ function App() {
             state={state}
             el={stateChartRef}
             drug={drug}
+            accessible={accessible}
             colorScale={colorScale} />
         </div>
+        {!accessible && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
       </div>
 
       <div className="section divider">
         <span className="subheader">Percentages of overdose deaths involving select drugs and drug classes, {stateLabel}</span>
         <p>{causeData[state].find(d => d.opioid === 'Any Opioids').cause.toFixed(1)}% of deaths involved at least one opioid and {causeData[state].find(d => d.opioid === 'Any Stimulant').cause.toFixed(1)}% involved at least one stimulant. {additionalDrugData[state].commonOpioid} {additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
-          <div id="cause-chart-container" ref={causeChartRef}>
+          <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
             <CauseChart 
               width={getDimension(causeChartRef, 'width')}
               height={getDimension(causeChartRef, 'height')}
               state={state}
               el={causeChartRef}
+              accessible={accessible}
               colorScale={colorScale} />
           </div>
         </div>
@@ -251,12 +277,13 @@ function App() {
             ` For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}` :
             ` ${combinationData[state].combinations[0].percent.toFixed(1)}% of deaths involved ${listDrugs(combinationData[state].combinations[0].drugCombination)}, one of the most common ${combinationData[state].combinations[0].drugCombination.charAt(3) === '1' || combinationData[state].combinations[0].drugCombination.charAt(4) === '1' ? 'stimulants' : 'opioids'}`}.</p>
         <div className="subsection no-padding">
-          <div id="drug-combination-chart-container" ref={drugCombinationChartRef}>
+          <div id="drug-combination-chart-container" className="chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
               width={getDimension(drugCombinationChartRef, 'width')}
               height={getDimension(drugCombinationChartRef, 'height')}
               state={state}
-              el={drugCombinationChartRef} />
+              el={drugCombinationChartRef}
+              accessible={accessible} />
           </div>
         </div>
       </div>
@@ -265,28 +292,29 @@ function App() {
         <span className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</span>
         <p>The largest percentage of deaths involved {opioidStimulantData[state].max.toLowerCase()}, while {opioidStimulantData[state].minPercent.toFixed(1)}% of overdose deaths involved {opioidStimulantData[state].min.toLowerCase()}.</p>
         <div className="subsection">
-          <div id="opioid-stimulant-chart-container" ref={opioidStimulantChartRef}>
+          <div id="opioid-stimulant-chart-container" className="chart-container" ref={opioidStimulantChartRef}>
             <OpioidStimulantChart 
                 width={getDimension(opioidStimulantChartRef, 'width')}
                 height={getDimension(opioidStimulantChartRef, 'height')}
                 state={state}
-                el={opioidStimulantChartRef} />
+                el={opioidStimulantChartRef}
+                accessible={accessible} />
           </div>
-          <div id="opioid-stimulant-chart-legend">
+          {!accessible && (<div id="opioid-stimulant-chart-legend">
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)"/></svg>Opioids with stimulants</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(116,148,194)"/></svg>Opioids without stimulants</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="#88c3ea"/></svg>Stimulants without opioids</span>
             <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(220,237,201)"/></svg>Neither opioids nor stimulants</span>
-          </div>
+          </div>)}
         </div>
       </div>
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">How many drug overdose deaths occurred each month, {stateLabel}?</span>{stateSelector}
+          <span className="preheader-label">How many drug overdose deaths occurred each month in 2020, {stateLabel}?</span>{stateSelector}
         </div>
         <div className="subsection">
-          <div id="line-chart-container" ref={monthChartRef}>
+          <div id="line-chart-container" className="chart-container" ref={monthChartRef}>
             <MonthChart 
               width={getDimension(monthChartRef, 'width')}
               height={getDimension(monthChartRef, 'height')}
@@ -294,14 +322,16 @@ function App() {
               state={state} 
               colorScale={colorScale}
               el={monthChartRef}
+              accessible={accessible}
             />
           </div>
+          {!accessible && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
         </div>
       </div>
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">Who died of a drug overdose, {stateLabel}?</span>{stateSelector}
+          <span className="preheader-label">Who died of a drug overdose in 2020, {stateLabel}?</span>{stateSelector}
         </div>
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}.</p>
@@ -334,7 +364,7 @@ function App() {
         <div className="column column-left">
           <div className="subsection marked">
             <span className="individual-header smaller">By Sex</span>
-            <div id="sex-chart-container" ref={sexChartRef}>
+            <div id="sex-chart-container" className="chart-container" ref={sexChartRef}>
               <SexChart 
                 width={getDimension(sexChartRef, 'width')} 
                 height={getDimension(sexChartRef, 'height')}
@@ -342,9 +372,10 @@ function App() {
                 state={state}
                 colorScale={colorScale} 
                 el={sexChartRef}
+                accessible={accessible}
               />
             </div>
-            {metric !== 'rate' && (<div id="sex-chart-legend">
+            {metric !== 'rate' && !accessible && (<div id="sex-chart-legend">
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
             </div>)}
@@ -353,7 +384,7 @@ function App() {
         <div className="column column-right">
           <div className="subsection marked">
             <span className="individual-header margin-top">By Race/Ethnicity</span>
-            <div id="race-chart-container" ref={raceChartRef}>
+            <div id="race-chart-container" className="chart-container" ref={raceChartRef}>
                 <RaceChart 
                   width={getDimension(raceChartRef, 'width')}
                   height={getDimension(raceChartRef, 'height')}
@@ -361,6 +392,7 @@ function App() {
                   state={state}
                   colorScale={colorScale}
                   el={raceChartRef}
+                  accessible={accessible}
                 />
             </div>
           </div>
@@ -368,7 +400,7 @@ function App() {
         <div className="column column-left">
           <div className="subsection marked">
             <span className="individual-header margin-top">By Age (In Years)</span>
-            <div id="age-chart-container" ref={ageChartRef}>
+            <div id="age-chart-container" className="chart-container" ref={ageChartRef}>
                 <AgeChart 
                   width={getDimension(ageChartRef, 'width')}
                   height={getDimension(ageChartRef, 'height')}
@@ -376,6 +408,7 @@ function App() {
                   state={state}
                   colorScale={colorScale}
                   el={ageChartRef}
+                  accessible={accessible}
                 />
             </div>
           </div>
@@ -383,7 +416,7 @@ function App() {
         <div className="column column-right">
           <div className="subsection marked">
             <span className="individual-header margin-top-small-viewport">By Age and Sex</span>
-            <div id="age-by-sex-chart-container" ref={ageBySexChartRef}>
+            <div id="age-by-sex-chart-container" className="chart-container" ref={ageBySexChartRef}>
               <AgeBySexChart 
                 width={getDimension(ageBySexChartRef, 'width')}
                 height={getDimension(ageBySexChartRef, 'height')}
@@ -391,54 +424,70 @@ function App() {
                 state={state}
                 colorScale={colorScale}
                 el={ageBySexChartRef}
+                accessible={accessible}
               />
             </div>
-            <div className="age-chart-legend">
+            {!accessible && (<div className="age-chart-legend">
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
               <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
-            </div>
+            </div>)}
           </div>
         </div>
       </div>
 
-      <div className="section">
+      <div className="section opioid-section">
         <div className="header margin">
-          <span className="preheader-label">What were the characteristics and circumstances of the overdose deaths, {stateLabel}?</span>{stateSelector}
+          <span className="preheader-label">What were the characteristics and circumstances of the overdose deaths in 2020, {stateLabel}?</span>{stateSelector}
         </div>
         <p>{interventionData[state].toFixed(1)}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
         <div className="column column-left">
-          <div className="subsection">
-            <div id="waffle-chart-container" ref={waffleChartRef}>
-              <WaffleChart 
-                width={getDimension(waffleChartRef, 'width')}
-                height={getDimension(waffleChartRef, 'height')}
-                state={state}
-                header={false}
-              />
-            </div>
-            <div id="intervention-chart-container" ref={interventionChartRef}>
+          <div id="waffle-chart-container" className="chart-container" ref={waffleChartRef}>
+            <WaffleChart 
+              width={getDimension(waffleChartRef, 'width')}
+              height={getDimension(waffleChartRef, 'height')}
+              state={state}
+              header={false}
+              accessible={accessible}
+            />
+          </div>
+          {!accessible && (
+            <>
+              <span className="waffle-label font-xxl">{interventionData[state].toFixed(1)}%</span><br/>
+              <span className="waffle-label">of drug overdoses had at least one opportunity for intervention</span>
+            </>
+          )}
+        </div>
+        <div className="column column-right">
+          <div className="subsection marked">
+            <span className="individual-header margin-bottom">Potential opportunities for prevention</span>
+            <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
               <CircumstancesChart 
                 width={getDimension(interventionChartRef, 'width')}
                 height={getDimension(interventionChartRef, 'height')}
                 state={state}
                 interventions={true}
+                accessible={accessible}
               />
             </div>
           </div>
-        </div>
-        <div className="column column-right">
-          <div className="subsection marked">
-            <span className="individual-header margin-bottom">Circumstances surrounding overdoses</span>
-            <div id="circumstances-chart-container" ref={circumstancesChartRef}>
+        </div> 
+      </div>
+
+      <div className="section divider">
+        <div className="subsection marked">
+          <div className="column">
+            <span className="individual-header margin-bottom">Additional circumstances surrounding overdoses</span>
+            <div id="circumstances-chart-container" className="chart-container" ref={circumstancesChartRef}>
               <CircumstancesChart
                 width={getDimension(circumstancesChartRef, 'width')}
                 height={getDimension(circumstancesChartRef, 'height')}
                 state={state}
                 interventions={false}
+                accessible={accessible}
               />
             </div>
-          </div> 
-        </div> 
+          </div>
+        </div>
       </div>
 
       <Footer />

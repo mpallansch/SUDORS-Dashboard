@@ -5,13 +5,14 @@ import { scaleBand, scaleLinear } from '@visx/scale';
 
 import raw from '../data/circumstances.json';
 
+import DataTable from './DataTable';
 import { countCutoff } from '../constants.json';
 
 import '../css/CircumstancesChart.css';
 
 function CircumstancesChart(params) {
 
-  const { width, height, state, interventions } = params;
+  const { width, height, state, interventions, accessible } = params;
   const metric = interventions ? 'intervention' : 'other';
   const data = raw[state];
   const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 10};
@@ -21,8 +22,8 @@ function CircumstancesChart(params) {
   const barThicknessHalf = barThickness / 2;
 
   const xScale = scaleLinear({
-    domain: [0, 100],
-    range: [ 0, adjustedWidth ]
+    domain: [0, Math.max(...data[metric].map(d => d.percent))],
+    range: [ 0, adjustedWidth - 75 ]
   });
 
   const yScale = scaleBand({
@@ -31,8 +32,15 @@ function CircumstancesChart(params) {
     padding: 0.2
   });
 
-  return width > 0 && (
-    <>
+  return width > 0 && 
+    accessible ? (
+      <DataTable
+        data={data[metric]}
+        xAxisKey={'circumstance'}
+        orderedKeys={['count', 'percent']}
+        labelOverrides={{'count': 'Deaths', 'circumstance': metric === 'intervention' ? 'Opportunity for Intervention' : 'Circumstance'}}
+      />
+    ) : (
       <svg width={width} height={height}>
         <Group top={margin.top} left={margin.left}>
           {data[metric].map(d => (
@@ -61,8 +69,7 @@ function CircumstancesChart(params) {
           )}
         </Group>
       </svg>
-    </>
-  );
+    )
 }
 
 export default CircumstancesChart;

@@ -8,6 +8,7 @@ import { scaleLinear, scaleBand } from '@visx/scale';
 import raw from '../data/sex.json';
 import rawRates from '../data/age-adjusted-sex-rates.json';
 
+import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
 
@@ -15,7 +16,7 @@ import '../css/SexChart.css';
 
 function SexChart(params) {
   const [active, setActive] = useState(null);
-  const { width, height, metric, state, colorScale, el } = params;
+  const { width, height, metric, state, colorScale, el, accessible } = params;
 
   const data = raw[state];
   const dataRates = rawRates[state];
@@ -66,7 +67,18 @@ function SexChart(params) {
   });
 
   return width > 0 && (
-    <>
+    accessible ? (
+      <DataTable
+        data={metric === 'rate' ? dataRates : data}
+        orderedKeys={metric === 'rate' ? null : ['count', 'percent']}
+        xAxisKey={'sex'}
+        labelOverrides={{
+          'count': 'Deaths',
+          'male': 'Male',
+          'female': 'Female',
+        }}
+      />
+    ) : (
       <svg 
         width={width}
         height={height}
@@ -227,7 +239,7 @@ function SexChart(params) {
         )}
         
       </svg>
-    </>
+    )
   );
 }
 
