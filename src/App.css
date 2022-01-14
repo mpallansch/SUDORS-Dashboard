@@ -166,15 +166,15 @@ input[type="radio"] {
 }
 
 .header {
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   background-color: #712177;
   color: white;
 }
 
 .header select {
-  float: right;
-  margin: .5em;
+  height: 2em;
 }
 
 .header.margin {
@@ -417,6 +417,10 @@ table caption {
 .App.medium-vp .drug-tab-section {
   display: block;
   width: 100%;
+}
+
+.App.small-vp .header {
+  display: inline-block;
 }
 
 .App.accessible .chart-container {
