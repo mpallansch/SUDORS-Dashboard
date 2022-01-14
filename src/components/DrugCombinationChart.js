@@ -130,10 +130,9 @@ function DrugCombinationChart(params) {
                             y={yScale(d.percent)}
                             dy={35}
                             style={{
-                              transformOrigin: `${xScale(d.drugCombination) + halfXBandwidth}px ${yScale(d.percent)}px`,
-                              transform: 'rotate(-90deg)',
                               pointerEvents: 'none'
                             }}
+                            transform={`rotate(-90, ${xScale(d.drugCombination) + halfXBandwidth}, ${yScale(d.percent)})`}
                             fill="white"
                             textAnchor="middle"
                             verticalAnchor="middle"

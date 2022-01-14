@@ -129,11 +129,6 @@ function OpioidStimulantChart(params) {
                           />
                           {bar.width > 50 && (
                             <text
-                              className={`animated-bar ${animated ? 'animated' : ''}`}
-                              style={{
-                                'transition': animated ? 'transform 1s ease-in-out' : '',
-                                'transformOrigin': `${adjustedWidth / 2}px 0px`
-                              }}
                               x={bar.x + (bar.width / 2)}
                               y={bar.y + (adjustedHeight / 2) + 5}
                               textAnchor="middle"
