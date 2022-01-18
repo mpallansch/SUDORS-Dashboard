@@ -12,8 +12,8 @@ import '../css/CircumstancesChart.css';
 
 function CircumstancesChart(params) {
 
-  const { width, height, state, interventions, accessible } = params;
-  const metric = interventions ? 'intervention' : 'other';
+  const { width, height, state, accessible } = params;
+  const metric = 'intervention';
   const data = raw[state];
   const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 10};
   const adjustedWidth = width - margin.left - margin.right;
@@ -38,7 +38,7 @@ function CircumstancesChart(params) {
         data={data[metric]}
         xAxisKey={'circumstance'}
         orderedKeys={['count', 'percent']}
-        labelOverrides={{'count': 'Deaths', 'circumstance': metric === 'intervention' ? 'Opportunity for Intervention' : 'Circumstance'}}
+        labelOverrides={{'count': 'Deaths', 'circumstance': 'Opportunity for Intervention'}}
         caption={'Circumstances involved in drug deaths'}
       />
     ) : (

@@ -53,7 +53,6 @@ function App(params) {
   const opioidStimulantChartRef = useRef();
   const drugCombinationChartRef = useRef();
   const interventionChartRef = useRef();
-  const circumstancesChartRef = useRef();
   const monthChartRef = useRef();
   const waffleChartRef = useRef();
 
@@ -85,6 +84,14 @@ function App(params) {
   };
 
   const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
+
+  const icons = {
+    'History of substance use/misuse': 'cdc-icon-book-user-light',
+    'Naloxone administered': 'cdc-icon-hand-holding-medical-light',
+    'Current pain treatment': 'cdc-icon-hospital-user-light',
+    'Experiencing homelessness': 'cdc-icon-store-alt-slash-light',
+    'Recent return to use of opioids': 'cdc-icon-sync-alt-light icon'
+  };
 
   const resizeObserver = new ResizeObserver(entries => {
     const { width, height } = entries[0].contentRect;
@@ -205,7 +212,7 @@ function App(params) {
               </div>
               <span className="header-text">deaths by quarter in 2020</span>
             </div>
-            <div className="header-section" onClick={() => {circumstancesChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
+            <div className="header-section" onClick={() => {interventionChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
               <div id="header-waffle-chart-container" className="chart-container" ref={headerWaffleChartRef}>
                 <WaffleChart 
                   width={getDimension(headerWaffleChartRef, 'width')}
@@ -475,18 +482,18 @@ function App(params) {
 
       <div className="section divider">
         <div className="subsection marked">
-          <div className={accessible ? '' : 'column'}>
-            <span className="individual-header margin-bottom">Additional circumstances surrounding overdoses</span>
-            <div id="circumstances-chart-container" className="chart-container" ref={circumstancesChartRef}>
-              <CircumstancesChart
-                width={getDimension(circumstancesChartRef, 'width')}
-                height={getDimension(circumstancesChartRef, 'height')}
-                state={state}
-                interventions={false}
-                accessible={accessible}
-              />
-            </div>
-          </div>
+          <span className="individual-header margin-bottom">Additional circumstances surrounding overdoses</span>
+          {circumstancesData[state]['other'].map(d => (
+            <p className="circumstance-container">
+              <div className="circumstance-icon-container">
+                <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
+              </div>
+              <div className="circumstance-label-container">
+                <span className="circumstance-value">{d.percent.toFixed(1)}%</span>
+                {d.circumstance}
+              </div>
+            </p>
+          ))}
         </div>
       </div>
 

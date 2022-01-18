@@ -385,6 +385,26 @@ table caption {
   width: calc(66% - 2em);
 }
 
+.circumstance-container {
+  display: flex;
+  margin: 2em 0;
+}
+
+.circumstance-icon-container {
+  margin-right: 1em;
+}
+
+.circumstance-icon-container span::before {
+  color: rgb(58, 88, 161) !important;
+}
+
+.circumstance-value {
+  display: block;
+  font-size: x-large;
+  font-weight: bold;
+  color: rgb(58, 88, 161);
+}
+
 .App.medium-vp .column,
 .App.accessible .opioid-section .column {
   display: block;
