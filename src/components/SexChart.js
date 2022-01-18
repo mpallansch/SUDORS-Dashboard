@@ -77,6 +77,7 @@ function SexChart(params) {
           'male': 'Male',
           'female': 'Female',
         }}
+        caption={'Drug deaths by sex'}
       />
     ) : (
       <svg 

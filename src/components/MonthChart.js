@@ -115,7 +115,7 @@ function MonthChart(params) {
         data={header ? dataQuarter : data}
         xAxisKey={header ? 'quarter' : 'month'}
         labelOverrides={header ? {'0': 'Q1', '1': 'Q2', '2': 'Q3', '3': 'Q4', 'value': 'Deaths'} : {...monthMapping, value: 'Deaths'}}
-        caption={"Death data by month"}
+        caption={'Drug deaths by month'}
       />
     ) : (
       <div id="month-chart">

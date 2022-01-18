@@ -78,7 +78,7 @@ function CauseChart(params) {
             xAxisKey={'opioid'}
             orderedKeys={['presentCount', 'presentPercent', 'causeCount', 'causePercent']}
             labelOverrides={labelOverrides}
-            caption="log"
+            caption={'Overdose deaths by drug'}
           />
         ) : (
           <svg width={width} height={height}>

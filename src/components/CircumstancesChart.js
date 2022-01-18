@@ -39,6 +39,7 @@ function CircumstancesChart(params) {
         xAxisKey={'circumstance'}
         orderedKeys={['count', 'percent']}
         labelOverrides={{'count': 'Deaths', 'circumstance': metric === 'intervention' ? 'Opportunity for Intervention' : 'Circumstance'}}
+        caption={'Circumstances involved in drug deaths'}
       />
     ) : (
       <svg width={width} height={height}>

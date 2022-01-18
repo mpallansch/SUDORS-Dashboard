@@ -69,6 +69,7 @@ function StateChart(params) {
           data={data}
           rates={dataRates}
           highlight={state}
+          caption={'Drug deaths by state'}
         />
       ) : (
         <svg

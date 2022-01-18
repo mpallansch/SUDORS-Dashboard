@@ -84,6 +84,7 @@ function RaceChart(params) {
       <DataTable
         data={metric === 'rate' ? dataRates : data}
         xAxisKey={'race'}
+        caption={'Drug deaths by race'}
       />
     ) : (
       <svg

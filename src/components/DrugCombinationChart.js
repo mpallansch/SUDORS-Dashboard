@@ -105,6 +105,7 @@ function DrugCombinationChart(params) {
               data={data}
               xAxisKey={'drugCombination'}
               labelOverrides={labelOverrides}
+              caption={'Drug combinations involved in overdose deaths'}
             />
           ) : (
             <>

@@ -85,6 +85,7 @@ function AgeChart(params) {
         xAxisKey={'age'}
         orderedKeys={metric === 'rate' ? ['rate'] : ['count', 'percent']}
         labelOverrides={{...ageMapping, 'count': 'Deaths'}}
+        caption={'Drug deaths by age group'}
       />
     ) : (
       <svg

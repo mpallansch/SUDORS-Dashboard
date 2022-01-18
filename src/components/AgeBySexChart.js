@@ -89,6 +89,7 @@ function AgeBySexChart(params) {
           xAxisKey={'age'}
           orderedKeys={metric === 'rate' ? ['rate'] : ['count', 'percent']}
           labelOverrides={{...ageMapping, 'count': 'Deaths'}}
+          caption={'Drug deaths by age group among males'}
         />
         <strong className="individual-header">Female</strong>
         <DataTable
@@ -96,6 +97,7 @@ function AgeBySexChart(params) {
           xAxisKey={'age'}
           orderedKeys={metric === 'rate' ? ['rate'] : ['count', 'percent']}
           labelOverrides={{...ageMapping, 'count': 'Deaths'}}
+          caption={'Drug deaths by age group among females'}
         />
       </>
     ) : (

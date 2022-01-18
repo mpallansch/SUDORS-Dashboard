@@ -63,6 +63,7 @@ function OpioidStimulantChart(params) {
             }))}
             xAxisKey={'name'}
             labelOverrides={{'name': ' '}}
+            caption={'Opioid and stimulant breakdown in overdose deaths'}
           />
         ) : (
           <svg width={width} height={height}>
