@@ -88,6 +88,20 @@
   padding-left: 0.5em;
 }
 
+.waffle-column {
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+}
+
+.waffle-column-left {
+  margin-right: 0.5em;
+}
+
+.waffle-column-right {
+  margin-left: 0.5em;
+}
+
 input[type="radio"] {
   margin: 0 5px;
 }
@@ -103,6 +117,9 @@ input[type="radio"] {
 
 .individual-header {
   font-weight: bold;
+  font-family: 'Merriweather', serif;
+  color: #712177;
+  font-size: large;
 }
 
 .subsection {
@@ -277,7 +294,7 @@ input[type="radio"] {
 }
 
 .margin-bottom {
-  display: inline-block;
+  display: block;
   margin-bottom: 1em;
 }
 
@@ -385,9 +402,14 @@ table caption {
   width: calc(66% - 2em);
 }
 
+.additional-circumstance-container {
+  text-align: center;
+}
+
 .circumstance-container {
-  display: flex;
-  margin: 2em 0;
+  display: inline-flex;
+  margin: 2em 1em;
+  text-align: left;
 }
 
 .circumstance-icon-container {
@@ -410,6 +432,22 @@ table caption {
   display: block;
   width: 100%;
   padding: 0;
+}
+
+.App.medium-vp .additional-circumstance-container {
+  text-align: left;
+}
+
+.App.medium-vp .circumstance-container {
+  margin: 2em 0;
+}
+
+.App.medium-vp .waffle-column {
+  width: calc(50% - 0.5em);
+}
+
+.App.accessible .waffle-column-left {
+  width: 100%;
 }
 
 .App.medium-vp .column-left {

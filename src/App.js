@@ -446,27 +446,31 @@ function App(params) {
         <div className="header margin">
           <span className="preheader-label">What were the characteristics and circumstances of the overdose deaths in 2020, {stateLabel}?</span>{stateSelector}
         </div>
+        <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
         <p>{interventionData[state].toFixed(1)}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
         <div className="column column-left">
-          <div id="waffle-chart-container" className="chart-container" ref={waffleChartRef}>
-            <WaffleChart 
-              width={getDimension(waffleChartRef, 'width')}
-              height={getDimension(waffleChartRef, 'height')}
-              state={state}
-              header={false}
-              accessible={accessible}
-            />
+          <div className="waffle-column waffle-column-left">
+            <div id="waffle-chart-container" className="chart-container" ref={waffleChartRef}>
+              <WaffleChart 
+                width={getDimension(waffleChartRef, 'width')}
+                height={getDimension(waffleChartRef, 'height')}
+                state={state}
+                header={false}
+                accessible={accessible}
+              />
+            </div>
           </div>
-          {!accessible && (
-            <>
-              <span className="waffle-label font-xxl">{interventionData[state].toFixed(1)}%</span><br/>
-              <span className="waffle-label">of drug overdoses had at least one opportunity for intervention</span>
-            </>
-          )}
+          <div className="waffle-column waffle-column-right">
+            {!accessible && (
+              <>
+                <span className="waffle-label font-xxl">{interventionData[state].toFixed(1)}%</span><br/>
+                <span className="waffle-label">of drug overdoses had at least one opportunity for intervention</span>
+              </>
+            )}
+          </div>
         </div>
         <div className="column column-right">
-          <div className="subsection marked">
-            <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
+          <div className="subsection">
             <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
               <CircumstancesChart 
                 width={getDimension(interventionChartRef, 'width')}
@@ -481,19 +485,21 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <div className="subsection marked">
+        <div className="subsection">
           <span className="individual-header margin-bottom">Additional circumstances surrounding overdoses</span>
-          {circumstancesData[state]['other'].map(d => (
-            <p className="circumstance-container">
-              <div className="circumstance-icon-container">
-                <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
-              </div>
-              <div className="circumstance-label-container">
-                <span className="circumstance-value">{d.percent.toFixed(1)}%</span>
-                {d.circumstance}
-              </div>
-            </p>
-          ))}
+          <div className="additional-circumstance-container">
+            {circumstancesData[state]['other'].map(d => (
+              <p className="circumstance-container">
+                <div className="circumstance-icon-container">
+                  <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
+                </div>
+                <div className="circumstance-label-container">
+                  <span className="circumstance-value">{d.percent.toFixed(1)}%</span>
+                  {d.circumstance}
+                </div>
+              </p>
+            ))}
+          </div>
         </div>
       </div>
 
