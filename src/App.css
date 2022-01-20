@@ -404,8 +404,9 @@ table caption {
 
 .circumstance-container {
   display: inline-flex;
-  width: 50%;
   text-align: left;
+  width: 50%;
+  margin: 1.5em 0;
 }
 
 .circumstance-icon-container {
