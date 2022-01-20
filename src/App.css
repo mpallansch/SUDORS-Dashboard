@@ -402,18 +402,19 @@ table caption {
   width: calc(66% - 2em);
 }
 
-.additional-circumstance-container {
-  text-align: center;
-}
-
 .circumstance-container {
   display: inline-flex;
-  margin: 2em 1em;
+  width: 50%;
   text-align: left;
 }
 
 .circumstance-icon-container {
   margin-right: 1em;
+}
+
+.circumstance-container:first-child .circumstance-icon-container span::before {
+  position: relative;
+  right: 10px;
 }
 
 .circumstance-icon-container span::before {
@@ -474,6 +475,10 @@ table caption {
 
 .App.medium-vp .drug-tab-section {
   display: block;
+  width: 100%;
+}
+
+.App.medium-vp .circumstance-container {
   width: 100%;
 }
 

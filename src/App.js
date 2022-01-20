@@ -13,6 +13,7 @@ import OpioidStimulantChart from './components/OpioidStimulantChart';
 import DrugCombinationChart from './components/DrugCombinationChart';
 import MonthChart from './components/MonthChart';
 import CircumstancesChart from './components/CircumstancesChart';
+import DataTable from './components/DataTable';
 import Footer from './components/Footer';
 
 import interventionData from './data/interventions.json';
@@ -448,47 +449,43 @@ function App(params) {
         </div>
         <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
         <p>{interventionData[state].toFixed(1)}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
-        <div className="column column-left">
-          <div className="waffle-column waffle-column-left">
-            <div id="waffle-chart-container" className="chart-container" ref={waffleChartRef}>
-              <WaffleChart 
-                width={getDimension(waffleChartRef, 'width')}
-                height={getDimension(waffleChartRef, 'height')}
-                state={state}
-                header={false}
-                accessible={accessible}
-              />
+        {!accessible && (
+          <div className="column column-left">
+            <div className="waffle-column waffle-column-left">
+              <div id="waffle-chart-container" className="chart-container" ref={waffleChartRef}>
+                <WaffleChart 
+                  width={getDimension(waffleChartRef, 'width')}
+                  height={getDimension(waffleChartRef, 'height')}
+                  state={state}
+                  header={false}
+                  accessible={accessible}
+                />
+              </div>
             </div>
-          </div>
-          <div className="waffle-column waffle-column-right">
-            {!accessible && (
-              <>
-                <span className="waffle-label font-xxl">{interventionData[state].toFixed(1)}%</span><br/>
-                <span className="waffle-label">of drug overdoses had at least one opportunity for intervention</span>
-              </>
-            )}
-          </div>
-        </div>
+            <div className="waffle-column waffle-column-right">
+              <span className="waffle-label font-xxl">{interventionData[state].toFixed(1)}%</span><br/>
+              <span className="waffle-label">of drug overdoses had at least one opportunity for intervention</span>
+            </div>
+          </div> 
+        )}
         <div className="column column-right">
-          <div className="subsection">
-            <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
-              <CircumstancesChart 
-                width={getDimension(interventionChartRef, 'width')}
-                height={getDimension(interventionChartRef, 'height')}
-                state={state}
-                interventions={true}
-                accessible={accessible}
-              />
-            </div>
+          <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
+            <CircumstancesChart 
+              width={getDimension(interventionChartRef, 'width')}
+              height={getDimension(interventionChartRef, 'height')}
+              state={state}
+              interventions={true}
+              accessible={accessible}
+            />
           </div>
         </div> 
       </div>
 
       <div className="section divider">
         <div className="subsection">
-          <span className="individual-header margin-bottom">Additional circumstances surrounding overdoses</span>
+          <span className="individual-header margin-bottom">Additional circumstances surrounding overdose deaths</span>
           <div className="additional-circumstance-container">
-            {circumstancesData[state]['other'].map(d => (
+            {!accessible && circumstancesData[state]['other'].map(d => (
               <p className="circumstance-container">
                 <div className="circumstance-icon-container">
                   <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
@@ -499,6 +496,12 @@ function App(params) {
                 </div>
               </p>
             ))}
+            {accessible && <DataTable 
+              data={circumstancesData[state]['other']}
+              xAxisKey={'circumstance'}
+              orderedKeys={['count', 'percent']}
+              labelOverrides={{'count': 'Deaths'}}
+            />}
           </div>
         </div>
       </div>

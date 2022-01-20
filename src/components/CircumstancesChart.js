@@ -58,12 +58,12 @@ function CircumstancesChart(params) {
                 />
                 <Circle
                   key={`point-${d.circumstance}`}
-                  r={7}
+                  r={9}
                   cx={xScale(d.percent)}
                   cy={yScale(d.circumstance) + barThicknessHalf}
                   fill="rgb(58, 88, 161)"
                 />
-                <text x={(xScale(d.percent) || 0) + 10} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill="rgb(58, 88, 161)">{d.percent.toFixed(1)}%</text>
+                <text x={(xScale(d.percent) || 0) + 12} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill="rgb(58, 88, 161)">{d.percent.toFixed(1)}%</text>
                 <Text width={adjustedWidth} x={0}  y={yScale(d.circumstance) + barThickness + margin.bar} verticalAnchor="start">{d.circumstance}</Text>
               </Group>
             )
