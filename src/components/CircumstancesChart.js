@@ -12,7 +12,7 @@ import '../css/CircumstancesChart.css';
 
 function CircumstancesChart(params) {
 
-  const { width, height, state, accessible } = params;
+  const { width, height, state, accessible, colorScale } = params;
   const metric = 'intervention';
   const data = raw[state];
   const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 10};
@@ -52,7 +52,7 @@ function CircumstancesChart(params) {
                   y={yScale(d.circumstance)}
                   width={xScale(d.percent)}
                   height={barThickness}
-                  fill="rgb(198, 209, 230)"
+                  fill={colorScale.Intervention}
                   data-tip={`<strong>${d.circumstance}</strong><br/>
                   Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}`}
                 />
@@ -61,9 +61,9 @@ function CircumstancesChart(params) {
                   r={9}
                   cx={xScale(d.percent)}
                   cy={yScale(d.circumstance) + barThicknessHalf}
-                  fill="rgb(58, 88, 161)"
+                  fill={colorScale.Month}
                 />
-                <text x={(xScale(d.percent) || 0) + 12} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill="rgb(58, 88, 161)">{d.percent.toFixed(1)}%</text>
+                <text x={(xScale(d.percent) || 0) + 12} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Month}>{d.percent.toFixed(1)}%</text>
                 <Text width={adjustedWidth} x={0}  y={yScale(d.circumstance) + barThickness + margin.bar} verticalAnchor="start">{d.circumstance}</Text>
               </Group>
             )

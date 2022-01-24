@@ -17,7 +17,7 @@ function DrugCombinationChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { width: rawWidth, height, state, el, accessible } = params;
+  const { width: rawWidth, height, state, el, accessible, colorScale } = params;
   const data = raw[state].combinations;
   const width = Math.max(data.length * 110, rawWidth);
   const barPadding = 0.45;
@@ -44,15 +44,6 @@ function DrugCombinationChart(params) {
     domain: [0, Math.max(...data.map(d => d.percent))],
     range: [ adjustedHeight - 60, 0 ]
   });
-
-  const colors = {
-    'Any Opioids': 'rgb(58, 88, 161)',
-    'Methamphetamine': 'rgb(75, 131, 13)',
-    'Heroin': 'rgb(251, 171, 24)',
-    'Prescription opioids': 'rgb(0, 124, 145)',
-    'Cocaine': 'rgb(0, 105, 92)',
-    'Illicitly manufactured fentanyls': 'rgb(187, 77, 0)'
-  };
 
   const onScroll = () => {
     if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
@@ -155,7 +146,7 @@ function DrugCombinationChart(params) {
                                   cx={xScale(d.drugCombination) + halfXBandwidth}
                                   cy={adjustedHeight + halfTableElHeight + (tableElHeight * j)}
                                   r={7}
-                                  fill={colors[drug]}
+                                  fill={colorScale[drug]}
                                 ></circle>
                               )}
                               {i === data.length - 1 && (
@@ -217,7 +208,7 @@ function DrugCombinationChart(params) {
                             y={y + halfTableElHeight} 
                             width={width} 
                             height={tableElHeight} 
-                            fill={colors[drug]}
+                            fill={colorScale[drug]}
                             textAnchor="start" 
                             dominantBaseline="middle"
                             fontWeight="bold">

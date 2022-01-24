@@ -146,7 +146,7 @@ function MonthChart(params) {
                   data={dataQuarter}
                   x={d => xScale(d.quarter)}
                   y={d => yScale(d.value)}
-                  stroke="#712177"
+                  stroke={colorScale.Month}
                   strokeWidth="2"
                   pointerEvents="none"
                 />
@@ -182,7 +182,7 @@ function MonthChart(params) {
                           'transformOrigin': `0px ${adjustedHeight}px`
                         }}
                         d={Utils.verticalBarPath(xScale(d.month), yScale(d.value), xScale.bandwidth(), adjustedHeight - yScale(d.value), xScale.bandwidth() * .35)}
-                        fill={colorScale.Primary}
+                        fill="rgb(109, 108, 55)"
                         data-tip={`<strong>${monthMappingFull[d.month]}</strong><br/>Deaths: ${d.value}`}
                       ></path>
                     )}

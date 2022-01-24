@@ -343,8 +343,12 @@ table caption {
 }
 
 .drug-tab.active {
-  background-color: rgb(58, 88, 161);
+  background-color: #712177;
   color: white;
+}
+
+.drug-tab:focus {
+  outline: 3px solid #712177;
 }
 
 .bar {
@@ -389,7 +393,7 @@ table caption {
 }
 
 .opioid-section .waffle-label {
-  color:rgb(58, 88, 161);
+  color:rgb(164, 163, 73);
   font-weight: bold;
 }
 
@@ -419,14 +423,14 @@ table caption {
 }
 
 .circumstance-icon-container span::before {
-  color: rgb(58, 88, 161) !important;
+  color: rgb(164, 163, 73) !important;
 }
 
 .circumstance-value {
   display: block;
   font-size: x-large;
   font-weight: bold;
-  color: rgb(58, 88, 161);
+  color: rgb(164, 163, 73);
 }
 
 .App.medium-vp .column,

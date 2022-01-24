@@ -58,20 +58,26 @@ function App(params) {
   const waffleChartRef = useRef();
 
   const colorScale = {
-    'Male': 'rgb(58, 88, 161)',
-    'Female': '#88c3ea',
-    'Primary': 'rgb(58, 88, 161)',
-    'Secondary': '#88c3ea',
-    'All': 'rgb(58, 88, 161)',
-    'Any Opioids': 'rgb(58, 88, 161)',
-    'Opioid': 'rgb(58, 88, 161)',
-    'Methamphetamine': 'rgb(75, 131, 13)',
-    'Heroin': 'rgb(251, 171, 24)',
-    'Prescription opioids': 'rgb(0, 124, 145)',
-    'Any Stimulant': 'rgb(58, 88, 161)',
-    'Stimulant': 'rgb(58, 88, 161)',
-    'Cocaine': 'rgb(0, 105, 92)',
-    'Illicitly manufactured fentanyls': 'rgb(187, 77, 0)'
+    'Male': 'rgb(109, 32, 75)',
+    'Female': 'rgb(167, 49, 114)',
+    'Race': 'rgb(143, 79, 43)',
+    'RaceAccent': 'rgb(224, 122, 58)',
+    'Month': 'rgb(109, 108, 55)',
+    'Intervention': 'rgb(164, 163, 73)',
+    'OpioidsWithStimulants': 'rgb(128, 157, 167)',
+    'OpioidsWithoutStimulants': 'rgb(91, 102, 106)',
+    'StimulantsWithoutOpioids': 'rgb(86, 120, 135)',
+    'NeitherOpioidsNorStimulants': 'rgb(167, 218, 240)',
+    'All': 'rgb(50, 93, 125)',
+    'Any Opioids': 'rgb(21, 46, 50)',
+    'Opioid': 'rgb(21, 46, 50)',
+    'Methamphetamine': 'rgb(73, 143, 166)',
+    'Heroin': 'rgb(21, 46, 50)',
+    'Prescription opioids': 'rgb(21, 46, 50)',
+    'Any Stimulant': 'rgb(73, 143, 166)',
+    'Stimulant': 'rgb(73, 143, 166)',
+    'Cocaine': 'rgb(73, 143, 166)',
+    'Illicitly manufactured fentanyls': 'rgb(21, 46, 50)'
   };
 
   const ageMapping = {
@@ -291,7 +297,8 @@ function App(params) {
               height={getDimension(drugCombinationChartRef, 'height')}
               state={state}
               el={drugCombinationChartRef}
-              accessible={accessible} />
+              accessible={accessible}
+              colorScale={colorScale} />
           </div>
         </div>
       </div>
@@ -306,13 +313,14 @@ function App(params) {
                 height={getDimension(opioidStimulantChartRef, 'height')}
                 state={state}
                 el={opioidStimulantChartRef}
-                accessible={accessible} />
+                accessible={accessible}
+                colorScale={colorScale} />
           </div>
           {!accessible && (<div id="opioid-stimulant-chart-legend">
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(58, 88, 161)"/></svg>Opioids with stimulants</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(116,148,194)"/></svg>Opioids without stimulants</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="#88c3ea"/></svg>Stimulants without opioids</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill="rgb(220,237,201)"/></svg>Neither opioids nor stimulants</span>
+            <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.OpioidsWithStimulants}/></svg>Opioids with stimulants</span>
+            <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.OpioidsWithoutStimulants}/></svg>Opioids without stimulants</span>
+            <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.StimulantsWithoutOpioids}/></svg>Stimulants without opioids</span>
+            <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.NeitherOpioidsNorStimulants}/></svg>Neither opioids nor stimulants</span>
           </div>)}
         </div>
       </div>
@@ -459,6 +467,7 @@ function App(params) {
                   state={state}
                   header={false}
                   accessible={accessible}
+                  colorScale={colorScale}
                 />
               </div>
             </div>
@@ -476,6 +485,7 @@ function App(params) {
               state={state}
               interventions={true}
               accessible={accessible}
+              colorScale={colorScale}
             />
           </div>
         </div> 

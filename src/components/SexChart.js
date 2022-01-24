@@ -193,7 +193,7 @@ function SexChart(params) {
                         />
                         <text
                           className={`animated-pie-text ${animated ? 'animated' : ''}`}
-                          fill={arc.data.sex === 'Female' ? 'black' : 'white'}
+                          fill="white"
                           x={centroidX}
                           y={centroidY}
                           dy=".33em"

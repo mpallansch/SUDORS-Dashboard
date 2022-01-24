@@ -115,7 +115,7 @@ function AgeChart(params) {
                       }}
                       key={`bar-female-${d.age}`}
                       d={Utils.horizontalBarPath(true, 0, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .35)}
-                      fill={colorScale.Female}
+                      fill={colorScale.RaceAccent}
                       data-tip={`<strong>${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}

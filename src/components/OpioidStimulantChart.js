@@ -17,7 +17,7 @@ function OpioidStimulantChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { width, height, state, el, accessible } = params;
+  const { width, height, state, el, accessible, colorScale } = params;
   const data = raw[state].horizontalBarData;
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);
   const margin = {top: 10, bottom: 40, left: 20, right: width < viewportCutoff ? 60 : 20};
@@ -34,9 +34,9 @@ function OpioidStimulantChart(params) {
     range: [1,1]
   });
 
-  const colorScale = scaleOrdinal({
+  const keyedColorScale = scaleOrdinal({
     domain: keys,
-    range: ['rgb(58, 88, 161)', 'rgb(116,148,194)', '#88c3ea', 'rgb(220,237,201)']
+    range: [colorScale.OpioidsWithStimulants, colorScale.OpioidsWithoutStimulants, colorScale.StimulantsWithoutOpioids, colorScale.NeitherOpioidsNorStimulants]
   });
 
   const onScroll = () => {
@@ -73,7 +73,7 @@ function OpioidStimulantChart(params) {
                 keys={keys}
                 yScale={yScale}
                 xScale={xScale}
-                color={colorScale}
+                color={keyedColorScale}
                 y={() => 1}>
                 {barStacks =>
                   barStacks.map(barStack =>
@@ -133,7 +133,7 @@ function OpioidStimulantChart(params) {
                               x={bar.x + (bar.width / 2)}
                               y={bar.y + (adjustedHeight / 2) + 5}
                               textAnchor="middle"
-                              fill={bar.key === 'nPercent' || bar.key === 'sPercent' ? 'black' : 'white'}
+                              fill={bar.key === 'nPercent' ? 'black' : 'white'}
                             >{percent}%</text>
                           )}
                         </Group>

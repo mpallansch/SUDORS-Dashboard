@@ -112,7 +112,7 @@ function RaceChart(params) {
                       }}
                       key={`bar-${d.race}`}
                       d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d)), yScale.bandwidth(), 0, yScale.bandwidth() * .35)}
-                      fill={colorScale.Secondary}
+                      fill={colorScale.Race}
                       data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
                       Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : (d.deaths || datum.deaths)}<br/>
                       Rate: ${(d.rate || datum.rate) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}

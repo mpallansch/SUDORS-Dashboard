@@ -7,7 +7,7 @@ import '../css/WaffleChart.css';
 
 function WaffleChart(params) {
 
-  const { width, height, state, header, accessible } = params;
+  const { width, height, state, header, accessible, colorScale } = params;
 
   const data = raw[state];
 
@@ -42,8 +42,8 @@ function WaffleChart(params) {
           return colList.map(colIndex => {
             const value = (rowIndex * rowValue) + (colIndex * colValue);
             const active = value > data;
-            const fill = active ? 'white' : (header ? '#712177' : 'rgb(58, 88, 161)');
-            const stroke = !active ? 'none' : (header ? '#b890bb' : 'rgb(198, 209, 230)');
+            const fill = active ? 'white' : (header ? '#712177' : colorScale.Intervention);
+            const stroke = !active ? 'none' : (header ? '#b890bb' : colorScale.Intervention);
 
             return (
               <Circle 
