@@ -9,7 +9,7 @@ const weights = require('./census/weights.json');
 const fips = {"0":"Overall", "1": "Alabama","2":"Alaska","4":"Arizona","5":"Arkansas","6":"California","8":"Colorado","9":"Connecticut","10":"Delaware", "11": "DC", "12": "Florida", "13": "Georgia", "15": "Hawaii", "16": "Idaho", "17": "Illinois", "18": "Indiana", "19": "Iowa", "20": "Kansas", "21": "Kentucky", "22": "Louisiana", "23": "Maine", "24": "Maryland", "25": "Massachusetts", "26": "Michigan", "27": "Minnesota", "28": "Mississippi", "29": "Missouri", "30": "Montana", "31": "Nebraska", "32": "Nevada", "33": "New Hampshire", "34": "New Jersey", "35": "New Mexico", "36": "New York", "37": "North Carolina", "38": "North Dakota", "39": "Ohio", "40": "Oklahoma", "41": "Oregon", "42": "Pennsylvania", "44": "Rhode Island", "45": "South Carolina", "46": "South Dakota", "47": "Tennessee", "48": "Texas", "49": "Utah", "50": "Vermont", "51": "Virginia", "53": "Washington", "54": "West Virginia", "55": "Wisconsin", "56": "Wyoming"};
 const reverseFips = {"Overall":"0","Alabama":"1","Alaska":"2","Arizona":"4","Arkansas":"5","California":"6","Colorado":"8","Connecticut":"9","Delaware":"10","DC":"11","Florida":"12","Georgia":"13","Hawaii":"15","Idaho":"16","Illinois":"17","Indiana":"18","Iowa":"19","Kansas":"20","Kentucky":"21","Louisiana":"22","Maine":"23","Maryland":"24","Massachusetts":"25","Michigan":"26","Minnesota":"27","Mississippi":"28","Missouri":"29","Montana":"30","Nebraska":"31","Nevada":"32","New Hampshire":"33","New Jersey":"34","New Mexico":"35","New York":"36","North Carolina":"37","North Dakota":"38","Ohio":"39","Oklahoma":"40","Oregon":"41","Pennsylvania":"42","Rhode Island":"44","South Carolina":"45","South Dakota":"46","Tennessee":"47","Texas":"48","Utah":"49","Vermont":"50","Virginia":"51","Washington":"53","West Virginia":"54","Wisconsin":"55","Wyoming":"56"};
 
-const inputFilePath = './SUDORS 2020 Prelim Data for Dashboard_09SEP2021 original.csv';
+const inputFilePath = './SUDORS 2020 Prelim Data for Dashboard_21JAN2022.csv';
 const typeOfDrugFilePath = '../src/data/causes.json';
 const additionalDrugFilePath = '../src/data/additional-drugs.json';
 const circumstancesFilePath = '../src/data/circumstances.json';
@@ -61,7 +61,11 @@ const keys = [
   'priorod',
   'recentrelapse',
   'witnesseddruguse',
-  'home_dec'
+  'home_dec',
+  'opioid_r_cod',
+  'opioid_r_pos',
+  'stimulant_cod',
+  'stimulant_pos'
 ];
 const drugTypeMapping = {
   'meth_r_cod': 'meth_r',
@@ -211,36 +215,28 @@ fs.createReadStream(inputFilePath)
       opioidByAge[state] = opioidByAge[state] || ageDataInitial();
       opioidByAge[us] = opioidByAge[us] || ageDataInitial();
 
-      if(row[keyIndex['imfs_cod']] === '1' ||
-          row[keyIndex['heroin_def_cod_v2']] === '1' ||
-          row[keyIndex['rx_opioid_cod_v2']] === '1'){
+      if(row[keyIndex['opioid_r_cod']] === '1'){
         opioid = true;
         opioidByAge[state][age]++;
         opioidByAge[us][age]++;
         increment(allOpioidCause, state);
       }
 
-      if(row[keyIndex['imfs_pos']] === '1' ||
-          row[keyIndex['heroin_def_v2']] === '1' ||
-          row[keyIndex['rx_opioid_v2']] === '1'){
-        opioid = true;
+      if(row[keyIndex['opioid_r_pos']] === '1'){
         increment(allOpioidPresent, state);
       }
 
       stimulantByAge[state] = stimulantByAge[state] || ageDataInitial();
       stimulantByAge[us] = stimulantByAge[us] || ageDataInitial();
 
-      if(row[keyIndex['meth_r_cod']] === '1' ||
-          row[keyIndex['cocaine_t_cod']] === '1'){
+      if(row[keyIndex['stimulant_cod']] === '1'){
         stimulant = true;
         stimulantByAge[state][age]++;
         stimulantByAge[us][age]++;
         increment(allStimulantCause, state);
       }
 
-      if(row[keyIndex['meth_r']] === '1' ||
-          row[keyIndex['cocaine_t']] === '1') {
-        stimulant = true;
+      if(row[keyIndex['stimulant_pos']] === '1') {
         increment(allStimulantPresent, state);
       }
 
@@ -266,27 +262,27 @@ fs.createReadStream(inputFilePath)
       }
 
       let drugCombination = '';
-      if(row[keyIndex['imfs_cod']] === '1' || row[keyIndex['imfs_pos']] === '1'){
+      if(row[keyIndex['imfs_cod']] === '1'){
         drugCombination += '1';
       } else {
         drugCombination += '0';
       }
-      if(row[keyIndex['heroin_def_cod_v2']] === '1' || row[keyIndex['heroin_def_v2']] === '1'){
+      if(row[keyIndex['heroin_def_cod_v2']] === '1'){
         drugCombination += '1';
       } else {
         drugCombination += '0';
       }
-      if(row[keyIndex['rx_opioid_cod_v2']] === '1' || row[keyIndex['rx_opioid_v2']] === '1'){
+      if(row[keyIndex['rx_opioid_cod_v2']] === '1'){
         drugCombination += '1';
       } else {
         drugCombination += '0';
       }
-      if(row[keyIndex['cocaine_t_cod']] === '1' || row[keyIndex['cocaine_t']] === '1'){
+      if(row[keyIndex['cocaine_t_cod']] === '1'){
         drugCombination += '1';
       } else {
         drugCombination += '0';
       }
-      if(row[keyIndex['meth_r_cod']] === '1' || row[keyIndex['meth_r']] === '1'){
+      if(row[keyIndex['meth_r_cod']] === '1'){
         drugCombination += '1';
       } else {
         drugCombination += '0';
@@ -702,7 +698,7 @@ fs.createReadStream(inputFilePath)
     statesFinal.forEach(state => {
       timeData[state] = {month: [], quarter: [{quarter: 0, value: 0}, {quarter: 1, value: 0}, {quarter: 2, value: 0}, {quarter: 3, value: 0}]};
       Object.keys(keyCounts[state]['deathmonth_order']).forEach(month => {
-        if(!month) return;
+        if(!month || month > 60) return;
         timeData[state].month.push({month, value: keyCounts[state]['deathmonth_order'][month]})
         timeData[state].quarter[Math.floor((parseInt(month) - 49) / 3)].value += keyCounts[state]['deathmonth_order'][month];
       });
