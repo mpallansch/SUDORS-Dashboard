@@ -110,7 +110,6 @@ function StateChart(params) {
                     ></path>
                     <text 
                       className="bar-label"
-                      opacity={state === 'Overall' || name === state ? 1 : 0.2}
                       x={rate < 0 ? 10 : xScale(rate)}
                       y={yScale(name)}
                       dy="15"
