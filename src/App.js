@@ -317,10 +317,10 @@ function App(params) {
                 colorScale={colorScale} />
           </div>
           {!accessible && (<div id="opioid-stimulant-chart-legend">
-            <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.OpioidsWithStimulants}/></svg>Opioids with stimulants</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.OpioidsWithoutStimulants}/></svg>Opioids without stimulants</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.StimulantsWithoutOpioids}/></svg>Stimulants without opioids</span>
-            <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.NeitherOpioidsNorStimulants}/></svg>Neither opioids nor stimulants</span>
+            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.OpioidsWithStimulants}/></svg><span className="indicator-label">Opioids with stimulants</span></span>
+            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.OpioidsWithoutStimulants}/></svg><span className="indicator-label">Opioids without stimulants</span></span>
+            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.StimulantsWithoutOpioids}/></svg><span className="indicator-label">Stimulants without opioids</span></span>
+            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.NeitherOpioidsNorStimulants}/></svg><span className="indicator-label">Neither opioids nor stimulants</span></span>
           </div>)}
         </div>
       </div>

@@ -13,10 +13,6 @@
   margin: 1em 0;
 }
 
-#opioid-stimulant-chart-legend span {
-  display: block;
-}
-
 .App.medium-vp #opioid-stimulant-chart-container,
 .App.medium-vp #opioid-stimulant-chart-legend,
 .App.accessible #opioid-stimulant-chart-container,

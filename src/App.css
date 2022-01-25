@@ -155,6 +155,10 @@ input[type="radio"] {
   margin-bottom: 0.5em;
 }
 
+.indicator-container {
+  display: flex;
+}
+
 .indicator {
   width: 1em;
   height: 1em;
