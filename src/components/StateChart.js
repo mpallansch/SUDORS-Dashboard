@@ -90,7 +90,7 @@ function StateChart(params) {
                         'transition': animated ? 'transform 1s ease-in-out' : '',
                         'transformOrigin': `0px 0px`
                       }}
-                      d={Utils.horizontalBarPath(true, 0, yScale(name), rate < 0 ? 10 : xScale(rate), yScale.bandwidth(), 3, yScale.bandwidth() * .35)}
+                      d={Utils.horizontalBarPath(true, 0, yScale(name), rate < 0 ? 10 : xScale(rate), yScale.bandwidth(), 3, yScale.bandwidth() * .1)}
                       fill={name === 'Overall' ? 'white' : colorScale[drug]}
                       stroke={name === state ? 'rgba(255, 102, 1, 0.9)' : colorScale[drug]}
                       strokeWidth="3"

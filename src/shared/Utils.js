@@ -6,9 +6,9 @@ const Utils = {
     return rightRounded ?
       `M${x} ${y} 
       L${xEnd - cornerWidth} ${y}
-      C${xEnd} ${y}, ${xEnd} ${y}, ${xEnd} ${y + cornerWidth} 
+      Q${xEnd} ${y}, ${xEnd} ${y + cornerWidth} 
       L${xEnd} ${yEnd - cornerWidth} 
-      C${xEnd} ${yEnd}, ${xEnd} ${yEnd}, ${xEnd - cornerWidth} ${yEnd}
+      Q${xEnd} ${yEnd}, ${xEnd - cornerWidth} ${yEnd}
       L${x} ${y + height} 
       L${x} ${y - (strokeWidth / 2)}`
     :
@@ -16,9 +16,9 @@ const Utils = {
       L${xEnd} ${y} 
       L${xEnd} ${yEnd} 
       L${x + cornerWidth} ${yEnd} 
-      C${x} ${yEnd}, ${x} ${yEnd}, ${x} ${yEnd - cornerWidth}
+      Q${x} ${yEnd}, ${x} ${yEnd - cornerWidth}
       L${x} ${y + cornerWidth}
-      C${x} ${y}, ${x} ${y}, ${x + cornerWidth} ${y}`
+      Q${x} ${y}, ${x + cornerWidth} ${y}`
   },
   verticalBarPath: (x, y, width, height, cornerWidth) => {
     const xEnd = x + width;
@@ -26,11 +26,11 @@ const Utils = {
     
     return `M${x + cornerWidth} ${y} 
       L${xEnd - cornerWidth} ${y}
-      C${xEnd} ${y}, ${xEnd} ${y}, ${xEnd} ${y + cornerWidth} 
+      Q${xEnd} ${y}, ${xEnd} ${y + cornerWidth} 
       L${xEnd} ${yEnd} 
       L${x} ${yEnd}
       L${x} ${y + cornerWidth}
-      C${x} ${y}, ${x} ${y}, ${x + cornerWidth} ${y}`;
+      Q${x} ${y}, ${x + cornerWidth} ${y}`;
   }
 }
 

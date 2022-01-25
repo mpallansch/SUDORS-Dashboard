@@ -106,7 +106,7 @@ function CauseChart(params) {
                         'transition': animated ? 'transform 1s ease-in-out' : '',
                         'transformOrigin': `0px ${adjustedHeight}px`
                       }}
-                      d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.causePercent), xScale.bandwidth(), adjustedHeight - yScale(d.causePercent), xScale.bandwidth() * .35)}
+                      d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.causePercent), xScale.bandwidth(), adjustedHeight - yScale(d.causePercent), xScale.bandwidth() * .1)}
                       fill={colorScale[d.opioid]}
                       data-tip={`<strong>${d.opioid}</strong><br/>
                       Percent Present: ${d.presentPercent.toFixed(1)}%<br/>

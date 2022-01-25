@@ -82,7 +82,7 @@ function OpioidStimulantChart(params) {
                       const rawCount = bar.bar.data[bar.key.replace('Percent', 'Count')];
                       const rawPercent = bar.bar.data[bar.key];
                       const percent = rawPercent.toFixed(1);
-                      const cornerRadius = adjustedHeight * .35;
+                      const cornerRadius = adjustedHeight * .1;
                       const xEnd = bar.x + bar.width;
                       const yEnd = bar.y + adjustedHeight;
 
@@ -106,15 +106,15 @@ function OpioidStimulantChart(params) {
                                 L${xEnd} ${bar.y}
                                 L${xEnd} ${yEnd}
                                 L${bar.x + cornerRadius} ${yEnd}
-                                C${bar.x} ${yEnd}, ${bar.x} ${yEnd}, ${bar.x} ${yEnd - cornerRadius}
+                                Q${bar.x} ${yEnd}, ${bar.x} ${yEnd - cornerRadius}
                                 L${bar.x} ${bar.y + cornerRadius}
-                                C${bar.x} ${bar.y}, ${bar.x} ${bar.y}, ${bar.x + cornerRadius} ${bar.y}` : 
+                                Q${bar.x} ${bar.y}, ${bar.x + cornerRadius} ${bar.y}` : 
                             (barStack.index === (barStacks.length - 1) ? 
                               `M${bar.x} ${bar.y}
                                 L${xEnd - cornerRadius} ${bar.y}
-                                C${xEnd} ${bar.y}, ${xEnd} ${bar.y}, ${xEnd} ${bar.y + cornerRadius}
+                                Q${xEnd} ${bar.y}, ${xEnd} ${bar.y + cornerRadius}
                                 L${xEnd} ${yEnd - cornerRadius}
-                                C${xEnd} ${yEnd}, ${xEnd} ${yEnd}, ${xEnd - cornerRadius} ${yEnd}
+                                Q${xEnd} ${yEnd}, ${xEnd - cornerRadius} ${yEnd}
                                 L${bar.x} ${yEnd}
                                 L${bar.x} ${bar.y}` : 
                               `M${bar.x} ${bar.y} 

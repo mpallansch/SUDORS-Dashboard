@@ -127,7 +127,7 @@ function AgeBySexChart(params) {
                         'transformOrigin': `${halfWidth}px 0px`
                       }}
                       key={`bar-male-${d.age}`}
-                      d={Utils.horizontalBarPath(false, halfWidth - xScale(d[metric]), yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .35)}
+                      d={Utils.horizontalBarPath(false, halfWidth - xScale(d[metric]), yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.Male}
                       data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
@@ -174,7 +174,7 @@ function AgeBySexChart(params) {
                         'transformOrigin': `${halfWidth}px 0px`
                       }}
                       key={`bar-female-${d.age}`}
-                      d={Utils.horizontalBarPath(true, halfWidth, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, 15)}
+                      d={Utils.horizontalBarPath(true, halfWidth, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.Female}
                       data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
