@@ -79,10 +79,14 @@ function RaceChart(params) {
     } // eslint-disable-next-line
   }, [state, metric]);
 
+  console.log(data[1]['deaths']);
+
   return width > 0 && (
     accessible ? (
       <DataTable
         data={metric === 'rate' ? dataRates : data}
+        cutoffData={metric === 'rate' ? data : undefined}
+        cutoffKey="deaths"
         xAxisKey={'race'}
         caption={'Drug deaths by race'}
       />

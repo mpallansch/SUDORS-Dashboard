@@ -70,6 +70,8 @@ function SexChart(params) {
     accessible ? (
       <DataTable
         data={metric === 'rate' ? dataRates : data}
+        cutoffData={metric === 'rate' ? data : undefined}
+        cutoffKey="count"
         orderedKeys={metric === 'rate' ? null : ['count', 'percent']}
         xAxisKey={'sex'}
         labelOverrides={{

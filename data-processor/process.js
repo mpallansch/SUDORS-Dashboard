@@ -166,7 +166,7 @@ function checkCutoff(value, rate) {
     if(value <= rateCutoff) return -1;
     return rate;
   }
-  if(!value || value <= countCutoff) return countCutoff;
+  if(!value || value < countCutoff) return -1;
   return value;
 }
 

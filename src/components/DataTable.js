@@ -4,7 +4,7 @@ import '../css/DataTable.css';
 
 function DataTable(params) {
 
-  const { data, rates, orderedKeys, highlight, xAxisKey, caption } = params;
+  const { data, rates, cutoffData, cutoffKey, orderedKeys, highlight, xAxisKey, caption } = params;
 
   const labelOverrides = params.labelOverrides || {};
 
@@ -63,7 +63,7 @@ function DataTable(params) {
               <tr key={`tr-${d[xAxisKey]}`}>
                 <th key={`th-${d[xAxisKey]}`} scope="row">{labelOverrides[d[xAxisKey]] || d[xAxisKey]}</th>
                 {keys.map((key, i) => key !== xAxisKey && (
-                  <td key={`td-${xAxisKey}-${i}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[i - 1]] <= countCutoff ? 'Data suppressed' : d[key]) : (d[key] <= countCutoff ? 'Data suppressed' : d[key])}</td>
+                  <td key={`td-${xAxisKey}-${i}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[i - 1]] < countCutoff ? 'Data suppressed' : d[key]) : ((cutoffData ? cutoffData[i][cutoffKey] : d[key]) < countCutoff ? 'Data suppressed' : d[key])}</td>
                 ))}
               </tr>
             ))}
@@ -73,7 +73,7 @@ function DataTable(params) {
                   <th key={`th-${rowKey}`} scope="row">{labelOverrides[rowKey] || rowKey}</th>
                   {[data, rates].map((d, i) => 
                     Object.keys(d[keys[0]]).map(colKey => (
-                      <td key={`td-${d[rowKey][colKey]}`}>{d[rowKey][colKey] <= [countCutoff, rateCutoff][i] ? 'Data suppressed' : d[rowKey][colKey]}</td>
+                      <td key={`td-${d[rowKey][colKey]}`}>{d[rowKey][colKey] < [countCutoff, rateCutoff][i] ? 'Data suppressed' : d[rowKey][colKey]}</td>
                     ))
                   )}
                 </tr>
