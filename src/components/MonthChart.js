@@ -90,7 +90,7 @@ function MonthChart(params) {
   const halfBandwidth = xScale.bandwidth() / 2;
 
   const max = Math.max(...(header ? dataQuarter : data).map(d => d.value));
-  const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : max;
+  const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : 1800;
 
   const yScale = scaleLinear({
     range: [ adjustedHeight, 0 ],
