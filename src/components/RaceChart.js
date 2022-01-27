@@ -79,8 +79,6 @@ function RaceChart(params) {
     } // eslint-disable-next-line
   }, [state, metric]);
 
-  console.log(data[1]['deaths']);
-
   return width > 0 && (
     accessible ? (
       <DataTable
