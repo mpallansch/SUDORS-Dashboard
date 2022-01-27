@@ -144,7 +144,9 @@ function RaceChart(params) {
                         width={40}
                         height={yScale.bandwidth()}
                         fill="transparent"
-                        data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>*Data suppressed`}
+                        data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
+                        Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : (d.deaths || datum.deaths)}<br/>
+                        Rate: *Data suppressed`}
                       />
                     </>
                   )}

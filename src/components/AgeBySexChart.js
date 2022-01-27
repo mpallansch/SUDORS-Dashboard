@@ -149,7 +149,9 @@ function AgeBySexChart(params) {
                         width={halfWidth}
                         height={yScale.bandwidth()}
                         fill="transparent"
-                        data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>*Data suppressed`}
+                        data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
+                        Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
+                        Rate: *Data suppressed`}
                       />
                     </>
                   )}

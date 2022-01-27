@@ -136,7 +136,9 @@ function AgeChart(params) {
                         width={40}
                         height={yScale.bandwidth()}
                         fill="transparent"
-                        data-tip={`<strong>${ageMapping[d.age]}</strong><br/>*Data suppressed`}
+                        data-tip={`<strong>${ageMapping[d.age]}</strong><br/>
+                        Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
+                        Rate: *Data suppressed`}
                       />
                     </>
                   )}
