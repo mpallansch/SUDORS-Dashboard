@@ -5,15 +5,15 @@ function Footer() {
   const [ footnotesShow, setFootnotesShow ] = useState(false);
 
   return (
-    <>
-      <div className="header margin" onClick={() => setFootnotesShow(!footnotesShow)}>
+    <div id="footer">
+      <button className="header margin" onClick={() => setFootnotesShow(!footnotesShow)}>
         <span className="preheader-label">Footnotes</span><span className="toggle-indicator">{footnotesShow ? '-' : '+'}</span>
-      </div>
+      </button>
 
       {footnotesShow && (
         <p>Footnotes</p>
       )}
-    </>
+    </div>
   );
 }
 

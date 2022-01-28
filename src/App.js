@@ -157,7 +157,7 @@ function App(params) {
   const femaleAgeMax = [...ageBySexData[state].female].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
 
   const stateSelector = (
-    <select value={state} onChange={(e) => setState(e.target.value)}>
+    <select aria-label="View data by state" value={state} onChange={(e) => setState(e.target.value)}>
       {Object.keys(totalData).sort((a, b) => {
         if(a === 'Overall'){
           return -1;
@@ -179,7 +179,7 @@ function App(params) {
         <span>View data for:</span>
         {stateSelector}
         <div className="header">
-          <span className="preheader-label">2020 Data Summary at a Glance, {stateLabel}</span>
+          <h2 className="preheader-label">2020 Data Summary at a Glance, {stateLabel}</h2>
         </div>
         {accessible ? (
           <>
@@ -233,9 +233,9 @@ function App(params) {
           </>
         )}
         <div className="header margin">
-          <span className="preheader-label">What drugs were involved in overdose deaths in 2020, {stateLabel}?</span>{stateSelector}
+          <h2 className="preheader-label">What drugs were involved in overdose deaths in 2020, {stateLabel}?</h2>{stateSelector}
         </div>
-        <span className="subheader">Rate of overdose deaths by state and drug or drug type</span>
+        <h3 className="subheader">Rate of overdose deaths by state and drug or drug type</h3>
         <div>
           <div className="drug-tab-section">
             {drugTab('All', 'All Drugs')}
@@ -269,7 +269,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <span className="subheader">Percentages of overdose deaths involving select drugs and drug classes, {stateLabel}</span>
+        <h3 className="subheader">Percentages of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
         <p>{causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {causeData[state].find(d => d.opioid === 'Any Stimulant').causePercent.toFixed(1)}% involved at least one stimulant. {additionalDrugData[state].commonOpioid} {additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
@@ -285,7 +285,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <span className="subheader">Percentages of deaths involving the most common opioids and stimulants alone or in combination, {stateLabel}</span>
+        <h3 className="subheader">Percentages of deaths involving the most common opioids and stimulants alone or in combination, {stateLabel}</h3>
         <p>The five most frequently occurring opioid and stimulant combinations accounted for {combinationData[state].total.toFixed(1)}% of overdose deaths. 
           {multipleCombo.length > 0 ? 
             ` For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}` :
@@ -304,7 +304,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <span className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</span>
+        <h3 className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</h3>
         <p>The largest percentage of deaths involved {opioidStimulantData[state].max.toLowerCase()}, while {opioidStimulantData[state].minPercent.toFixed(1)}% of overdose deaths involved {opioidStimulantData[state].min.toLowerCase()}.</p>
         <div className="subsection">
           <div id="opioid-stimulant-chart-container" className="chart-container" ref={opioidStimulantChartRef}>
@@ -327,7 +327,7 @@ function App(params) {
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">How many drug overdose deaths occurred each month in 2020, {stateLabel}?</span>{stateSelector}
+          <h2 className="preheader-label">How many drug overdose deaths occurred each month in 2020, {stateLabel}?</h2>{stateSelector}
         </div>
         <div className="subsection">
           <div id="line-chart-container" className="chart-container" ref={monthChartRef}>
@@ -347,7 +347,7 @@ function App(params) {
 
       <div className="section">
         <div className="header margin">
-          <span className="preheader-label">Who died of a drug overdose in 2020, {stateLabel}?</span>{stateSelector}
+          <h2 className="preheader-label">Who died of a drug overdose in 2020, {stateLabel}?</h2>{stateSelector}
         </div>
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}.</p>
@@ -453,10 +453,10 @@ function App(params) {
 
       <div className="section opioid-section">
         <div className="header margin">
-          <span className="preheader-label">What were the characteristics and circumstances of the overdose deaths in 2020, {stateLabel}?</span>{stateSelector}
+          <h2 className="preheader-label">What were the characteristics and circumstances of the overdose deaths in 2020, {stateLabel}?</h2>{stateSelector}
         </div>
         <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
-        <p>{interventionData[state].toFixed(1)}% of decedents had at least one potential opportunity for linkage to care prior to death or implementation of a life-saving action at the time of overdose. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
+        <p>{interventionData[state].toFixed(1)}% had at least one potential opportunity for intervention. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
         {!accessible && (
           <div className="column column-left">
             <div className="waffle-column waffle-column-left">

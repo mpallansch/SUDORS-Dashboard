@@ -320,7 +320,7 @@ table caption {
 
 .toggle-indicator {
   float: right;
-  margin: 0.5em;
+  margin: .9em;
   font-weight: bold;
 }
 
@@ -435,6 +435,15 @@ table caption {
   font-size: x-large;
   font-weight: bold;
   color: rgb(164, 163, 73);
+}
+
+#footer .header {
+  appearance: none;
+  border: none;
+}
+
+#footer .header:focus {
+  outline: auto 3px rgba(255, 102, 1, 0.9);
 }
 
 .App.medium-vp .column,
