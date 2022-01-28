@@ -154,7 +154,7 @@ function StateChart(params) {
                   transform: 'translate(0, 10)'
                 })}
               />
-              <text x={adjustedWidth / 2} y={height - 15} textAnchor="middle">{width < viewportCutoff ?  'Deaths per 100,000' : 'Age-adjusted rate of deaths per 100,000'}<tspan baseline-shift="super" dominant-baseline="auto">†</tspan></text>
+              <text x={adjustedWidth / 2} y={height - 15} textAnchor="middle">{width < viewportCutoff ?  'Deaths per 100,000 persons' : 'Age-adjusted rate of deaths per 100,000 persons'}<tspan baseline-shift="super" dominant-baseline="auto">†</tspan></text>
             </Group>
         </svg>
       )}

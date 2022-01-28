@@ -81,6 +81,8 @@ function MonthChart(params) {
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
+  const labelOverrides = {'0': 'Jan-March', '1': 'Apr-Jun', '2': 'Jul-Sept', '3': 'Oct-Dec', 'value': 'Deaths'};
+
   const xScale = scaleBand({
     domain: header ? dataQuarter.map(d => d.quarter) : data.map(d => d.month),
     range: [ header ? 5 : 0, adjustedWidth ],
@@ -114,7 +116,7 @@ function MonthChart(params) {
       <DataTable
         data={header ? dataQuarter : data}
         xAxisKey={header ? 'quarter' : 'month'}
-        labelOverrides={header ? {'0': 'Q1', '1': 'Q2', '2': 'Q3', '3': 'Q4', 'value': 'Deaths'} : {...monthMapping, value: 'Deaths'}}
+        labelOverrides={header ? labelOverrides : {...monthMapping, value: 'Deaths'}}
         caption={'Drug deaths by month'}
       />
     ) : (
@@ -138,7 +140,7 @@ function MonthChart(params) {
                         width={xScale.bandwidth()}
                         height={adjustedHeight}
                         fill="transparent"
-                        data-tip={`<strong>Q${d.quarter + 1} 2020</strong><br/>Deaths: ${d.value}`}
+                        data-tip={`<strong>${labelOverrides[d.quarter]} 2020</strong><br/>Deaths: ${d.value}`}
                       />
                     </Group>
                 ))} 
@@ -146,7 +148,7 @@ function MonthChart(params) {
                   data={dataQuarter}
                   x={d => xScale(d.quarter)}
                   y={d => yScale(d.value)}
-                  stroke={colorScale.Month}
+                  stroke="#712177"
                   strokeWidth="2"
                   pointerEvents="none"
                 />

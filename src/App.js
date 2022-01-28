@@ -362,7 +362,7 @@ function App(params) {
               value="rate" 
               checked={metric === 'rate'}
               onChange={(e) => setMetric(e.target.value)} />
-            <label htmlFor="rate-metric">Rate per 100,000</label>
+            <label htmlFor="rate-metric">Rate per 100,000 persons</label>
           </div>
 
           <div>

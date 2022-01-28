@@ -236,9 +236,8 @@ input[type="radio"] {
 
 .header-text {
   display: inline-block;
-  width: calc(100% - 70px);
+  width: calc(100% - 120px);
   vertical-align: middle;
-  font-size: .85em;
 }
 
 .header-text.full {

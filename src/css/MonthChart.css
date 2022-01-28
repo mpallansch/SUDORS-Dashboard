@@ -1,8 +1,7 @@
 #header-line-chart-container {
-    width: 50px;
+    width: 100px;
     height: calc(100px - 1em - 2px);
     display: inline-block;
-    margin-right: 15px;
     vertical-align: middle;
 }
 
