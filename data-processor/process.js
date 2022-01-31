@@ -96,19 +96,19 @@ const raceMapping = {
 };
 const us = 'Overall';
 const ageDataInitial = () => (
-  {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
+  {'': 0, '0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 );
 const ageDataBySexInitial = () => ({
-  'male': {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  'female': {'0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
+  'male': {'': 0, '0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  'female': {'': 0, '0': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 });
 const raceDataInitial = () => ({
-  '0': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  '1': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  '2': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  '3': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  '4': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
-  '5': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
+  '0': {'': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  '1': {'': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  '2': {'': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  '3': {'': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  '4': {'': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
+  '5': {'': 0, '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 });
 const drugDataInitial = () => ({
   'All': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}, 
@@ -603,7 +603,7 @@ fs.createReadStream(inputFilePath)
     statesFinal.forEach(state => {
       ageDataFinal[state] = Object.keys(ageData[state]).map(ageGroup => ({
           age: ageGroup, 
-          percent: percent(ageData[state][ageGroup], totalDeaths[state]),
+          percent: percent(ageData[state][ageGroup], totalDeaths[state] - (keyCounts[state]['age_cat'][''] || 0)),
           count: checkCutoff(ageData[state][ageGroup]),
           rate: checkCutoff(ageData[state][ageGroup], Math.round(ageData[state][ageGroup] / stateAgePops[reverseFips[state]][ageGroup] * 1000000) / 10)
         }));
@@ -623,6 +623,9 @@ fs.createReadStream(inputFilePath)
       let femaleTotal = 0;
       Object.keys(ageDataBySex[state]['male']).forEach(ageGroup => maleTotal += ageDataBySex[state]['male'][ageGroup]);
       Object.keys(ageDataBySex[state]['female']).forEach(ageGroup => femaleTotal += ageDataBySex[state]['female'][ageGroup]);
+
+      maleTotal -= ageDataBySex[state]['male'][''];
+      femaleTotal -= ageDataBySex[state]['female'][''];
 
       ageDataBySexFinal[state] = {
         'male': Object.keys(ageDataBySex[state]['male']).map(ageGroup => ({
@@ -657,7 +660,7 @@ fs.createReadStream(inputFilePath)
           raceData[state].push({
             race: raceMapping[raceNum], 
             deaths: checkCutoff(keyCounts[state]['race_eth_v2'][raceNum] || 0), 
-            percent: percent(keyCounts[state]['race_eth_v2'][raceNum] || 0, totalDeaths[state])});
+            percent: percent(keyCounts[state]['race_eth_v2'][raceNum] || 0, (totalDeaths[state] - (keyCounts[state]['race_eth_v2'][''] || 0)) )});
         }
       });
     });
