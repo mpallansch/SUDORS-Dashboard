@@ -110,7 +110,7 @@ function CauseChart(params) {
                       fill={colorScale[d.opioid]}
                       data-tip={`<strong>${d.opioid}</strong><br/>
                       Percent: ${d.causePercent.toFixed(1)}%<br/>
-                      Deaths: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : Number(d.causeCount).toLocaleString()}`}
+                      Deaths: ${d.causeCount < countCutoff ? `< ${countCutoff}` : Number(d.causeCount).toLocaleString()}`}
                     ></path>
                   </Group>
                 )

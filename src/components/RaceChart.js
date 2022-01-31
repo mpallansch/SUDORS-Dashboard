@@ -35,7 +35,7 @@ function RaceChart(params) {
 
   const isSuppressed = (value) => {
     if(metric === 'rate' && value[metric] <= rateCutoff) return true;
-    return value.deaths <= countCutoff ? true : false;
+    return value.deaths < countCutoff ? true : false;
   };
 
   const getData = (datum, label) => {
@@ -43,7 +43,7 @@ function RaceChart(params) {
       if(datum.rate <= rateCutoff) return label === true ? '*' : 0;
       return (label === true ? datum.rate.toFixed(1) : datum.rate);
     }
-    if(datum.deaths <= countCutoff) return label === true ? '*' : 0
+    if(datum.deaths < countCutoff) return label === true ? '*' : 0
     return (label === true ? `${datum.percent.toFixed(1)}%` : datum.percent);
   };
 
@@ -123,7 +123,7 @@ function RaceChart(params) {
                       d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.Race}
                       data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
-                      Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
+                      Deaths: ${(d.deaths || datum.deaths) < countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
                       Rate: ${(d.rate || datum.rate) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
                     ></path>
                   )}
@@ -150,7 +150,7 @@ function RaceChart(params) {
                         height={yScale.bandwidth()}
                         fill="transparent"
                         data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
-                        Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
+                        Deaths: ${(d.deaths || datum.deaths) < countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
                         Rate: *Data suppressed`}
                       />
                     </>

@@ -87,7 +87,7 @@ function OpioidStimulantChart(params) {
                       const yEnd = bar.y + adjustedHeight;
 
                       let count;
-                      if(rawCount <= countCutoff){
+                      if(rawCount < countCutoff){
                         count = '< ' + countCutoff;
                       } else {
                         count = rawCount;

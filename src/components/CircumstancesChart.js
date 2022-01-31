@@ -61,7 +61,7 @@ function CircumstancesChart(params) {
                   cy={yScale(d.circumstance) + barThicknessHalf}
                   fill={colorScale.Intervention}
                   data-tip={`<strong>${d.circumstance}</strong><br/>
-                  Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}`}
+                  Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}`}
                 />
                 <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Month}>{d.percent.toFixed(1)}%</text>
                 <Text width={adjustedWidth} x={0}  y={yScale(d.circumstance) + barThickness + margin.bar} verticalAnchor="start">{d.circumstance}</Text>

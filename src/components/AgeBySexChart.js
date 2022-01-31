@@ -48,14 +48,14 @@ function AgeBySexChart(params) {
 
   const isSuppressed = (value) => {
     if(metric === 'rate' && value[metric] <= rateCutoff) return true;
-    return value.count <= countCutoff ? true : false;
+    return value.count < countCutoff ? true : false;
   };
 
   const suppressedValue = (value) => {
     if(metric === 'rate'){
       return value[metric] <= rateCutoff ? '*' : value[metric].toFixed(1);
     }
-    return value.count <= countCutoff ? '*' : (value[metric].toFixed(1) + '%');
+    return value.count < countCutoff ? '*' : (value[metric].toFixed(1) + '%');
   }
 
   const onScroll = () => {
@@ -130,7 +130,7 @@ function AgeBySexChart(params) {
                       d={Utils.horizontalBarPath(false, halfWidth - xScale(d[metric]), yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.Male}
                       data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
-                      Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
+                      Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
@@ -150,7 +150,7 @@ function AgeBySexChart(params) {
                         height={yScale.bandwidth()}
                         fill="transparent"
                         data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
-                        Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
+                        Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
                         Rate: *Data suppressed`}
                       />
                     </>
@@ -179,7 +179,7 @@ function AgeBySexChart(params) {
                       d={Utils.horizontalBarPath(true, halfWidth, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.Female}
                       data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
-                      Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
+                      Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}

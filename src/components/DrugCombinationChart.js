@@ -130,7 +130,7 @@ function DrugCombinationChart(params) {
                             verticalAnchor="middle"
                             fontSize="medium"
                             fontWeight="bold">
-                            {`${d.deaths <= countCutoff ? '*' : (d.percent.toFixed(1) + '%')}`}
+                            {`${d.deaths < countCutoff ? '*' : (d.percent.toFixed(1) + '%')}`}
                           </Text>
                           {drugs.map((drug, j) => (
                             <Group key={`${d.drugCombination}-${drug}`}>

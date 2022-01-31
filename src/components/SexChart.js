@@ -109,7 +109,7 @@ function SexChart(params) {
                       d={Utils.verticalBarPath(xScale(d.sex), adjustedHeight - yScale(rate), xScale.bandwidth(), yScale(rate), xScale.bandwidth() * .1)}
                       fill={colorScale[d.sex]}
                       data-tip={`<strong>${d.sex}</strong><br/>
-                      Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
+                      Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
                       Rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
                     ></path>
                   )}
