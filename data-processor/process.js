@@ -654,7 +654,10 @@ fs.createReadStream(inputFilePath)
 
       Object.keys(raceDataInitial()).forEach(raceNum => {
         if(raceMapping[raceNum]){
-          raceData[state].push({race: raceMapping[raceNum], deaths: checkCutoff(keyCounts[state]['race_eth_v2'][raceNum] || 0), percent: percent(keyCounts[state]['race_eth_v2'][raceNum] || 0, totalDeaths[state])});
+          raceData[state].push({
+            race: raceMapping[raceNum], 
+            deaths: checkCutoff(keyCounts[state]['race_eth_v2'][raceNum] || 0), 
+            percent: percent(keyCounts[state]['race_eth_v2'][raceNum] || 0, totalDeaths[state])});
         }
       });
     });

@@ -109,10 +109,8 @@ function CauseChart(params) {
                       d={Utils.verticalBarPath(xScale(d.opioid), yScale(d.causePercent), xScale.bandwidth(), adjustedHeight - yScale(d.causePercent), xScale.bandwidth() * .1)}
                       fill={colorScale[d.opioid]}
                       data-tip={`<strong>${d.opioid}</strong><br/>
-                      Percent Present: ${d.presentPercent.toFixed(1)}%<br/>
-                      Deaths Present: ${d.presentCount <= countCutoff ? `< ${countCutoff}` : d.presentCount}<br/>
-                      Percent Cause: ${d.causePercent.toFixed(1)}%<br/>
-                      Deaths Cause: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : d.causeCount}`}
+                      Percent: ${d.causePercent.toFixed(1)}%<br/>
+                      Deaths: ${d.causeCount <= countCutoff ? `< ${countCutoff}` : Number(d.causeCount).toLocaleString()}`}
                     ></path>
                   </Group>
                 )

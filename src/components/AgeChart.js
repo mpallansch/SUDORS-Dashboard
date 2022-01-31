@@ -117,7 +117,7 @@ function AgeChart(params) {
                       d={Utils.horizontalBarPath(true, 0, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.RaceAccent}
                       data-tip={`<strong>${ageMapping[d.age]}</strong><br/>
-                      Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
+                      Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
                       Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
@@ -137,7 +137,7 @@ function AgeChart(params) {
                         height={yScale.bandwidth()}
                         fill="transparent"
                         data-tip={`<strong>${ageMapping[d.age]}</strong><br/>
-                        Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : d.count}<br/>
+                        Deaths: ${d.count <= countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
                         Rate: *Data suppressed`}
                       />
                     </>

@@ -93,10 +93,10 @@ function App(params) {
   const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
 
   const icons = {
-    'History of substance use/misuse': 'cdc-icon-book-user-light',
-    'Naloxone administered': 'cdc-icon-hand-holding-medical-light',
-    'Current pain treatment': 'cdc-icon-hospital-user-light',
-    'Experiencing homelessness': 'cdc-icon-store-alt-slash-light',
+    'History of substance use/misuse': 'cdc-icon-clipboard-list-light',
+    'Naloxone administered': 'cdc-icon-first-aid-light',
+    'Current pain treatment': 'cdc-icon-medical_04',
+    'Experiencing homelessness': 'cdc-icon-home-lg-light', //'cdc-icon-store-alt-slash-light',
     'Recent return to use of opioids': 'cdc-icon-sync-alt-light icon'
   };
 
@@ -235,7 +235,7 @@ function App(params) {
         <div className="header margin">
           <h2 className="preheader-label">What drugs were involved in overdose deaths in 2020, {stateLabel}?</h2>{stateSelector}
         </div>
-        <h3 className="subheader">Rate of overdose deaths by state and drug or drug type</h3>
+        <h3 className="subheader">Rate of overdose deaths by state and drug or drug class</h3>
         <div>
           <div className="drug-tab-section">
             {drugTab('All', 'All Drugs')}
@@ -285,7 +285,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <h3 className="subheader">Percentages of deaths involving the most common opioids and stimulants alone or in combination, {stateLabel}</h3>
+        <h3 className="subheader">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination, {stateLabel}</h3>
         <p>The five most frequently occurring opioid and stimulant combinations accounted for {combinationData[state].total.toFixed(1)}% of overdose deaths. 
           {multipleCombo.length > 0 ? 
             ` For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}` :
@@ -453,7 +453,7 @@ function App(params) {
 
       <div className="section opioid-section">
         <div className="header margin">
-          <h2 className="preheader-label">What were the characteristics and circumstances of the overdose deaths in 2020, {stateLabel}?</h2>{stateSelector}
+          <h2 className="preheader-label">What were the circumstances<sup>††</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
         </div>
         <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
         <p>{interventionData[state].toFixed(1)}% had at least one potential opportunity for intervention. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
@@ -489,6 +489,8 @@ function App(params) {
             />
           </div>
         </div> 
+
+        <span class="scale-note"><sup>††</sup>Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
       </div>
 
       <div className="section divider">
@@ -514,6 +516,8 @@ function App(params) {
             />}
           </div>
         </div>
+
+        <span class="scale-note"><sup>††</sup>Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
       </div>
 
       <Footer />

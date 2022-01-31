@@ -125,7 +125,7 @@ function OpioidStimulantChart(params) {
                             }
                             fill={bar.color}
                             data-tip={`${name}<br/>
-                            Count: ${count}<br/>
+                            Count: ${Number(count).toLocaleString()}<br/>
                             Percent: ${percent}%`}
                           />
                           {bar.width > 50 && (

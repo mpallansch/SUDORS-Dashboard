@@ -92,7 +92,7 @@ function MonthChart(params) {
   const halfBandwidth = xScale.bandwidth() / 2;
 
   const max = Math.max(...(header ? dataQuarter : data).map(d => d.value));
-  const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : 1800;
+  const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : 2000;
 
   const yScale = scaleLinear({
     range: [ adjustedHeight, 0 ],
@@ -140,7 +140,7 @@ function MonthChart(params) {
                         width={xScale.bandwidth()}
                         height={adjustedHeight}
                         fill="transparent"
-                        data-tip={`<strong>${labelOverrides[d.quarter]} 2020</strong><br/>Deaths: ${d.value}`}
+                        data-tip={`<strong>${labelOverrides[d.quarter]} 2020</strong><br/>Deaths: ${Number(d.value).toLocaleString()}`}
                       />
                     </Group>
                 ))} 
@@ -185,7 +185,7 @@ function MonthChart(params) {
                         }}
                         d={Utils.verticalBarPath(xScale(d.month), yScale(d.value), xScale.bandwidth(), adjustedHeight - yScale(d.value), xScale.bandwidth() * .1)}
                         fill="rgb(109, 108, 55)"
-                        data-tip={`<strong>${monthMappingFull[d.month]}</strong><br/>Deaths: ${d.value}`}
+                        data-tip={`<strong>${monthMappingFull[d.month]}</strong><br/>Deaths: ${Number(d.value).toLocaleString()}`}
                       ></path>
                     )}
                     {d.value < countCutoff && (

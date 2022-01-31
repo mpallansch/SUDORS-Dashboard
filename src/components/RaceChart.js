@@ -54,7 +54,14 @@ function RaceChart(params) {
   
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: currentData.sort((a,b) => (a.race < b.race) ? 1 : -1).map(d => d.race),
+    domain: currentData.sort((a,b) => {
+      if(a.race === 'Hispanic') {
+        return -1;
+      } else if(b.race === 'Hispanic'){
+        return 1;
+      }
+      return (a.race < b.race) ? 1 : -1;
+    }).map(d => d.race),
     padding: 0.2
   });
 
@@ -116,7 +123,7 @@ function RaceChart(params) {
                       d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.Race}
                       data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
-                      Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : (d.deaths || datum.deaths)}<br/>
+                      Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
                       Rate: ${(d.rate || datum.rate) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
                     ></path>
                   )}
@@ -143,7 +150,7 @@ function RaceChart(params) {
                         height={yScale.bandwidth()}
                         fill="transparent"
                         data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
-                        Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : (d.deaths || datum.deaths)}<br/>
+                        Deaths: ${(d.deaths || datum.deaths) <= countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
                         Rate: *Data suppressed`}
                       />
                     </>
