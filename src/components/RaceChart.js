@@ -24,8 +24,19 @@ function RaceChart(params) {
     'A/PI, non-Hispanic': 'Asian/Pacific Islander, non-Hispanic'
   };
 
-  const data = raw[state];
-  const dataRates = rawRates[state];
+  const sort = (array) => {
+    return array.sort((a,b) => {
+      if(a.race === 'Hispanic') {
+        return -1;
+      } else if(b.race === 'Hispanic'){
+        return 1;
+      }
+      return (a.race < b.race) ? 1 : -1;
+    })
+  };
+
+  const data = sort(raw[state]);
+  const dataRates = sort(rawRates[state]);
   const currentData = metric === 'rate' ? dataRates : data;
   const otherData = metric === 'rate' ? data : dataRates;
 
@@ -54,14 +65,7 @@ function RaceChart(params) {
   
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: currentData.sort((a,b) => {
-      if(a.race === 'Hispanic') {
-        return -1;
-      } else if(b.race === 'Hispanic'){
-        return 1;
-      }
-      return (a.race < b.race) ? 1 : -1;
-    }).map(d => d.race),
+    domain: currentData.map(d => d.race),
     padding: 0.2
   });
 

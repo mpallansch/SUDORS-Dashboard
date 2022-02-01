@@ -117,7 +117,10 @@ function AgeBySexChart(params) {
             hideTicks
             hideAxisLine
           />
-            {data['male'].map(d => (
+            {data['male'].map(d => {
+              if(d.age === '') return;
+
+              return (
                 <Group key={`group-male-${d.age}`}>
                   {!isSuppressed(d) && (
                     <path
@@ -164,9 +167,12 @@ function AgeBySexChart(params) {
                       {suppressedValue(d, true)}
                   </text>
                 </Group>
-              )
+              )}
             )}
-            {data['female'].map(d => (
+            {data['female'].map(d => {
+              if(d.age === '') return;
+              
+              return (
                 <Group key={`group-female-${d.age}`}>
                   {!isSuppressed(d) && (
                     <path
@@ -210,7 +216,7 @@ function AgeBySexChart(params) {
                       {suppressedValue(d, true)}
                   </text>
                 </Group>
-              )
+              )}
             )}
           </Group>
       </svg>

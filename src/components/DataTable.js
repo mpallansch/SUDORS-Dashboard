@@ -59,11 +59,11 @@ function DataTable(params) {
             </tr>
           </thead>
           <tbody>
-            {isArray && data.map(d => (
+            {isArray && data.map((d, i) => (
               <tr key={`tr-${d[xAxisKey]}`}>
                 <th key={`th-${d[xAxisKey]}`} scope="row">{labelOverrides[d[xAxisKey]] || d[xAxisKey]}</th>
-                {keys.map((key, i) => key !== xAxisKey && (
-                  <td key={`td-${xAxisKey}-${i}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[i - 1]] < countCutoff ? 'Data suppressed' : d[key]) : ((cutoffData ? cutoffData[i][cutoffKey] : d[key]) < countCutoff ? 'Data suppressed' : Number(d[key]).toLocaleString())}</td>
+                {keys.map((key, j) => key !== xAxisKey && (
+                  <td key={`td-${xAxisKey}-${j}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[j - 1]] < countCutoff ? 'Data suppressed' : d[key]) : ((cutoffData ? cutoffData[i][cutoffKey] : d[key]) < countCutoff ? 'Data suppressed' : Number(d[key]).toLocaleString())}</td>
                 ))}
               </tr>
             ))}

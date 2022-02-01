@@ -104,7 +104,10 @@ function AgeChart(params) {
               hideTicks
               hideAxisLine
             />
-            {data.map(d => (
+            {data.map(d => {
+              if(d.age === '') return;
+
+              return(
                 <Group key={`group-${d.age}`}>
                   {!isSuppressed(d) && (
                     <path 
@@ -150,7 +153,7 @@ function AgeChart(params) {
                       {suppressedValue(d)}
                   </text>
                 </Group>
-              )
+              )}
             )}
           </Group>
       </svg>
