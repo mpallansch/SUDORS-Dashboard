@@ -195,7 +195,7 @@ function App(params) {
                 accessible={accessible}
               />
             </div>
-            <p>{interventionData[state]}% had opportunities for intervention</p>
+            <p>{interventionData[state]}% had at least one potential opportunity for intervention</p>
           </>
         ) : (
           <>
