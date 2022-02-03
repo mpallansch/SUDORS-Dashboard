@@ -228,7 +228,7 @@ function App(params) {
                   state={state}
                 />
               </div>
-              <span className="header-text">{interventionData[state]}% had opportunities for intervention</span>
+              <span className="header-text">{interventionData[state]}% had at least one potential opportunity for intervention</span>
             </div>
           </>
         )}
