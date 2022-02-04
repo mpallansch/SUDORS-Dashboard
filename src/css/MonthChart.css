@@ -3,6 +3,7 @@
     height: calc(100px - 1em - 2px);
     display: inline-block;
     vertical-align: middle;
+    align-self: center;
 }
 
 #line-chart-container {

@@ -25,8 +25,9 @@ function DrugCombinationChart(params) {
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
   const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
-  const tableElHeight = margin.bottom / (drugs.length + 1) - 5;
+  const tableElHeight = margin.bottom / drugs.length - 5;
   const halfTableElHeight = tableElHeight / 2;
+  const barLabelCutoff = 50;
 
   const xScale = scaleBand({
     range: [ 0, adjustedWidth ],
@@ -117,27 +118,26 @@ function DrugCombinationChart(params) {
                             data-tip={d.deaths <= countCutoff ? '* Data suppressed' : `Percent: ${d.percent.toFixed(1)}%<br/>
                             Deaths: ${Number(d.deaths).toLocaleString()}`}
                           ></path>
-
-                          <rect 
-                            x={xScale(d.drugCombination) - barOffset} 
-                            y={adjustedHeight} 
-                            width={barWidth} 
-                            height={tableElHeight} 
-                            stroke="rgb(77,126,119)" 
-                            fill="white"/>
-
                           <Text
-                            x={xScale(d.drugCombination) + barOffset} 
-                            y={adjustedHeight + 10}
+                            x={xScale(d.drugCombination) + halfXBandwidth}
+                            y={yScale(d.percent)}
+                            dy={adjustedHeight - yScale(d.percent) > barLabelCutoff ? 30 : -25}
+                            style={{
+                              pointerEvents: 'none'
+                            }}
+                            transform={barWidth > 100 ? '' : `rotate(-90, ${xScale(d.drugCombination) + halfXBandwidth}, ${yScale(d.percent)})`}
+                            fill={adjustedHeight - yScale(d.percent) > barLabelCutoff ? 'white' : 'black'}
                             textAnchor="middle"
-                            verticalAnchor="start"
-                          >{`${d.deaths < countCutoff ? '*' : (d.percent.toFixed(1) + '%')}`}</Text>
-
+                            verticalAnchor="middle"
+                            fontSize="medium"
+                            fontWeight="bold">
+                            {`${d.deaths < countCutoff ? '*' : (d.percent.toFixed(1) + '%')}`}
+                          </Text>
                           {drugs.map((drug, j) => (
                             <Group key={`${d.drugCombination}-${drug}`}>
                               <rect 
                                 x={xScale(d.drugCombination) - barOffset} 
-                                y={adjustedHeight + (tableElHeight * (j + 1))} 
+                                y={adjustedHeight + (tableElHeight * j)} 
                                 width={barWidth} 
                                 height={tableElHeight} 
                                 stroke="rgb(77,126,119)" 
@@ -145,7 +145,7 @@ function DrugCombinationChart(params) {
                               {d.drugCombination.charAt(j) === '1' && (
                                 <circle
                                   cx={xScale(d.drugCombination) + halfXBandwidth}
-                                  cy={adjustedHeight + halfTableElHeight + (tableElHeight * (j + 1))}
+                                  cy={adjustedHeight + halfTableElHeight + (tableElHeight * j)}
                                   r={7}
                                   fill={colorScale[drug]}
                                 ></circle>
@@ -155,7 +155,7 @@ function DrugCombinationChart(params) {
                                   x1={xScale(d.drugCombination) - barOffset + barWidth}
                                   x2={xScale(d.drugCombination) - barOffset + barWidth}
                                   y1={adjustedHeight + (tableElHeight * j)}
-                                  y2={adjustedHeight + (tableElHeight * (j + 1)) + tableElHeight}
+                                  y2={adjustedHeight + (tableElHeight * j) + tableElHeight}
                                   strokeWidth="3px"
                                   stroke="rgb(77,126,119)"
                                 ></line>
@@ -174,8 +174,8 @@ function DrugCombinationChart(params) {
                                 <line
                                   x1={xScale(d.drugCombination) - barOffset}
                                   x2={xScale(d.drugCombination) - barOffset + barWidth}
-                                  y1={adjustedHeight + (tableElHeight * (j + 1)) + tableElHeight}
-                                  y2={adjustedHeight + (tableElHeight * (j + 1)) + tableElHeight}
+                                  y1={adjustedHeight + (tableElHeight * j) + tableElHeight}
+                                  y2={adjustedHeight + (tableElHeight * j) + tableElHeight}
                                   strokeWidth="3px"
                                   stroke="rgb(77,126,119)"
                                 ></line>
@@ -190,30 +190,8 @@ function DrugCombinationChart(params) {
               </div>
               <svg id="table-header" width={margin.left + xScale(data[0].drugCombination) - quarterBarWidth} height={height}>
                 <Group top={adjustedHeight + margin.top} left={xScale(data[0].drugCombination) - quarterBarWidth}>
-                  <Group>
-                    <rect 
-                      x={0} 
-                      y={0} 
-                      width={margin.left + 7} 
-                      height={tableElHeight} 
-                      stroke="rgb(77,126,119)" 
-                      fill="white"
-                    />
-                    <Text 
-                      x={5} 
-                      y={halfTableElHeight} 
-                      width={margin.left + 7} 
-                      height={tableElHeight} 
-                      fill="black"
-                      textAnchor="start" 
-                      dominantBaseline="middle"
-                      fontWeight="bold">
-                        Percentage
-                    </Text>
-                  </Group>
-                  
                   {drugs.map((drug, i) => {
-                      const y = (i + 1) * tableElHeight;
+                      const y = i * tableElHeight;
                       const width = margin.left + 7;
 
                       return (
@@ -243,7 +221,7 @@ function DrugCombinationChart(params) {
                       x={0}
                       y={0}
                       width={margin.left + 10}
-                      height={margin.bottom - 30}
+                      height={margin.bottom - 25}
                       stroke="rgb(77,126,119)"
                       strokeWidth="3px"
                       fill="transparent"

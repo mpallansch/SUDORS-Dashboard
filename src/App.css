@@ -209,8 +209,12 @@ input[type="radio"] {
   font-family: sans-serif;
 }
 
+.header-sections-container {
+  display: flex;
+}
+
 .header-section {
-  display: inline-block;
+  display: flex;
   vertical-align: middle;
   width: calc(33% - 0.25em);
   border: 1px solid rgba(0,0,0,.125);
@@ -226,7 +230,7 @@ input[type="radio"] {
 }
 
 .header-section.first .header-text .header-text {
-  width: calc(100% - 150px);
+  width: calc(100% - 170px);
 }
 
 .header-section.middle {
@@ -238,6 +242,7 @@ input[type="radio"] {
   display: inline-block;
   width: calc(100% - 120px);
   vertical-align: middle;
+  align-self: center;
 }
 
 .header-text.full {
@@ -284,7 +289,7 @@ input[type="radio"] {
   font-size: 2.5em;
   font-weight: 500;
   color: #712177;
-  padding: 0 .1em;
+  padding: 0 .5em 0 .1em;
   font-family: "Merriweather",serif;
 }
 
@@ -474,6 +479,10 @@ table caption {
 
 .App.medium-vp .column-right {
   padding-left: 0;
+}
+
+.App.medium-vp .header-sections-container {
+  display: block;
 }
 
 .App.medium-vp .header-section {

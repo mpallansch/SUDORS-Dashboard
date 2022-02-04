@@ -198,7 +198,7 @@ function App(params) {
             <p>{interventionData[state]}% had at least one potential opportunity for intervention</p>
           </>
         ) : (
-          <>
+          <div className="header-sections-container">
             <div className="header-section first">
               <span className="header-text full">
                 <span className="enlarged">{Number(totalData[state]).toLocaleString()}</span> 
@@ -230,7 +230,7 @@ function App(params) {
               </div>
               <span className="header-text">{interventionData[state]}% had at least one potential opportunity for intervention</span>
             </div>
-          </>
+          </div>
         )}
         <div className="header margin">
           <h2 className="preheader-label">What drugs were involved in overdose deaths in 2020, {stateLabel}?</h2>{stateSelector}
