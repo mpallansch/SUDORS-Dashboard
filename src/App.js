@@ -69,15 +69,15 @@ function App(params) {
     'StimulantsWithoutOpioids': 'rgb(86, 120, 135)',
     'NeitherOpioidsNorStimulants': 'rgb(167, 218, 240)',
     'All': 'rgb(50, 93, 125)',
-    'Any Opioids': 'rgb(21, 46, 50)',
-    'Opioid': 'rgb(21, 46, 50)',
-    'Methamphetamine': 'rgb(73, 143, 166)',
-    'Heroin': 'rgb(21, 46, 50)',
-    'Prescription opioids': 'rgb(21, 46, 50)',
-    'Any Stimulant': 'rgb(73, 143, 166)',
-    'Stimulant': 'rgb(73, 143, 166)',
-    'Cocaine': 'rgb(73, 143, 166)',
-    'Illicitly manufactured fentanyls': 'rgb(21, 46, 50)'
+    'Any Opioids': 'rgb(17, 36, 38)',
+    'Opioid': 'rgb(17, 36, 38)',
+    'Methamphetamine': 'rgb(156, 144, 172)',
+    'Heroin': 'rgb(70, 126, 123)',
+    'Prescription opioids': 'rgb(80, 156, 164)',
+    'Any Stimulant': 'rgb(66, 65, 94)',
+    'Stimulant': 'rgb(66, 65, 94)',
+    'Cocaine': 'rgb(106, 107, 135)',
+    'Illicitly manufactured fentanyls': 'rgb(57, 83, 82)'
   };
 
   const ageMapping = {
