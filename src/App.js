@@ -69,15 +69,15 @@ function App(params) {
     'StimulantsWithoutOpioids': 'rgb(86, 120, 135)',
     'NeitherOpioidsNorStimulants': 'rgb(167, 218, 240)',
     'All': 'rgb(50, 93, 125)',
-    'Any Opioids': 'rgb(17, 36, 38)',
-    'Opioid': 'rgb(17, 36, 38)',
-    'Methamphetamine': 'rgb(156, 144, 172)',
-    'Heroin': 'rgb(70, 126, 123)',
-    'Prescription opioids': 'rgb(80, 156, 164)',
-    'Any Stimulant': 'rgb(66, 65, 94)',
-    'Stimulant': 'rgb(66, 65, 94)',
-    'Cocaine': 'rgb(106, 107, 135)',
-    'Illicitly manufactured fentanyls': 'rgb(57, 83, 82)'
+    'Any Opioids': '#002061',
+    'Opioid': '#002061',
+    'Methamphetamine': '#ac86d5',
+    'Heroin': '#2E75B8',
+    'Prescription opioids': '#B4C9E9',
+    'Any Stimulant': '#301946',
+    'Stimulant': '#301946',
+    'Cocaine': '#582f82',
+    'Illicitly manufactured fentanyls': '#2F5598'
   };
 
   const ageMapping = {
@@ -228,7 +228,7 @@ function App(params) {
                   state={state}
                 />
               </div>
-              <span className="header-text">{interventionData[state]}% had at least one potential opportunity for intervention</span>
+              <span className="header-text"><strong>{interventionData[state]}%</strong> had at least one potential opportunity for intervention</span>
             </div>
           </div>
         )}
