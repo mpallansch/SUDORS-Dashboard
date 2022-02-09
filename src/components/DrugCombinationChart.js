@@ -114,7 +114,7 @@ function DrugCombinationChart(params) {
                               'transformOrigin': `0px ${adjustedHeight}px`
                             }}
                             d={Utils.verticalBarPath(xScale(d.drugCombination), yScale(d.percent), halfBarWidth, adjustedHeight - Math.min(yScale(d.percent), adjustedHeight), barWidth * .1)}
-                            fill="rgb(77,126,119)"
+                            fill={colorScale[`Combination-${i}`]}
                             data-tip={d.deaths <= countCutoff ? '* Data suppressed' : `Percent: ${d.percent.toFixed(1)}%<br/>
                             Deaths: ${Number(d.deaths).toLocaleString()}`}
                           ></path>
@@ -140,14 +140,14 @@ function DrugCombinationChart(params) {
                                 y={adjustedHeight + (tableElHeight * j)} 
                                 width={barWidth} 
                                 height={tableElHeight} 
-                                stroke="rgb(77,126,119)" 
+                                stroke={colorScale['Combination-0']} 
                                 fill="white"/>
                               {d.drugCombination.charAt(j) === '1' && (
                                 <circle
                                   cx={xScale(d.drugCombination) + halfXBandwidth}
                                   cy={adjustedHeight + halfTableElHeight + (tableElHeight * j)}
                                   r={7}
-                                  fill={colorScale[drug]}
+                                  fill={colorScale[`Combination-${i}`]}
                                 ></circle>
                               )}
                               {i === data.length - 1 && (
@@ -157,7 +157,7 @@ function DrugCombinationChart(params) {
                                   y1={adjustedHeight + (tableElHeight * j)}
                                   y2={adjustedHeight + (tableElHeight * j) + tableElHeight}
                                   strokeWidth="3px"
-                                  stroke="rgb(77,126,119)"
+                                  stroke={colorScale['Combination-0']} 
                                 ></line>
                               )}
                               {j === 0 && (
@@ -167,7 +167,7 @@ function DrugCombinationChart(params) {
                                   y1={adjustedHeight + (tableElHeight * j)}
                                   y2={adjustedHeight + (tableElHeight * j)}
                                   strokeWidth="3px"
-                                  stroke="rgb(77,126,119)"
+                                  stroke={colorScale['Combination-0']} 
                                 ></line>
                               )}
                               {j === drugs.length - 1 && (
@@ -177,7 +177,7 @@ function DrugCombinationChart(params) {
                                   y1={adjustedHeight + (tableElHeight * j) + tableElHeight}
                                   y2={adjustedHeight + (tableElHeight * j) + tableElHeight}
                                   strokeWidth="3px"
-                                  stroke="rgb(77,126,119)"
+                                  stroke={colorScale['Combination-0']} 
                                 ></line>
                               )}
                             </Group>
@@ -201,7 +201,7 @@ function DrugCombinationChart(params) {
                             y={y} 
                             width={width} 
                             height={tableElHeight} 
-                            stroke="rgb(77,126,119)" 
+                            stroke={colorScale['Combination-0']} 
                             fill="white"
                           />
                           <Text 
@@ -222,7 +222,7 @@ function DrugCombinationChart(params) {
                       y={0}
                       width={margin.left + 10}
                       height={margin.bottom - 25}
-                      stroke="rgb(77,126,119)"
+                      stroke={colorScale['Combination-0']} 
                       strokeWidth="3px"
                       fill="transparent"
                     ></rect>

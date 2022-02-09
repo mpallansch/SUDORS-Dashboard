@@ -401,7 +401,7 @@ table caption {
 }
 
 .opioid-section .waffle-label {
-  color:rgb(164, 163, 73);
+  color:rgb(216, 67, 53);
   font-weight: bold;
 }
 
@@ -431,14 +431,14 @@ table caption {
 }
 
 .circumstance-icon-container span::before {
-  color: rgb(164, 163, 73) !important;
+  color: rgb(216, 67, 53) !important;
 }
 
 .circumstance-value {
   display: block;
   font-size: x-large;
   font-weight: bold;
-  color: rgb(164, 163, 73);
+  color: rgb(216, 67, 53);
 }
 
 #footer .header {

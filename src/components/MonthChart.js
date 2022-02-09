@@ -184,7 +184,7 @@ function MonthChart(params) {
                           'transformOrigin': `0px ${adjustedHeight}px`
                         }}
                         d={Utils.verticalBarPath(xScale(d.month), yScale(d.value), xScale.bandwidth(), adjustedHeight - yScale(d.value), xScale.bandwidth() * .1)}
-                        fill="rgb(109, 108, 55)"
+                        fill={colorScale['Month']}
                         data-tip={`<strong>${monthMappingFull[d.month]}</strong><br/>Deaths: ${Number(d.value).toLocaleString()}`}
                       ></path>
                     )}

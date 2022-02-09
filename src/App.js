@@ -58,16 +58,16 @@ function App(params) {
   const waffleChartRef = useRef();
 
   const colorScale = {
-    'Male': 'rgb(109, 32, 75)',
-    'Female': 'rgb(167, 49, 114)',
-    'Race': 'rgb(143, 79, 43)',
-    'RaceAccent': 'rgb(224, 122, 58)',
-    'Month': 'rgb(109, 108, 55)',
-    'Intervention': 'rgb(164, 163, 73)',
-    'OpioidsWithStimulants': 'rgb(128, 157, 167)',
-    'OpioidsWithoutStimulants': 'rgb(91, 102, 106)',
-    'StimulantsWithoutOpioids': 'rgb(86, 120, 135)',
-    'NeitherOpioidsNorStimulants': 'rgb(167, 218, 240)',
+    'Male': 'rgb(79, 23, 61)',
+    'Female': 'rgb(162, 116, 161)',
+    'Race': 'rgb(210, 101, 11)',
+    'RaceAccent': 'rgb(223, 118, 54)',
+    'Month': 'rgb(82, 145, 98)',
+    'Intervention': 'rgb(216, 67, 53)',
+    'OpioidsWithStimulants': 'rgb(51, 79, 99)',
+    'OpioidsWithoutStimulants': 'rgb(122, 152, 174)',
+    'StimulantsWithoutOpioids': 'rgb(50, 75, 85)',
+    'NeitherOpioidsNorStimulants': 'rgb(72, 147, 127)',
     'All': 'rgb(50, 93, 125)',
     'Any Opioids': '#002061',
     'Opioid': '#002061',
@@ -77,7 +77,12 @@ function App(params) {
     'Any Stimulant': '#301946',
     'Stimulant': '#301946',
     'Cocaine': '#582f82',
-    'Illicitly manufactured fentanyls': '#2F5598'
+    'Illicitly manufactured fentanyls': '#2F5598',
+    'Combination-0': 'rgb(51, 51, 51)',
+    'Combination-1': 'rgb(77, 77, 77)',
+    'Combination-2': 'rgb(102, 102, 102)',
+    'Combination-3': 'rgb(128, 128, 128)',
+    'Combination-4': 'rgb(148, 148, 148)'
   };
 
   const ageMapping = {
