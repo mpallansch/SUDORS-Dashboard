@@ -495,7 +495,7 @@ function App(params) {
           </div>
         </div> 
 
-        <span class="scale-note"><sup>††</sup>Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
+        <span className="scale-note"><sup>††</sup>Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
       </div>
 
       <div className="section divider">
@@ -503,7 +503,7 @@ function App(params) {
           <span className="individual-header margin-bottom">Additional circumstances surrounding overdose deaths</span>
           <div className="additional-circumstance-container">
             {!accessible && circumstancesData[state]['other'].map(d => (
-              <p className="circumstance-container">
+              <div key={`circtumstance-${d.circumstance}`} className="circumstance-container">
                 <div className="circumstance-icon-container">
                   <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
                 </div>
@@ -511,7 +511,7 @@ function App(params) {
                   <span className="circumstance-value">{d.percent.toFixed(1)}%</span>
                   {d.circumstance}
                 </div>
-              </p>
+              </div>
             ))}
             {accessible && <DataTable 
               data={circumstancesData[state]['other']}
@@ -522,7 +522,7 @@ function App(params) {
           </div>
         </div>
 
-        <span class="scale-note"><sup>††</sup>Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
+        <span className="scale-note"><sup>††</sup>Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
       </div>
 
       <Footer />

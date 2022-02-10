@@ -118,7 +118,7 @@ function AgeBySexChart(params) {
             hideAxisLine
           />
             {data['male'].map(d => {
-              if(d.age === '') return;
+              if(d.age === '') return '';
 
               return (
                 <Group key={`group-male-${d.age}`}>
@@ -170,7 +170,7 @@ function AgeBySexChart(params) {
               )}
             )}
             {data['female'].map(d => {
-              if(d.age === '') return;
+              if(d.age === '') return '';
               
               return (
                 <Group key={`group-female-${d.age}`}>
