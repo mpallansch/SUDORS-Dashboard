@@ -523,7 +523,9 @@ function App(params) {
         </div>
 
         <span className="scale-note"><sup>††</sup>Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
-      </div>
+      </div> 
+      
+      <a onClick={(e) => e.preventDefault()} download="Non-Fatal-Overdose-Data.csv" href="#" aria-label="Download this data in a CSV file format." className="btn btn-download no-border">Download Data (CSV)</a>
 
       <Footer />
 

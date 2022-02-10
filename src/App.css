@@ -283,6 +283,17 @@ input[type="radio"] {
   margin-right: 1em;
 }
 
+a[download] {
+  background-color: #712177;
+  color: white;
+  margin: 1em 0;
+}
+
+a[download]:hover {
+  color: white;
+  text-decoration: none;
+}
+
 .enlarged {
   display: inline-block;
   vertical-align: middle;
