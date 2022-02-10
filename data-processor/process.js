@@ -1,5 +1,6 @@
 const fs = require('fs');
 const csv = require('csv-parse');
+const ExcelJS = require('exceljs');
 
 const stateAgePops = require('./census/state-age-pops.json');
 const stateAgeSexPops = require('./census/state-age-sex-pops.json');
@@ -10,6 +11,7 @@ const fips = {"0":"Overall", "1": "Alabama","2":"Alaska","4":"Arizona","5":"Arka
 const reverseFips = {"Overall":"0","Alabama":"1","Alaska":"2","Arizona":"4","Arkansas":"5","California":"6","Colorado":"8","Connecticut":"9","Delaware":"10","District of Columbia":"11","Florida":"12","Georgia":"13","Hawaii":"15","Idaho":"16","Illinois":"17","Indiana":"18","Iowa":"19","Kansas":"20","Kentucky":"21","Louisiana":"22","Maine":"23","Maryland":"24","Massachusetts":"25","Michigan":"26","Minnesota":"27","Mississippi":"28","Missouri":"29","Montana":"30","Nebraska":"31","Nevada":"32","New Hampshire":"33","New Jersey":"34","New Mexico":"35","New York":"36","North Carolina":"37","North Dakota":"38","Ohio":"39","Oklahoma":"40","Oregon":"41","Pennsylvania":"42","Rhode Island":"44","South Carolina":"45","South Dakota":"46","Tennessee":"47","Texas":"48","Utah":"49","Vermont":"50","Virginia":"51","Washington":"53","West Virginia":"54","Wisconsin":"55","Wyoming":"56"};
 
 const inputFilePath = './SUDORS 2020 Prelim Data for Dashboard_01FEB2022.csv';
+const excelOutputPath = '../public/download.xlsx';
 const typeOfDrugFilePath = '../src/data/causes.json';
 const additionalDrugFilePath = '../src/data/additional-drugs.json';
 const circumstancesFilePath = '../src/data/circumstances.json';
@@ -94,6 +96,173 @@ const raceMapping = {
   '3': 'A/PI, non-Hispanic',
   '4': 'Other, non-Hispanic',
   '5': 'Hispanic'
+};
+const excelKeyMapping = {
+  'year': '',
+  'alldrug_deaths': '', 
+  //'alldrug_rate': '', 
+  'opioid_deaths': 'opioid_r_cod', 
+  //'opioid_rate': '', 
+  'imfs_deaths': 'imfs_cod', 
+  //'imfs_rate': '', 
+  'heroin_deaths': 'heroin_def_cod_v2', 
+  //'heroin_rate': '', 
+  'rxopioids_deaths': 'rx_opioid_cod_v2', 
+  //'rxopioids_rate': '', 
+  'stimulant_deaths': 'stimulant_cod', 
+  //'stimulant_rate': '', 
+  'cocaine_deaths': 'cocaine_t_cod', 
+  //'cocaine_rate': '', 
+  'meth_deaths': 'meth_r_cod', 
+  //'meth_rate': '', 
+  'opioids_percent': 'opioid_r_cod', 
+  'imfs_percent': 'imfs_cod', 
+  'heroin_percent': 'heroin_def_cod_v2', 
+  'rxopioids_percent': 'rx_opioid_cod_v2', 
+  'stimulant_percent': 'stimulant_cod', 
+  'cocaine_percent': 'cocaine_t_cod', 
+  'meth_percent': 'meth_r_cod', 
+  'Combo1_drugs': '', 
+  'Combo1_percent': '', 
+  'Combo2_drugs': '', 
+  'Combo2_percent': '', 
+  'Combo3_drugs': '', 
+  'Combo3_percent': '', 
+  'Combo4_drugs': '', 
+  'Combo4_percent': '', 
+  'Combo5_drugs': '', 
+  'Combo5_percent': '', 
+  'opioids_stim_deaths': '', 
+  'opioids_stim_percent': '', 
+  'opioids_nostim_deaths': '', 
+  'opioids_nostim_percent': '', 
+  'stim_noopioids_deaths': '', 
+  'stim_noopioids_percent': '', 
+  'noopioids_nostim_deaths': '', 
+  'noopioids_nostim_percent': '', 
+  'jan_deaths': '', 
+  'feb_deaths': '', 
+  'mar_deaths': '', 
+  'apr_deaths': '', 
+  'may_deaths': '', 
+  'jun_deaths': '', 
+  'jul_deaths': '', 
+  'aug_deaths': '', 
+  'sep_deaths': '', 
+  'oct_deaths': '', 
+  'nov_deaths': '', 
+  'dec_deaths': '', 
+  'male_deaths': '', 
+  'male_rate': '', 
+  'male_percent': '', 
+  'female_deaths': '', 
+  'female_rate': '', 
+  'female_percent': '', 
+  'api_nh_deaths': '', 
+  'api_nh_rate': '', 
+  'api_nh_percent': '', 
+  'aian_nh_deaths': '', 
+  'aian_nh_rate': '', 
+  'aian_nh_percent': '', 
+  'black_nh_deaths': '', 
+  'black_nh_rate': '', 
+  'black_nh_percent': '', 
+  'white_nh_deaths': '', 
+  'white_nh_rate': '', 
+  'white_nh_percent': '', 
+  'multi_nh_deaths': '', 
+  'multi_nh_rate': '', 
+  'multi_nh_percent': '', 
+  'hisp_deaths': '', 
+  'hisp_rate': '', 
+  'hisp_percent': '', 
+  'age_under15_deaths': '', 
+  'age_under15_rate': '', 
+  'age_under15_percent': '', 
+  'age_15_24_deaths': '', 
+  'age_15_24_rate': '', 
+  'age_15_24_percent': '', 
+  'age_25_34_deaths': '', 
+  'age_25_34_rate': '', 
+  'age_25_34_percent': '', 
+  'age_35_44_deaths': '', 
+  'age_35_44_rate': '', 
+  'age_35_44_percent': '', 
+  'age_45_54_deaths': '', 
+  'age_45_54_rate': '', 
+  'age_45_54_percent': '', 
+  'age_55_64_deaths': '', 
+  'age_55_64_rate': '', 
+  'age_55_64_percent': '', 
+  'age_65plus_deaths': '', 
+  'age_65plus_rate': '', 
+  'age_65plus_percent': '', 
+  'male_under15_deaths': '', 
+  'male_under15_rate': '', 
+  'male_under15_percent': '', 
+  'male_15_24_deaths': '', 
+  'male_15_24_rate': '', 
+  'male_15_24_percent': '', 
+  'male_25_34_deaths': '', 
+  'male_25_34_rate': '', 
+  'male_25_34_percent': '', 
+  'male_35_44_deaths': '', 
+  'male_35_44_rate': '', 
+  'male_35_44_percent': '', 
+  'male_45_54_deaths': '', 
+  'male_45_54_rate': '', 
+  'male_45_54_percent': '', 
+  'male_55_64_deaths': '', 
+  'male_55_64_rate': '', 
+  'male_55_64_percent': '', 
+  'male_65plus_deaths': '', 
+  'male_65plus_rate': '', 
+  'male_65plus_percent': '', 
+  'female_under15_deaths': '', 
+  'female_under15_rate': '', 
+  'female_under15_percent': '', 
+  'female_15_24_deaths': '', 
+  'female_15_24_rate': '', 
+  'female_15_24_percent': '', 
+  'female_25_34_deaths': '', 
+  'female_25_34_rate': '', 
+  'female_25_34_percent': '', 
+  'female_35_44_deaths': '', 
+  'female_35_44_rate': '', 
+  'female_35_44_percent': '', 
+  'female_45_54_deaths': '', 
+  'female_45_54_rate': '', 
+  'female_45_54_percent': '', 
+  'female_55_64_deaths': '', 
+  'female_55_64_rate': '', 
+  'female_55_64_percent': '', 
+  'female_65plus_deaths': '', 
+  'female_65plus_rate': '', 
+  'female_65plus_percent': '', 
+  'intervopp_deaths': '', 
+  'intervopp_percent': '', 
+  'bystander_deaths': '', 
+  'bystander_percent': '', 
+  'mhdiag_deaths': '', 
+  'mhdiag_percent': '', 
+  'curr_SUDtrt_deaths': '', 
+  'curr_SUDtrt_percent': '', 
+  'priorod_deaths': '', 
+  'priorod_percent': '', 
+  'drugusewitnessed_deaths': '', 
+  'drugusewitnessed_percent': '', 
+  'recentrelease_deaths': '', 
+  'recentrelease_percent': '', 
+  'hist_subuse_deaths': '', 
+  'hist_subuse_percent': '', 
+  'curr_paintrt_deaths': '', 
+  'curr_paintrt_percent': '', 
+  'homeless_deaths': '', 
+  'homeless_percent': '', 
+  'naloxone_deaths': '', 
+  'naloxone_percent': '', 
+  'returnopioids_deaths': '', 
+  'returnopioids_percent': ''
 };
 const us = 'Overall';
 const ageDataInitial = () => (
@@ -385,7 +554,7 @@ fs.createReadStream(inputFilePath)
       
     }
   })
-  .on('end', () => {
+  .on('end', async () => {
     let statesFinal = Object.keys(keyCounts);
 
     let stateAgePopsOverall;
@@ -791,6 +960,7 @@ fs.createReadStream(inputFilePath)
     });
 
     let ageAdjustedRates = [];
+    let ageAdjustedRatesKeyed = {};
     statesFinal.forEach(state => {
       let rate = 0;
 
@@ -804,6 +974,7 @@ fs.createReadStream(inputFilePath)
       rate = checkCutoff(totalDeaths[state], rate);
 
       ageAdjustedRates.push({state, rate});
+      ageAdjustedRatesKeyed[state] = rate;
     });
 
     fs.writeFile(ageAdjustedRatesFilePath, JSON.stringify(ageAdjustedRates), {flag: 'w'}, (err) => {
@@ -944,4 +1115,56 @@ fs.createReadStream(inputFilePath)
         console.log('Data processed successfully');
       }
     });
+
+    statesFinal.sort((a, b) => {
+      if(a === 'Overall') return -1;
+      if(b === 'Overall') return 1;
+      if(a < b) return -1;
+      if(a > b) return 1;
+      return 0;
+    });
+
+    const workbook = new ExcelJS.Workbook();
+    const dataWorksheet = workbook.addWorksheet('Data');
+    //const dictionaryWorksheet = workbook.addWorksheet('Dictionary');
+
+    dataWorksheet.columns = [{header: 'Jurisdiction', key: 'Jurisdiction'}, ...Object.keys(excelKeyMapping).map(key => ({header: key, key}))];
+    
+    dataWorksheet.getColumn(1).values = ['Jurisdiction', ...statesFinal];
+    
+    Object.keys(excelKeyMapping).forEach((key, i) => {
+      const col = dataWorksheet.getColumn(i + 2);
+
+      switch(key){
+        case 'year':
+          const year = Object.keys(keyCounts['Overall']['Incident_Year'])[0];
+          col.values = [key, ...statesFinal.map(state => year)];
+          break;
+        case 'alldrug_deaths':
+          col.values = [key, ...statesFinal.map(state => totalDeaths[state])];
+          break;
+        case 'alldrug_rate':
+          col.values = [key, ...statesFinal.map(state => ageAdjustedRatesKeyed[state])];
+          break;
+        default:
+          if(excelKeyMapping[key]) { 
+            if(key.indexOf('percent') !== -1){
+              col.values = [key, ...statesFinal.map(state => {
+                const val = keyCounts[state][excelKeyMapping[key]]['1'];
+                if(val < countCutoff) return '-';
+                return percent(val, totalDeaths[state]) + '%';
+              })];
+            } else {
+              col.values = [key, ...statesFinal.map(state => {
+                const val = keyCounts[state][excelKeyMapping[key]]['1'];
+                if(val < countCutoff) return '-';
+                return val;
+              })];
+            }
+          }
+          break;
+      }
+    });
+
+    await workbook.xlsx.writeFile(excelOutputPath);
   });
