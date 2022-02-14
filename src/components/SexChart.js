@@ -98,7 +98,7 @@ function SexChart(params) {
               return(
                 <Group key={`bar-container-${d.sex}`}>
                   { // render data bar
-                  rate > rateCutoff && (
+                  d.count > rateCutoff && (
                     <path
                       className={`animated-bar vertical ${animated ? 'animated' : ''}`}
                       style={{
@@ -114,7 +114,7 @@ function SexChart(params) {
                     ></path>
                   )}
                   { // render suppressed bar
-                  rate <= rateCutoff && (
+                  d.count <= rateCutoff && (
                     <Bar 
                       className={`animated-bar vertical ${animated ? 'animated' : ''}`}
                       style={{
@@ -135,7 +135,7 @@ function SexChart(params) {
                     y={adjustedHeight - yScale(rate)}
                     textAnchor="middle"
                     dy={-15}
-                  >{rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}</text>
+                  >{d.count <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}</text>
                 </Group>
               )}
             )}
@@ -178,9 +178,9 @@ function SexChart(params) {
                     const [ centroidX, centroidY ] = pie.path.centroid(arc);
                     let rate = 'Unavailable';
                     if(dataRates) rate = (dataRates[0].sex === arc.data.sex.toLowerCase() ? dataRates[0].rate : dataRates[1].rate);
-                    if(rate <= rateCutoff) rate = rateCutoffLabel;
-                    
-                    arc.data.rate = rate.toFixed(1)
+                    if(arc.data.count <= rateCutoff) rate = rateCutoffLabel;
+
+                    arc.data.rate = rate.toFixed ? rate.toFixed(1) : rate;
                     
                     return (
                       <g 

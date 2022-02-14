@@ -47,13 +47,13 @@ function AgeBySexChart(params) {
   });
 
   const isSuppressed = (value) => {
-    if(metric === 'rate' && value[metric] <= rateCutoff) return true;
+    if(metric === 'rate' && value.count < rateCutoff) return true;
     return value.count < countCutoff ? true : false;
   };
 
   const suppressedValue = (value) => {
     if(metric === 'rate'){
-      return value[metric] <= rateCutoff ? '*' : value[metric].toFixed(1);
+      return value.count < rateCutoff ? '*' : value[metric].toFixed(1);
     }
     return value.count < countCutoff ? '*' : (value[metric].toFixed(1) + '%');
   }
@@ -134,7 +134,7 @@ function AgeBySexChart(params) {
                       fill={colorScale.Male}
                       data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                      Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
                   {isSuppressed(d) && (
@@ -186,7 +186,7 @@ function AgeBySexChart(params) {
                       fill={colorScale.Female}
                       data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Rate: ${d.rate <= rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                      Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
                   {isSuppressed(d) && (
@@ -204,7 +204,9 @@ function AgeBySexChart(params) {
                         width={halfWidth}
                         height={yScale.bandwidth()}
                         fill="transparent"
-                        data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>*Data suppressed`}
+                        data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
+                        Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
+                        Rate: *Data suppressed`}
                       />
                     </>
                   )}

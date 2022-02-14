@@ -106,7 +106,7 @@ function StateChart(params) {
                       }}
                       data-tip={`<strong>${name}</strong><br/>
                       Deaths: ${deaths < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
-                      Rate: ${rate < rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
+                      Rate: ${deaths < rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
                     ></path>
                     <text 
                       className="bar-label"
@@ -114,7 +114,7 @@ function StateChart(params) {
                       y={yScale(name)}
                       dy="15"
                       dx="5">
-                        {rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}
+                        {deaths < rateCutoff ? rateCutoffLabel : rate.toFixed(1)}
                     </text>
                   </Group>
                 )}

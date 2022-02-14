@@ -120,7 +120,7 @@ const drugDataInitial = () => ({
   'Cocaine': {'1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0}
 });
 
-const countCutoff = 10;
+const countCutoff = 0;
 const rateCutoff = 20;
 
 let stateKeyIndex;
@@ -164,10 +164,10 @@ function increment(obj, state) {
 
 function checkCutoff(value, rate) {
   if(rate !== undefined){
-    if(value <= rateCutoff) return -1;
+    if(value <= rateCutoff) return 0;
     return rate;
   }
-  if(!value || value < countCutoff) return -1;
+  if(!value || value < countCutoff) return 0;
   return value;
 }
 

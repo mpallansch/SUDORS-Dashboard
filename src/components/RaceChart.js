@@ -44,14 +44,14 @@ function RaceChart(params) {
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
-  const isSuppressed = (value) => {
-    if(metric === 'rate' && value[metric] <= rateCutoff) return true;
+  const isSuppressed = (value, otherValue) => {
+    if(metric === 'rate' && otherValue.deaths <= rateCutoff) return true;
     return value.deaths < countCutoff ? true : false;
   };
 
-  const getData = (datum, label) => {
+  const getData = (datum, otherDatum, label) => {
     if(metric === 'rate'){
-      if(datum.rate <= rateCutoff) return label === true ? '*' : 0;
+      if(otherDatum.deaths <= rateCutoff) return label === true ? '*' : 0;
       return (label === true ? datum.rate.toFixed(1) : datum.rate);
     }
     if(datum.deaths < countCutoff) return label === true ? '*' : 0
@@ -114,25 +114,27 @@ function RaceChart(params) {
                 }
               }
 
+              let deaths = metric !== 'rate' ? d.deaths : datum.deaths;
+
               return (
                 <Group key={`bar-container-${d.race}`}>
                   { // render data bar
-                  !isSuppressed(d) && (
+                  !isSuppressed(d, datum) && (
                     <path 
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
                         'transition': animated ? 'transform 1s ease-in-out' : ''
                       }}
                       key={`bar-${d.race}`}
-                      d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
+                      d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d, datum)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.Race}
                       data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
-                      Deaths: ${(d.deaths || datum.deaths) < countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
-                      Rate: ${(d.rate || datum.rate) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
+                      Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
+                      Rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
                     ></path>
                   )}
                   { // render suppressed bar
-                  isSuppressed(d) && (
+                  isSuppressed(d, datum) && (
                     <>
                       <Bar
                         className={`animated-bar ${animated ? 'animated' : ''}`}
@@ -161,11 +163,11 @@ function RaceChart(params) {
                   )}
                   <text
                     key={`bar-label-${d.race}`}
-                    x={xScale(getData(d)) + 25}
+                    x={xScale(getData(d, datum)) + 25}
                     y={yScale(d.race) + (yScale.bandwidth() / 1.75)}
                     textAnchor={'start'}
                     dx={-18}
-                  >{getData(d, true)}</text>
+                  >{getData(d, datum, true)}</text>
                 </Group>
               )}
             )}
