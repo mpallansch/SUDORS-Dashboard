@@ -36,12 +36,13 @@ function WaffleChart(params) {
     <svg
       id="waffle-chart" 
       width={width} 
-      height={header ? height : adjustedHeight}>
+      height={header ? height : adjustedHeight}
+      data-tip={header ? undefined : `Deaths: ${Number(data.deaths).toLocaleString()}<br/>Percent: ${data.percent}%`}>
       <Group top={margin.top} left={margin.left}>
         {rowList.map(rowIndex => {
           return colList.map(colIndex => {
             const value = (rowIndex * rowValue) + (colIndex * colValue);
-            const active = value > data;
+            const active = value > data.percent;
             const fill = active ? 'white' : (header ? '#712177' : colorScale.Intervention);
             const stroke = !active ? 'none' : (header ? '#b890bb' : colorScale.Intervention);
 

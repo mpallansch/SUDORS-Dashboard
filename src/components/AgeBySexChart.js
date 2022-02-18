@@ -132,9 +132,10 @@ function AgeBySexChart(params) {
                       key={`bar-male-${d.age}`}
                       d={Utils.horizontalBarPath(false, halfWidth - xScale(d[metric]), yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.Male}
-                      data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
+                      data-tip={`<strong>Male, ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                      Percent: ${d.percent || 0}%<br/>
+                      Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
                   {isSuppressed(d) && (
@@ -152,9 +153,10 @@ function AgeBySexChart(params) {
                         width={halfWidth}
                         height={yScale.bandwidth()}
                         fill="transparent"
-                        data-tip={`<strong>Males ${ageMapping[d.age]}</strong><br/>
+                        data-tip={`<strong>Male, ${ageMapping[d.age]}</strong><br/>
                         Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                        Rate: *Data suppressed`}
+                        Percent: ${d.percent || 0}%<br/>
+                        Age-adjusted rate: *Data suppressed`}
                       />
                     </>
                   )}
@@ -184,9 +186,10 @@ function AgeBySexChart(params) {
                       key={`bar-female-${d.age}`}
                       d={Utils.horizontalBarPath(true, halfWidth, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.Female}
-                      data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
+                      data-tip={`<strong>Female, ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                      Percent: ${d.percent || 0}%<br/>
+                      Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
                   {isSuppressed(d) && (
@@ -204,9 +207,10 @@ function AgeBySexChart(params) {
                         width={halfWidth}
                         height={yScale.bandwidth()}
                         fill="transparent"
-                        data-tip={`<strong>Females ${ageMapping[d.age]}</strong><br/>
+                        data-tip={`<strong>Female, ${ageMapping[d.age]}</strong><br/>
                         Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                        Rate: *Data suppressed`}
+                        Percent: ${d.percent || 0}%<br/>
+                        Age-adjusted rate: *Data suppressed`}
                       />
                     </>
                   )}

@@ -200,7 +200,7 @@ function App(params) {
                 accessible={accessible}
               />
             </div>
-            <p>{interventionData[state]}% had at least one potential opportunity for intervention</p>
+            <p>{interventionData[state].percent}% had at least one potential opportunity for intervention</p>
           </>
         ) : (
           <div className="header-sections-container">
@@ -233,7 +233,7 @@ function App(params) {
                   state={state}
                 />
               </div>
-              <span className="header-text"><strong>{interventionData[state]}%</strong> had at least one potential opportunity for intervention</span>
+              <span className="header-text"><strong>{interventionData[state].percent}%</strong> had at least one potential opportunity for intervention</span>
             </div>
           </div>
         )}
@@ -461,7 +461,7 @@ function App(params) {
           <h2 className="preheader-label">What were the circumstances<sup>††</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
         </div>
         <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
-        <p>{interventionData[state].toFixed(1)}% had at least one potential opportunity for intervention. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
+        <p>{interventionData[state].percent.toFixed(1)}% had at least one potential opportunity for intervention. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
         {!accessible && (
           <div className="column column-left">
             <div className="waffle-column waffle-column-left">
@@ -477,7 +477,7 @@ function App(params) {
               </div>
             </div>
             <div className="waffle-column waffle-column-right">
-              <span className="waffle-label font-xxl">{interventionData[state].toFixed(1)}%</span><br/>
+              <span className="waffle-label font-xxl">{interventionData[state].percent.toFixed(1)}%</span><br/>
               <span className="waffle-label">of drug overdoses had at least one opportunity for intervention</span>
             </div>
           </div> 
@@ -504,7 +504,7 @@ function App(params) {
           <div className="additional-circumstance-container">
             {!accessible && circumstancesData[state]['other'].map(d => (
               <div key={`circtumstance-${d.circumstance}`} className="circumstance-container">
-                <div className="circumstance-icon-container">
+                <div className="circumstance-icon-container" data-tip={`Deaths: ${Number(d.count).toLocaleString()}<br/>Percent: ${d.percent}%`}>
                   <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
                 </div>
                 <div className="circumstance-label-container">

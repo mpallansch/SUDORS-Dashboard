@@ -690,7 +690,7 @@ fs.createReadStream(inputFilePath)
 
     let interventionsDataFinal = {};
     statesFinal.forEach(state => {
-      interventionsDataFinal[state] = percent(interventions[state], totalDeaths[state]);
+      interventionsDataFinal[state] = {deaths: interventions[state], percent: percent(interventions[state], totalDeaths[state])};
     });
 
     fs.writeFile(interventionFilePath, JSON.stringify(interventionsDataFinal), {flag: 'w'}, (err) => {

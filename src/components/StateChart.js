@@ -106,7 +106,7 @@ function StateChart(params) {
                       }}
                       data-tip={`<strong>${name}</strong><br/>
                       Deaths: ${deaths < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
-                      Rate: ${deaths < rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
+                      Age-adjusted rate: ${deaths < rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
                     ></path>
                     <text 
                       className="bar-label"

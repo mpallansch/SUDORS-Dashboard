@@ -15,7 +15,6 @@ import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
 import '../css/SexChart.css';
 
 function SexChart(params) {
-  const [active, setActive] = useState(null);
   const { width, height, metric, state, colorScale, el, accessible } = params;
 
   const data = raw[state];
@@ -110,7 +109,8 @@ function SexChart(params) {
                       fill={colorScale[d.sex]}
                       data-tip={`<strong>${d.sex}</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
+                      Percent: ${d.percent || 0}%<br/>
+                      Age-adjusted rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
                     ></path>
                   )}
                   { // render suppressed bar
@@ -166,8 +166,7 @@ function SexChart(params) {
             pieValue={d => d.percent}
             outerRadius={pieRadius}
             innerRadius={({data}) => {
-              const size = active && active.percent === data.percent ? .45 : .5;
-              return pieRadius * size
+              return pieRadius * .5
             }}
             color={d => d > 50 ? 'red' : 'blue'}
             padAngle={.05}
@@ -190,8 +189,10 @@ function SexChart(params) {
                         <path d={pie.path(arc)} 
                           className={`animated-pie-intro ${animated ? 'animated' : ''}`}
                           fill={colorScale[arc.data.sex]}
-                          onMouseEnter={() => setActive(arc.data)} 
-                          onMouseLeave={() => setActive(null)} 
+                          data-tip={`<strong>${arc.data.sex}</strong><br/>
+                            Deaths: ${arc.data.count < countCutoff ? `< ${countCutoff}` : Number(arc.data.count).toLocaleString()}<br/>
+                            Percent: ${arc.data.percent || 0}%<br/>
+                            Age-adjusted rate: ${arc.data.count <= rateCutoff ? rateCutoffLabel : arc.data.rate}`}
                         />
                         <text
                           className={`animated-pie-text ${animated ? 'animated' : ''}`}
@@ -205,33 +206,6 @@ function SexChart(params) {
                         >
                           {arc.data.percent}%
                         </text>
-                        {active ? (
-                          <>
-                            <Text textAnchor="middle" dy={-10} fontWeight="bold" fontSize={22}>{`${nfObject.format(active.count)}`}</Text>
-                            <Text textAnchor="middle" dy={8} fontSize={14}>{`${active.sex} Deaths`}</Text>
-                            <Text textAnchor="middle" dy={24} fontSize={14}>{`Rate: ${active.rate}`}</Text>
-                          </>
-                        ) : (
-                          <>
-                            <Text 
-                              className={`animated-pie-text ${animated ? 'animated' : ''}`}
-                              textAnchor="middle" 
-                              dy={-10} 
-                              fontWeight="bold" 
-                              fontSize={22}
-                              >{
-                                // Sum all counts in the data
-                                nfObject.format(data.map(item=> item.count).reduce( (prev, curr) => prev + curr, 0 ) )
-                              }</Text>
-                            <Text 
-                              className={`animated-pie-text ${animated ? 'animated' : ''}`}
-                              textAnchor="middle" 
-                              dy={8} 
-                              fontSize={14}
-                            >Total Deaths</Text>
-                          </>
-                        ) }
-                        
                       </g>
                     )
                   }

@@ -115,8 +115,8 @@ function DrugCombinationChart(params) {
                             }}
                             d={Utils.verticalBarPath(xScale(d.drugCombination), yScale(d.percent), halfBarWidth, adjustedHeight - Math.min(yScale(d.percent), adjustedHeight), barWidth * .1)}
                             fill={colorScale[`Combination-${i}`]}
-                            data-tip={d.deaths <= countCutoff ? '* Data suppressed' : `Percent: ${d.percent.toFixed(1)}%<br/>
-                            Deaths: ${Number(d.deaths).toLocaleString()}`}
+                            data-tip={d.deaths <= countCutoff ? '* Data suppressed' : `Deaths: ${Number(d.deaths).toLocaleString()}<br/>
+                            Percent: ${d.percent.toFixed(1)}%`}
                           ></path>
                           <Text
                             x={xScale(d.drugCombination) + halfXBandwidth}

@@ -130,7 +130,8 @@ function RaceChart(params) {
                       fill={colorScale.Race}
                       data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
                       Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
-                      Rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
+                      Percent: ${d.percent || 0}%<br/>
+                      Age-adjusted rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
                     ></path>
                   )}
                   { // render suppressed bar
@@ -157,6 +158,7 @@ function RaceChart(params) {
                         fill="transparent"
                         data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
                         Deaths: ${(d.deaths || datum.deaths) < countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
+                        Percent: ${d.percent || 0}%<br/>
                         Rate: *Data suppressed`}
                       />
                     </>

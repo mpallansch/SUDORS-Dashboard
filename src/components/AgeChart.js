@@ -119,9 +119,10 @@ function AgeChart(params) {
                       key={`bar-female-${d.age}`}
                       d={Utils.horizontalBarPath(true, 0, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                       fill={colorScale.RaceAccent}
-                      data-tip={`<strong>${ageMapping[d.age]}</strong><br/>
+                      data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                      Percent: ${d.percent || 0}%<br/>
+                      Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                     ></path>
                   )}
                   {isSuppressed(d) && (
@@ -139,9 +140,10 @@ function AgeChart(params) {
                         width={40}
                         height={yScale.bandwidth()}
                         fill="transparent"
-                        data-tip={`<strong>${ageMapping[d.age]}</strong><br/>
+                        data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
                         Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                        Rate: *Data suppressed`}
+                        Percent: ${d.percent || 0}%<br/>
+                        Age-adjusted rate: *Data suppressed`}
                       />
                     </>
                   )}
