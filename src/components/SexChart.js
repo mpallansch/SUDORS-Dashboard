@@ -5,9 +5,6 @@ import { Text } from '@visx/text';
 import { AxisBottom } from '@visx/axis';
 import { scaleLinear, scaleBand } from '@visx/scale';
 
-import raw from '../data/sex.json';
-import rawRates from '../data/age-adjusted-sex-rates.json';
-
 import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
@@ -15,10 +12,8 @@ import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
 import '../css/SexChart.css';
 
 function SexChart(params) {
-  const { width, height, metric, state, colorScale, el, accessible } = params;
-
-  const data = raw[state];
-  const dataRates = rawRates[state];
+  const { data, dataRates, width, height, metric, state, colorScale, el, accessible } = params;
+  
   const [ animated, setAnimated ] = useState(false);
 
   const margin = {top: 10, bottom: 30, left: metric === 'rate' ? 65 : 10, right: 10};

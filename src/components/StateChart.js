@@ -3,9 +3,6 @@ import { Group } from '@visx/group';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 
-import dataRaw from '../data/map.json';
-import dataRatesRaw from '../data/age-adjusted-drug-rates.json';
-
 import Utils from '../shared/Utils';
 import DataTable from './DataTable';
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
@@ -18,10 +15,8 @@ function StateChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { width, setState, height, state, el, drug, accessible, colorScale, state: globalState } = params;
+  const { data, dataRates, width, height, setState, el, state, drug, accessible, colorScale, state: globalState } = params;
 
-  const data = dataRaw[drug];
-  const dataRates = dataRatesRaw[drug];
   const dataKeys = Object.keys(dataRates).filter(name => name !== 'max' && name !== 'min');
 
   const margin = {top: 10, bottom: 10, left: 130, right: 10};

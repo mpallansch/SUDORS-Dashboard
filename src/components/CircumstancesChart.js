@@ -3,8 +3,6 @@ import { Group } from '@visx/group';
 import { Text } from '@visx/text';
 import { scaleBand, scaleLinear } from '@visx/scale';
 
-import raw from '../data/circumstances.json';
-
 import DataTable from './DataTable';
 import { countCutoff } from '../constants.json';
 
@@ -12,9 +10,8 @@ import '../css/CircumstancesChart.css';
 
 function CircumstancesChart(params) {
 
-  const { width, height, state, accessible, colorScale } = params;
+  const { data, width, height, accessible, colorScale } = params;
   const metric = 'intervention';
-  const data = raw[state];
   const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 10};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;

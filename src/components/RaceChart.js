@@ -4,9 +4,6 @@ import { Group } from '@visx/group';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
-import raw from '../data/race.json';
-import rawRates from '../data/age-adjusted-race-rates.json';
-
 import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
@@ -15,7 +12,7 @@ import '../css/RaceChart.css';
 
 function RaceChart(params) {
   
-  const { width, height, metric, state, colorScale, el, accessible} = params;
+  const { data, dataRates, width, height, metric, state, colorScale, el, accessible} = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -35,10 +32,11 @@ function RaceChart(params) {
     })
   };
 
-  const data = sort(raw[state]);
-  const dataRates = sort(rawRates[state]);
-  const currentData = metric === 'rate' ? dataRates : data;
-  const otherData = metric === 'rate' ? data : dataRates;
+  const sortedData = sort(data);
+  const sortedDataRates = sort(dataRates);
+
+  const currentData = metric === 'rate' ? sortedDataRates : sortedData;
+  const otherData = metric === 'rate' ? sortedData : sortedDataRates;
 
   const margin = {top: 10, bottom: 10, left: 160, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
@@ -93,7 +91,7 @@ function RaceChart(params) {
   return width > 0 && (
     accessible ? (
       <DataTable
-        data={metric === 'rate' ? dataRates : data}
+        data={currentData}
         cutoffData={metric === 'rate' ? data : undefined}
         cutoffKey="deaths"
         xAxisKey={'race'}

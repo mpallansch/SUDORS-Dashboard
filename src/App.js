@@ -16,18 +16,6 @@ import CircumstancesChart from './components/CircumstancesChart';
 import DataTable from './components/DataTable';
 import Footer from './components/Footer';
 
-import interventionData from './data/interventions.json';
-import circumstancesData from './data/circumstances.json';
-import totalData from './data/totals.json';
-import combinationData from './data/drug-combination.json';
-import causeData from './data/causes.json';
-import additionalDrugData from './data/additional-drugs.json';
-import opioidStimulantData from './data/opioid-stimulant.json';
-import sexData from './data/sex.json';
-import ageData from './data/age.json';
-import raceData from './data/race.json';
-import ageBySexData from './data/age-by-sex.json';
-
 import { countCutoff } from './constants.json';
 
 import './App.css';
@@ -43,6 +31,8 @@ function App(params) {
   const [ state, setState ] = useState('Overall');
   const [ drug, setDrug ] = useState('All');
   const [ metric, setMetric ] = useState('rate');
+  const [ datasets, setDatasets ] = useState();
+
   const headerMonthChartRef = useRef();
   const headerWaffleChartRef = useRef();
   const sexChartRef = useRef();
@@ -56,6 +46,26 @@ function App(params) {
   const interventionChartRef = useRef();
   const monthChartRef = useRef();
   const waffleChartRef = useRef();
+
+  const datasetUrls = {
+    timeData: 'data/time.json',
+    mapData: 'data/map.json',
+    drugDataRates: 'data/age-adjusted-drug-rates.json',
+    interventionData: 'data/interventions.json',
+    circumstancesData: 'data/circumstances.json',
+    totalData: 'data/totals.json',
+    combinationData: 'data/drug-combination.json',
+    causeData: 'data/causes.json',
+    additionalDrugData: 'data/additional-drugs.json',
+    opioidStimulantData: 'data/opioid-stimulant.json',
+    sexData: 'data/sex.json',
+    sexDataRates: 'data/age-adjusted-sex-rates.json',
+    ageData: 'data/age.json',
+    raceData: 'data/race.json',
+    raceDataRates: 'data/age-adjusted-race-rates.json',
+    ageBySexData: 'data/age-by-sex.json'
+  };
+  const datasetKeys = Object.keys(datasetUrls);
 
   const colorScale = {
     'Male': 'rgb(79, 23, 61)',
@@ -154,16 +164,36 @@ function App(params) {
       drugCombinationNames.length === 2 ? ' and ' : ', and ')
   };
 
-  const multipleCombo = combinationData[state].combinations.filter(combo => ((combo.deaths > countCutoff && combo.drugCombination.match(/1/g)) || []).length > 1);
-  const sexMax = [...sexData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const ageMax = [...ageData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const raceMax = [...raceData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const maleAgeMax = [...ageBySexData[state].male].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const femaleAgeMax = [...ageBySexData[state].female].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  useEffect(() => {
+    Promise.all(datasetKeys.map(key => fetch(datasetUrls[key])))
+      .then(async responses => {
+        let datasets = {};
+        
+        for(var i = 0; i < responses.length; i++){
+          let json = await responses[i].json();
+          datasets[datasetKeys[i]] = json;
+        }
+
+        setDatasets(datasets);
+      }).catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  if(!datasets){
+    return <p>Loading...</p>;
+  }
+
+  const multipleCombo = datasets.combinationData[state].combinations.filter(combo => ((combo.deaths > countCutoff && combo.drugCombination.match(/1/g)) || []).length > 1);
+  const sexMax = [...datasets.sexData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const ageMax = [...datasets.ageData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const raceMax = [...datasets.raceData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const maleAgeMax = [...datasets.ageBySexData[state].male].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const femaleAgeMax = [...datasets.ageBySexData[state].female].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
 
   const stateSelector = (
     <select aria-label="View data by state" value={state} onChange={(e) => setState(e.target.value)}>
-      {Object.keys(totalData).sort((a, b) => {
+      {Object.keys(datasets.totalData).sort((a, b) => {
         if(a === 'Overall'){
           return -1;
         } else if (b === 'Overall'){
@@ -188,35 +218,35 @@ function App(params) {
         </div>
         {accessible ? (
           <>
-            <p>{Number(totalData[state]).toLocaleString()} total deaths in 2020</p>
+            <p>{Number(datasets.totalData[state]).toLocaleString()} total deaths in 2020</p>
             <div id="header-line-chart-container" className="chart-container" ref={headerMonthChartRef}>
               <MonthChart 
+                data={datasets.timeData[state]}
                 width={getDimension(headerMonthChartRef, 'width')}
                 height={getDimension(headerMonthChartRef, 'height')}
                 header={true}
-                state={state} 
                 colorScale={colorScale}
                 el={monthChartRef}
                 accessible={accessible}
               />
             </div>
-            <p>{interventionData[state].percent}% had at least one potential opportunity for intervention</p>
+            <p>{datasets.interventionData[state].percent}% had at least one potential opportunity for intervention</p>
           </>
         ) : (
           <div className="header-sections-container">
             <div className="header-section first">
               <span className="header-text full">
-                <span className="enlarged">{Number(totalData[state]).toLocaleString()}</span> 
+                <span className="enlarged">{Number(datasets.totalData[state]).toLocaleString()}</span> 
                 <span className="header-text">total deaths in 2020</span>
               </span>
             </div>
             <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
               <div id="header-line-chart-container" className="chart-container" ref={headerMonthChartRef}>
                 <MonthChart 
+                    data={datasets.timeData[state]}
                     width={getDimension(headerMonthChartRef, 'width')}
                     height={getDimension(headerMonthChartRef, 'height')}
                     header={true}
-                    state={state} 
                     colorScale={colorScale}
                     el={monthChartRef}
                     accessible={accessible}
@@ -227,13 +257,13 @@ function App(params) {
             <div className="header-section" onClick={() => {interventionChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
               <div id="header-waffle-chart-container" className="chart-container" ref={headerWaffleChartRef}>
                 <WaffleChart 
+                  data={datasets.interventionData[state]}
                   width={getDimension(headerWaffleChartRef, 'width')}
                   height={getDimension(headerWaffleChartRef, 'height')}
                   header={true}
-                  state={state}
                 />
               </div>
-              <span className="header-text"><strong>{interventionData[state].percent}%</strong> had at least one potential opportunity for intervention</span>
+              <span className="header-text"><strong>{datasets.interventionData[state].percent}%</strong> had at least one potential opportunity for intervention</span>
             </div>
           </div>
         )}
@@ -261,11 +291,13 @@ function App(params) {
         </div>
         <div id="state-chart-container" className="chart-container" ref={stateChartRef}>
           <StateChart
+            data={datasets.mapData[drug]}
+            dataRates={datasets.drugDataRates[drug]}
             width={getDimension(stateChartRef, 'width')}
             height={getDimension(stateChartRef, 'height')}
             setState={setState}
-            state={state}
             el={stateChartRef}
+            state={state}
             drug={drug}
             accessible={accessible}
             colorScale={colorScale} />
@@ -275,14 +307,15 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader">Percentages of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
-        <p>{causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {causeData[state].find(d => d.opioid === 'Any Stimulant').causePercent.toFixed(1)}% involved at least one stimulant. {additionalDrugData[state].commonOpioid} {additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
+        <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulant').causePercent.toFixed(1)}% involved at least one stimulant. {datasets.additionalDrugData[state].commonOpioid} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
             <CauseChart 
+              data={datasets.causeData[state]}
               width={getDimension(causeChartRef, 'width')}
               height={getDimension(causeChartRef, 'height')}
-              state={state}
               el={causeChartRef}
+              state={state}
               accessible={accessible}
               colorScale={colorScale} />
           </div>
@@ -291,16 +324,16 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination, {stateLabel}</h3>
-        <p>The five most frequently occurring opioid and stimulant combinations accounted for {combinationData[state].total.toFixed(1)}% of overdose deaths. 
+        <p>The five most frequently occurring opioid and stimulant combinations accounted for {datasets.combinationData[state].total.toFixed(1)}% of overdose deaths. 
           {multipleCombo.length > 0 ? 
             ` For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}` :
-            ` ${combinationData[state].combinations[0].percent.toFixed(1)}% of deaths involved ${listDrugs(combinationData[state].combinations[0].drugCombination)}, one of the most common ${combinationData[state].combinations[0].drugCombination.charAt(3) === '1' || combinationData[state].combinations[0].drugCombination.charAt(4) === '1' ? 'stimulants' : 'opioids'}`}.</p>
+            ` ${datasets.combinationData[state].combinations[0].percent.toFixed(1)}% of deaths involved ${listDrugs(datasets.combinationData[state].combinations[0].drugCombination)}, one of the most common ${datasets.combinationData[state].combinations[0].drugCombination.charAt(3) === '1' || datasets.combinationData[state].combinations[0].drugCombination.charAt(4) === '1' ? 'stimulants' : 'opioids'}`}.</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" className="chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
+              data={datasets.combinationData[state].combinations}
               width={getDimension(drugCombinationChartRef, 'width')}
               height={getDimension(drugCombinationChartRef, 'height')}
-              state={state}
               el={drugCombinationChartRef}
               accessible={accessible}
               colorScale={colorScale} />
@@ -310,13 +343,13 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</h3>
-        <p>The largest percentage of deaths involved {opioidStimulantData[state].max.toLowerCase()}, while {opioidStimulantData[state].minPercent.toFixed(1)}% of overdose deaths involved {opioidStimulantData[state].min.toLowerCase()}.</p>
+        <p>The largest percentage of deaths involved {datasets.opioidStimulantData[state].max.toLowerCase()}, while {datasets.opioidStimulantData[state].minPercent.toFixed(1)}% of overdose deaths involved {datasets.opioidStimulantData[state].min.toLowerCase()}.</p>
         <div className="subsection">
           <div id="opioid-stimulant-chart-container" className="chart-container" ref={opioidStimulantChartRef}>
             <OpioidStimulantChart 
+                data={datasets.opioidStimulantData[state].horizontalBarData}
                 width={getDimension(opioidStimulantChartRef, 'width')}
                 height={getDimension(opioidStimulantChartRef, 'height')}
-                state={state}
                 el={opioidStimulantChartRef}
                 accessible={accessible}
                 colorScale={colorScale} />
@@ -337,10 +370,10 @@ function App(params) {
         <div className="subsection">
           <div id="line-chart-container" className="chart-container" ref={monthChartRef}>
             <MonthChart 
+              data={datasets.timeData[state]}
               width={getDimension(monthChartRef, 'width')}
               height={getDimension(monthChartRef, 'height')}
               header={false}
-              state={state} 
               colorScale={colorScale}
               el={monthChartRef}
               accessible={accessible}
@@ -387,6 +420,8 @@ function App(params) {
             <span className="individual-header smaller">By Sex</span>
             <div id="sex-chart-container" className="chart-container" ref={sexChartRef}>
               <SexChart 
+                data={datasets.sexData[state]}
+                dataRates={datasets.sexDataRates[state]}
                 width={getDimension(sexChartRef, 'width')} 
                 height={getDimension(sexChartRef, 'height')}
                 metric={metric}
@@ -407,6 +442,8 @@ function App(params) {
             <span className="individual-header margin-top">By Race/Ethnicity</span>
             <div id="race-chart-container" className="chart-container" ref={raceChartRef}>
                 <RaceChart 
+                  data={datasets.raceData[state]}
+                  dataRates={datasets.raceDataRates[state]}
                   width={getDimension(raceChartRef, 'width')}
                   height={getDimension(raceChartRef, 'height')}
                   metric={metric}
@@ -423,6 +460,7 @@ function App(params) {
             <span className="individual-header margin-top">By Age (In Years)</span>
             <div id="age-chart-container" className="chart-container" ref={ageChartRef}>
                 <AgeChart 
+                  data={datasets.ageData[state]}
                   width={getDimension(ageChartRef, 'width')}
                   height={getDimension(ageChartRef, 'height')}
                   metric={metric}
@@ -439,6 +477,7 @@ function App(params) {
             <span className="individual-header margin-top-small-viewport">By Age and Sex</span>
             <div id="age-by-sex-chart-container" className="chart-container" ref={ageBySexChartRef}>
               <AgeBySexChart 
+                data={datasets.ageBySexData[state]}
                 width={getDimension(ageBySexChartRef, 'width')}
                 height={getDimension(ageBySexChartRef, 'height')}
                 metric={metric}
@@ -461,15 +500,15 @@ function App(params) {
           <h2 className="preheader-label">What were the circumstances<sup>††</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
         </div>
         <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
-        <p>{interventionData[state].percent.toFixed(1)}% had at least one potential opportunity for intervention. {circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
+        <p>{datasets.interventionData[state].percent.toFixed(1)}% had at least one potential opportunity for intervention. {datasets.circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
         {!accessible && (
           <div className="column column-left">
             <div className="waffle-column waffle-column-left">
               <div id="waffle-chart-container" className="chart-container" ref={waffleChartRef}>
                 <WaffleChart 
+                  data={datasets.interventionData[state]}
                   width={getDimension(waffleChartRef, 'width')}
                   height={getDimension(waffleChartRef, 'height')}
-                  state={state}
                   header={false}
                   accessible={accessible}
                   colorScale={colorScale}
@@ -477,7 +516,7 @@ function App(params) {
               </div>
             </div>
             <div className="waffle-column waffle-column-right">
-              <span className="waffle-label font-xxl">{interventionData[state].percent.toFixed(1)}%</span><br/>
+              <span className="waffle-label font-xxl">{datasets.interventionData[state].percent.toFixed(1)}%</span><br/>
               <span className="waffle-label">of drug overdoses had at least one opportunity for intervention</span>
             </div>
           </div> 
@@ -485,9 +524,9 @@ function App(params) {
         <div className="column column-right">
           <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
             <CircumstancesChart 
+              data={datasets.circumstancesData[state]}
               width={getDimension(interventionChartRef, 'width')}
               height={getDimension(interventionChartRef, 'height')}
-              state={state}
               interventions={true}
               accessible={accessible}
               colorScale={colorScale}
@@ -502,7 +541,7 @@ function App(params) {
         <div className="subsection">
           <span className="individual-header margin-bottom">Additional circumstances surrounding overdose deaths</span>
           <div className="additional-circumstance-container">
-            {!accessible && circumstancesData[state]['other'].map(d => (
+            {!accessible && datasets.circumstancesData[state]['other'].map(d => (
               <div key={`circtumstance-${d.circumstance}`} className="circumstance-container">
                 <div className="circumstance-icon-container" data-tip={`Deaths: ${Number(d.count).toLocaleString()}<br/>Percent: ${d.percent}%`}>
                   <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
@@ -514,7 +553,7 @@ function App(params) {
               </div>
             ))}
             {accessible && <DataTable 
-              data={circumstancesData[state]['other']}
+              data={datasets.circumstancesData[state]['other']}
               xAxisKey={'circumstance'}
               orderedKeys={['count', 'percent']}
               labelOverrides={{'count': 'Deaths'}}

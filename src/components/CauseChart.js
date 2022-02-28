@@ -3,8 +3,6 @@ import { Group } from '@visx/group';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear } from '@visx/scale';
 
-import raw from '../data/causes.json';
-
 import Utils from '../shared/Utils';
 import DataTable from './DataTable';
 import { countCutoff } from '../constants.json';
@@ -17,8 +15,8 @@ function CauseChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { width, height, state, el, accessible, colorScale } = params;
-  const data = raw[state];
+  const { data, width, height, el, state, accessible, colorScale } = params;
+
   const margin = {top: 20, bottom: width < viewportCutoff ? 220 : 140, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;

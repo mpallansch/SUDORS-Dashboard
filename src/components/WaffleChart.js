@@ -1,15 +1,11 @@
 import { Group } from '@visx/group';
 import { Circle } from '@visx/shape';
 
-import raw from '../data/interventions.json';
-
 import '../css/WaffleChart.css';
 
 function WaffleChart(params) {
 
-  const { width, height, state, header, accessible, colorScale } = params;
-
-  const data = raw[state];
+  const { data, width, height, header, accessible, colorScale } = params;
 
   const numDots = header ? 4 : 10;
   const rowValue = 100 / numDots;

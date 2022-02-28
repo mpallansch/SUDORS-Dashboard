@@ -4,8 +4,6 @@ import { Group } from '@visx/group';
 import { AxisLeft, AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear } from '@visx/scale';
 
-import raw from '../data/time.json';
-
 import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { countCutoff } from '../constants.json';
@@ -72,11 +70,11 @@ function MonthChart(params) {
 
   const viewportCutoff = 600;
 
-  const { width, height, state, header, colorScale, el, accessible } = params;
+  const { data, width, height, header, colorScale, el, accessible } = params;
   const [ animated, setAnimated ] = useState(false);
 
-  const data = raw[state].month;
-  const dataQuarter = raw[state].quarter;
+  const dataMonth = data.month;
+  const dataQuarter = data.quarter;
   const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : width < viewportCutoff ? 55 : 90), right: 5};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
@@ -84,14 +82,14 @@ function MonthChart(params) {
   const labelOverrides = {'0': 'Jan-March', '1': 'Apr-Jun', '2': 'Jul-Sept', '3': 'Oct-Dec', 'value': 'Deaths'};
 
   const xScale = scaleBand({
-    domain: header ? dataQuarter.map(d => d.quarter) : data.map(d => d.month),
+    domain: header ? dataQuarter.map(d => d.quarter) : dataMonth.map(d => d.month),
     range: [ header ? 5 : 0, adjustedWidth ],
     padding: header ? 0 : 0.35
   });
 
   const halfBandwidth = xScale.bandwidth() / 2;
 
-  const max = Math.max(...(header ? dataQuarter : data).map(d => d.value));
+  const max = Math.max(...(header ? dataQuarter : dataMonth).map(d => d.value));
   const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : 2000;
 
   const yScale = scaleLinear({
@@ -114,7 +112,7 @@ function MonthChart(params) {
   return width > 0 && 
     (accessible) ? (
       <DataTable
-        data={header ? dataQuarter : data}
+        data={header ? dataQuarter : dataMonth}
         xAxisKey={header ? 'quarter' : 'month'}
         labelOverrides={header ? labelOverrides : {...monthMapping, value: 'Deaths'}}
         caption={'Drug deaths by month'}
@@ -173,7 +171,7 @@ function MonthChart(params) {
                 />
                 <text x={adjustedHeight / -2} y={-65} textAnchor="middle" transform="rotate(-90)">Count <tspan baselineShift="super" dominantBaseline="auto">†</tspan></text>
 
-                {data.map(d => (
+                {dataMonth.map(d => (
                   <Group key={`group-${d.month}`} className="animate-bars">
                     {d.value >= countCutoff && (
                       <path

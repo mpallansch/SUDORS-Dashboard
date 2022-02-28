@@ -4,8 +4,6 @@ import { Group } from '@visx/group';
 import { AxisBottom } from '@visx/axis';
 import { scaleBand, scaleLinear, scaleOrdinal } from '@visx/scale';
 
-import raw from '../data/opioid-stimulant.json';
-
 import { countCutoff } from '../constants.json';
 
 import DataTable from './DataTable';
@@ -17,8 +15,8 @@ function OpioidStimulantChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { width, height, state, el, accessible, colorScale } = params;
-  const data = raw[state].horizontalBarData;
+  const { data, width, height, el, accessible, colorScale } = params;
+
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);
   const margin = {top: 10, bottom: 40, left: 20, right: width < viewportCutoff ? 60 : 20};
   const adjustedWidth = width - margin.left - margin.right;

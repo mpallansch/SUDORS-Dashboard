@@ -3,8 +3,6 @@ import { Group } from '@visx/group';
 import { Text } from '@visx/text';
 import { scaleBand, scaleLinear } from '@visx/scale';
 
-import raw from '../data/drug-combination.json';
-
 import { countCutoff } from '../constants.json';
 
 import '../css/DrugCombinationChart.css';
@@ -17,8 +15,8 @@ function DrugCombinationChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { width: rawWidth, height, state, el, accessible, colorScale } = params;
-  const data = raw[state].combinations;
+  const { data, width: rawWidth, height, el, accessible, colorScale } = params;
+
   const width = Math.max(data.length * 110, rawWidth);
   const barPadding = 0.45;
   const margin = {top: 10, bottom: 200, left: rawWidth < viewportCutoff ? 175 : 280, right: 20};

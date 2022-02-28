@@ -4,8 +4,6 @@ import { Group } from '@visx/group';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
-import raw from '../data/age.json';
-
 import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { countCutoff, rateCutoff, rateCutoffLabel } from '../constants.json';
@@ -24,11 +22,9 @@ function AgeChart(params) {
     '6': '65+'
   };
   
-  const { width, height, metric, state, colorScale, el, accessible } = params;
+  const { data, width, height, metric, state, colorScale, el, accessible } = params;
 
   const [ animated, setAnimated ] = useState(false);
-
-  const data = raw[state];
 
   const margin = {top: 10, bottom: 10, left: 75, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
