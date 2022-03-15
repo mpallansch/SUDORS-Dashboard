@@ -111,9 +111,17 @@ function App(params) {
     'History of substance use/misuse': 'cdc-icon-clipboard-list-light',
     'Naloxone administered': 'cdc-icon-first-aid-light',
     'Current pain treatment': 'cdc-icon-medical_04',
-    'Experiencing homelessness': 'cdc-icon-home-lg-light', //'cdc-icon-store-alt-slash-light',
+    'Experiencing homelessness': 'cdc-icon-home-lg-light',
     'Recent return to use of opioids': 'cdc-icon-sync-alt-light icon'
   };
+
+  const monthLabelOverrides = {
+    '0': '    Jan-March', 
+    '1': '    Apr-Jun', 
+    '2': '    Jul-Sept', 
+    '3': '     Oct-Dec'
+  };
+
 
   const resizeObserver = new ResizeObserver(entries => {
     const { width, height } = entries[0].contentRect;
@@ -218,19 +226,23 @@ function App(params) {
         </div>
         {accessible ? (
           <>
-            <p>{Number(datasets.totalData[state]).toLocaleString()} total deaths in 2020</p>
-            <div id="header-line-chart-container" className="chart-container" ref={headerMonthChartRef}>
-              <MonthChart 
-                data={datasets.timeData[state]}
-                width={getDimension(headerMonthChartRef, 'width')}
-                height={getDimension(headerMonthChartRef, 'height')}
-                header={true}
-                colorScale={colorScale}
-                el={monthChartRef}
-                accessible={accessible}
+              <DataTable 
+                data={[
+                  {quarter: 'Total in 2020', value: datasets.totalData[state], percent: '100.0'}, 
+                  {quarter: 'Quarter of 2020', spacer: true, colSpan: 2},
+                  ...datasets.timeData[state].quarter.map(d => ({quarter: monthLabelOverrides[d.quarter], value: d.value, percent: ((d.value / datasets.totalData[state] * 1000) / 10).toFixed(1)})), 
+                  {quarter: 'At least one potential opportunity for intervention', value: datasets.interventionData[state].deaths, percent: datasets.interventionData[state].percent}
+                ]}
+                xAxisKey={'quarter'}
+                labelOverrides={{
+                  'quarter': ' ',
+                  'value': 'Number of deaths',
+                  'percent': 'Percent of deaths'
+                }}
+                suffixes={{
+                  'percent': '%'
+                }}
               />
-            </div>
-            <p>{datasets.interventionData[state].percent}% had at least one potential opportunity for intervention</p>
           </>
         ) : (
           <div className="header-sections-container">

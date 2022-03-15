@@ -60,7 +60,8 @@ function OpioidStimulantChart(params) {
               name: data[0][`${key}Name`]
             }))}
             xAxisKey={'name'}
-            labelOverrides={{'name': 'Drug Types Involved'}}
+            labelOverrides={{'name': 'Overdose death involving:', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'}}
+            suffixes={{'percent': '%'}}
             caption={'Opioid and stimulant breakdown in overdose deaths'}
           />
         ) : (

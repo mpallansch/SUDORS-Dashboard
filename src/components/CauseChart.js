@@ -54,17 +54,20 @@ function CauseChart(params) {
   }, [state]);
 
   let labelOverrides = {
-    'presentCount': 'Present',
-    'presentPercent': 'Present Percent',
-    'causeCount': 'Cause',
-    'causePercent': 'Cause Percent',
+    'causeCount': 'Number of deaths',
+    'causePercent': 'Percent of deaths',
+    'Illicitly manufactured fentanyls': '    Illicitly manufactured fentanyls',
+    'Prescription opioids': '    Prescription opioids',
+    'Methamphetamine': '    Methamphetamine',
+    'Cocaine': '    Cocaine',
+    'Heroin': '    Heroin',
     'opioid': 'Drug'
   };
 
   if(width < viewportCutoff){
-    labelOverrides['Illicitly manufactured fentanyls'] = 'IMFs';
-    labelOverrides['Prescription opioids'] = 'Rx Opioids';
-    labelOverrides['Methamphetamine'] = 'Meth';
+    labelOverrides['Illicitly manufactured fentanyls'] = '    IMFs';
+    labelOverrides['Prescription opioids'] = '    Rx Opioids';
+    labelOverrides['Methamphetamine'] = '    Meth';
   }
 
   return width > 0 && (
@@ -74,8 +77,9 @@ function CauseChart(params) {
           <DataTable 
             data={data}
             xAxisKey={'opioid'}
-            orderedKeys={['presentCount', 'presentPercent', 'causeCount', 'causePercent']}
+            orderedKeys={['causeCount', 'causePercent']}
             labelOverrides={labelOverrides}
+            suffixes={{'causePercent': '%'}}
             caption={'Overdose deaths by drug'}
           />
         ) : (

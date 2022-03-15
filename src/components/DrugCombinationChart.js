@@ -83,7 +83,7 @@ function DrugCombinationChart(params) {
       drugCombinationNames.length === 2 ? ' and ' : ', and ')
   };
 
-  let labelOverrides = {};
+  let labelOverrides = {'drugCombination': ' ', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'};
 
   data.forEach(d => labelOverrides[d.drugCombination] = listDrugs(d.drugCombination));
 
@@ -95,6 +95,7 @@ function DrugCombinationChart(params) {
               data={data}
               xAxisKey={'drugCombination'}
               labelOverrides={labelOverrides}
+              suffixes={{'percent': '%'}}
               caption={'Drug combinations involved in overdose deaths'}
             />
           ) : (

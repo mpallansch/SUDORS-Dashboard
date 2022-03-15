@@ -4,7 +4,7 @@ import '../css/DataTable.css';
 
 function DataTable(params) {
 
-  const { data, rates, cutoffData, cutoffKey, orderedKeys, highlight, xAxisKey, caption } = params;
+  const { data, rates, cutoffData, cutoffKey, orderedKeys, highlight, xAxisKey, suffixes, caption } = params;
 
   const labelOverrides = params.labelOverrides || {};
 
@@ -62,8 +62,9 @@ function DataTable(params) {
             {isArray && data.map((d, i) => (
               <tr key={`tr-${d[xAxisKey]}`}>
                 <th key={`th-${d[xAxisKey]}`} scope="row">{labelOverrides[d[xAxisKey]] || d[xAxisKey]}</th>
-                {keys.map((key, j) => key !== xAxisKey && (
-                  <td key={`td-${xAxisKey}-${j}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[j - 1]] < countCutoff ? 'Data suppressed' : d[key]) : ((cutoffData ? cutoffData[i][cutoffKey] : d[key]) < countCutoff ? 'Data suppressed' : Number(d[key]).toLocaleString())}</td>
+                {d.spacer === true && <td colSpan={d.colSpan}></td>}
+                {d.spacer !== true && keys.map((key, j) => key !== xAxisKey && (
+                  <td key={`td-${xAxisKey}-${j}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[j - 1]] < countCutoff ? 'Data suppressed' : d[key]) : ((cutoffData ? cutoffData[i][cutoffKey] : d[key]) < countCutoff ? 'Data suppressed' : Number(d[key]).toLocaleString())}{suffixes && suffixes[key]}</td>
                 ))}
               </tr>
             ))}

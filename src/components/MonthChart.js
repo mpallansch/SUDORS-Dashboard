@@ -66,6 +66,13 @@ const monthMapping = {
   '61': 'Jan'
 };
 
+const quarterMapping = {
+  '0': 'Jan-March',
+  '1': 'Apr-Jun',
+  '2': 'Jul-Sept',
+  '3': 'Oct-Dec'
+}
+
 function MonthChart(params) {
 
   const viewportCutoff = 600;
@@ -79,7 +86,7 @@ function MonthChart(params) {
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
-  const labelOverrides = {'0': 'Jan-March', '1': 'Apr-Jun', '2': 'Jul-Sept', '3': 'Oct-Dec', 'value': 'Deaths'};
+  const labelOverrides = {'value': 'Number of deaths', 'month': 'Month of death'};
 
   const xScale = scaleBand({
     domain: header ? dataQuarter.map(d => d.quarter) : dataMonth.map(d => d.month),
@@ -114,7 +121,7 @@ function MonthChart(params) {
       <DataTable
         data={header ? dataQuarter : dataMonth}
         xAxisKey={header ? 'quarter' : 'month'}
-        labelOverrides={header ? labelOverrides : {...monthMapping, value: 'Deaths'}}
+        labelOverrides={header ? {...labelOverrides, ...quarterMapping} : {...labelOverrides, ...monthMappingFull}}
         caption={'Drug deaths by month'}
       />
     ) : (

@@ -65,6 +65,10 @@ function StateChart(params) {
           rates={dataRates}
           highlight={state}
           caption={'Drug deaths by state'}
+          labelOverrides={{
+            'deaths': 'Number of deaths',
+            'rate': 'Age-adjusted rate per 100,000 persons'
+          }}
         />
       ) : (
         <svg
