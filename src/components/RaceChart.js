@@ -89,109 +89,99 @@ function RaceChart(params) {
   }, [state, metric]);
 
   return width > 0 && (
-    accessible ? (
-      <DataTable
-        data={currentData}
-        cutoffData={metric === 'rate' ? data : undefined}
-        cutoffKey="deaths"
-        xAxisKey={'race'}
-        caption={'Drug deaths by race'}
-      />
-    ) : (
-      <svg
-        id="race-chart" 
-        width={width} 
-        height={height}>
-          <Group top={margin.top} left={margin.left}>
-            {currentData.map(d => {
-              let datum;
-              for(let i = 0; i < otherData.length; i++){
-                if(otherData[i].race === d.race){
-                  datum = otherData[i];
-                  break;
-                }
+    <svg
+      id="race-chart" 
+      width={width} 
+      height={height}>
+        <Group top={margin.top} left={margin.left}>
+          {currentData.map(d => {
+            let datum;
+            for(let i = 0; i < otherData.length; i++){
+              if(otherData[i].race === d.race){
+                datum = otherData[i];
+                break;
               }
+            }
 
-              let deaths = metric !== 'rate' ? d.deaths : datum.deaths;
+            let deaths = metric !== 'rate' ? d.deaths : datum.deaths;
 
-              return (
-                <Group key={`bar-container-${d.race}`}>
-                  { // render data bar
-                  !isSuppressed(d, datum) && (
-                    <path 
+            return (
+              <Group key={`bar-container-${d.race}`}>
+                { // render data bar
+                !isSuppressed(d, datum) && (
+                  <path 
+                    className={`animated-bar ${animated ? 'animated' : ''}`}
+                    style={{
+                      'transition': animated ? 'transform 1s ease-in-out' : ''
+                    }}
+                    key={`bar-${d.race}`}
+                    d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d, datum)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
+                    fill={colorScale.Race}
+                    data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
+                    Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
+                    Percent: ${d.percent || 0}%<br/>
+                    Age-adjusted rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
+                  ></path>
+                )}
+                { // render suppressed bar
+                isSuppressed(d, datum) && (
+                  <>
+                    <Bar
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
                         'transition': animated ? 'transform 1s ease-in-out' : ''
                       }}
                       key={`bar-${d.race}`}
-                      d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d, datum)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
-                      fill={colorScale.Race}
+                      x={0}
+                      y={yScale(d.race)}
+                      width={1}
+                      height={yScale.bandwidth()}
+                      fill="black"
+                    />
+                    <Bar
+                      key={`bar-hover-${d.race}`}
+                      x={0}
+                      y={yScale(d.race)}
+                      width={40}
+                      height={yScale.bandwidth()}
+                      fill="transparent"
                       data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
-                      Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
+                      Deaths: ${(d.deaths || datum.deaths) < countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
                       Percent: ${d.percent || 0}%<br/>
-                      Age-adjusted rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
-                    ></path>
-                  )}
-                  { // render suppressed bar
-                  isSuppressed(d, datum) && (
-                    <>
-                      <Bar
-                        className={`animated-bar ${animated ? 'animated' : ''}`}
-                        style={{
-                          'transition': animated ? 'transform 1s ease-in-out' : ''
-                        }}
-                        key={`bar-${d.race}`}
-                        x={0}
-                        y={yScale(d.race)}
-                        width={1}
-                        height={yScale.bandwidth()}
-                        fill="black"
-                      />
-                      <Bar
-                        key={`bar-hover-${d.race}`}
-                        x={0}
-                        y={yScale(d.race)}
-                        width={40}
-                        height={yScale.bandwidth()}
-                        fill="transparent"
-                        data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
-                        Deaths: ${(d.deaths || datum.deaths) < countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
-                        Percent: ${d.percent || 0}%<br/>
-                        Rate: *Data suppressed`}
-                      />
-                    </>
-                  )}
-                  <text
-                    key={`bar-label-${d.race}`}
-                    x={xScale(getData(d, datum)) + 25}
-                    y={yScale(d.race) + (yScale.bandwidth() / 1.75)}
-                    textAnchor={'start'}
-                    dx={-18}
-                  >{getData(d, datum, true)}</text>
-                </Group>
-              )}
+                      Rate: *Data suppressed`}
+                    />
+                  </>
+                )}
+                <text
+                  key={`bar-label-${d.race}`}
+                  x={xScale(getData(d, datum)) + 25}
+                  y={yScale(d.race) + (yScale.bandwidth() / 1.75)}
+                  textAnchor={'start'}
+                  dx={-18}
+                >{getData(d, datum, true)}</text>
+              </Group>
             )}
-            <AxisLeft 
-              scale={yScale}
-            >
-              {axisLeft => (
-                <g className="visx-group visx-axis visx-axis-left" style={{'paddingTop':'20'}}>
-                  {axisLeft.ticks.map(tick => (
-                      <g 
-                        key={`tick-${tick.value}`}
-                        className="visx-group visx-axis-tick">
-                        <text key={`tick-label-${tick.value}`} textAnchor="end" fontSize="medium">
-                          <tspan y={tick.to.y + 4} dx="-10">{tick.value}</tspan>
-                        </text>
-                      </g>
-                    )
-                  )}
-                </g>
-              )}
-            </AxisLeft>
-          </Group>
-      </svg>
-    )
+          )}
+          <AxisLeft 
+            scale={yScale}
+          >
+            {axisLeft => (
+              <g className="visx-group visx-axis visx-axis-left" style={{'paddingTop':'20'}}>
+                {axisLeft.ticks.map(tick => (
+                    <g 
+                      key={`tick-${tick.value}`}
+                      className="visx-group visx-axis-tick">
+                      <text key={`tick-label-${tick.value}`} textAnchor="end" fontSize="medium">
+                        <tspan y={tick.to.y + 4} dx="-10">{tick.value}</tspan>
+                      </text>
+                    </g>
+                  )
+                )}
+              </g>
+            )}
+          </AxisLeft>
+        </Group>
+    </svg>
   );
 }
 

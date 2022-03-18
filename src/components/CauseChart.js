@@ -75,12 +75,13 @@ function CauseChart(params) {
       <div id="cause-chart">
         {accessible ? (
           <DataTable 
-            data={data}
+            data={[...data.map(d => d.opioid.indexOf('Any') !== -1 ? {...d, background: true} : d)]}
             xAxisKey={'opioid'}
             orderedKeys={['causeCount', 'causePercent']}
             labelOverrides={labelOverrides}
             suffixes={{'causePercent': '%'}}
             caption={'Overdose deaths by drug'}
+            customBackground={true}
           />
         ) : (
           <svg width={width} height={height}>

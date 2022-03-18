@@ -119,9 +119,9 @@ function MonthChart(params) {
   return width > 0 && 
     (accessible) ? (
       <DataTable
-        data={header ? dataQuarter : dataMonth}
-        xAxisKey={header ? 'quarter' : 'month'}
-        labelOverrides={header ? {...labelOverrides, ...quarterMapping} : {...labelOverrides, ...monthMappingFull}}
+        data={dataMonth}
+        xAxisKey={'month'}
+        labelOverrides={{...labelOverrides, ...monthMappingFull}}
         caption={'Drug deaths by month'}
       />
     ) : (

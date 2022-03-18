@@ -402,109 +402,150 @@ function App(params) {
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}.</p>
 
-        <div id="metric-selectors">
-          <strong>Metric: </strong>
-          <div>
-            <input 
-              id="rate-metric" 
-              name="metric" 
-              type="radio" 
-              value="rate" 
-              checked={metric === 'rate'}
-              onChange={(e) => setMetric(e.target.value)} />
-            <label htmlFor="rate-metric">Rate per 100,000 persons</label>
-          </div>
+        {accessible ? (
+          <DataTable
+            data={[
+              {demographic: 'Sex', spacer: true, colSpan: '3', background: true},
+              ...datasets.sexData[state].map((datum, i) => (
+                {demographic: `    ${datum.sex}`, deaths: datum.count, percent: datum.percent, rate: datasets.sexDataRates[state][i].rate
+              })),
+              {demographic: 'Race', spacer: true, colSpan: '3', background: true},
+              ...datasets.raceData[state].map((datum, i) => (
+                {demographic: `    ${datum.race}`, deaths: datum.deaths, percent: datum.percent, rate: datasets.raceDataRates[state][i].rate}
+              )),
+              {demographic: 'Age (in years)', spacer: true, colSpan: '3', background: true},
+              ...datasets.ageData[state].filter(d => !!d.age).map((datum, i) => (
+                {demographic: `    ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
+              )),
+              {demographic: 'Age (in years) by Sex', spacer: true, colSpan: '3', background: true},
+              {demographic: '    Male', spacer: true, colSpan: '3'},
+              ...datasets.ageBySexData[state].male.filter(d => !!d.age).map((datum, i) => (
+                {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
+              )),
+              {demographic: '    Female', spacer: true, colSpan: '3'},
+              ...datasets.ageBySexData[state].female.filter(d => !!d.age).map((datum, i) => (
+                {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
+              ))
+            ]}
+            xAxisKey="demographic"
+            orderedKeys={['deaths', 'percent', 'rate']}
+            labelOverrides={{
+              deaths: 'Number of deaths',
+              percent: 'Percent of deaths',
+              rate: 'Rate per 1000,000 persons*'
+            }}
+            suffixes={{
+              percent: '%'
+            }}
+            customBackground={true}
+          />
+        ) : (
+          <>
+            <div id="metric-selectors">
+              <strong>Metric: </strong>
+              <div>
+                <input 
+                  id="rate-metric" 
+                  name="metric" 
+                  type="radio" 
+                  value="rate" 
+                  checked={metric === 'rate'}
+                  onChange={(e) => setMetric(e.target.value)} />
+                <label htmlFor="rate-metric">Rate per 100,000 persons</label>
+              </div>
 
-          <div>
-            <input 
-              id="percent-metric" 
-              name="metric" 
-              type="radio" 
-              value="percent" 
-              checked={metric === 'percent'}
-              onChange={(e) => setMetric(e.target.value)} />
-            <label htmlFor="percent-metric">Percent</label>
-          </div>
-        </div><br/>
-        
-        <div className="column column-left">
-          <div className="subsection marked">
-            <span className="individual-header smaller">By Sex</span>
-            <div id="sex-chart-container" className="chart-container" ref={sexChartRef}>
-              <SexChart 
-                data={datasets.sexData[state]}
-                dataRates={datasets.sexDataRates[state]}
-                width={getDimension(sexChartRef, 'width')} 
-                height={getDimension(sexChartRef, 'height')}
-                metric={metric}
-                state={state}
-                colorScale={colorScale} 
-                el={sexChartRef}
-                accessible={accessible}
-              />
+              <div>
+                <input 
+                  id="percent-metric" 
+                  name="metric" 
+                  type="radio" 
+                  value="percent" 
+                  checked={metric === 'percent'}
+                  onChange={(e) => setMetric(e.target.value)} />
+                <label htmlFor="percent-metric">Percent</label>
+              </div>
+            </div><br/>
+            
+            <div className="column column-left">
+              <div className="subsection marked">
+                <span className="individual-header smaller">By Sex</span>
+                <div id="sex-chart-container" className="chart-container" ref={sexChartRef}>
+                  <SexChart 
+                    data={datasets.sexData[state]}
+                    dataRates={datasets.sexDataRates[state]}
+                    width={getDimension(sexChartRef, 'width')} 
+                    height={getDimension(sexChartRef, 'height')}
+                    metric={metric}
+                    state={state}
+                    colorScale={colorScale} 
+                    el={sexChartRef}
+                    accessible={accessible}
+                  />
+                </div>
+                {metric !== 'rate' && !accessible && (<div id="sex-chart-legend">
+                  <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
+                  <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
+                </div>)}
+              </div>
             </div>
-            {metric !== 'rate' && !accessible && (<div id="sex-chart-legend">
-              <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
-              <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
-            </div>)}
-          </div>
-        </div>
-        <div className="column column-right">
-          <div className="subsection marked">
-            <span className="individual-header margin-top">By Race/Ethnicity</span>
-            <div id="race-chart-container" className="chart-container" ref={raceChartRef}>
-                <RaceChart 
-                  data={datasets.raceData[state]}
-                  dataRates={datasets.raceDataRates[state]}
-                  width={getDimension(raceChartRef, 'width')}
-                  height={getDimension(raceChartRef, 'height')}
-                  metric={metric}
-                  state={state}
-                  colorScale={colorScale}
-                  el={raceChartRef}
-                  accessible={accessible}
-                />
+            <div className="column column-right">
+              <div className="subsection marked">
+                <span className="individual-header margin-top">By Race/Ethnicity</span>
+                <div id="race-chart-container" className="chart-container" ref={raceChartRef}>
+                    <RaceChart 
+                      data={datasets.raceData[state]}
+                      dataRates={datasets.raceDataRates[state]}
+                      width={getDimension(raceChartRef, 'width')}
+                      height={getDimension(raceChartRef, 'height')}
+                      metric={metric}
+                      state={state}
+                      colorScale={colorScale}
+                      el={raceChartRef}
+                      accessible={accessible}
+                    />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="column column-left">
-          <div className="subsection marked">
-            <span className="individual-header margin-top">By Age (In Years)</span>
-            <div id="age-chart-container" className="chart-container" ref={ageChartRef}>
-                <AgeChart 
-                  data={datasets.ageData[state]}
-                  width={getDimension(ageChartRef, 'width')}
-                  height={getDimension(ageChartRef, 'height')}
-                  metric={metric}
-                  state={state}
-                  colorScale={colorScale}
-                  el={ageChartRef}
-                  accessible={accessible}
-                />
+            <div className="column column-left">
+              <div className="subsection marked">
+                <span className="individual-header margin-top">By Age (In Years)</span>
+                <div id="age-chart-container" className="chart-container" ref={ageChartRef}>
+                    <AgeChart 
+                      data={datasets.ageData[state]}
+                      width={getDimension(ageChartRef, 'width')}
+                      height={getDimension(ageChartRef, 'height')}
+                      metric={metric}
+                      state={state}
+                      colorScale={colorScale}
+                      el={ageChartRef}
+                      accessible={accessible}
+                    />
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="column column-right">
-          <div className="subsection marked">
-            <span className="individual-header margin-top-small-viewport">By Age and Sex</span>
-            <div id="age-by-sex-chart-container" className="chart-container" ref={ageBySexChartRef}>
-              <AgeBySexChart 
-                data={datasets.ageBySexData[state]}
-                width={getDimension(ageBySexChartRef, 'width')}
-                height={getDimension(ageBySexChartRef, 'height')}
-                metric={metric}
-                state={state}
-                colorScale={colorScale}
-                el={ageBySexChartRef}
-                accessible={accessible}
-              />
+            <div className="column column-right">
+              <div className="subsection marked">
+                <span className="individual-header margin-top-small-viewport">By Age and Sex</span>
+                <div id="age-by-sex-chart-container" className="chart-container" ref={ageBySexChartRef}>
+                  <AgeBySexChart 
+                    data={datasets.ageBySexData[state]}
+                    width={getDimension(ageBySexChartRef, 'width')}
+                    height={getDimension(ageBySexChartRef, 'height')}
+                    metric={metric}
+                    state={state}
+                    colorScale={colorScale}
+                    el={ageBySexChartRef}
+                    accessible={accessible}
+                  />
+                </div>
+                {!accessible && (<div className="age-chart-legend">
+                  <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
+                  <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
+                </div>)}
+              </div>
             </div>
-            {!accessible && (<div className="age-chart-legend">
-              <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Male} /></svg>Male</span>
-              <span><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.Female} /></svg>Female</span>
-            </div>)}
-          </div>
-        </div>
+          </>
+        )}
       </div>
 
       <div className="section opioid-section">
@@ -537,6 +578,7 @@ function App(params) {
           <div id="intervention-chart-container" className="chart-container" ref={interventionChartRef}>
             <CircumstancesChart 
               data={datasets.circumstancesData[state]}
+              atLeastOneValue={datasets.interventionData[state]}
               width={getDimension(interventionChartRef, 'width')}
               height={getDimension(interventionChartRef, 'height')}
               interventions={true}
@@ -568,7 +610,10 @@ function App(params) {
               data={datasets.circumstancesData[state]['other']}
               xAxisKey={'circumstance'}
               orderedKeys={['count', 'percent']}
-              labelOverrides={{'count': 'Deaths'}}
+              labelOverrides={{'count': 'Number of deaths', 'percent': 'Percent of deaths'}}
+              suffixes={{
+                'percent': '%'
+              }}
             />}
           </div>
         </div>

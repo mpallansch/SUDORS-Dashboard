@@ -75,87 +75,77 @@ function AgeChart(params) {
   }, [state, metric]);
 
   return width > 0 && (
-    accessible ? (
-      <DataTable 
-        data={data}
-        xAxisKey={'age'}
-        orderedKeys={metric === 'rate' ? ['rate'] : ['count', 'percent']}
-        labelOverrides={{...ageMapping, 'count': 'Deaths'}}
-        caption={'Drug deaths by age group'}
-      />
-    ) : (
-      <svg
-        id="age-chart" 
-        width={width} 
-        height={height}>
-          <Group top={margin.top} left={margin.left}>
-            <AxisLeft
-              scale={yScale}
-              tickLabelProps={() => ({
-                fontSize: 'medium',
-                textAnchor: 'start',
-                verticalAnchor: 'middle'
-              })}
-              left={-65}
-              hideTicks
-              hideAxisLine
-            />
-            {data.map(d => {
-              if(d.age === '') return;
+    <svg
+      id="age-chart" 
+      width={width} 
+      height={height}>
+        <Group top={margin.top} left={margin.left}>
+          <AxisLeft
+            scale={yScale}
+            tickLabelProps={() => ({
+              fontSize: 'medium',
+              textAnchor: 'start',
+              verticalAnchor: 'middle'
+            })}
+            left={-65}
+            hideTicks
+            hideAxisLine
+          />
+          {data.map(d => {
+            if(d.age === '') return;
 
-              return(
-                <Group key={`group-${d.age}`}>
-                  {!isSuppressed(d) && (
-                    <path 
-                      className={`animated-bar ${animated ? 'animated' : ''}`}
-                      style={{
-                        'transition': animated ? 'transform 1s ease-in-out' : '',
-                        'transformOrigin': '0px 0px'
-                      }}
-                      key={`bar-female-${d.age}`}
-                      d={Utils.horizontalBarPath(true, 0, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
-                      fill={colorScale.RaceAccent}
+            return(
+              <Group key={`group-${d.age}`}>
+                {!isSuppressed(d) && (
+                  <path 
+                    className={`animated-bar ${animated ? 'animated' : ''}`}
+                    style={{
+                      'transition': animated ? 'transform 1s ease-in-out' : '',
+                      'transformOrigin': '0px 0px'
+                    }}
+                    key={`bar-female-${d.age}`}
+                    d={Utils.horizontalBarPath(true, 0, yScale(ageMapping[d.age]), xScale(d[metric]), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
+                    fill={colorScale.RaceAccent}
+                    data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
+                    Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
+                    Percent: ${d.percent || 0}%<br/>
+                    Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                  ></path>
+                )}
+                {isSuppressed(d) && (
+                  <>
+                    <Bar 
+                      x={0}
+                      y={yScale(ageMapping[d.age])}
+                      width={1}
+                      height={yScale.bandwidth()}
+                      fill={colorScale.Male}
+                    />
+                    <Bar 
+                      x={0}
+                      y={yScale(ageMapping[d.age])}
+                      width={40}
+                      height={yScale.bandwidth()}
+                      fill="transparent"
                       data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
                       Percent: ${d.percent || 0}%<br/>
-                      Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
-                    ></path>
-                  )}
-                  {isSuppressed(d) && (
-                    <>
-                      <Bar 
-                        x={0}
-                        y={yScale(ageMapping[d.age])}
-                        width={1}
-                        height={yScale.bandwidth()}
-                        fill={colorScale.Male}
-                      />
-                      <Bar 
-                        x={0}
-                        y={yScale(ageMapping[d.age])}
-                        width={40}
-                        height={yScale.bandwidth()}
-                        fill="transparent"
-                        data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
-                        Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                        Percent: ${d.percent || 0}%<br/>
-                        Age-adjusted rate: *Data suppressed`}
-                      />
-                    </>
-                  )}
-                  <text
-                    x={isSuppressed(d) ? 5 : xScale(d[metric]) + 5}
-                    y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
-                    dx={isSuppressed(d) ? '15px' : '0'}
-                    fill="black">
-                      {suppressedValue(d)}
-                  </text>
-                </Group>
-              )}
+                      Age-adjusted rate: *Data suppressed`}
+                    />
+                  </>
+                )}
+                <text
+                  x={isSuppressed(d) ? 5 : xScale(d[metric]) + 5}
+                  y={yScale(ageMapping[d.age]) + (yScale.bandwidth() / 1.5)}
+                  dx={isSuppressed(d) ? '15px' : '0'}
+                  fill="black">
+                    {suppressedValue(d)}
+                </text>
+              </Group>
             )}
-          </Group>
-      </svg>
-    )
+          )}
+        </Group>
+    </svg>
   );
 }
 

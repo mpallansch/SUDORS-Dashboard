@@ -4,7 +4,7 @@ import '../css/DataTable.css';
 
 function DataTable(params) {
 
-  const { data, rates, cutoffData, cutoffKey, orderedKeys, highlight, xAxisKey, suffixes, caption } = params;
+  const { data, rates, cutoffData, cutoffKey, orderedKeys, highlight, xAxisKey, suffixes, caption, customBackground } = params;
 
   const labelOverrides = params.labelOverrides || {};
 
@@ -41,7 +41,7 @@ function DataTable(params) {
 
   return (
     <>
-      <div className="table-container">
+      <div className={`table-container${customBackground ? ' custom-background' : ' non-custom-background'}`}>
         <table>
           <caption>{caption}</caption>
           <thead>
@@ -60,21 +60,21 @@ function DataTable(params) {
           </thead>
           <tbody>
             {isArray && data.map((d, i) => (
-              <tr key={`tr-${d[xAxisKey]}`}>
-                <th key={`th-${d[xAxisKey]}`} scope="row">{labelOverrides[d[xAxisKey]] || d[xAxisKey]}</th>
+              <tr key={`tr-${d[xAxisKey]}-${i}`} className={d.background === true ? 'background' : ''}>
+                <th key={`th-${d[xAxisKey]}-${i}`} scope="row">{labelOverrides[d[xAxisKey]] || d[xAxisKey]}</th>
                 {d.spacer === true && <td colSpan={d.colSpan}></td>}
                 {d.spacer !== true && keys.map((key, j) => key !== xAxisKey && (
-                  <td key={`td-${xAxisKey}-${j}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[j - 1]] < countCutoff ? 'Data suppressed' : d[key]) : ((cutoffData ? cutoffData[i][cutoffKey] : d[key]) < countCutoff ? 'Data suppressed' : Number(d[key]).toLocaleString())}{suffixes && suffixes[key]}</td>
+                  <td key={`td-${xAxisKey}-${i}-${j}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[j - 1]] < countCutoff ? 'Data suppressed' : d[key]) : ((cutoffData ? cutoffData[i][cutoffKey] : d[key]) < countCutoff ? 'Data suppressed' : Number(d[key]).toLocaleString())}{suffixes && suffixes[key]}</td>
                 ))}
               </tr>
             ))}
 
-            {!isArray && keys.map(rowKey => (
-                <tr key={`tr-${rowKey}`} className={rowKey === highlight ? 'highlight' : ''}>
-                  <th key={`th-${rowKey}`} scope="row">{labelOverrides[rowKey] || rowKey}</th>
+            {!isArray && keys.map((rowKey, rowIndex) => (
+                <tr key={`tr-${rowKey}-${rowIndex}`} className={rowKey === highlight ? 'highlight' : ''}>
+                  <th key={`th-${rowKey}-${rowIndex}`} scope="row">{labelOverrides[rowKey] || rowKey}</th>
                   {[data, rates].map((d, i) => 
-                    Object.keys(d[keys[0]]).map(colKey => (
-                      <td key={`td-${d[rowKey][colKey]}`}>{d[rowKey][colKey] < [countCutoff, rateCutoff][i] ? 'Data suppressed' : Number(d[rowKey][colKey]).toLocaleString()}</td>
+                    Object.keys(d[keys[0]]).map((colKey, colIndex) => (
+                      <td key={`td-${d[rowKey][colKey]}-${rowIndex}-${colIndex}`}>{d[rowKey][colKey] < [countCutoff, rateCutoff][i] ? 'Data suppressed' : Number(d[rowKey][colKey]).toLocaleString()}</td>
                     ))
                   )}
                 </tr>

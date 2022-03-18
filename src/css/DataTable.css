@@ -9,20 +9,19 @@
 
 .table-container table {
     min-width: 100%;
-    border-collapse: separate;
+    border-collapse: collapse;
     border-spacing: 0;
 }
 
 .table-container table th,
 .table-container table td {
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
     padding: 0.25em 1em;
     white-space: pre;
 }
 
 .table-container table thead th {
     border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }
 
 .table-container table tr.highlight th {
@@ -46,7 +45,17 @@
     position: sticky;
     left: 0;
     background-color: white;
-    border-left: 1px solid black;
+}
+
+.table-container.non-custom-background table tr:nth-child(odd),
+.table-container.non-custom-background table tbody tr:nth-child(odd) th,
+.table-container table tr.background,
+.table-container table tbody tr.background th {
+    background-color: rgb(230, 230, 230);
+}
+
+.table-container.non-custom-background table thead tr:nth-child(1) {
+    background-color: white;
 }
 
 .App.small-vp .table-container table tbody th,

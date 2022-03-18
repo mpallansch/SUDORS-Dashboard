@@ -10,7 +10,7 @@ import '../css/CircumstancesChart.css';
 
 function CircumstancesChart(params) {
 
-  const { data, width, height, accessible, colorScale } = params;
+  const { data, atLeastOneValue, width, height, accessible, colorScale } = params;
   const metric = 'intervention';
   const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 10};
   const adjustedWidth = width - margin.left - margin.right;
@@ -32,10 +32,13 @@ function CircumstancesChart(params) {
   return width > 0 && 
     accessible ? (
       <DataTable
-        data={data[metric]}
+        data={[{circumstance: '≥1 potential opportunity for intervention', count: atLeastOneValue.deaths, percent: atLeastOneValue.percent}, ...data[metric].map(d => ({circumstance: `    ${d.circumstance}`, count: d.count, percent: d.percent}))]}
         xAxisKey={'circumstance'}
         orderedKeys={['count', 'percent']}
-        labelOverrides={{'count': 'Deaths', 'circumstance': 'Opportunity for Intervention'}}
+        labelOverrides={{'count': 'Number of Deaths', 'percent': 'Percent of deaths', 'circumstance': 'Potential opportunity for intervention'}}
+        suffixes={{
+          'percent': '%'
+        }}
         caption={'Circumstances involved in drug deaths'}
       />
     ) : (
