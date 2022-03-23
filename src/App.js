@@ -275,7 +275,7 @@ function App(params) {
                   header={true}
                 />
               </div>
-              <span className="header-text"><strong>{datasets.interventionData[state].percent}%</strong> had at least one potential opportunity for intervention</span>
+              <span className="header-text"><strong>{datasets.interventionData[state].percent}%</strong> had at least one potential opportunity for intervention<sup>a</sup></span>
             </div>
           </div>
         )}
@@ -286,7 +286,7 @@ function App(params) {
         <div>
           <div className="drug-tab-section">
             {drugTab('All', 'All Drugs')}
-            {drugTab('Opioid', 'Any Opioid')}
+            {drugTab('Opioid', <span>Any Opioid<sup>b</sup></span>)}
           </div>
           <div className="drug-tab-section">
             {drugTab('Illicitly manufactured fentanyls', dimensions.width < viewportCutoffSmall ? 'IMFs' : 'Illicitly manufactured fentanyls')}
@@ -294,7 +294,7 @@ function App(params) {
           </div>
           <div className="drug-tab-section">
             {drugTab('Prescription opioids')}
-            {drugTab('Stimulant', 'Any Stimulant')}
+            {drugTab('Stimulant', <span>Any Stimulant<sup>c</sup></span>)}
           </div>
           <div className="drug-tab-section">
             {drugTab('Cocaine')}
@@ -318,7 +318,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <h3 className="subheader">Percentages of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
+        <h3 className="subheader">Percentages<sup>d</sup> of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
         <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulant').causePercent.toFixed(1)}% involved at least one stimulant. {datasets.additionalDrugData[state].commonOpioid} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
@@ -335,7 +335,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <h3 className="subheader">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination, {stateLabel}</h3>
+        <h3 className="subheader">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination<sup>e</sup>, {stateLabel}</h3>
         <p>The five most frequently occurring opioid and stimulant combinations accounted for {datasets.combinationData[state].total.toFixed(1)}% of overdose deaths. 
           {multipleCombo.length > 0 ? 
             ` For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}` :
@@ -397,7 +397,7 @@ function App(params) {
 
       <div className="section">
         <div className="header margin">
-          <h2 className="preheader-label">Who died of a drug overdose in 2020, {stateLabel}?</h2>{stateSelector}
+          <h2 className="preheader-label">Who died of a drug overdose in 2020, {stateLabel}?<sup>f</sup></h2>{stateSelector}
         </div>
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}.</p>
@@ -550,7 +550,7 @@ function App(params) {
 
       <div className="section opioid-section">
         <div className="header margin">
-          <h2 className="preheader-label">What were the circumstances<sup>††</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
+          <h2 className="preheader-label">What were the circumstances<sup>g</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
         </div>
         <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
         <p>{datasets.interventionData[state].percent.toFixed(1)}% had at least one potential opportunity for intervention. {datasets.circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
@@ -603,6 +603,10 @@ function App(params) {
                 <div className="circumstance-label-container">
                   <span className="circumstance-value">{d.percent.toFixed(1)}%</span>
                   {d.circumstance}
+                  {d.circumstance === 'History of substance use/misuse' && <sup>k</sup>}
+                  {d.circumstance === 'Naloxone administered' && <sup>l</sup>}
+                  {d.circumstance === 'Recent return to use of opioids' && <sup>m</sup>}
+                  {d.circumstance === 'Experiencing homelessness' && <sup>n</sup>}
                 </div>
               </div>
             ))}

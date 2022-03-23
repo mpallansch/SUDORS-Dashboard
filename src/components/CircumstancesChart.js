@@ -66,6 +66,9 @@ function CircumstancesChart(params) {
                 />
                 <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Intervention}>{d.percent.toFixed(1)}%</text>
                 <Text width={adjustedWidth} x={0}  y={yScale(d.circumstance) + barThickness + margin.bar} verticalAnchor="start">{d.circumstance}</Text>
+                {d.circumstance === 'Potential bystander present' && <text width={adjustedWidth} x={225} y={yScale(d.circumstance) + barThickness + margin.bar + 5} verticalAnchor="start" fontSize="13">h</text>}
+                {d.circumstance === 'Current treatment for substance use disorder' && <text width={adjustedWidth} x={365} y={yScale(d.circumstance) + barThickness + margin.bar + 5} verticalAnchor="start" fontSize="13">i</text>}
+                {d.circumstance === 'Recent release from institutional setting' && <text width={adjustedWidth} x={320} y={yScale(d.circumstance) + barThickness + margin.bar + 5} verticalAnchor="start" fontSize="13">j</text>}
               </Group>
             )
           )}
