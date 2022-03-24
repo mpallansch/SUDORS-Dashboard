@@ -37,7 +37,7 @@ function StateChart(params) {
   });
 
   const onScroll = () => {
-    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top + 50){
       window.removeEventListener('scroll', onScroll);
       setAnimated(true);
     }
@@ -153,7 +153,7 @@ function StateChart(params) {
                   transform: 'translate(0, 10)'
                 })}
               />
-              <text x={adjustedWidth / 2} y={height - 15} textAnchor="middle">{width < viewportCutoff ?  'Deaths per 100,000 persons' : 'Age-adjusted rate of deaths per 100,000 persons'}<tspan baselineShift="super" dominantBaseline="auto">†</tspan></text>
+              <text x={width < viewportCutoff ? 0 : adjustedWidth / 2} y={height - 15} textAnchor="middle">{width < viewportCutoff ?  'Deaths per 100,000 persons' : 'Age-adjusted rate of deaths per 100,000 persons'}<tspan baselineShift="super" dominantBaseline="auto">†</tspan></text>
             </Group>
         </svg>
       )}

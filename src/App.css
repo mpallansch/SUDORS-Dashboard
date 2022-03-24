@@ -120,12 +120,16 @@ input[type="radio"] {
   font-family: 'Merriweather', serif;
   color: #712177;
   font-size: large;
+  Margin-left: 1em;
 }
 
 .subsection {
   margin-top: 1em;
-  padding: 1em;
   position: relative;
+}
+
+.subsection.marked {
+  padding-left: 10px;
 }
 
 .subsection.marked::before {

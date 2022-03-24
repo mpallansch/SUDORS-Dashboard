@@ -105,7 +105,7 @@ function MonthChart(params) {
   });
 
   const onScroll = () => {
-    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top){
       window.removeEventListener('scroll', onScroll);
       setAnimated(true);
     }
@@ -222,6 +222,7 @@ function MonthChart(params) {
             )}
           </Group>
         </svg>
+	{width >= viewportCutoff && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
       </div>
     );
 }

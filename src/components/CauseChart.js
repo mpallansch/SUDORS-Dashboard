@@ -17,7 +17,7 @@ function CauseChart(params) {
 
   const { data, width, height, el, state, accessible, colorScale } = params;
 
-  const margin = {top: 20, bottom: width < viewportCutoff ? 220 : 140, left: 70, right: 20};
+  const margin = {top: 20, bottom: width < viewportCutoff ? 120 : 140, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
@@ -33,7 +33,7 @@ function CauseChart(params) {
   });
 
   const onScroll = () => {
-    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top + 50){
       window.removeEventListener('scroll', onScroll);
       setAnimated(true);
     }
@@ -122,6 +122,7 @@ function CauseChart(params) {
                 top={adjustedHeight}
                 scale={xScale}
                 tickStroke="none"
+                tickFormat={label => width < viewportCutoff && labelOverrides[label] ? labelOverrides[label].trim() : label}
                 tickLabelProps={(label, index, props) => ({
                   fontSize: 'medium',
                   textAnchor: 'end',

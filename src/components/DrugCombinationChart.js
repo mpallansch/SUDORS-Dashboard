@@ -45,7 +45,7 @@ function DrugCombinationChart(params) {
   });
 
   const onScroll = () => {
-    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top + 50){
       window.removeEventListener('scroll', onScroll);
       setAnimated(true);
     }

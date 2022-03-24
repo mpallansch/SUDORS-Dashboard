@@ -11,14 +11,14 @@ import '../css/OpioidStimulantChart.css';
 
 function OpioidStimulantChart(params) {
 
-  const viewportCutoff = 800;
+  const viewportCutoff = 300;
 
   const [ animated, setAnimated ] = useState(false);
 
   const { data, width, height, el, accessible, colorScale } = params;
 
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);
-  const margin = {top: 10, bottom: 40, left: 20, right: width < viewportCutoff ? 60 : 20};
+  const margin = {top: 10, bottom: 40, left: 15, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
@@ -38,7 +38,7 @@ function OpioidStimulantChart(params) {
   });
 
   const onScroll = () => {
-    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().bottom - document.body.getBoundingClientRect().top){
+    if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top + 50){
       window.removeEventListener('scroll', onScroll);
       setAnimated(true);
     }
@@ -133,6 +133,7 @@ function OpioidStimulantChart(params) {
                               y={bar.y + (adjustedHeight / 2) + 5}
                               textAnchor="middle"
                               fill={bar.key === 'nPercent' ? 'black' : 'white'}
+                              pointerEvents="none"
                             >{percent}%</text>
                           )}
                         </Group>

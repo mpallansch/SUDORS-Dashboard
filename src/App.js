@@ -356,7 +356,7 @@ function App(params) {
       <div className="section divider">
         <h3 className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</h3>
         <p>The largest percentage of deaths involved {datasets.opioidStimulantData[state].max.toLowerCase()}, while {datasets.opioidStimulantData[state].minPercent.toFixed(1)}% of overdose deaths involved {datasets.opioidStimulantData[state].min.toLowerCase()}.</p>
-        <div className="subsection">
+        <div className="subsection no-pad">
           <div id="opioid-stimulant-chart-container" className="chart-container" ref={opioidStimulantChartRef}>
             <OpioidStimulantChart 
                 data={datasets.opioidStimulantData[state].horizontalBarData}
@@ -391,7 +391,6 @@ function App(params) {
               accessible={accessible}
             />
           </div>
-          {!accessible && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
         </div>
       </div>
 
