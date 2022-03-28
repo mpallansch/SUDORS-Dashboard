@@ -3,6 +3,7 @@ import { useState } from 'react';
 function Footer() {
   
   const [ footnotesShow, setFootnotesShow ] = useState(false);
+  const [ technotesShow, setTechnotesShow ] = useState(false);
 
   return (
     <div id="footer">
@@ -26,7 +27,15 @@ function Footer() {
           <p><sup>l</sup>Naloxone is a life-saving medication that can reverse an overdose from opioids, including heroin, fentanyl, and prescription opioid medications.</p>
           <p><sup>m</sup>Recent period of opioid use abstinence followed by return to use.</p>
           <p><sup>n</sup>Persons experiencing homelessness were those who resided in either places not designed for or ordinarily used as regular sleeping accommodations or in a supervised shelter or drop-in center designated to provide temporary living arrangements, congregate shelters, or temporary accommodations provided by a homeless shelter.</p>
-          <p><strong>Technical notes:</strong></p>
+        </>
+      )}
+
+      <button className="header margin" onClick={() => setTechnotesShow(!technotesShow)}>
+        <span className="preheader-label">Technical Notes</span><span className="toggle-indicator">{technotesShow ? '-' : '+'}</span>
+      </button>
+      
+      {technotesShow && (
+        <>
           <p>Data come from death certificate information, medical examiner or coroner reports, and forensic toxicology results entered into the State Unintentional Drug Overdose Reporting System (SUDORS); the number of deaths in SUDORS might not match the number in CDC WONDER. Percentages are among decedents with known information. Rates are calculated from 2020 Census population denominators.</p>
           <p>The Overall category includes data from AK, AZ, CT, DC, DE, GA, ME, MA, MN, MS, NV, NJ, NM, OK, OR, SD, UT, and VT.</p>
           <p>Drugs were classified as involved in (i.e., contributing to) overdose deaths if the medical examiner/coroner listed them as causing death on the death certificate or in the medical examiner/coroner report.</p>
