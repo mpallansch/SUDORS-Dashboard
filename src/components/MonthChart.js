@@ -222,7 +222,7 @@ function MonthChart(params) {
             )}
           </Group>
         </svg>
-	      <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>
+	      {!header && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
       </div>
     );
 }
