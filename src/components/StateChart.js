@@ -19,7 +19,7 @@ function StateChart(params) {
 
   const dataKeys = Object.keys(dataRates).filter(name => name !== 'max' && name !== 'min');
 
-  const margin = {top: 10, bottom: 10, left: 130, right: 10};
+  const margin = {top: 10, bottom: 0, left: 130, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom - 60;
   const adjustedWidth = width - margin.left - margin.right;
 
@@ -153,7 +153,6 @@ function StateChart(params) {
                   transform: 'translate(0, 10)'
                 })}
               />
-              <text x={width < viewportCutoff ? 0 : adjustedWidth / 2} y={height - 15} textAnchor="middle">{width < viewportCutoff ?  'Deaths per 100,000 persons' : 'Age-adjusted rate of deaths per 100,000 persons'}<tspan baselineShift="super" dominantBaseline="auto">†</tspan></text>
             </Group>
         </svg>
       )}

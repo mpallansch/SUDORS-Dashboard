@@ -283,24 +283,38 @@ function App(params) {
           <h2 className="preheader-label">What drugs were involved in overdose deaths in 2020, {stateLabel}?</h2>{stateSelector}
         </div>
         <h3 className="subheader">Rate of overdose deaths by state and drug or drug class</h3>
-        <div>
-          <div className="drug-tab-section">
-            {drugTab('All', 'All Drugs')}
-            {drugTab('Opioid', <span>Any Opioid<sup>b</sup></span>)}
+        {dimensions.width < viewportCutoffSmall && (
+          <select className="drug-select" onChange={(e) => {setDrug(e.target.value)}}>
+            <option value="All">All Drugs</option>
+            <option value="Opioid">Any Opioids</option>
+            <option value="Illicitly manufactured fentanyls">IMFs</option>
+            <option value="Heroin">Heroin</option>
+            <option value="Prescription opioids">Prescription opioids</option>
+            <option value="Stimulant">Any Stimulant</option>
+            <option value="Cocaine">Cocaine</option>
+            <option value="Methamphetamine">Methamphetamine</option>
+          </select>
+        )}
+        {dimensions.width >= viewportCutoffSmall && (
+          <div>
+            <div className="drug-tab-section">
+              {drugTab('All', 'All Drugs')}
+              {drugTab('Opioid', <span>Any Opioid<sup>b</sup></span>)}
+            </div>
+            <div className="drug-tab-section">
+              {drugTab('Illicitly manufactured fentanyls', dimensions.width < viewportCutoffSmall ? 'IMFs' : 'Illicitly manufactured fentanyls')}
+              {drugTab('Heroin')}
+            </div>
+            <div className="drug-tab-section">
+              {drugTab('Prescription opioids')}
+              {drugTab('Stimulant', <span>Any Stimulant<sup>c</sup></span>)}
+            </div>
+            <div className="drug-tab-section">
+              {drugTab('Cocaine')}
+              {drugTab('Methamphetamine', dimensions.width < viewportCutoffSmall ? 'Meth' : 'Methamphetamine')}
+            </div>
           </div>
-          <div className="drug-tab-section">
-            {drugTab('Illicitly manufactured fentanyls', dimensions.width < viewportCutoffSmall ? 'IMFs' : 'Illicitly manufactured fentanyls')}
-            {drugTab('Heroin')}
-          </div>
-          <div className="drug-tab-section">
-            {drugTab('Prescription opioids')}
-            {drugTab('Stimulant', <span>Any Stimulant<sup>c</sup></span>)}
-          </div>
-          <div className="drug-tab-section">
-            {drugTab('Cocaine')}
-            {drugTab('Methamphetamine', dimensions.width < viewportCutoffSmall ? 'Meth' : 'Methamphetamine')}
-          </div>
-        </div>
+        )}
         <div id="state-chart-container" className="chart-container" ref={stateChartRef}>
           <StateChart
             data={datasets.mapData[drug]}
@@ -314,6 +328,7 @@ function App(params) {
             accessible={accessible}
             colorScale={colorScale} />
         </div>
+        <p className="text-align-center margin-bottom-extra">Age-adjusted rate of deaths per 100,000 persons<sup>†</sup></p>
         {!accessible && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
       </div>
 

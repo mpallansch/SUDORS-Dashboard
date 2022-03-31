@@ -84,10 +84,10 @@ function AgeChart(params) {
             scale={yScale}
             tickLabelProps={() => ({
               fontSize: 'medium',
-              textAnchor: 'start',
+              textAnchor: 'end',
               verticalAnchor: 'middle'
             })}
-            left={-65}
+            left={-15}
             hideTicks
             hideAxisLine
           />

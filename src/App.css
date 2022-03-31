@@ -308,6 +308,10 @@ a[download]:hover {
   font-family: "Merriweather",serif;
 }
 
+.text-align-center {
+  text-align: center;
+}
+
 .text-align-left {
   text-align: left;
 }
@@ -319,6 +323,10 @@ a[download]:hover {
 .margin-bottom {
   display: block;
   margin-bottom: 1em;
+}
+
+.margin-bottom-extra {
+  margin-bottom: 1.5em;
 }
 
 select {
@@ -341,6 +349,11 @@ table caption {
   float: right;
   margin: .9em;
   font-weight: bold;
+}
+
+.drug-select {
+  margin: 1em auto;
+  display: block;
 }
 
 .drug-tab-section {

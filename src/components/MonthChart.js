@@ -82,7 +82,7 @@ function MonthChart(params) {
 
   const dataMonth = data.month;
   const dataQuarter = data.quarter;
-  const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : width < viewportCutoff ? 55 : 90), right: 5};
+  const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : 90), right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
@@ -222,7 +222,7 @@ function MonthChart(params) {
             )}
           </Group>
         </svg>
-	{width >= viewportCutoff && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
+	      <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>
       </div>
     );
 }

@@ -17,7 +17,7 @@ function CauseChart(params) {
 
   const { data, width, height, el, state, accessible, colorScale } = params;
 
-  const margin = {top: 20, bottom: width < viewportCutoff ? 120 : 140, left: 70, right: 20};
+  const margin = {top: 20, bottom: width < viewportCutoff ? 180 : 140, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
@@ -66,8 +66,6 @@ function CauseChart(params) {
 
   if(width < viewportCutoff){
     labelOverrides['Illicitly manufactured fentanyls'] = '    IMFs';
-    labelOverrides['Prescription opioids'] = '    Rx Opioids';
-    labelOverrides['Methamphetamine'] = '    Meth';
   }
 
   return width > 0 && (
