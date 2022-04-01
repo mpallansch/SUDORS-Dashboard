@@ -16,9 +16,17 @@ function RaceChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const raceLabels = {
+  const tooltipLabels = {
     'AI/AN, non-Hispanic': 'American Indian/Alaska Native, non-Hispanic',
     'A/PI, non-Hispanic': 'Asian/Pacific Islander, non-Hispanic'
+  };
+
+  const axisLabels = {
+    'AI/AN, non-Hispanic': 'AI/AN, NH',
+    'A/PI, non-Hispanic': 'A/PI, NH',
+    'Black, non-Hispanic': 'Black, NH',
+    'White, non-Hispanic': 'White, NH',
+    'Other, non-Hispanic': 'Other, NH'
   };
 
   const sort = (array) => {
@@ -38,7 +46,7 @@ function RaceChart(params) {
   const currentData = metric === 'rate' ? sortedDataRates : sortedData;
   const otherData = metric === 'rate' ? sortedData : sortedDataRates;
 
-  const margin = {top: 10, bottom: 10, left: 160, right: 10};
+  const margin = {top: 10, bottom: 10, left: 100, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
@@ -117,7 +125,7 @@ function RaceChart(params) {
                     key={`bar-${d.race}`}
                     d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d, datum)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                     fill={colorScale.Race}
-                    data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
+                    data-tip={`<strong>${tooltipLabels[d.race] || d.race}</strong><br/>
                     Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
                     Percent: ${d.percent || 0}%<br/>
                     Age-adjusted rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
@@ -145,7 +153,7 @@ function RaceChart(params) {
                       width={40}
                       height={yScale.bandwidth()}
                       fill="transparent"
-                      data-tip={`<strong>${raceLabels[d.race] || d.race}</strong><br/>
+                      data-tip={`<strong>${tooltipLabels[d.race] || d.race}</strong><br/>
                       Deaths: ${(d.deaths || datum.deaths) < countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
                       Percent: ${d.percent || 0}%<br/>
                       Rate: *Data suppressed`}
@@ -172,7 +180,7 @@ function RaceChart(params) {
                       key={`tick-${tick.value}`}
                       className="visx-group visx-axis-tick">
                       <text key={`tick-label-${tick.value}`} textAnchor="end" fontSize="medium">
-                        <tspan y={tick.to.y + 4} dx="-10">{tick.value}</tspan>
+                        <tspan y={tick.to.y + 4} dx="-10">{axisLabels[tick.value] || tick.value}</tspan>
                       </text>
                     </g>
                   )

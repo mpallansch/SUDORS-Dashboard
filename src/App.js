@@ -518,6 +518,7 @@ function App(params) {
                       accessible={accessible}
                     />
                 </div>
+                <p>NH: non-Hispanic</p>
               </div>
             </div>
             <div className="column column-left">

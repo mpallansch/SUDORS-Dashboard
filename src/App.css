@@ -211,6 +211,7 @@ input[type="radio"] {
   margin: .5em;
   font-size: 1.4em;
   font-family: sans-serif;
+  font-weight: bold;
 }
 
 .header-sections-container {

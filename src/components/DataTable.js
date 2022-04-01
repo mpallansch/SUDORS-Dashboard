@@ -64,7 +64,13 @@ function DataTable(params) {
                 <th key={`th-${d[xAxisKey]}-${i}`} scope="row">{labelOverrides[d[xAxisKey]] || d[xAxisKey]}</th>
                 {d.spacer === true && <td colSpan={d.colSpan}></td>}
                 {d.spacer !== true && keys.map((key, j) => key !== xAxisKey && (
-                  <td key={`td-${xAxisKey}-${i}-${j}`}>{key.toLowerCase().indexOf('percent') !== -1 ? (d[keys[j - 1]] < countCutoff ? 'Data suppressed' : d[key]) : ((cutoffData ? cutoffData[i][cutoffKey] : d[key]) < countCutoff ? 'Data suppressed' : Number(d[key]).toLocaleString())}{suffixes && suffixes[key]}</td>
+                  <td key={`td-${xAxisKey}-${i}-${j}`}>
+                    {key.toLowerCase().indexOf('percent') === -1 && (cutoffData ? 
+                        cutoffData[i][cutoffKey] : 
+                        d[keys[j - 2]]) < rateCutoff ? 
+                          'Data suppressed' : 
+                          Number(d[key]).toLocaleString()}{suffixes && suffixes[key]}
+                  </td>
                 ))}
               </tr>
             ))}
@@ -74,7 +80,7 @@ function DataTable(params) {
                   <th key={`th-${rowKey}-${rowIndex}`} scope="row">{labelOverrides[rowKey] || rowKey}</th>
                   {[data, rates].map((d, i) => 
                     Object.keys(d[keys[0]]).map((colKey, colIndex) => (
-                      <td key={`td-${d[rowKey][colKey]}-${rowIndex}-${colIndex}`}>{d[rowKey][colKey] < [countCutoff, rateCutoff][i] ? 'Data suppressed' : Number(d[rowKey][colKey]).toLocaleString()}</td>
+                      <td key={`td-${d[rowKey][colKey]}-${rowIndex}-${colIndex}`}>{data[rowKey][Object.keys(data[keys[0]])[0]] < [countCutoff, rateCutoff][i] ? 'Data suppressed' : Number(d[rowKey][colKey]).toLocaleString()}</td>
                     ))
                   )}
                 </tr>
