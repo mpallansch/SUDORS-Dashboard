@@ -139,7 +139,7 @@ input[type="radio"] {
   left: 0;
   width: 7px;
   height: 70px;
-  background-color: #712177;
+  background-color: #999999;
 }
 
 .no-padding {
@@ -460,7 +460,7 @@ table caption {
 }
 
 .circumstance-icon-container span::before {
-  color: #712177 !important;
+  color: #999999 !important;
 }
 
 .circumstance-value {
