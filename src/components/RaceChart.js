@@ -125,6 +125,8 @@ function RaceChart(params) {
                     key={`bar-${d.race}`}
                     d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d, datum)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
                     fill={colorScale.Race}
+                    stroke={colorScale.RaceAccent}
+                    strokeWidth={2}
                     data-tip={`<strong>${tooltipLabels[d.race] || d.race}</strong><br/>
                     Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
                     Percent: ${d.percent || 0}%<br/>

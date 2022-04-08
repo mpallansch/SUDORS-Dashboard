@@ -87,19 +87,19 @@ function DrugCombinationChart(params) {
                         y={yScale(d.drugCombination)}
                         width={xScale(d.percent)}
                         height={barThickness}
-                        fill={colorScale.Intervention}
+                        fill={colorScale.Combination}
                       />
                       <Circle
                         key={`point-${d.drugCombination}`}
                         r={11}
                         cx={xScale(d.percent)}
                         cy={yScale(d.drugCombination) + barThicknessHalf}
-                        fill={colorScale.Intervention}
+                        fill={colorScale.Combination}
                         data-tip={`<strong>${listDrugs(d.drugCombination)}</strong><br/>
                         Deaths: ${d.percent < countCutoff ? `< ${countCutoff}` : Number(d.percent).toLocaleString()}<br/>
                         Percent: ${d.percent || 0}%`}
                       />
-                      <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.drugCombination) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Intervention}>{d.percent}%</text>
+                      <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.drugCombination) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Combination}>{d.percent}%</text>
                       <Text width={adjustedWidth} x={0}  y={yScale(d.drugCombination) + barThickness + margin.bar} verticalAnchor="start">{listDrugs(d.drugCombination)}</Text>
                     </Group>
                   )

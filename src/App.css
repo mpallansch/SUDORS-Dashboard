@@ -194,7 +194,7 @@ input[type="radio"] {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  background-color: #712177;
+  background-color: #7a7a7a;
   color: white;
 }
 
@@ -430,7 +430,7 @@ table caption {
 }
 
 .opioid-section .waffle-label {
-  color:rgb(216, 67, 53);
+  color: #712177;
   font-weight: bold;
 }
 
@@ -460,14 +460,14 @@ table caption {
 }
 
 .circumstance-icon-container span::before {
-  color: rgb(216, 67, 53) !important;
+  color: #712177 !important;
 }
 
 .circumstance-value {
   display: block;
   font-size: x-large;
   font-weight: bold;
-  color: rgb(216, 67, 53);
+  color: #712177;
 }
 
 #footer .header {
