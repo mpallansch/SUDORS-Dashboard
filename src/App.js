@@ -52,11 +52,11 @@ function App(params) {
     mapData: 'data/map.json',
     drugDataRates: 'data/age-adjusted-drug-rates.json',
     interventionData: 'data/interventions.json',
-    circumstancesData: 'data/circumstances.json',
+    circumstancesData: 'data/circumstance.json',
     totalData: 'data/totals.json',
     combinationData: 'data/drug-combination.json',
-    causeData: 'data/causes.json',
-    additionalDrugData: 'data/additional-drugs.json',
+    causeData: 'data/cause.json',
+    additionalDrugData: 'data/additional_drug.json',
     opioidStimulantData: 'data/opioid-stimulant.json',
     sexData: 'data/sex.json',
     sexDataRates: 'data/age-adjusted-sex-rates.json',
@@ -84,11 +84,11 @@ function App(params) {
     'Opioid': '#000C77',
     'Methamphetamine': '#A378E8',
     'Heroin': '#0C6F96',
-    'Prescription opioids': '#3FA0AB',
-    'Any Stimulant': '#411B6D',
+    'Prescription Opioids': '#3FA0AB',
+    'Any Stimulants': '#411B6D',
     'Stimulant': '#411B6D',
     'Cocaine': '#671AAA',
-    'Illicitly manufactured fentanyls': '#294891 '
+    'Illicitly Manufactured Fentanyls': '#294891 '
   };
 
   const ageMapping = {
@@ -101,7 +101,7 @@ function App(params) {
     '6': '65+'
   };
 
-  const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
+  const drugs = ['Illicitly Manufactured Fentanyls', 'Heroin', 'Prescription Opioids', 'Cocaine', 'Methamphetamine'];
 
   const icons = {
     'History of substance use/misuse': 'cdc-icon-clipboard-list-light',
@@ -192,8 +192,8 @@ function App(params) {
   const sexMax = [...datasets.sexData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const ageMax = [...datasets.ageData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const raceMax = [...datasets.raceData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const maleAgeMax = [...datasets.ageBySexData[state].male].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
-  const femaleAgeMax = [...datasets.ageBySexData[state].female].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const maleAgeMax = [...datasets.ageBySexData[state].Male].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const femaleAgeMax = [...datasets.ageBySexData[state].Female].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
 
   const stateSelector = (
     <select aria-label="View data by state" value={state} onChange={(e) => setState(e.target.value)}>
@@ -283,10 +283,10 @@ function App(params) {
           <select className="drug-select" onChange={(e) => {setDrug(e.target.value)}}>
             <option value="All">All Drugs</option>
             <option value="Opioid">Any Opioids</option>
-            <option value="Illicitly manufactured fentanyls">IMFs</option>
+            <option value="Illicitly Manufactured Fentanyls">IMFs</option>
             <option value="Heroin">Heroin</option>
-            <option value="Prescription opioids">Prescription opioids</option>
-            <option value="Stimulant">Any Stimulant</option>
+            <option value="Prescription Opioids">Prescription Opioids</option>
+            <option value="Stimulant">Any Stimulants</option>
             <option value="Cocaine">Cocaine</option>
             <option value="Methamphetamine">Methamphetamine</option>
           </select>
@@ -298,12 +298,12 @@ function App(params) {
               {drugTab('Opioid', <span>Any Opioid<sup>b</sup></span>)}
             </div>
             <div className="drug-tab-section">
-              {drugTab('Illicitly manufactured fentanyls', <span>{dimensions.width < viewportCutoffSmall ? 'IMFs' : 'Illicitly manufactured fentanyls'}<sup>c</sup></span>)}
+              {drugTab('Illicitly Manufactured Fentanyls', <span>{dimensions.width < viewportCutoffSmall ? 'IMFs' : 'Illicitly Manufactured Fentanyls'}<sup>c</sup></span>)}
               {drugTab('Heroin', <span>Heroin<sup>d</sup></span>)}
             </div>
             <div className="drug-tab-section">
-              {drugTab('Prescription opioids')}
-              {drugTab('Stimulant', <span>Any Stimulant<sup>e</sup></span>)}
+              {drugTab('Prescription Opioids')}
+              {drugTab('Stimulant', <span>Any Stimulants<sup>e</sup></span>)}
             </div>
             <div className="drug-tab-section">
               {drugTab('Cocaine')}
@@ -330,7 +330,7 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader">Percentages<sup>f</sup> of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
-        <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulant').causePercent.toFixed(1)}% involved at least one stimulant. {datasets.additionalDrugData[state].commonOpioid} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulant.toLowerCase()}.</p>
+        <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulants').causePercent.toFixed(1)}% involved at least one stimulant. {datasets.additionalDrugData[state].commonOpioid} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulants.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -429,11 +429,11 @@ function App(params) {
               )),
               {demographic: 'Age (in years) by Sex', spacer: true, colSpan: '3', background: true},
               {demographic: '    Male', spacer: true, colSpan: '3'},
-              ...datasets.ageBySexData[state].male.filter(d => !!d.age).map((datum, i) => (
+              ...datasets.ageBySexData[state].Male.filter(d => !!d.age).map((datum, i) => (
                 {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
               )),
               {demographic: '    Female', spacer: true, colSpan: '3'},
-              ...datasets.ageBySexData[state].female.filter(d => !!d.age).map((datum, i) => (
+              ...datasets.ageBySexData[state].Female.filter(d => !!d.age).map((datum, i) => (
                 {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
               ))
             ]}

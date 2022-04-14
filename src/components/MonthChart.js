@@ -85,11 +85,12 @@ function MonthChart(params) {
   const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : 90), right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
+  const quarterKey = 'quarter';
 
   const labelOverrides = {'value': 'Number of deaths', 'month': 'Month of death'};
 
   const xScale = scaleBand({
-    domain: header ? dataQuarter.map(d => d.quarter) : dataMonth.map(d => d.month),
+    domain: header ? dataQuarter.map(d => d[quarterKey]) : dataMonth.map(d => d.month),
     range: [ header ? 5 : 0, adjustedWidth ],
     padding: header ? 0 : 0.35
   });
@@ -97,7 +98,7 @@ function MonthChart(params) {
   const halfBandwidth = xScale.bandwidth() / 2;
 
   const max = Math.max(...(header ? dataQuarter : dataMonth).map(d => d.value));
-  const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : 2000;
+  const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : 4000;
 
   const yScale = scaleLinear({
     range: [ adjustedHeight, 0 ],
@@ -132,26 +133,26 @@ function MonthChart(params) {
             {header && (
               <>
                 {dataQuarter.map(d => (
-                    <Group key={`point-${d.quarter}`}>
+                    <Group key={`point-${d[quarterKey]}`}>
                       <circle
                         r={3}
-                        cx={xScale(d.quarter)}
+                        cx={xScale(d[quarterKey])}
                         cy={yScale(d.value)}
                         fill="#712177"
                       />
                       <rect
-                        x={xScale(d.quarter)}
+                        x={xScale(d[quarterKey])}
                         y={0}
                         width={xScale.bandwidth()}
                         height={adjustedHeight}
                         fill="transparent"
-                        data-tip={`<strong>${labelOverrides[d.quarter]} 2020</strong><br/>Deaths: ${Number(d.value).toLocaleString()}`}
+                        data-tip={`<strong>${quarterMapping[d[quarterKey]]} 2020</strong><br/>Deaths: ${Number(d.value).toLocaleString()}`}
                       />
                     </Group>
                 ))} 
                 <LinePath 
                   data={dataQuarter}
-                  x={d => xScale(d.quarter)}
+                  x={d => xScale(d[quarterKey])}
                   y={d => yScale(d.value)}
                   stroke="#712177"
                   strokeWidth="2"

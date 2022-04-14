@@ -32,13 +32,13 @@ function AgeBySexChart(params) {
   const halfWidth = adjustedWidth / 2;
 
   const xScale = scaleLinear({
-    domain: [0, Math.max(...data['male'].map(d => d[metric]), ...data['female'].map(d => d[metric]))],
+    domain: [0, Math.max(...data['Male'].map(d => d[metric]), ...data['Female'].map(d => d[metric]))],
     range: [ 10, halfWidth - 50 ]
   });
 
   const yScale = scaleBand({
     range: [ 0, adjustedHeight ],
-    domain: data['male'].map(d => ageMapping[d.age]),
+    domain: data['Male'].map(d => ageMapping[d.age]),
     padding: 0.2
   });
 
@@ -92,7 +92,7 @@ function AgeBySexChart(params) {
           hideTicks
           hideAxisLine
         />
-          {data['male'].map(d => {
+          {data['Male'].map(d => {
             if(d.age === '') return '';
 
             return (
@@ -146,7 +146,7 @@ function AgeBySexChart(params) {
               </Group>
             )}
           )}
-          {data['female'].map(d => {
+          {data['Female'].map(d => {
             if(d.age === '') return '';
             
             return (
