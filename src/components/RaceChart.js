@@ -31,12 +31,14 @@ function RaceChart(params) {
 
   const sort = (array) => {
     return array.sort((a,b) => {
-      if(a.race === 'Hispanic') {
+      const aRace = tooltipLabels[a.race] || a.race;
+      const bRace = tooltipLabels[b.race] || b.race;
+      if(aRace === 'Hispanic') {
         return -1;
-      } else if(b.race === 'Hispanic'){
+      } else if(bRace === 'Hispanic'){
         return 1;
       }
-      return (a.race < b.race) ? 1 : -1;
+      return (aRace < bRace) ? 1 : -1;
     })
   };
 

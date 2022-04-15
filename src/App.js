@@ -101,6 +101,11 @@ function App(params) {
     '6': '65+'
   };
 
+  const raceMapping = {
+    'AI/AN, non-Hispanic': 'American Indian/Alaska Native, non-Hispanic',
+    'A/PI, non-Hispanic': 'Asian/Pacific Islander, non-Hispanic'
+  }
+
   const drugs = ['Illicitly Manufactured Fentanyls', 'Heroin', 'Prescription Opioids', 'Cocaine', 'Methamphetamine'];
 
   const icons = {
@@ -194,6 +199,9 @@ function App(params) {
   const raceMax = [...datasets.raceData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const maleAgeMax = [...datasets.ageBySexData[state].Male].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const femaleAgeMax = [...datasets.ageBySexData[state].Female].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
+  const ageRateMax = [...datasets.ageData[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
+  const sexRateMax = [...datasets.sexDataRates[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
+  const raceRateMax = [...datasets.raceDataRates[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
 
   const stateSelector = (
     <select aria-label="View data by state" value={state} onChange={(e) => setState(e.target.value)}>
@@ -245,7 +253,7 @@ function App(params) {
             <div className="header-section first">
               <span className="header-text full">
                 <span className="enlarged">{Number(datasets.totalData[state]).toLocaleString()}</span> 
-                <span className="header-text">total deaths in 2020</span>
+                <span className="header-text">total overdose deaths</span>
               </span>
             </div>
             <div className="header-section middle" onClick={() => {monthChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
@@ -347,10 +355,10 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination<sup>g</sup>, {stateLabel}</h3>
-        <p>The five most frequently occurring opioid and stimulant combinations accounted for {datasets.combinationData[state].total.toFixed(1)}% of overdose deaths. 
+        <p>The five most frequently occurring opioids and stimulants, alone or in combination, accounted for {datasets.combinationData[state].total.toFixed(1)}% of overdose deaths. 
           {multipleCombo.length > 0 ? 
-            ` For example, ${multipleCombo[0].percent.toFixed(1)}% involved ${listDrugs(multipleCombo[0].drugCombination)}` :
-            ` ${datasets.combinationData[state].combinations[0].percent.toFixed(1)}% of deaths involved ${listDrugs(datasets.combinationData[state].combinations[0].drugCombination)}, one of the most common ${datasets.combinationData[state].combinations[0].drugCombination.charAt(3) === '1' || datasets.combinationData[state].combinations[0].drugCombination.charAt(4) === '1' ? 'stimulants' : 'opioids'}`}.</p>
+            ` For example, ${multipleCombo[0].percent.toFixed(1)}% of overdose deaths involved ${listDrugs(multipleCombo[0].drugCombination)}` :
+            ` ${datasets.combinationData[state].combinations[0].percent.toFixed(1)}% of overdose deaths involved ${listDrugs(datasets.combinationData[state].combinations[0].drugCombination)}, one of the most common ${datasets.combinationData[state].combinations[0].drugCombination.charAt(3) === '1' || datasets.combinationData[state].combinations[0].drugCombination.charAt(4) === '1' ? 'stimulants' : 'opioids'}`}.</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" className="chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
@@ -410,7 +418,7 @@ function App(params) {
           <h2 className="preheader-label">Who died of a drug overdose in 2020, {stateLabel}?<sup>h</sup></h2>{stateSelector}
         </div>
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
-        The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}.</p>
+        The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}. {sexRateMax.sex}, {ageMapping[ageRateMax.age]}, and {raceMapping[raceRateMax.race] || raceRateMax.race} race had the highest overdose death rates.</p>
 
         {accessible ? (
           <DataTable
@@ -581,7 +589,7 @@ function App(params) {
             </div>
             <div className="waffle-column waffle-column-right">
               <span className="waffle-label font-xxl">{datasets.interventionData[state].percent.toFixed(1)}%</span><br/>
-              <span className="waffle-label">of drug overdoses had at least one opportunity for intervention</span>
+              <span className="waffle-label">of drug overdose deaths had at least one opportunity for intervention</span>
             </div>
           </div> 
         )}
@@ -599,7 +607,7 @@ function App(params) {
           </div>
         </div> 
 
-        {!accessible && <span className="scale-note"><sup>††</sup>Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>}
+        {!accessible && <span className="scale-note">Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>}
       </div>
 
       <div className="section divider">
@@ -633,7 +641,7 @@ function App(params) {
           </div>
         </div>
 
-        {!accessible && <span className="scale-note"><sup>††</sup>Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>}
+        {!accessible && <span className="scale-note">Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>}
       </div> 
       
       <Footer />

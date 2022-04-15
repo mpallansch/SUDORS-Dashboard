@@ -43,7 +43,7 @@ function Footer() {
           <p>Jurisdictions that reported all overdose deaths in their jurisdiction during 2020 and had medical examiner/coroner reports for at least 75% of deaths are included in this dashboard. These jurisdictions include Alaska, Arizona, Connecticut, Delaware, District of Columbia, Georgia, Kansas, Kentucky, Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Montana, Nevada, New Hampshire, New Jersey, New Mexico, North Carolina, Ohio, Oklahoma, Oregon, Rhode Island, South Dakota, Utah, Vermont, Virginia, and West Virginia. The Overall category includes data from these 29 jurisdictions.</p>
           <p>Drugs were classified as involved in (i.e., contributing to) overdose deaths if the medical examiner/coroner listed them as causing death on the death certificate, or in the medical examiner/coroner report, or postmortem toxicology report. </p>
           <p>Deaths involving multiple drugs were included in the rates for each drug class. When the cause of death indicated multiple drugs were involved but did not indicate specific drugs, all drugs detected by postmortem toxicology testing were classified as involved in the drug overdose death. For example, if the cause of death was “multidrug overdose” and toxicology results were positive for five drugs, all five were classified as involved.</p>
-          <p>Rates based on &lt;20 drug overdose deaths are suppressed to avoid presentation of unstable rates.</p>
+          <p>Rates based on &lt;20 drug overdose deaths are suppressed to avoid presentation of unstable rates and denoted by an *.</p>
         </>
       )}
     </div>
