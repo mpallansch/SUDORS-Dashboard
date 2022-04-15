@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react'; 
 import { Group } from '@visx/group';
 import { Pie, Bar } from '@visx/shape';
-import { Text } from '@visx/text';
 import { AxisBottom } from '@visx/axis';
 import { scaleLinear, scaleBand } from '@visx/scale';
 
-import DataTable from './DataTable';
 import Utils from '../shared/Utils';
-import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
+import { rateCutoff, rateCutoffLabel } from '../constants.json';
 
 import '../css/SexChart.css';
 
@@ -22,7 +20,6 @@ function SexChart(params) {
   const halfWidth = adjustedWidth / 2;
   const halfHeight = adjustedHeight / 2;
   const pieRadius = Math.min(halfWidth, halfHeight);
-  const nfObject = new Intl.NumberFormat('en-US');
 
   const onScroll = () => {
     if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top + 50){
@@ -72,8 +69,9 @@ function SexChart(params) {
         <Group top={margin.top} left={margin.left}>
           {data.map(d => {
             let rate = 0;
-            if(dataRates) rate = parseFloat(dataRates[0].sex === d.sex.toLowerCase() ? dataRates[0].rate : dataRates[1].rate);
+            if(dataRates) rate = parseFloat(dataRates[0].sex.toLowerCase() === d.sex.toLowerCase() ? dataRates[0].rate : dataRates[1].rate);
 
+            console.log(dataRates, d, rate);
             return(
               <Group key={`bar-container-${d.sex}`}>
                 { // render data bar
@@ -88,9 +86,9 @@ function SexChart(params) {
                     d={Utils.verticalBarPath(xScale(d.sex), adjustedHeight - yScale(rate), xScale.bandwidth(), yScale(rate), xScale.bandwidth() * .1)}
                     fill={colorScale[d.sex]}
                     data-tip={`<strong>${d.sex}</strong><br/>
-                    Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
+                    Deaths: ${Number(d.count).toLocaleString()}<br/>
                     Percent: ${d.percent || 0}%<br/>
-                    Age-adjusted rate: ${rate <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
+                    Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
                   ></path>
                 )}
                 { // render suppressed bar
@@ -170,7 +168,7 @@ function SexChart(params) {
                         className={`animated-pie-intro ${animated ? 'animated' : ''}`}
                         fill={colorScale[arc.data.sex]}
                         data-tip={`<strong>${arc.data.sex}</strong><br/>
-                          Deaths: ${arc.data.count < countCutoff ? `< ${countCutoff}` : Number(arc.data.count).toLocaleString()}<br/>
+                          Deaths: ${Number(arc.data.count).toLocaleString()}<br/>
                           Percent: ${arc.data.percent || 0}%<br/>
                           Age-adjusted rate: ${arc.data.count <= rateCutoff ? rateCutoffLabel : arc.data.rate}`}
                       />
