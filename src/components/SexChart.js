@@ -71,7 +71,6 @@ function SexChart(params) {
             let rate = 0;
             if(dataRates) rate = parseFloat(dataRates[0].sex.toLowerCase() === d.sex.toLowerCase() ? dataRates[0].rate : dataRates[1].rate);
 
-            console.log(dataRates, d, rate);
             return(
               <Group key={`bar-container-${d.sex}`}>
                 { // render data bar
