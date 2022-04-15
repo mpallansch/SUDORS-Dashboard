@@ -202,6 +202,9 @@ function App(params) {
   const ageRateMax = [...datasets.ageData[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
   const sexRateMax = [...datasets.sexDataRates[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
   const raceRateMax = [...datasets.raceDataRates[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
+  const allStatesCircumstanceMax = Math.max(...Object.keys(datasets.totalData).map(state => Math.max(...datasets.circumstancesData[state].intervention.map(d => d.percent))));
+  const allStatesComintaionMax = Math.max(...Object.keys(datasets.totalData).map(state => Math.max(...datasets.combinationData[state].combinations.map(d => d.percent))));
+  const monthOverallMax = [...datasets.timeData['Overall'].month.sort((a,b) => a.value < b.value ? 1 : -1)][0].value;
 
   const stateSelector = (
     <select aria-label="View data by state" value={state} onChange={(e) => setState(e.target.value)}>
@@ -367,7 +370,8 @@ function App(params) {
               height={getDimension(drugCombinationChartRef, 'height')}
               el={drugCombinationChartRef}
               accessible={accessible}
-              colorScale={colorScale} />
+              colorScale={colorScale}
+              allStatesMax={allStatesComintaionMax} />
           </div>
         </div>
       </div>
@@ -408,6 +412,7 @@ function App(params) {
               colorScale={colorScale}
               el={monthChartRef}
               accessible={accessible}
+              overallMax={monthOverallMax}
             />
           </div>
         </div>
@@ -603,6 +608,7 @@ function App(params) {
               interventions={true}
               accessible={accessible}
               colorScale={colorScale}
+              allStatesMax={allStatesCircumstanceMax}
             />
           </div>
         </div> 

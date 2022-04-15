@@ -15,7 +15,7 @@ function DrugCombinationChart(params) {
 
   const viewportCutoff = 600;
 
-  const { data, width, height, accessible, colorScale } = params;
+  const { data, width, height, accessible, colorScale, allStatesMax } = params;
 
   const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 10};
   const adjustedWidth = width - margin.left - margin.right;
@@ -24,7 +24,7 @@ function DrugCombinationChart(params) {
   const barThicknessHalf = barThickness / 2;
 
   const xScale = scaleLinear({
-    domain: [0, Math.max(...data.map(d => d.percent))],
+    domain: [0, allStatesMax * 1.1],
     range: [ 0, adjustedWidth - 95 ]
   });
 
