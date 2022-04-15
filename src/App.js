@@ -572,7 +572,7 @@ function App(params) {
           <h2 className="preheader-label">What were the circumstances<sup>i</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
         </div>
         <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
-        <p>{datasets.interventionData[state].percent.toFixed(1)}% had at least one potential opportunity for intervention. {datasets.circumstancesData[state].other.find(d => d.circumstance === 'History of substance use/misuse').percent.toFixed(1)}% had a documented history of substance use or misuse.</p>
+        <p>{datasets.interventionData[state].percent.toFixed(1)}% had at least one potential opportunity for intervention.</p>
         {!accessible && (
           <div className="column column-left">
             <div className="waffle-column waffle-column-left">
