@@ -22,7 +22,7 @@ function AgeChart(params) {
     '6': '65+'
   };
   
-  const { data, width, height, metric, state, colorScale, el, accessible } = params;
+  const { data, width, height, metric, state, colorScale, el } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -37,7 +37,7 @@ function AgeChart(params) {
 
   const yScale = scaleBand({
     range: [ 0, adjustedHeight ],
-    domain: data.map(d => ageMapping[d.age]),
+    domain: data.filter(d => d.age !== '' && d.age !== 'null').map(d => ageMapping[d.age]),
     padding: 0.2
   });
 
@@ -92,7 +92,7 @@ function AgeChart(params) {
             hideAxisLine
           />
           {data.map(d => {
-            if(d.age === '') return;
+            if(d.age === '' || d.age === 'null') return;
 
             return(
               <Group key={`group-${d.age}`}>

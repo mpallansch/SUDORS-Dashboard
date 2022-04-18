@@ -38,7 +38,7 @@ function AgeBySexChart(params) {
 
   const yScale = scaleBand({
     range: [ 0, adjustedHeight ],
-    domain: data['Male'].map(d => ageMapping[d.age]),
+    domain: data['Male'].filter(d => d.age !== '' && d.age !== 'null').map(d => ageMapping[d.age]),
     padding: 0.2
   });
 
@@ -93,7 +93,7 @@ function AgeBySexChart(params) {
           hideAxisLine
         />
           {data['Male'].map(d => {
-            if(d.age === '') return '';
+            if(d.age === '' || d.age === 'null') return '';
 
             return (
               <Group key={`group-male-${d.age}`}>
@@ -147,7 +147,7 @@ function AgeBySexChart(params) {
             )}
           )}
           {data['Female'].map(d => {
-            if(d.age === '') return '';
+            if(d.age === '' || d.age === 'null') return '';
             
             return (
               <Group key={`group-female-${d.age}`}>

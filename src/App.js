@@ -75,10 +75,10 @@ function App(params) {
     'Month': '#325D7D',
     'Intervention': '#712177',
     'Combination': '#712177',
-    'OpioidsWithStimulants': '#384766',
-    'OpioidsWithoutStimulants': '#7299B1',
-    'StimulantsWithoutOpioids': '#00695C',
-    'NeitherOpioidsNorStimulants': '#57A292',
+    'Opioids with stimulants': '#384766',
+    'Opioids without stimulants': '#7299B1',
+    'Stimulants without opioids': '#00695C',
+    'Neither opioids nor stimulants': '#57A292',
     'All': '#325D7D',
     'Any Opioids': '#000C77',
     'Opioid': '#000C77',
@@ -112,7 +112,7 @@ function App(params) {
     'History of substance use/misuse': 'cdc-icon-clipboard-list-light',
     'Naloxone administered': 'cdc-icon-first-aid-light',
     'Current pain treatment': 'cdc-icon-medical_04',
-    'Experiencing homelessness': 'cdc-icon-home-lg-light',
+    'Experiencing homelessness or housing instability': 'cdc-icon-home-lg-light',
     'Recent return to use of opioids': 'cdc-icon-sync-alt-light icon'
   };
 
@@ -390,10 +390,10 @@ function App(params) {
                 colorScale={colorScale} />
           </div>
           {!accessible && (<div id="opioid-stimulant-chart-legend">
-            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.OpioidsWithStimulants}/></svg><span>Opioids with stimulants</span></span>
-            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.OpioidsWithoutStimulants}/></svg><span>Opioids without stimulants</span></span>
-            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.StimulantsWithoutOpioids}/></svg><span>Stimulants without opioids</span></span>
-            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale.NeitherOpioidsNorStimulants}/></svg><span>Neither opioids nor stimulants</span></span>
+            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale['Opioids with stimulants']}/></svg><span>Opioids with stimulants</span></span>
+            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale['Opioids without stimulants']}/></svg><span>Opioids without stimulants</span></span>
+            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale['Stimulants without opioids']}/></svg><span>Stimulants without opioids</span></span>
+            <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale['Neither opioids nor stimulants']}/></svg><span>Neither opioids nor stimulants</span></span>
           </div>)}
         </div>
       </div>

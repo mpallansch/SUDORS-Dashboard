@@ -12,7 +12,7 @@ import '../css/RaceChart.css';
 
 function RaceChart(params) {
   
-  const { data, dataRates, width, height, metric, state, colorScale, el, accessible} = params;
+  const { data, dataRates, width, height, metric, state, colorScale, el } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -25,6 +25,7 @@ function RaceChart(params) {
     'AI/AN, non-Hispanic': 'AI/AN, NH',
     'A/PI, non-Hispanic': 'A/PI, NH',
     'Black, non-Hispanic': 'Black, NH',
+    'Multi-race, non-Hispanic': 'Multi-race, NH',
     'White, non-Hispanic': 'White, NH',
     'Other, non-Hispanic': 'Other, NH'
   };
@@ -48,7 +49,7 @@ function RaceChart(params) {
   const currentData = metric === 'rate' ? sortedDataRates : sortedData;
   const otherData = metric === 'rate' ? sortedData : sortedDataRates;
 
-  const margin = {top: 10, bottom: 10, left: 100, right: 10};
+  const margin = {top: 10, bottom: 10, left: 120, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 

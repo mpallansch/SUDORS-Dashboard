@@ -11,12 +11,11 @@ import '../css/OpioidStimulantChart.css';
 
 function OpioidStimulantChart(params) {
 
-  const viewportCutoff = 300;
-
   const [ animated, setAnimated ] = useState(false);
 
   const { data, width, height, el, accessible, colorScale } = params;
 
+  const order = {'osPercent': 0, 'oPercent': 1, 'sPercent': 2, 'nPercent': 3};
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);
   const margin = {top: 10, bottom: 40, left: 15, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
@@ -32,11 +31,6 @@ function OpioidStimulantChart(params) {
     range: [1,1]
   });
 
-  const keyedColorScale = scaleOrdinal({
-    domain: keys,
-    range: [colorScale.OpioidsWithStimulants, colorScale.OpioidsWithoutStimulants, colorScale.StimulantsWithoutOpioids, colorScale.NeitherOpioidsNorStimulants]
-  });
-
   const onScroll = () => {
     if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top + 50){
       window.removeEventListener('scroll', onScroll);
@@ -48,6 +42,12 @@ function OpioidStimulantChart(params) {
     window.addEventListener('scroll', onScroll);
     setTimeout(onScroll, 50); // eslint-disable-next-line
   }, []);
+
+  keys.sort((a, b) => {
+    if(order[a] < order[b]) return -1;
+    if(order[a] > order[b]) return 1;
+    return 0;
+  });
 
   return width > 0 && (
     <>
@@ -72,7 +72,7 @@ function OpioidStimulantChart(params) {
                 keys={keys}
                 yScale={yScale}
                 xScale={xScale}
-                color={keyedColorScale}
+                color={() => {}}
                 y={() => 1}>
                 {barStacks =>
                   barStacks.map(barStack =>
@@ -122,7 +122,7 @@ function OpioidStimulantChart(params) {
                                 L${bar.x} ${yEnd}
                                 L${bar.x} ${bar.y}`)
                             }
-                            fill={bar.color}
+                            fill={colorScale[name]}
                             data-tip={`<strong>${name}</strong><br/>
                             Deaths: ${Number(count).toLocaleString()}<br/>
                             Percent: ${percent}%`}

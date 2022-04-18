@@ -89,6 +89,12 @@ function MonthChart(params) {
 
   const labelOverrides = {'value': 'Number of deaths', 'month': 'Month of death'};
 
+  dataMonth.sort((a,b) => {
+    if(a.month < b.month) return -1;
+    if(b.month < a.month) return 1;
+    return 0;
+  });
+
   const xScale = scaleBand({
     domain: header ? dataQuarter.map(d => d[quarterKey]) : dataMonth.map(d => d.month),
     range: [ header ? 5 : 0, adjustedWidth ],

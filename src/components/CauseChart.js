@@ -21,6 +21,25 @@ function CauseChart(params) {
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
 
+  const order = {
+    'Any Opioids': 0,
+    'Illicitly Manufactured Fentanyls': 1,
+    'Prescription Opioids': 2,
+    'Heroin': 3,
+    'Any Stimulants': 4,
+    'Cocaine': 5,
+    'Methamphetamine': 6,
+  };
+
+  data.sort((a,b) => {
+    const aOrder = order[a.opioid];
+    const bOrder = order[b.opioid];
+
+    if(aOrder < bOrder) return -1;
+    if(bOrder < aOrder) return 1;
+    return 0;
+  });
+
   const xScale = scaleBand({
     range: [ 0, adjustedWidth ],
     domain: data.map(d => d.opioid),

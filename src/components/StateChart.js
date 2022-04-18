@@ -111,7 +111,7 @@ function StateChart(params) {
                       className="bar-label"
                       x={rate < 0 ? 10 : xScale(rate)}
                       y={yScale(name)}
-                      dy="15"
+                      dy="12"
                       dx="5">
                         {deaths < rateCutoff ? rateCutoffLabel : rate.toFixed(1)}
                     </text>

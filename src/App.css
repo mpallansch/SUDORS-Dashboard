@@ -302,7 +302,7 @@ a[download]:hover {
 .enlarged {
   display: inline-block;
   vertical-align: middle;
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: 500;
   color: #712177;
   padding: 0 .5em 0 .1em;
