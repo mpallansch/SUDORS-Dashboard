@@ -63,7 +63,8 @@ function App(params) {
     ageData: 'data/age.json',
     raceData: 'data/race.json',
     raceDataRates: 'data/age-adjusted-race-rates.json',
-    ageBySexData: 'data/age-by-sex.json'
+    ageBySexData: 'data/age-by-sex.json',
+    stateLabels: 'data/state_labels.json'
   };
   const datasetKeys = Object.keys(datasetUrls);
 
@@ -88,7 +89,7 @@ function App(params) {
     'Any Stimulants': '#411B6D',
     'Stimulant': '#411B6D',
     'Cocaine': '#671AAA',
-    'Illicitly Manufactured Fentanyls': '#294891 '
+    'Illicitly Manufactured Fentanyls': '#294891'
   };
 
   const ageMapping = {
@@ -142,7 +143,7 @@ function App(params) {
     } // eslint-disable-next-line
   },[]);
 
-  const stateLabel = <span className="italics">{state}</span>;
+  const stateLabel = <span className="italics">{datasets && datasets.stateLabels[state] ? datasets.stateLabels[state].labelName : state}</span>;
 
   const getDimension = (ref, dimension) => {
     if(!ref.current){
@@ -217,7 +218,7 @@ function App(params) {
           return a < b ? -1 : 1;
         }
       }).map(state => (
-        <option key={`dropdown-option-${state}`}>{state}</option>
+        <option key={`dropdown-option-${state}`} value={state}>{datasets.stateLabels[state] ? datasets.stateLabels[state].labelName : state}</option>
       ))}
     </select>
   );
