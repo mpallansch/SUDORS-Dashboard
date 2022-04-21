@@ -41,7 +41,7 @@ function DataTable(params) {
 
   return (
     <>
-      <div className={`table-container${customBackground ? ' custom-background' : ' non-custom-background'}`}>
+      <div className={`table-container${customBackground ? ' custom-background' : ' non-custom-background'}`} tabIndex="0">
         <table>
           <caption>{caption}</caption>
           <thead>

@@ -61,7 +61,7 @@ function DrugCombinationChart(params) {
       drugCombinationNames.length === 2 ? ' and ' : ', and ')
   };
 
-  let labelOverrides = {'drugCombination': ' ', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'};
+  let labelOverrides = {'drugCombination': 'Overdose death involving:', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'};
 
   data.forEach(d => labelOverrides[d.drugCombination] = listDrugs(d.drugCombination));
 

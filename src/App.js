@@ -243,7 +243,7 @@ function App(params) {
                 ]}
                 xAxisKey={'quarter'}
                 labelOverrides={{
-                  'quarter': ' ',
+                  'quarter': 'Summary',
                   'value': 'Number of deaths',
                   'percent': 'Percent of deaths'
                 }}
@@ -283,7 +283,7 @@ function App(params) {
                   header={true}
                 />
               </div>
-              <span className="header-text"><strong>{datasets.interventionData[state].percent}%</strong> had at least one potential opportunity for intervention<sup>a</sup></span>
+              <span className="header-text" aria-describedby="footnote-a"><strong>{datasets.interventionData[state].percent}%</strong> had at least one potential opportunity for intervention<sup>a</sup></span>
             </div>
           </div>
         )}
@@ -307,15 +307,15 @@ function App(params) {
           <div>
             <div className="drug-tab-section">
               {drugTab('All', 'All Drugs')}
-              {drugTab('Opioid', <span>Any Opioid<sup>b</sup></span>)}
+              {drugTab('Opioid', <span aria-describedby="footnote-b">Any Opioid<sup>b</sup></span>)}
             </div>
             <div className="drug-tab-section">
-              {drugTab('Illicitly Manufactured Fentanyls', <span>{dimensions.width < viewportCutoffSmall ? 'IMFs' : 'Illicitly Manufactured Fentanyls'}<sup>c</sup></span>)}
-              {drugTab('Heroin', <span>Heroin<sup>d</sup></span>)}
+              {drugTab('Illicitly Manufactured Fentanyls', <span aria-describedby="footnote-c">{dimensions.width < viewportCutoffSmall ? 'IMFs' : 'Illicitly Manufactured Fentanyls'}<sup>c</sup></span>)}
+              {drugTab('Heroin', <span aria-describedby="footnote-d">Heroin<sup>d</sup></span>)}
             </div>
             <div className="drug-tab-section">
               {drugTab('Prescription Opioids')}
-              {drugTab('Stimulant', <span>Any Stimulants<sup>e</sup></span>)}
+              {drugTab('Stimulant', <span aria-describedby="footnote-e">Any Stimulants<sup>e</sup></span>)}
             </div>
             <div className="drug-tab-section">
               {drugTab('Cocaine')}
@@ -341,7 +341,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <h3 className="subheader">Percentages<sup>f</sup> of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
+        <h3 className="subheader" aria-describedby="footnote-f">Percentages<sup>f</sup> of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
         <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulants').causePercent.toFixed(1)}% involved at least one stimulant. {datasets.additionalDrugData[state].commonOpioid} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulants.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
@@ -358,7 +358,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <h3 className="subheader">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination<sup>g</sup>, {stateLabel}</h3>
+        <h3 className="subheader" aria-describedby="footnote-g">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination<sup>g</sup>, {stateLabel}</h3>
         <p>The five most frequently occurring opioids and stimulants, alone or in combination, accounted for {datasets.combinationData[state].total.toFixed(1)}% of overdose deaths. 
           {multipleCombo.length > 0 ? 
             ` For example, ${multipleCombo[0].percent.toFixed(1)}% of overdose deaths involved ${listDrugs(multipleCombo[0].drugCombination)}` :
@@ -421,7 +421,7 @@ function App(params) {
 
       <div className="section">
         <div className="header margin">
-          <h2 className="preheader-label">Who died of a drug overdose in 2020, {stateLabel}?<sup>h</sup></h2>{stateSelector}
+          <h2 className="preheader-label" aria-describedby="footnote-h">Who died of a drug overdose in 2020, {stateLabel}?<sup>h</sup></h2>{stateSelector}
         </div>
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}. {sexRateMax.sex}, {ageMapping[ageRateMax.age]}, and {raceMapping[raceRateMax.race] || raceRateMax.race} race had the highest overdose death rates.</p>
@@ -575,7 +575,7 @@ function App(params) {
 
       <div className="section opioid-section">
         <div className="header margin">
-          <h2 className="preheader-label">What were the circumstances<sup>i</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
+          <h2 className="preheader-label" aria-describedby="footnote-i">What were the circumstances<sup>i</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
         </div>
         <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
         <p>{datasets.interventionData[state].percent.toFixed(1)}% had at least one potential opportunity for intervention.</p>
@@ -629,10 +629,10 @@ function App(params) {
                 <div className="circumstance-label-container">
                   <span className="circumstance-value">{d.percent.toFixed(1)}%</span>
                   {d.circumstance}
-                  {d.circumstance === 'History of substance use/misuse' && <sup>m</sup>}
-                  {d.circumstance === 'Naloxone administered' && <sup>n</sup>}
-                  {d.circumstance === 'Recent return to use of opioids' && <sup>o</sup>}
-                  {d.circumstance === 'Experiencing homelessness' && <sup>p</sup>}
+                  {d.circumstance === 'History of substance use/misuse' && <sup aria-describedby="footnote-m">m</sup>}
+                  {d.circumstance === 'Naloxone administered' && <sup aria-describedby="footnote-n">n</sup>}
+                  {d.circumstance === 'Recent return to use of opioids' && <sup aria-describedby="footnote-o">o</sup>}
+                  {d.circumstance === 'Experiencing homelessness' && <sup aria-describedby="footnote-p">p</sup>}
                 </div>
               </div>
             ))}
