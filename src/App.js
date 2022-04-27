@@ -118,10 +118,10 @@ function App(params) {
   };
 
   const monthLabelOverrides = {
-    '0': '    Jan-March', 
-    '1': '    Apr-Jun', 
-    '2': '    Jul-Sept', 
-    '3': '     Oct-Dec'
+    '0': '    January-March', 
+    '1': '    April-June', 
+    '2': '    July-September', 
+    '3': '    October-December'
   };
 
 
@@ -132,6 +132,10 @@ function App(params) {
       setDimensions({width, height});
     }
   });
+
+  const lowerCaseCustom = (string) => {
+    return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
+  };
 
   useEffect(() => {
     ReactTooltip.rebuild();
@@ -239,7 +243,7 @@ function App(params) {
                   {quarter: 'Total in 2020', value: datasets.totalData[state], percent: '100.0'}, 
                   {quarter: 'Quarter of 2020', spacer: true, colSpan: 2},
                   ...datasets.timeData[state].quarter.map(d => ({quarter: monthLabelOverrides[d.quarter], value: d.value, percent: ((d.value / datasets.totalData[state] * 1000) / 10).toFixed(1)})), 
-                  {quarter: 'At least one potential opportunity for intervention', value: datasets.interventionData[state].deaths, percent: datasets.interventionData[state].percent}
+                  {quarter: <>At least one potential opportunity for intervention<sup>a</sup></>, value: datasets.interventionData[state].deaths, percent: datasets.interventionData[state].percent}
                 ]}
                 xAxisKey={'quarter'}
                 labelOverrides={{
@@ -307,7 +311,7 @@ function App(params) {
           <div>
             <div className="drug-tab-section">
               {drugTab('All', 'All Drugs')}
-              {drugTab('Opioid', <span aria-describedby="footnote-b">Any Opioid<sup>b</sup></span>)}
+              {drugTab('Opioid', <span aria-describedby="footnote-b">Any Opioids<sup>b</sup></span>)}
             </div>
             <div className="drug-tab-section">
               {drugTab('Illicitly Manufactured Fentanyls', <span aria-describedby="footnote-c">{dimensions.width < viewportCutoffSmall ? 'IMFs' : 'Illicitly Manufactured Fentanyls'}<sup>c</sup></span>)}
@@ -342,7 +346,7 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader" aria-describedby="footnote-f">Percentages<sup>f</sup> of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
-        <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulants').causePercent.toFixed(1)}% involved at least one stimulant. {datasets.additionalDrugData[state].commonOpioid} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulants.toLowerCase()}.</p>
+        <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulants').causePercent.toFixed(1)}% involved at least one stimulant. {lowerCaseCustom(datasets.additionalDrugData[state].commonOpioid)} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulants.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -438,16 +442,16 @@ function App(params) {
                 {demographic: `    ${datum.race}`, deaths: datum.deaths, percent: datum.percent, rate: datasets.raceDataRates[state][i].rate}
               )),
               {demographic: 'Age (in years)', spacer: true, colSpan: '3', background: true},
-              ...datasets.ageData[state].filter(d => !!d.age).map((datum, i) => (
+              ...datasets.ageData[state].filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
                 {demographic: `    ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
               )),
               {demographic: 'Age (in years) by Sex', spacer: true, colSpan: '3', background: true},
               {demographic: '    Male', spacer: true, colSpan: '3'},
-              ...datasets.ageBySexData[state].Male.filter(d => !!d.age).map((datum, i) => (
+              ...datasets.ageBySexData[state].Male.filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
                 {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
               )),
               {demographic: '    Female', spacer: true, colSpan: '3'},
-              ...datasets.ageBySexData[state].Female.filter(d => !!d.age).map((datum, i) => (
+              ...datasets.ageBySexData[state].Female.filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
                 {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
               ))
             ]}
@@ -640,7 +644,14 @@ function App(params) {
               data={datasets.circumstancesData[state]['other']}
               xAxisKey={'circumstance'}
               orderedKeys={['count', 'percent']}
-              labelOverrides={{'count': 'Number of deaths', 'percent': 'Percent of deaths'}}
+              labelOverrides={{
+                'count': 'Number of deaths',
+                'percent': 'Percent of deaths',
+                'History of substance use/misuse': <>History of substance use/misuse<sup aria-describedby="footnote-m">m</sup></>,
+                'Naloxone administered': <>Naloxone administered<sup aria-describedby="footnote-n">n</sup></>,
+                'Recent return to use of opioids': <>Recent return to use of opioids<sup aria-describedby="footnote-o">o</sup></>,
+                'Experiencing homelessness or housing instability': <>Experiencing homelessness or housing instability<sup aria-describedby="footnote-p">p</sup></>
+              }}
               suffixes={{
                 'percent': '%'
               }}
@@ -653,7 +664,7 @@ function App(params) {
       
       <Footer />
 
-      <a download="Non-Fatal-Overdose-Data.xlsx" href="data/SUDORS_Dashboard_Data.xlsx" aria-label="Download this data in a CSV file format." className="btn btn-download no-border">Download Data (CSV)</a>
+      <a download="SUDORS-Fatal-Overdose-Data.xlsx" href="data/SUDORS_Dashboard_Data.xlsx" aria-label="Download this data in a CSV file format." className="btn btn-download no-border">Download Data (CSV)</a>
 
       <ReactTooltip html={true} type="light" arrowColor="rgba(0,0,0,0)" className="tooltip"/>
     </div>

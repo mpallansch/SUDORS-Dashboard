@@ -24,8 +24,8 @@ function CauseChart(params) {
   const order = {
     'Any Opioids': 0,
     'Illicitly Manufactured Fentanyls': 1,
-    'Prescription Opioids': 2,
-    'Heroin': 3,
+    'Heroin': 2,
+    'Prescription Opioids': 3,
     'Any Stimulants': 4,
     'Cocaine': 5,
     'Methamphetamine': 6,

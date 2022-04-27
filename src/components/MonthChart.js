@@ -102,6 +102,9 @@ function MonthChart(params) {
   });
 
   const halfBandwidth = xScale.bandwidth() / 2;
+  const quarterBandwidth = halfBandwidth / 2;
+  const halfHeight = adjustedHeight / 2;
+  const quarterHeight = halfHeight / 2;
 
   const max = Math.max(...(header ? dataQuarter : dataMonth).map(d => d.value));
   const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : Math.ceil(overallMax / 1000) * 1000;
@@ -147,10 +150,10 @@ function MonthChart(params) {
                         fill="#712177"
                       />
                       <rect
-                        x={xScale(d[quarterKey])}
-                        y={0}
-                        width={xScale.bandwidth()}
-                        height={adjustedHeight}
+                        x={xScale(d[quarterKey]) - quarterBandwidth}
+                        y={quarterHeight}
+                        width={halfBandwidth}
+                        height={halfHeight}
                         fill="transparent"
                         data-tip={`<strong>${quarterMapping[d[quarterKey]]} 2020</strong><br/>Deaths: ${Number(d.value).toLocaleString()}`}
                       />

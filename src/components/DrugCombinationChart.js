@@ -46,10 +46,10 @@ function DrugCombinationChart(params) {
           } else if(drugs[i] === 'Methamphetamine') {
             drugCombinationNames.push('Meth');
           } else {
-            drugCombinationNames.push(drugs[i]);
+            drugCombinationNames.push(titleCase(drugs[i]));
           }
         } else {
-          drugCombinationNames.push(drugs[i]);
+          drugCombinationNames.push(titleCase(drugs[i]));
         }
       }
     }
@@ -59,6 +59,10 @@ function DrugCombinationChart(params) {
       drugCombinationNames.slice(-1)[0]
     ].join(drugCombinationNames.length < 2 ? '' : 
       drugCombinationNames.length === 2 ? ' and ' : ', and ')
+  };
+
+  const titleCase = (string) => {
+    return string.split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()).join(' ');
   };
 
   let labelOverrides = {'drugCombination': 'Overdose death involving:', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'};
@@ -96,8 +100,8 @@ function DrugCombinationChart(params) {
                         cy={yScale(d.drugCombination) + barThicknessHalf}
                         fill={colorScale.Combination}
                         data-tip={`<strong>${listDrugs(d.drugCombination)}</strong><br/>
-                        Deaths: ${d.percent < countCutoff ? `< ${countCutoff}` : Number(d.percent).toLocaleString()}<br/>
-                        Percent: ${d.percent || 0}%`}
+                        Deaths: ${d.deaths < countCutoff ? `< ${countCutoff}` : Number(d.deaths).toLocaleString()}<br/>
+                        Percent: ${d.percent ? d.percent.toFixed(1) : 0}%`}
                       />
                       <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.drugCombination) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Combination}>{d.percent}%</text>
                       <Text width={adjustedWidth} x={0}  y={yScale(d.drugCombination) + barThickness + margin.bar} verticalAnchor="start">{listDrugs(d.drugCombination)}</Text>

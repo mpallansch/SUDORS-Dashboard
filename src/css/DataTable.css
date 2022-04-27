@@ -60,6 +60,6 @@
 
 .App.small-vp .table-container table tbody th,
 .App.small-vp .table-container table thead th:first-child {
-    max-width: 150px;
+    max-width: 165px;
     white-space: normal;
 }
