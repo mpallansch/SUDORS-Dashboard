@@ -115,6 +115,7 @@ function RaceChart(params) {
             }
 
             let deaths = metric !== 'rate' ? d.deaths : datum.deaths;
+            let percent = metric !== 'rate' ? d.percent : datum.percent;
 
             return (
               <Group key={`bar-container-${d.race}`}>
@@ -132,7 +133,7 @@ function RaceChart(params) {
                     strokeWidth={2}
                     data-tip={`<strong>${tooltipLabels[d.race] || d.race}</strong><br/>
                     Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
-                    Percent: ${d.percent || 0}%<br/>
+                    Percent: ${percent || 0}%<br/>
                     Age-adjusted rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
                   ></path>
                 )}

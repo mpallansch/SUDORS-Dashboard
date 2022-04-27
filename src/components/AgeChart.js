@@ -111,7 +111,7 @@ function AgeChart(params) {
                     data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
                     Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
                     Percent: ${d.percent || 0}%<br/>
-                    Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                    Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                   ></path>
                 )}
                 {isSuppressed(d) && (
@@ -134,7 +134,7 @@ function AgeChart(params) {
                       data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
                       Percent: ${d.percent || 0}%<br/>
-                      Age-adjusted rate: *Data suppressed`}
+                      Rate: *Data suppressed`}
                     />
                   </>
                 )}

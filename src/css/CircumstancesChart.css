@@ -8,6 +8,7 @@
     height: 500px;
 }
 
-#circumstances-chart-container svg {
+#circumstances-chart-container svg,
+#intervention-chart-container svg  {
     overflow: visible;
 }

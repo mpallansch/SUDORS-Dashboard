@@ -581,8 +581,8 @@ function App(params) {
         <div className="header margin">
           <h2 className="preheader-label" aria-describedby="footnote-i">What were the circumstances<sup>i</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
         </div>
-        <span className="individual-header margin-bottom">Potential opportunities for intervention</span>
-        <p>{datasets.interventionData[state].percent.toFixed(1)}% had at least one potential opportunity for intervention.</p>
+        <span className="individual-header margin-bottom">Potential opportunities for intervention<sup>a</sup></span>
+        <p>Potential opportunities for intervention include linkage to care or life-saving actions at the time of the overdose.</p>
         {!accessible && (
           <div className="column column-left">
             <div className="waffle-column waffle-column-left">
@@ -599,7 +599,7 @@ function App(params) {
             </div>
             <div className="waffle-column waffle-column-right">
               <span className="waffle-label font-xxl">{datasets.interventionData[state].percent.toFixed(1)}%</span><br/>
-              <span className="waffle-label">of drug overdose deaths had at least one opportunity for intervention</span>
+              <span className="waffle-label">of drug overdose deaths had at least one potential opportunity for intervention</span>
             </div>
           </div> 
         )}
@@ -627,7 +627,7 @@ function App(params) {
           <div className="additional-circumstance-container">
             {!accessible && datasets.circumstancesData[state]['other'].map(d => (
               <div key={`circtumstance-${d.circumstance}`} className="circumstance-container">
-                <div className="circumstance-icon-container" data-tip={`Deaths: ${Number(d.count).toLocaleString()}<br/>Percent: ${d.percent}%`}>
+                <div className="circumstance-icon-container" data-tip={`<strong>${d.circumstance}</strong><br/>Deaths: ${Number(d.count).toLocaleString()}<br/>Percent: ${d.percent}%`}>
                   <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
                 </div>
                 <div className="circumstance-label-container">
@@ -636,7 +636,7 @@ function App(params) {
                   {d.circumstance === 'History of substance use/misuse' && <sup aria-describedby="footnote-m">m</sup>}
                   {d.circumstance === 'Naloxone administered' && <sup aria-describedby="footnote-n">n</sup>}
                   {d.circumstance === 'Recent return to use of opioids' && <sup aria-describedby="footnote-o">o</sup>}
-                  {d.circumstance === 'Experiencing homelessness' && <sup aria-describedby="footnote-p">p</sup>}
+                  {d.circumstance === 'Experiencing homelessness or housing instability' && <sup aria-describedby="footnote-p">p</sup>}
                 </div>
               </div>
             ))}
