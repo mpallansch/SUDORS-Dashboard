@@ -54,7 +54,7 @@ function App(params) {
     interventionData: 'data/interventions.json',
     circumstancesData: 'data/circumstance.json',
     totalData: 'data/totals.json',
-    combinationData: 'data/drug-combination.json',
+    combinationData: 'data/top-combination.json',
     causeData: 'data/cause.json',
     additionalDrugData: 'data/additional_drug.json',
     opioidStimulantData: 'data/opioid-stimulant.json',
@@ -163,20 +163,6 @@ function App(params) {
       onClick={() => {setDrug(drugName)}}
     >{drugLabel || drugName}</button> 
   );
-
-  const listDrugs = (drugCombination) => {
-    let drugCombinationNames = [];
-    for(let i = 0; i < drugCombination.length; i++){
-      if(drugCombination.charAt(i) === '1') {
-        drugCombinationNames.push(drugs[i].toLowerCase());
-      }
-    }
-    return [
-      drugCombinationNames.slice(0, -1).join(', '), 
-      drugCombinationNames.slice(-1)[0]
-    ].join(drugCombinationNames.length < 2 ? '' : 
-      drugCombinationNames.length === 2 ? ' and ' : ', and ')
-  };
 
   useEffect(() => {
     Promise.all(datasetKeys.map(key => fetch(datasetUrls[key])))
@@ -368,8 +354,8 @@ function App(params) {
         <h3 className="subheader" aria-describedby="footnote-g">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination<sup>g</sup>, {stateLabel}</h3>
         <p>The five most frequently occurring opioids and stimulants, alone or in combination, accounted for {datasets.combinationData[state].total.toFixed(1)}% of overdose deaths. 
           {multipleCombo.length > 0 ? 
-            ` For example, ${multipleCombo[0].percent.toFixed(1)}% of overdose deaths involved ${listDrugs(multipleCombo[0].drugCombination)}` :
-            ` ${datasets.combinationData[state].combinations[0].percent.toFixed(1)}% of overdose deaths involved ${listDrugs(datasets.combinationData[state].combinations[0].drugCombination)}, one of the most common ${datasets.combinationData[state].combinations[0].drugCombination.charAt(3) === '1' || datasets.combinationData[state].combinations[0].drugCombination.charAt(4) === '1' ? 'stimulants' : 'opioids'}`}.</p>
+            ` For example, ${multipleCombo[0].percent.toFixed(1)}% of overdose deaths involved ${multipleCombo[0].drugCombination.toLowerCase()}` :
+            ` ${datasets.combinationData[state].combinations[0].percent.toFixed(1)}% of overdose deaths involved ${datasets.combinationData[state].combinations[0].drugCombination.toLowerCase()}, one of the most common ${datasets.combinationData[state].combinations[0].drugCombination.charAt(3) === '1' || datasets.combinationData[state].combinations[0].drugCombination.charAt(4) === '1' ? 'stimulants' : 'opioids'}`}.</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" className="chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 

@@ -34,40 +34,7 @@ function DrugCombinationChart(params) {
     padding: 0.2
   });
 
-  const listDrugs = (drugCombination) => {
-    let drugCombinationNames = [];
-    for(let i = 0; i < drugCombination.length; i++){
-      if(drugCombination.charAt(i) === '1') {
-        if(width < viewportCutoff){
-          if(drugs[i] === 'Illicitly manufactured fentanyls'){
-            drugCombinationNames.push('IMFs');
-          } else if(drugs[i] === 'Prescription opioids'){
-            drugCombinationNames.push('Rx Opioids');
-          } else if(drugs[i] === 'Methamphetamine') {
-            drugCombinationNames.push('Meth');
-          } else {
-            drugCombinationNames.push(titleCase(drugs[i]));
-          }
-        } else {
-          drugCombinationNames.push(titleCase(drugs[i]));
-        }
-      }
-    }
-    
-    return [
-      drugCombinationNames.slice(0, -1).join(', '), 
-      drugCombinationNames.slice(-1)[0]
-    ].join(drugCombinationNames.length < 2 ? '' : 
-      drugCombinationNames.length === 2 ? ' and ' : ', and ')
-  };
-
-  const titleCase = (string) => {
-    return string.split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1).toLowerCase()).join(' ');
-  };
-
   let labelOverrides = {'drugCombination': 'Overdose death involving:', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'};
-
-  data.forEach(d => labelOverrides[d.drugCombination] = listDrugs(d.drugCombination));
 
   return width > 0 && (
     <>
@@ -102,12 +69,12 @@ function DrugCombinationChart(params) {
                         cx={xScale(d.percent)}
                         cy={yScale(d.drugCombination) + barThicknessHalf}
                         fill={colorScale.Combination}
-                        data-tip={`<strong>${listDrugs(d.drugCombination)}</strong><br/>
+                        data-tip={`<strong>${d.drugCombination}</strong><br/>
                         Deaths: ${d.deaths < countCutoff ? `< ${countCutoff}` : Number(d.deaths).toLocaleString()}<br/>
                         Percent: ${d.percent ? d.percent.toFixed(1) : 0}%`}
                       />
                       <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.drugCombination) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Combination}>{d.percent}%</text>
-                      <Text width={adjustedWidth} x={0}  y={yScale(d.drugCombination) + barThickness + margin.bar} verticalAnchor="start">{listDrugs(d.drugCombination)}</Text>
+                      <Text width={adjustedWidth} x={0}  y={yScale(d.drugCombination) + barThickness + margin.bar} verticalAnchor="start">{d.drugCombination}</Text>
                     </Group>
                   )
                 )}

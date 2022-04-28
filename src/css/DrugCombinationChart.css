@@ -3,3 +3,7 @@
   height: 350px;
   position: relative;
 }
+
+.App.small-vp #drug-combination-chart-container {
+  height: 450px;
+}
