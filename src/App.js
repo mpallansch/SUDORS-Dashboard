@@ -93,7 +93,7 @@ function App(params) {
   };
 
   const ageMapping = {
-    '0': '0-14',
+    '0': '<15',
     '1': '15-24',
     '2': '25-34',
     '3': '35-44',
@@ -253,6 +253,9 @@ function App(params) {
                 }}
                 suffixes={{
                   'percent': '%'
+                }}
+                transforms={{
+                  percent: num => num.toFixed ? num.toFixed(1) : num
                 }}
               />
           </>
@@ -431,42 +434,59 @@ function App(params) {
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}. {sexRateMax.sex}, {ageMapping[ageRateMax.age]}, and {raceMapping[raceRateMax.race] || raceRateMax.race} race had the highest overdose death rates.</p>
 
         {accessible ? (
-          <DataTable
-            data={[
-              {demographic: 'Sex', spacer: true, colSpan: '3', background: true},
-              ...datasets.sexData[state].map((datum, i) => (
-                {demographic: `    ${datum.sex}`, deaths: datum.count, percent: datum.percent, rate: datasets.sexDataRates[state][i].rate
-              })),
-              {demographic: 'Race', spacer: true, colSpan: '3', background: true},
-              ...datasets.raceData[state].map((datum, i) => (
-                {demographic: `    ${datum.race}`, deaths: datum.deaths, percent: datum.percent, rate: datasets.raceDataRates[state][i].rate}
-              )),
-              {demographic: 'Age (in years)', spacer: true, colSpan: '3', background: true},
-              ...datasets.ageData[state].filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
-                {demographic: `    ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
-              )),
-              {demographic: 'Age (in years) by Sex', spacer: true, colSpan: '3', background: true},
-              {demographic: '    Male', spacer: true, colSpan: '3'},
-              ...datasets.ageBySexData[state].Male.filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
-                {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
-              )),
-              {demographic: '    Female', spacer: true, colSpan: '3'},
-              ...datasets.ageBySexData[state].Female.filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
-                {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
-              ))
-            ]}
-            xAxisKey="demographic"
-            orderedKeys={['deaths', 'percent', 'rate']}
-            labelOverrides={{
-              deaths: 'Number of deaths',
-              percent: 'Percent of deaths',
-              rate: 'Rate per 1000,000 persons*'
-            }}
-            suffixes={{
-              percent: '%'
-            }}
-            customBackground={true}
-          />
+          <>
+            <DataTable
+              data={[
+                {demographic: 'Sex', spacer: true, colSpan: '3', background: true},
+                ...datasets.sexData[state].sort((a,b) => a.sex > b.sex ? -1 : 1).map((datum, i) => (
+                  {demographic: `    ${datum.sex}`, deaths: datum.count, percent: datum.percent, rate: datasets.sexDataRates[state][i].rate
+                })),
+                {demographic: 'Race/Ethnicity', spacer: true, colSpan: '3', background: true},
+                ...datasets.raceData[state].sort((a,b) => {
+                  const aRace = raceMapping[a.race] || a.race;
+                  const bRace = raceMapping[b.race] || b.race;
+                  if(aRace === 'Hispanic') {
+                    return 1;
+                  } else if(bRace === 'Hispanic'){
+                    return -1;
+                  }
+                  return (aRace < bRace) ? -1 : 1;
+                }).map((datum, i) => (
+                  {demographic: `    ${datum.race}`, deaths: datum.deaths, percent: datum.percent, rate: datasets.raceDataRates[state][i].rate}
+                )),
+                {demographic: 'Age (in years)', spacer: true, colSpan: '3', background: true},
+                ...datasets.ageData[state].filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
+                  {demographic: `    ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
+                )),
+                {demographic: 'Age (in years) by Sex', spacer: true, colSpan: '3', background: true},
+                {demographic: '    Male', spacer: true, colSpan: '3'},
+                ...datasets.ageBySexData[state].Male.filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
+                  {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
+                )),
+                {demographic: '    Female', spacer: true, colSpan: '3'},
+                ...datasets.ageBySexData[state].Female.filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
+                  {demographic: `        ${ageMapping[datum.age]}`, deaths: datum.count, percent: datum.percent, rate: datum.rate}
+                ))
+              ]}
+              xAxisKey="demographic"
+              orderedKeys={['deaths', 'percent', 'rate']}
+              labelOverrides={{
+                deaths: 'Number of deaths',
+                percent: 'Percent of deaths',
+                rate: 'Rate per 1000,000 persons*',
+                demographic: 'Demographic Characteristic'
+              }}
+              suffixes={{
+                percent: '%'
+              }}
+              transforms={{
+                percent: num => num.toFixed ? num.toFixed(1) : num,
+                rate: num => num.toFixed ? num.toFixed(1) : num
+              }}
+              customBackground={true}
+            />
+            <p>*Rates for sex and race/ethnicity are age-adjusted. Rates for age and age by sex are crude.</p>
+          </>
         ) : (
           <>
             <div id="metric-selectors">
@@ -654,6 +674,9 @@ function App(params) {
               }}
               suffixes={{
                 'percent': '%'
+              }}
+              transforms={{
+                percent: num => num.toFixed ? num.toFixed(1) : num
               }}
             />}
           </div>

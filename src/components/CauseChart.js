@@ -75,12 +75,12 @@ function CauseChart(params) {
   let labelOverrides = {
     'causeCount': 'Number of deaths',
     'causePercent': 'Percent of deaths',
-    'Illicitly manufactured fentanyls': '    Illicitly manufactured fentanyls',
-    'Prescription opioids': '    Prescription opioids',
+    'Illicitly Manufactured Fentanyls': '    Illicitly manufactured fentanyls',
+    'Prescription Opioids': '    Prescription opioids',
     'Methamphetamine': '    Methamphetamine',
     'Cocaine': '    Cocaine',
     'Heroin': '    Heroin',
-    'opioid': 'Drug'
+    'opioid': 'Drug or drug class'
   };
 
   if(width < viewportCutoff){
@@ -97,6 +97,9 @@ function CauseChart(params) {
             orderedKeys={['causeCount', 'causePercent']}
             labelOverrides={labelOverrides}
             suffixes={{'causePercent': '%'}}
+            transforms={{
+              causePercent: num => num.toFixed ? num.toFixed(1) : num
+            }}
             caption={'Overdose deaths by drug'}
             customBackground={true}
           />

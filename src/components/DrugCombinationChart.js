@@ -78,6 +78,9 @@ function DrugCombinationChart(params) {
               xAxisKey={'drugCombination'}
               labelOverrides={labelOverrides}
               suffixes={{'percent': '%'}}
+              transforms={{
+                percent: num => num.toFixed ? num.toFixed(1) : num
+              }}
               caption={'Drug combinations involved in overdose deaths'}
             />
           ) : (

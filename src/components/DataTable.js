@@ -4,7 +4,7 @@ import '../css/DataTable.css';
 
 function DataTable(params) {
 
-  const { data, rates, cutoffData, cutoffKey, orderedKeys, highlight, xAxisKey, suffixes, caption, customBackground } = params;
+  const { data, rates, cutoffData, cutoffKey, orderedKeys, highlight, xAxisKey, suffixes, transforms, caption, customBackground } = params;
 
   const labelOverrides = params.labelOverrides || {};
 
@@ -21,7 +21,7 @@ function DataTable(params) {
   };
 
   const formatLabel = (key) => {
-    if(!key) return 'State';
+    if(!key) return 'Jurisdiction';
 
     let words = [];
 
@@ -67,9 +67,9 @@ function DataTable(params) {
                   <td key={`td-${xAxisKey}-${i}-${j}`}>
                     {key.toLowerCase().indexOf('percent') === -1 && (cutoffData ? 
                         cutoffData[i][cutoffKey] : 
-                        d[keys[j - 2]]) < rateCutoff ? 
+                        d[keys[j - 2]]) < rateCutoff || d[key] < 0 ? 
                           'Data suppressed' : 
-                          Number(d[key]).toLocaleString()}{suffixes && suffixes[key]}
+                          (transforms && transforms[key]) ? transforms[key](d[key]) : Number(d[key]).toLocaleString()}{suffixes && suffixes[key]}
                   </td>
                 ))}
               </tr>
@@ -80,7 +80,7 @@ function DataTable(params) {
                   <th key={`th-${rowKey}-${rowIndex}`} scope="row">{labelOverrides[rowKey] || rowKey}</th>
                   {[data, rates].map((d, i) => 
                     Object.keys(d[keys[0]]).map((colKey, colIndex) => (
-                      <td key={`td-${d[rowKey][colKey]}-${rowIndex}-${colIndex}`}>{data[rowKey][Object.keys(data[keys[0]])[0]] < [countCutoff, rateCutoff][i] ? 'Data suppressed' : Number(d[rowKey][colKey]).toLocaleString()}</td>
+                      <td key={`td-${d[rowKey][colKey]}-${rowIndex}-${colIndex}`}>{data[rowKey][Object.keys(data[keys[0]])[0]] < [countCutoff, rateCutoff][i] ? 'Data suppressed' : d[rowKey].rate ? d[rowKey][colKey].toFixed(1) : Number(d[rowKey][colKey]).toLocaleString()}</td>
                     ))
                   )}
                 </tr>

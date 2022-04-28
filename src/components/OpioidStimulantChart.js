@@ -54,14 +54,17 @@ function OpioidStimulantChart(params) {
       <div id="opioid-stimulant-chart">
         {accessible ? (
           <DataTable
-            data={['o', 'os', 's', 'n'].map(key => ({
+            data={['os', 'o', 's', 'n'].map(key => ({
               deaths: data[0][`${key}Count`],
               percent: data[0][`${key}Percent`],
               name: data[0][`${key}Name`]
             }))}
             xAxisKey={'name'}
-            labelOverrides={{'name': 'Overdose death involving:', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'}}
+            labelOverrides={{'name': 'Overdose deaths involving:', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'}}
             suffixes={{'percent': '%'}}
+            transforms={{
+              percent: num => num.toFixed ? num.toFixed(1) : num
+            }}
             caption={'Opioid and stimulant breakdown in overdose deaths'}
           />
         ) : (

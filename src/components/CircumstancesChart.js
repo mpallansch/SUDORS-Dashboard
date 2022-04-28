@@ -25,19 +25,29 @@ function CircumstancesChart(params) {
 
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: data[metric].sort((a, b) => a.percent > b.percent ? 1 : -1).map(d => d.circumstance),
+    domain: data[metric].sort((a, b) => a.circumstance < b.circumstance ? 1 : -1).map(d => d.circumstance),
     padding: 0.2
   });
 
   return width > 0 && 
     accessible ? (
       <DataTable
-        data={[{circumstance: '≥1 potential opportunity for intervention', count: atLeastOneValue.deaths, percent: atLeastOneValue.percent}, ...data[metric].map(d => ({circumstance: `    ${d.circumstance}`, count: d.count, percent: d.percent}))]}
+        data={[{circumstance: '≥1 potential opportunity for intervention', count: atLeastOneValue.deaths, percent: atLeastOneValue.percent}, ...data[metric].sort((a, b) => a.circumstance < b.circumstance ? -1 : 1).map(d => ({circumstance: `    ${d.circumstance}`, count: d.count, percent: d.percent}))]}
         xAxisKey={'circumstance'}
         orderedKeys={['count', 'percent']}
-        labelOverrides={{'count': 'Number of Deaths', 'percent': 'Percent of deaths', 'circumstance': 'Potential opportunity for intervention'}}
+        labelOverrides={{
+          'count': 'Number of Deaths', 
+          'percent': 'Percent of deaths', 
+          'circumstance': 'Potential opportunity for intervention',
+          '    Potential bystander present': <>    Potential bystander present<sup>j</sup></>,
+          '    Current treatment for substance use disorder(s)': <>    Current treatment for substance use disorder(s)<sup>k</sup></>,
+          '    Recent release from institutional setting': <>    Recent release from institutional setting<sup>l</sup></>
+        }}
         suffixes={{
           'percent': '%'
+        }}
+        transforms={{
+          percent: num => num.toFixed ? num.toFixed(1) : num
         }}
         caption={'Circumstances involved in drug deaths'}
       />
