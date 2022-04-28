@@ -32,7 +32,7 @@ function Footer() {
       )}
 
       <button className="header margin" onClick={() => setTechnotesShow(!technotesShow)}>
-        <span className="preheader-label">Important Data Considerations</span><span className="toggle-indicator">{technotesShow ? '-' : '+'}</span>
+        <span id="important-data-considerations" className="preheader-label">Important Data Considerations</span><span className="toggle-indicator">{technotesShow ? '-' : '+'}</span>
       </button>
       
       {technotesShow && (
