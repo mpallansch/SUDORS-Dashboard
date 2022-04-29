@@ -30,7 +30,7 @@ function DrugCombinationChart(params) {
 
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: data.sort((a, b) => a.percent > b.percent ? 1 : -1).map(d => d.drugCombination),
+    domain: data.sort((a, b) => {if(a.percent > b.percent) return 1; if(a.percent < b.percent) return -1; return 0;}).map(d => d.drugCombination),
     padding: 0.2
   });
 
