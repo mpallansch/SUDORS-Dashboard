@@ -11,13 +11,9 @@ import DataTable from './DataTable';
 
 function DrugCombinationChart(params) {
 
-  const drugs = ['Illicitly manufactured fentanyls', 'Heroin', 'Prescription opioids', 'Cocaine', 'Methamphetamine'];
-
-  const viewportCutoff = 600;
-
   const { data, width, height, accessible, colorScale, allStatesMax } = params;
 
-  const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 10};
+  const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 20};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
   const barThickness = 6;
