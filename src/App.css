@@ -120,7 +120,7 @@ input[type="radio"] {
   font-family: 'Merriweather', serif;
   color: #712177;
   font-size: large;
-  Margin-left: 1em;
+  margin-left: 1em;
 }
 
 .subsection {
@@ -435,8 +435,11 @@ table caption {
 }
 
 .opioid-section .waffle-label {
-  color: #712177;
   font-weight: bold;
+}
+
+.opioid-section .waffle-label.font-xxl {
+  color:#712177;
 }
 
 .opioid-section .column-left {

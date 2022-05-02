@@ -587,7 +587,7 @@ function App(params) {
         <div className="header margin">
           <h2 className="preheader-label" aria-describedby="footnote-i">What were the circumstances<sup>i</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
         </div>
-        <span className="individual-header margin-bottom">Potential opportunities for intervention<sup>a</sup></span>
+        <span className="subheader margin-bottom">Potential opportunities for intervention<sup>a</sup></span>
         <p>Potential opportunities for intervention include linkage to care or life-saving actions at the time of the overdose.</p>
         {!accessible && (
           <div className="column column-left">
@@ -629,7 +629,7 @@ function App(params) {
 
       <div className="section divider">
         <div className="subsection">
-          <span className="individual-header margin-bottom">Additional circumstances surrounding overdose deaths</span>
+          <span className="subheader margin-bottom">Additional circumstances surrounding overdose deaths</span>
           <div className="additional-circumstance-container">
             {!accessible && datasets.circumstancesData[state]['other'].map(d => (
               <div key={`circtumstance-${d.circumstance}`} className="circumstance-container">
