@@ -352,10 +352,7 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader" aria-describedby="footnote-g">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination<sup>g</sup>, {stateLabel}</h3>
-        <p>The five most frequently occurring opioids and stimulants, alone or in combination, accounted for {datasets.combinationData[state].total.toFixed(1)}% of overdose deaths. 
-          {multipleCombo.length > 0 ? 
-            ` For example, ${multipleCombo[0].percent.toFixed(1)}% of overdose deaths involved ${multipleCombo[0].drugCombination.toLowerCase()}` :
-            ` ${datasets.combinationData[state].combinations[0].percent.toFixed(1)}% of overdose deaths involved ${datasets.combinationData[state].combinations[0].drugCombination.toLowerCase()}, one of the most common ${datasets.combinationData[state].combinations[0].drugCombination.charAt(3) === '1' || datasets.combinationData[state].combinations[0].drugCombination.charAt(4) === '1' ? 'stimulants' : 'opioids'}`}.</p>
+        <p>The five most frequently occurring opioids and stimulants, alone or in combination, accounted for {datasets.combinationData[state].total.toFixed(1)}% of overdose deaths. The specific breakdown is represented below.</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" className="chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
