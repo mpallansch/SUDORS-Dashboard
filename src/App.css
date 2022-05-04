@@ -217,6 +217,7 @@ input[type="radio"] {
 #footer .preheader-label {
   margin: .25em;
   width: calc(100% - 100px);
+  text-align: left;
 }
 
 .header-sections-container {
