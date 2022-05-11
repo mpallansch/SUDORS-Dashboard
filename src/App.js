@@ -668,7 +668,7 @@ function App(params) {
       
       <Footer />
 
-      <a download="SUDORS-Fatal-Overdose-Data.xlsx" href="data/SUDORS_Dashboard_Data.xlsx" aria-label="Download this data in a CSV file format." className="btn btn-download no-border">Download Data (CSV)</a>
+      <a download="SUDORS-Fatal-Overdose-Data.xlsx" href="data/SUDORS_Dashboard_Data.xlsx" aria-label="Download this data in an Excel file format." className="btn btn-download no-border">Download Data (XLSX)</a>
 
       <ReactTooltip html={true} type="light" arrowColor="rgba(0,0,0,0)" className="tooltip"/>
     </div>
