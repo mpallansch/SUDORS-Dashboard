@@ -17,10 +17,12 @@
 .table-container table td {
     padding: 0.25em 1em;
     white-space: pre;
+    text-align: right;
 }
 
-.table-container table td {
-    text-align: right;
+.table-container thead th:first-child,
+.table-container tbody th:first-child {
+    text-align: left;
 }
 
 .table-container table thead th {

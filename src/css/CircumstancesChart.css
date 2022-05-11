@@ -12,3 +12,7 @@
 #intervention-chart-container svg  {
     overflow: visible;
 }
+
+.App.small-vp #intervention-chart-container {
+    height: 700px;
+}

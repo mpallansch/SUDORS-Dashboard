@@ -75,8 +75,8 @@ function CauseChart(params) {
   let labelOverrides = {
     'causeCount': 'Number of deaths',
     'causePercent': 'Percent of deaths',
-    'Illicitly Manufactured Fentanyls': '    Illicitly manufactured fentanyls',
-    'Prescription Opioids': '    Prescription opioids',
+    'Illicitly Manufactured Fentanyls': '    Illicitly Manufactured Fentanyls',
+    'Prescription Opioids': '    Prescription Opioids',
     'Methamphetamine': '    Methamphetamine',
     'Cocaine': '    Cocaine',
     'Heroin': '    Heroin',
@@ -84,7 +84,7 @@ function CauseChart(params) {
   };
 
   if(width < viewportCutoff){
-    labelOverrides['Illicitly manufactured fentanyls'] = '    IMFs';
+    labelOverrides['Illicitly Manufactured Fentanyls'] = '    IMFs';
   }
 
   return width > 0 && (

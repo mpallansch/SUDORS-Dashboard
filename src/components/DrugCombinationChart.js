@@ -26,18 +26,18 @@ function DrugCombinationChart(params) {
 
   const yScale = scaleBand({
     range: [ adjustedHeight, 0 ],
-    domain: data.sort((a, b) => {if(a.percent > b.percent) return 1; if(a.percent < b.percent) return -1; return 0;}).map(d => d.drugCombination),
+    domain: data.sort((a, b) => {if(a.deaths > b.deaths) return 1; if(a.deaths < b.deaths) return -1; return 0;}).map(d => d.drugCombination),
     padding: 0.2
   });
 
-  let labelOverrides = {'drugCombination': 'Overdose death involving:', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'};
+  let labelOverrides = {'drugCombination': 'Overdose deaths involving:', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'};
 
   return width > 0 && (
     <>
       <div id="drug-combination-chart">
         {accessible ? (
             <DataTable 
-              data={data}
+              data={data.reverse()}
               xAxisKey={'drugCombination'}
               labelOverrides={labelOverrides}
               suffixes={{'percent': '%'}}

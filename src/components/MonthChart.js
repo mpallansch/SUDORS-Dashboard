@@ -151,7 +151,7 @@ function MonthChart(params) {
                       />
                       <rect
                         x={xScale(d[quarterKey]) - quarterBandwidth}
-                        y={quarterHeight}
+                        y={Math.max(0, yScale(d.value) - quarterHeight)}
                         width={halfBandwidth}
                         height={halfHeight}
                         fill="transparent"

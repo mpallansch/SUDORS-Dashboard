@@ -335,7 +335,7 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader" aria-describedby="footnote-f">Percentages<sup>f</sup> of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
-        <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulants').causePercent.toFixed(1)}% involved at least one stimulant. {lowerCaseCustom(datasets.additionalDrugData[state].commonOpioid)} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioids. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulants.toLowerCase()}.</p>
+        <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulants').causePercent.toFixed(1)}% involved at least one stimulant. {lowerCaseCustom(datasets.additionalDrugData[state].commonOpioid)} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioid{datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? '' : 's'}. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulants.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -636,10 +636,9 @@ function App(params) {
                 <div className="circumstance-label-container">
                   <span className="circumstance-value">{d.percent.toFixed(1)}%</span>
                   {d.circumstance}
-                  {d.circumstance === 'History of substance use/misuse' && <sup aria-describedby="footnote-m">m</sup>}
                   {d.circumstance === 'Naloxone administered' && <sup aria-describedby="footnote-n">n</sup>}
                   {d.circumstance === 'Recent return to use of opioids' && <sup aria-describedby="footnote-o">o</sup>}
-                  {d.circumstance === 'Experiencing homelessness or housing instability' && <sup aria-describedby="footnote-p">p</sup>}
+                  {d.circumstance === 'Experiencing homelessness or housing instability' && <sup aria-describedby="footnote-m">m</sup>}
                 </div>
               </div>
             ))}
@@ -650,10 +649,9 @@ function App(params) {
               labelOverrides={{
                 'count': 'Number of deaths',
                 'percent': 'Percent of deaths',
-                'History of substance use/misuse': <>History of substance use/misuse<sup aria-describedby="footnote-m">m</sup></>,
                 'Naloxone administered': <>Naloxone administered<sup aria-describedby="footnote-n">n</sup></>,
                 'Recent return to use of opioids': <>Recent return to use of opioids<sup aria-describedby="footnote-o">o</sup></>,
-                'Experiencing homelessness or housing instability': <>Experiencing homelessness or housing instability<sup aria-describedby="footnote-p">p</sup></>
+                'Experiencing homelessness or housing instability': <>Experiencing homelessness or housing instability<sup aria-describedby="footnote-m">m</sup></>
               }}
               suffixes={{
                 'percent': '%'

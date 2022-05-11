@@ -4,7 +4,6 @@ import { Group } from '@visx/group';
 import { scaleLinear, scaleBand } from '@visx/scale';
 import { AxisLeft } from '@visx/axis';
 
-import DataTable from './DataTable';
 import Utils from '../shared/Utils';
 import { rateCutoff, rateCutoffLabel, countCutoff } from '../constants.json';
 
@@ -69,7 +68,7 @@ function RaceChart(params) {
 
   const xScale = scaleLinear({
     domain: [ 0, Math.max(...(currentData).map(getData))],
-    range: [ 20, adjustedWidth - 45 ]
+    range: [ 5, adjustedWidth - 45 ]
   });
   
   const yScale = scaleBand({
@@ -119,53 +118,51 @@ function RaceChart(params) {
 
             return (
               <Group key={`bar-container-${d.race}`}>
-                { // render data bar
-                !isSuppressed(d, datum) && (
-                  <path 
-                    className={`animated-bar ${animated ? 'animated' : ''}`}
-                    style={{
-                      'transition': animated ? 'transform 1s ease-in-out' : ''
-                    }}
-                    key={`bar-${d.race}`}
-                    d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d, datum)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
-                    fill={colorScale.Race}
-                    stroke={colorScale.RaceAccent}
-                    strokeWidth={2}
-                    data-tip={`<strong>${tooltipLabels[d.race] || d.race}</strong><br/>
-                    Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
-                    Percent: ${percent || 0}%<br/>
-                    Age-adjusted rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
-                  ></path>
-                )}
-                { // render suppressed bar
-                isSuppressed(d, datum) && (
-                  <>
-                    <Bar
+                {!isSuppressed(d, datum) && (metric === 'rate' || percent !== 0) ? (
+                    <path 
                       className={`animated-bar ${animated ? 'animated' : ''}`}
                       style={{
                         'transition': animated ? 'transform 1s ease-in-out' : ''
                       }}
                       key={`bar-${d.race}`}
-                      x={0}
-                      y={yScale(d.race)}
-                      width={1}
-                      height={yScale.bandwidth()}
-                      fill="black"
-                    />
-                    <Bar
-                      key={`bar-hover-${d.race}`}
-                      x={0}
-                      y={yScale(d.race)}
-                      width={40}
-                      height={yScale.bandwidth()}
-                      fill="transparent"
+                      d={Utils.horizontalBarPath(true, 0, yScale(d.race), xScale(getData(d, datum)), yScale.bandwidth(), 0, yScale.bandwidth() * .1)}
+                      fill={colorScale.Race}
+                      stroke={colorScale.RaceAccent}
+                      strokeWidth={2}
                       data-tip={`<strong>${tooltipLabels[d.race] || d.race}</strong><br/>
-                      Deaths: ${(d.deaths || datum.deaths) < countCutoff ? `< ${countCutoff}` : Number(d.deaths || datum.deaths).toLocaleString()}<br/>
-                      Percent: ${d.percent || 0}%<br/>
-                      Rate: *Data suppressed`}
-                    />
-                  </>
-                )}
+                      Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
+                      Percent: ${(percent || 0).toFixed(1)}%<br/>
+                      Age-adjusted rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
+                    ></path>
+                  ) : (
+                    <>
+                      <Bar
+                        className={`animated-bar ${animated ? 'animated' : ''}`}
+                        style={{
+                          'transition': animated ? 'transform 1s ease-in-out' : ''
+                        }}
+                        key={`bar-${d.race}`}
+                        x={0}
+                        y={yScale(d.race)}
+                        width={1}
+                        height={yScale.bandwidth()}
+                        fill="black"
+                      />
+                      <Bar
+                        key={`bar-hover-${d.race}`}
+                        x={0}
+                        y={yScale(d.race)}
+                        width={40}
+                        height={yScale.bandwidth()}
+                        fill="transparent"
+                        data-tip={`<strong>${tooltipLabels[d.race] || d.race}</strong><br/>
+                        Deaths: ${deaths < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
+                        Percent: ${(percent || 0).toFixed(1)}%<br/>
+                        Rate: *Data suppressed`}
+                      />
+                    </>
+                  )
+                }
                 <text
                   key={`bar-label-${d.race}`}
                   x={xScale(getData(d, datum)) + 25}

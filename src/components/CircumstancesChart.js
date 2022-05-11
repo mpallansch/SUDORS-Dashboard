@@ -12,7 +12,7 @@ function CircumstancesChart(params) {
 
   const { data, atLeastOneValue, width, height, accessible, colorScale, allStatesMax } = params;
   const metric = 'intervention';
-  const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 20};
+  const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 15};
   const adjustedWidth = width - margin.left - margin.right;
   const adjustedHeight = height - margin.top - margin.bottom;
   const barThickness = 6;
@@ -75,10 +75,13 @@ function CircumstancesChart(params) {
                   Percent: ${d.percent || 0}%`}
                 />
                 <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Intervention}>{d.percent.toFixed(1)}%</text>
-                <Text width={adjustedWidth} x={0}  y={yScale(d.circumstance) + barThickness + margin.bar} verticalAnchor="start">{d.circumstance}</Text>
-                {d.circumstance === 'Current treatment for substance use disorder(s)' && <text aria-describedby="footnote-j" width={adjustedWidth} x={390} y={yScale(d.circumstance) + barThickness + margin.bar + 5} verticalAnchor="start" fontSize="13">j</text>}
-                {d.circumstance === 'Potential bystander present' && <text aria-describedby="footnote-k" width={adjustedWidth} x={225} y={yScale(d.circumstance) + barThickness + margin.bar + 5} verticalAnchor="start" fontSize="13">k</text>}
-                {d.circumstance === 'Recent release from institutional setting' && <text aria-describedby="footnote-l" width={adjustedWidth} x={320} y={yScale(d.circumstance) + barThickness + margin.bar + 5} verticalAnchor="start" fontSize="13">l</text>}
+                <foreignObject x={0} y={yScale(d.circumstance) + barThickness + margin.bar} width={adjustedWidth} height="100">
+                  <span>{d.circumstance}
+                    {d.circumstance === 'Current treatment for substance use disorder(s)' && <> <sup aria-describedby="footnote-j">j</sup></>}
+                    {d.circumstance === 'Potential bystander present' && <sup aria-describedby="footnote-k">k</sup>}
+                    {d.circumstance === 'Recent release from institutional setting' && <sup aria-describedby="footnote-l">l</sup>}
+                  </span>
+                </foreignObject>
               </Group>
             )
           )}

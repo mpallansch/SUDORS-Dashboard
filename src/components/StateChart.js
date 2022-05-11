@@ -23,7 +23,12 @@ function StateChart(params) {
   const adjustedHeight = height - margin.top - margin.bottom - 60;
   const adjustedWidth = width - margin.left - margin.right;
 
-  const sort = (a,b) => (dataRates[a].rate > dataRates[b].rate ? 1 : -1);
+  const sort = (a,b) => {
+    if(dataRates[a].rate > dataRates[b].rate) return 1;
+    if(dataRates[a].rate < dataRates[b].rate) return -1;
+    if(dataRates[a].deaths > dataRates[b].deaths) return 1;
+    if(dataRates[a].deaths < dataRates[b].deaths) return -1;
+  };
 
   const xScale = scaleLinear({
     domain: [0, Math.max(...dataKeys.map(d => dataRates[d].rate)) * (width < viewportCutoff ? 1.3 : 1.1)],
