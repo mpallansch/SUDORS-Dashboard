@@ -72,10 +72,10 @@ function CircumstancesChart(params) {
                   fill={colorScale.Intervention}
                   data-tip={`<strong>${d.circumstance}</strong><br/>
                   Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                  Percent: ${d.percent || 0}%`}
+                  Percent: ${(d.percent || 0).toFixed(1)}%`}
                 />
                 <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Intervention}>{d.percent.toFixed(1)}%</text>
-                <foreignObject x={0} y={yScale(d.circumstance) + barThickness + margin.bar} width={adjustedWidth} height="100">
+                <foreignObject x={0} y={yScale(d.circumstance) + barThickness + margin.bar} width={adjustedWidth} height="50">
                   <span>{d.circumstance}
                     {d.circumstance === 'Current treatment for substance use disorder(s)' && <> <sup aria-describedby="footnote-j">j</sup></>}
                     {d.circumstance === 'Potential bystander present' && <sup aria-describedby="footnote-k">k</sup>}

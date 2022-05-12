@@ -110,7 +110,7 @@ function AgeChart(params) {
                     strokeWidth={2}
                     data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
                     Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                    Percent: ${d.percent || 0}%<br/>
+                    Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                     Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                   ></path>
                 )}
@@ -133,7 +133,7 @@ function AgeChart(params) {
                       fill="transparent"
                       data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Percent: ${d.percent || 0}%<br/>
+                      Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                       Rate: *Data suppressed`}
                     />
                   </>

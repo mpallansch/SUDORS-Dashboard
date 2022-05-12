@@ -86,7 +86,7 @@ function SexChart(params) {
                     fill={colorScale[d.sex]}
                     data-tip={`<strong>${d.sex}</strong><br/>
                     Deaths: ${Number(d.count).toLocaleString()}<br/>
-                    Percent: ${d.percent || 0}%<br/>
+                    Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                     Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
                   ></path>
                 )}
@@ -169,7 +169,7 @@ function SexChart(params) {
                         fill={colorScale[arc.data.sex]}
                         data-tip={`<strong>${arc.data.sex}</strong><br/>
                           Deaths: ${Number(arc.data.count).toLocaleString()}<br/>
-                          Percent: ${arc.data.percent || 0}%<br/>
+                          Percent: ${(arc.data.percent || 0).toFixed(1)}%<br/>
                           Age-adjusted rate: ${arc.data.count <= rateCutoff ? rateCutoffLabel : arc.data.rate}`}
                       />
                       <text
@@ -182,7 +182,7 @@ function SexChart(params) {
                         textAnchor="middle"
                         pointerEvents="none"
                       >
-                        {arc.data.percent}%
+                        {arc.data.percent.toFixed(1)}%
                       </text>
                     </g>
                   )

@@ -276,7 +276,7 @@ function App(params) {
                   header={true}
                 />
               </div>
-              <span className="header-text" aria-describedby="footnote-a"><strong>{datasets.interventionData[state].percent}%</strong> had at least one potential opportunity for intervention<sup>a</sup></span>
+              <span className="header-text" aria-describedby="footnote-a"><strong>{datasets.interventionData[state].percent.toFixed(1)}%</strong> had at least one potential opportunity for intervention<sup>a</sup></span>
             </div>
           </div>
         )}
@@ -413,7 +413,7 @@ function App(params) {
         <div className="header margin">
           <h2 className="preheader-label" aria-describedby="footnote-h">Who died of a drug overdose in 2020, {stateLabel}?<sup>h</sup></h2>{stateSelector}
         </div>
-        <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed()}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed()}% were {raceMax.race}.
+        <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed(1)}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed(1)}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}. {sexRateMax.sex}, {ageMapping[ageRateMax.age]}, and {raceMapping[raceRateMax.race] || raceRateMax.race} race had the highest overdose death rates.</p>
 
         {accessible ? (
@@ -630,7 +630,7 @@ function App(params) {
           <div className="additional-circumstance-container">
             {!accessible && datasets.circumstancesData[state]['other'].map(d => (
               <div key={`circtumstance-${d.circumstance}`} className="circumstance-container">
-                <div className="circumstance-icon-container" data-tip={`<strong>${d.circumstance}</strong><br/>Deaths: ${Number(d.count).toLocaleString()}<br/>Percent: ${d.percent}%`}>
+                <div className="circumstance-icon-container" data-tip={`<strong>${d.circumstance}</strong><br/>Deaths: ${Number(d.count).toLocaleString()}<br/>Percent: ${d.percent.toFixed(1)}%`}>
                   <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
                 </div>
                 <div className="circumstance-label-container">

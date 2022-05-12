@@ -109,7 +109,7 @@ function AgeBySexChart(params) {
                     fill={colorScale.Male}
                     data-tip={`<strong>Male, ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                    Percent: ${d.percent || 0}%<br/>
+                    Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                     Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                   ></path>
                 )}
@@ -130,7 +130,7 @@ function AgeBySexChart(params) {
                       fill="transparent"
                       data-tip={`<strong>Male, ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Percent: ${d.percent || 0}%<br/>
+                      Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                       Rate: *Data suppressed`}
                     />
                   </>
@@ -163,7 +163,7 @@ function AgeBySexChart(params) {
                     fill={colorScale.Female}
                     data-tip={`<strong>Female, ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                    Percent: ${d.percent || 0}%<br/>
+                    Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                     Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                   ></path>
                 )}
@@ -184,7 +184,7 @@ function AgeBySexChart(params) {
                       fill="transparent"
                       data-tip={`<strong>Female, ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Percent: ${d.percent || 0}%<br/>
+                      Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                       Rate: *Data suppressed`}
                     />
                   </>
