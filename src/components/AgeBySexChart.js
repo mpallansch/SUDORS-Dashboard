@@ -97,7 +97,7 @@ function AgeBySexChart(params) {
 
             return (
               <Group key={`group-male-${d.age}`}>
-                {!isSuppressed(d) && (
+                {!isSuppressed(d) && (metric === 'rate' || d.percent !== 0) ? (
                   <path
                     className={`animated-bar ${animated ? 'animated' : ''}`}
                     style={{
@@ -112,15 +112,14 @@ function AgeBySexChart(params) {
                     Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                     Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                   ></path>
-                )}
-                {isSuppressed(d) && (
+                ) : (
                   <>
                     <Bar 
                       x={halfWidth - 1}
                       y={yScale(ageMapping[d.age])}
                       width={1}
                       height={yScale.bandwidth()}
-                      fill={colorScale.Male}
+                      fill="black"
                     />
                     <Bar 
                       x={0}
@@ -151,7 +150,7 @@ function AgeBySexChart(params) {
             
             return (
               <Group key={`group-female-${d.age}`}>
-                {!isSuppressed(d) && (
+                {!isSuppressed(d) && (metric === 'rate' || d.percent !== 0) ? (
                   <path
                     className={`animated-bar ${animated ? 'animated' : ''}`}
                     style={{
@@ -166,15 +165,14 @@ function AgeBySexChart(params) {
                     Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                     Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                   ></path>
-                )}
-                {isSuppressed(d) && (
+                ) : (
                   <>
                     <Bar 
                       x={halfWidth}
                       y={yScale(ageMapping[d.age])}
-                      width={1}
+                      width={0.5}
                       height={yScale.bandwidth()}
-                      fill={colorScale.Male}
+                      fill="black"
                     />
                     <Bar 
                       x={halfWidth}

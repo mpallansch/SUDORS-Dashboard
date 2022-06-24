@@ -96,7 +96,7 @@ function AgeChart(params) {
 
             return(
               <Group key={`group-${d.age}`}>
-                {!isSuppressed(d) && (
+                {!isSuppressed(d) && (metric === 'rate' || d.percent !== 0) ? (
                   <path 
                     className={`animated-bar ${animated ? 'animated' : ''}`}
                     style={{
@@ -113,17 +113,14 @@ function AgeChart(params) {
                     Percent: ${(d.percent || 0).toFixed(1)}%<br/>
                     Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
                   ></path>
-                )}
-                {isSuppressed(d) && (
+                ) : (
                   <>
                     <Bar 
                       x={0}
                       y={yScale(ageMapping[d.age])}
                       width={1}
                       height={yScale.bandwidth()}
-                      fill={colorScale.Race}
-                      stroke={colorScale.RaceAccent}
-                      strokeWidth={2}
+                      fill="black"
                     />
                     <Bar 
                       x={0}
