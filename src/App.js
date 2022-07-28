@@ -422,7 +422,7 @@ function App(params) {
               data={[
                 {demographic: 'Sex', spacer: true, colSpan: '3', background: true},
                 ...datasets.sexData[state].sort((a,b) => a.sex > b.sex ? -1 : 1).map((datum, i) => (
-                  {demographic: `    ${datum.sex}`, deaths: datum.count, percent: datum.percent, rate: datasets.sexDataRates[state][1 - i].rate}
+                  {demographic: `    ${datum.sex}`, deaths: datum.count, percent: datum.percent, rate: datasets.sexDataRates[state][i].sex === datum.sex ? datasets.sexDataRates[state][i].rate : datasets.sexDataRates[state][1 - i].rate}
                 )),
                 {demographic: 'Race/Ethnicity', spacer: true, colSpan: '3', background: true},
                 ...datasets.raceData[state].sort((a,b) => {
