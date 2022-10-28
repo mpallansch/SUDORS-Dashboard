@@ -80,7 +80,7 @@ function DataTable(params) {
                   <th key={`th-${rowKey}-${rowIndex}`} scope="row">{labelOverrides[rowKey] || rowKey}</th>
                   {[data, rates].map((d, i) => 
                     Object.keys(d[keys[0]]).map((colKey, colIndex) => (
-                      <td key={`td-${d[rowKey][colKey]}-${rowIndex}-${colIndex}`}>{data[rowKey][Object.keys(data[keys[0]])[0]] < [countCutoff, rateCutoff][i] ? 'Data suppressed' : d[rowKey].rate ? d[rowKey][colKey].toFixed(1) : Number(d[rowKey][colKey]).toLocaleString()}</td>
+                      <td key={`td-${d[rowKey][colKey]}-${rowIndex}-${colIndex}`}>{data[rowKey][Object.keys(data[keys[0]])[0]] < [countCutoff, rateCutoff][i] ? 'Data suppressed' : d[rowKey].rate && d[rowKey][colKey].toFixed ? d[rowKey][colKey].toFixed(1) : Number(d[rowKey][colKey]).toLocaleString()}</td>
                     ))
                   )}
                 </tr>

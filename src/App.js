@@ -29,9 +29,18 @@ function App(params) {
 
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
   const [ state, setState ] = useState('Overall');
+  const [ year, setYear ] = useState('2020');
   const [ drug, setDrug ] = useState('All');
   const [ metric, setMetric ] = useState('rate');
-  const [ datasets, setDatasets ] = useState();
+  const [ rawDatasets, setRawDatasets ] = useState();
+
+  let datasets;
+  if(rawDatasets){
+    datasets = {};
+    Object.keys(rawDatasets).forEach(datasetKey => {
+      datasets[datasetKey] = rawDatasets[datasetKey][year];
+    });
+  }
 
   const headerMonthChartRef = useRef();
   const headerWaffleChartRef = useRef();
@@ -174,7 +183,7 @@ function App(params) {
           datasets[datasetKeys[i]] = json;
         }
 
-        setDatasets(datasets);
+        setRawDatasets(datasets);
       }).catch((err) => {
         console.log(err);
       });
@@ -213,21 +222,30 @@ function App(params) {
     </select>
   );
 
+  const yearSelector = (
+    <select aria-label="View data by year" value={year} onChange={(e) => setYear(e.target.value)}>
+      {Object.keys(rawDatasets.totalData).map(year => (
+        <option key={`dropdown-option-${year}`} value={year}>{year}</option>
+      ))}
+    </select>
+  );
+
   return (
     <div className={`App${dimensions.width < viewportCutoffSmall ? ' small-vp' : ''}${dimensions.width < viewportCutoffMedium ? ' medium-vp' : ''}${accessible ? ' accessible' : ''}`} 
       ref={outerContainerRef}>
       <div className="section">
         <span>View data for:</span>
         {stateSelector}
+        {yearSelector}
         <div className="header">
-          <h2 className="preheader-label">2020 Data Summary at a Glance, {stateLabel}</h2>
+          <h2 className="preheader-label">{year} Data Summary at a Glance, {stateLabel}</h2>
         </div>
         {accessible ? (
           <>
               <DataTable 
                 data={[
-                  {quarter: 'Total in 2020', value: datasets.totalData[state], percent: '100.0'}, 
-                  {quarter: 'Quarter of 2020', spacer: true, colSpan: 2},
+                  {quarter: `Total in ${year}`, value: datasets.totalData[state], percent: '100.0'}, 
+                  {quarter: `Quarter of ${year}`, spacer: true, colSpan: 2},
                   ...datasets.timeData[state].quarter.map(d => ({quarter: monthLabelOverrides[d.quarter], value: d.value, percent: ((d.value / datasets.totalData[state] * 1000) / 10).toFixed(1)})), 
                   {quarter: <>At least one potential opportunity for intervention<sup>a</sup></>, value: datasets.interventionData[state].deaths, percent: datasets.interventionData[state].percent}
                 ]}
@@ -265,7 +283,7 @@ function App(params) {
                     accessible={accessible}
                   />
               </div>
-              <span className="header-text">deaths by quarter in 2020</span>
+              <span className="header-text">deaths by quarter in {year}</span>
             </div>
             <div className="header-section" onClick={() => {interventionChartRef.current.scrollIntoView({behavior: 'smooth', block: 'center'})}}>
               <div id="header-waffle-chart-container" className="chart-container" ref={headerWaffleChartRef}>
@@ -281,7 +299,7 @@ function App(params) {
           </div>
         )}
         <div className="header margin">
-          <h2 className="preheader-label">What drugs were involved in overdose deaths in 2020, {stateLabel}?</h2>{stateSelector}
+          <h2 className="preheader-label">What drugs were involved in overdose deaths in {year}, {stateLabel}?</h2>{stateSelector}
         </div>
         <h3 className="subheader">Rate of overdose deaths by state and drug or drug class</h3>
         {dimensions.width < viewportCutoffSmall && (
@@ -369,7 +387,7 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</h3>
-        <p>The largest percentage of deaths involved {datasets.opioidStimulantData[state].max.toLowerCase()}, while {datasets.opioidStimulantData[state].minPercent.toFixed(1)}% of overdose deaths involved {datasets.opioidStimulantData[state].min.toLowerCase()}.</p>
+        <p>The largest percentage of deaths involved {datasets.opioidStimulantData[state].max ? datasets.opioidStimulantData[state].max.toLowerCase() : '[error]'}, while {datasets.opioidStimulantData[state].minPercent ? datasets.opioidStimulantData[state].minPercent.toFixed(1) : '[error]'}% of overdose deaths involved {datasets.opioidStimulantData[state].min ? datasets.opioidStimulantData[state].min.toLowerCase() : '[error]'}.</p>
         <div className="subsection no-pad">
           <div id="opioid-stimulant-chart-container" className="chart-container" ref={opioidStimulantChartRef}>
             <OpioidStimulantChart 
@@ -391,7 +409,7 @@ function App(params) {
 
       <div className="section">
         <div className="header margin">
-          <h2 className="preheader-label">How many drug overdose deaths occurred each month in 2020, {stateLabel}?</h2>{stateSelector}
+          <h2 className="preheader-label">How many drug overdose deaths occurred each month in {year}, {stateLabel}?</h2>{stateSelector}
         </div>
         <div className="subsection">
           <div id="line-chart-container" className="chart-container" ref={monthChartRef}>
@@ -411,7 +429,7 @@ function App(params) {
 
       <div className="section">
         <div className="header margin">
-          <h2 className="preheader-label" aria-describedby="footnote-h">Who died of a drug overdose in 2020, {stateLabel}?<sup>h</sup></h2>{stateSelector}
+          <h2 className="preheader-label" aria-describedby="footnote-h">Who died of a drug overdose in {year}, {stateLabel}?<sup>h</sup></h2>{stateSelector}
         </div>
         <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed(1)}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed(1)}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}. {sexRateMax.sex}, {ageMapping[ageRateMax.age]}, and {raceMapping[raceRateMax.race] || raceRateMax.race} race had the highest overdose death rates.</p>
