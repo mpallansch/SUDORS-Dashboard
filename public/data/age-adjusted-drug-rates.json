@@ -1,1 +1,1510 @@
-{"2020":{"All":{"Alaska": {"rate": 23.9 }, "Arizona": {"rate": 33.9 }, "Connecticut": {"rate": 39.4 }, "Delaware": {"rate": 47.3 }, "District of Columbia": {"rate": 78.5 }, "Georgia": {"rate": 17.0 }, "Kansas": {"rate": 15.6 }, "Kentucky": {"rate": 47.6 }, "Maine": {"rate": 37.0 }, "Maryland": {"rate": 44.9 }, "Massachusetts": {"rate": 33.7 }, "Michigan": {"rate": 29.1 }, "Minnesota": {"rate": 17.6 }, "Mississippi": {"rate": 16.9 }, "Montana": {"rate": 11.9 }, "Nevada": {"rate": 29.5 }, "New Hampshire": {"rate": 28.3 }, "New Jersey": {"rate": 32.8 }, "New Mexico": {"rate": 31.2 }, "North Carolina": {"rate": 28.7 }, "Ohio": {"rate": 46.1 }, "Oklahoma": {"rate": 20.8 }, "Oregon": {"rate": 16.7 }, "Overall": {"rate": 30.6 }, "Rhode Island": {"rate": 37.4 }, "South Dakota": {"rate": 7.8 }, "Utah": {"rate": 17.7 }, "Vermont": {"rate": 30.7 }, "Virginia": {"rate": 25.0 }, "West Virginia": {"rate": 77.9 }, "min": 7.8, "max": 78.5}, "Cocaine":{"Alaska": {"rate": 3.9 }, "Arizona": {"rate": 2.9 }, "Connecticut": {"rate": 14.3 }, "Delaware": {"rate": 16.2 }, "District of Columbia": {"rate": 29.6 }, "Georgia": {"rate": 3.7 }, "Kansas": {"rate": 1.5 }, "Kentucky": {"rate": 4.5 }, "Maine": {"rate": 9.4 }, "Maryland": {"rate": 15.3 }, "Massachusetts": {"rate": 15.1 }, "Michigan": {"rate": 8.9 }, "Minnesota": {"rate": 1.9 }, "Mississippi": {"rate": 1.9 }, "Montana": {"rate": -1.0 }, "Nevada": {"rate": 3.6 }, "New Hampshire": {"rate": 4.5 }, "New Jersey": {"rate": 11.3 }, "New Mexico": {"rate": 5.2 }, "North Carolina": {"rate": 9.7 }, "Ohio": {"rate": 12.0 }, "Oklahoma": {"rate": 1.8 }, "Oregon": {"rate": 1.6 }, "Overall": {"rate": 7.7 }, "Rhode Island": {"rate": 18.4 }, "South Dakota": {"rate": -1.0 }, "Utah": {"rate": 1.5 }, "Vermont": {"rate": 12.0 }, "Virginia": {"rate": 7.3 }, "West Virginia": {"rate": 7.2 }, "min": -1.0, "max": 29.6}, "Heroin":{"Alaska": {"rate": 6.7 }, "Arizona": {"rate": 4.0 }, "Connecticut": {"rate": 7.3 }, "Delaware": {"rate": 11.3 }, "District of Columbia": {"rate": 17.6 }, "Georgia": {"rate": 4.4 }, "Kansas": {"rate": 1.3 }, "Kentucky": {"rate": 6.1 }, "Maine": {"rate": 4.2 }, "Maryland": {"rate": 6.0 }, "Massachusetts": {"rate": 4.0 }, "Michigan": {"rate": 5.6 }, "Minnesota": {"rate": 3.6 }, "Mississippi": {"rate": 2.4 }, "Montana": {"rate": 3.5 }, "Nevada": {"rate": 5.5 }, "New Hampshire": {"rate": -1.0 }, "New Jersey": {"rate": 8.9 }, "New Mexico": {"rate": 9.8 }, "North Carolina": {"rate": 5.5 }, "Ohio": {"rate": 3.8 }, "Oklahoma": {"rate": 2.4 }, "Oregon": {"rate": 5.0 }, "Overall": {"rate": 5.3 }, "Rhode Island": {"rate": -1.0 }, "South Dakota": {"rate": -1.0 }, "Utah": {"rate": 5.0 }, "Vermont": {"rate": 7.8 }, "Virginia": {"rate": 6.6 }, "West Virginia": {"rate": 15.4 }, "min": -1.0, "max": 17.6}, "Illicitly Manufactured Fentanyls":{"Alaska": {"rate": 8.0 }, "Arizona": {"rate": 20.6 }, "Connecticut": {"rate": 33.4 }, "Delaware": {"rate": 39.9 }, "District of Columbia": {"rate": 58.6 }, "Georgia": {"rate": 7.8 }, "Kansas": {"rate": 5.4 }, "Kentucky": {"rate": 35.2 }, "Maine": {"rate": 26.6 }, "Maryland": {"rate": 38.8 }, "Massachusetts": {"rate": 28.7 }, "Michigan": {"rate": 21.3 }, "Minnesota": {"rate": 11.2 }, "Mississippi": {"rate": 8.7 }, "Montana": {"rate": 2.5 }, "Nevada": {"rate": 9.3 }, "New Hampshire": {"rate": 24.4 }, "New Jersey": {"rate": 27.2 }, "New Mexico": {"rate": 13.2 }, "North Carolina": {"rate": 21.1 }, "Ohio": {"rate": 37.7 }, "Oklahoma": {"rate": 3.4 }, "Oregon": {"rate": 5.5 }, "Overall": {"rate": 21.5 }, "Rhode Island": {"rate": 27.1 }, "South Dakota": {"rate": -1.0 }, "Utah": {"rate": 3.5 }, "Vermont": {"rate": 24.2 }, "Virginia": {"rate": 19.2 }, "West Virginia": {"rate": 60.3 }, "min": -1.0, "max": 60.3}, "Methamphetamine":{"Alaska": {"rate": 13.2 }, "Arizona": {"rate": 14.2 }, "Connecticut": {"rate": 0.9 }, "Delaware": {"rate": 4.8 }, "District of Columbia": {"rate": -1.0 }, "Georgia": {"rate": 5.6 }, "Kansas": {"rate": 6.7 }, "Kentucky": {"rate": 17.1 }, "Maine": {"rate": 8.3 }, "Maryland": {"rate": 1.2 }, "Massachusetts": {"rate": 1.5 }, "Michigan": {"rate": 4.0 }, "Minnesota": {"rate": 6.5 }, "Mississippi": {"rate": 6.2 }, "Montana": {"rate": 5.9 }, "Nevada": {"rate": 14.8 }, "New Hampshire": {"rate": 4.4 }, "New Jersey": {"rate": 2.2 }, "New Mexico": {"rate": 14.3 }, "North Carolina": {"rate": 5.3 }, "Ohio": {"rate": 9.6 }, "Oklahoma": {"rate": 13.2 }, "Oregon": {"rate": 8.1 }, "Overall": {"rate": 7.0 }, "Rhode Island": {"rate": -1.0 }, "South Dakota": {"rate": 3.1 }, "Utah": {"rate": 7.2 }, "Vermont": {"rate": -1.0 }, "Virginia": {"rate": 4.5 }, "West Virginia": {"rate": 36.4 }, "min": -1.0, "max": 36.4}, "Opioid":{"Alaska": {"rate": 15.5 }, "Arizona": {"rate": 26.1 }, "Connecticut": {"rate": 36.7 }, "Delaware": {"rate": 44.4 }, "District of Columbia": {"rate": 62.9 }, "Georgia": {"rate": 11.8 }, "Kansas": {"rate": 8.6 }, "Kentucky": {"rate": 40.7 }, "Maine": {"rate": 31.9 }, "Maryland": {"rate": 41.7 }, "Massachusetts": {"rate": 30.8 }, "Michigan": {"rate": 24.3 }, "Minnesota": {"rate": 13.7 }, "Mississippi": {"rate": 11.5 }, "Montana": {"rate": 7.1 }, "Nevada": {"rate": 18.7 }, "New Hampshire": {"rate": 26.6 }, "New Jersey": {"rate": 29.7 }, "New Mexico": {"rate": 23.1 }, "North Carolina": {"rate": 24.9 }, "Ohio": {"rate": 40.7 }, "Oklahoma": {"rate": 7.8 }, "Oregon": {"rate": 11.2 }, "Overall": {"rate": 25.4 }, "Rhode Island": {"rate": 31.2 }, "South Dakota": {"rate": 4.3 }, "Utah": {"rate": 12.7 }, "Vermont": {"rate": 27.0 }, "Virginia": {"rate": 22.0 }, "West Virginia": {"rate": 68.6 }, "min": 4.3, "max": 68.6}, "Prescription Opioids":{"Alaska": {"rate": 6.6 }, "Arizona": {"rate": 4.2 }, "Connecticut": {"rate": 9.1 }, "Delaware": {"rate": 8.1 }, "District of Columbia": {"rate": 9.5 }, "Georgia": {"rate": 3.4 }, "Kansas": {"rate": 2.5 }, "Kentucky": {"rate": 9.4 }, "Maine": {"rate": 8.9 }, "Maryland": {"rate": 7.7 }, "Massachusetts": {"rate": 7.0 }, "Michigan": {"rate": 4.4 }, "Minnesota": {"rate": 3.5 }, "Mississippi": {"rate": 2.9 }, "Montana": {"rate": 2.5 }, "Nevada": {"rate": 6.2 }, "New Hampshire": {"rate": 3.7 }, "New Jersey": {"rate": 5.6 }, "New Mexico": {"rate": 12.8 }, "North Carolina": {"rate": 4.7 }, "Ohio": {"rate": 5.3 }, "Oklahoma": {"rate": 2.7 }, "Oregon": {"rate": 2.3 }, "Overall": {"rate": 5.5 }, "Rhode Island": {"rate": 10.0 }, "South Dakota": {"rate": -1.0 }, "Utah": {"rate": 6.1 }, "Vermont": {"rate": 6.5 }, "Virginia": {"rate": 5.6 }, "West Virginia": {"rate": 21.6 }, "min": -1.0, "max": 21.6}, "Stimulant":{"Alaska": {"rate": 16.2 }, "Arizona": {"rate": 17.0 }, "Connecticut": {"rate": 16.4 }, "Delaware": {"rate": 20.9 }, "District of Columbia": {"rate": 31.7 }, "Georgia": {"rate": 9.0 }, "Kansas": {"rate": 8.2 }, "Kentucky": {"rate": 21.6 }, "Maine": {"rate": 17.7 }, "Maryland": {"rate": 17.5 }, "Massachusetts": {"rate": 16.6 }, "Michigan": {"rate": 12.7 }, "Minnesota": {"rate": 8.5 }, "Mississippi": {"rate": 8.0 }, "Montana": {"rate": 6.7 }, "Nevada": {"rate": 18.4 }, "New Hampshire": {"rate": 8.9 }, "New Jersey": {"rate": 13.8 }, "New Mexico": {"rate": 19.0 }, "North Carolina": {"rate": 14.3 }, "Ohio": {"rate": 20.8 }, "Oklahoma": {"rate": 14.8 }, "Oregon": {"rate": 9.5 }, "Overall": {"rate": 14.6 }, "Rhode Island": {"rate": 20.8 }, "South Dakota": {"rate": 3.8 }, "Utah": {"rate": 9.3 }, "Vermont": {"rate": 14.2 }, "Virginia": {"rate": 11.7 }, "West Virginia": {"rate": 43.6 }, "min": 3.8, "max": 43.6}},"2021":{"All":{"Alaska": {"rate": n }, "Arizona": {"rate": n }, "Connecticut": {"rate": n }, "Delaware": {"rate": n }, "District of Columbia": {"rate": n }, "Georgia": {"rate": n }, "Kansas": {"rate": n }, "Kentucky": {"rate": n }, "Maine": {"rate": n }, "Maryland": {"rate": n }, "Massachusetts": {"rate": n }, "Michigan": {"rate": n }, "Minnesota": {"rate": n }, "Mississippi": {"rate": n }, "Montana": {"rate": n }, "Nevada": {"rate": n }, "New Hampshire": {"rate": n }, "New Jersey": {"rate": n }, "New Mexico": {"rate": n }, "North Carolina": {"rate": n }, "Ohio": {"rate": n }, "Oklahoma": {"rate": n }, "Oregon": {"rate": n }, "Overall": {"rate": n }, "Rhode Island": {"rate": n }, "South Dakota": {"rate": n }, "Utah": {"rate": n }, "Vermont": {"rate": n }, "Virginia": {"rate": n }, "West Virginia": {"rate": n }, "min": n, "max": n}, "Cocaine":{"Alaska": {"rate": n }, "Arizona": {"rate": n }, "Connecticut": {"rate": n }, "Delaware": {"rate": n }, "District of Columbia": {"rate": n }, "Georgia": {"rate": n }, "Kansas": {"rate": n }, "Kentucky": {"rate": n }, "Maine": {"rate": n }, "Maryland": {"rate": n }, "Massachusetts": {"rate": n }, "Michigan": {"rate": n }, "Minnesota": {"rate": n }, "Mississippi": {"rate": n }, "Montana": {"rate": -1.0 }, "Nevada": {"rate": n }, "New Hampshire": {"rate": n }, "New Jersey": {"rate": n }, "New Mexico": {"rate": n }, "North Carolina": {"rate": n }, "Ohio": {"rate": n }, "Oklahoma": {"rate": n }, "Oregon": {"rate": n }, "Overall": {"rate": n }, "Rhode Island": {"rate": n }, "South Dakota": {"rate": -1.0 }, "Utah": {"rate": n }, "Vermont": {"rate": n }, "Virginia": {"rate": n }, "West Virginia": {"rate": n }, "min": -1.0, "max": -1.0}, "Heroin":{"Alaska": {"rate": n }, "Arizona": {"rate": n }, "Connecticut": {"rate": n }, "Delaware": {"rate": n }, "District of Columbia": {"rate": n }, "Georgia": {"rate": n }, "Kansas": {"rate": n }, "Kentucky": {"rate": n }, "Maine": {"rate": n }, "Maryland": {"rate": n }, "Massachusetts": {"rate": n }, "Michigan": {"rate": n }, "Minnesota": {"rate": n }, "Mississippi": {"rate": n }, "Montana": {"rate": n }, "Nevada": {"rate": n }, "New Hampshire": {"rate": -1.0 }, "New Jersey": {"rate": n }, "New Mexico": {"rate": n }, "North Carolina": {"rate": n }, "Ohio": {"rate": n }, "Oklahoma": {"rate": n }, "Oregon": {"rate": n }, "Overall": {"rate": n }, "Rhode Island": {"rate": -1.0 }, "South Dakota": {"rate": -1.0 }, "Utah": {"rate": n }, "Vermont": {"rate": n }, "Virginia": {"rate": n }, "West Virginia": {"rate": n }, "min": -1.0, "max": -1.0}, "Illicitly Manufactured Fentanyls":{"Alaska": {"rate": n }, "Arizona": {"rate": n }, "Connecticut": {"rate": n }, "Delaware": {"rate": n }, "District of Columbia": {"rate": n }, "Georgia": {"rate": n }, "Kansas": {"rate": n }, "Kentucky": {"rate": n }, "Maine": {"rate": n }, "Maryland": {"rate": n }, "Massachusetts": {"rate": n }, "Michigan": {"rate": n }, "Minnesota": {"rate": n }, "Mississippi": {"rate": n }, "Montana": {"rate": n }, "Nevada": {"rate": n }, "New Hampshire": {"rate": n }, "New Jersey": {"rate": n }, "New Mexico": {"rate": n }, "North Carolina": {"rate": n }, "Ohio": {"rate": n }, "Oklahoma": {"rate": n }, "Oregon": {"rate": n }, "Overall": {"rate": n }, "Rhode Island": {"rate": n }, "South Dakota": {"rate": -1.0 }, "Utah": {"rate": n }, "Vermont": {"rate": n }, "Virginia": {"rate": n }, "West Virginia": {"rate": n }, "min": -1.0, "max": -1.0}, "Methamphetamine":{"Alaska": {"rate": n }, "Arizona": {"rate": n }, "Connecticut": {"rate": n }, "Delaware": {"rate": n }, "District of Columbia": {"rate": -1.0 }, "Georgia": {"rate": n }, "Kansas": {"rate": n }, "Kentucky": {"rate": n }, "Maine": {"rate": n }, "Maryland": {"rate": n }, "Massachusetts": {"rate": n }, "Michigan": {"rate": n }, "Minnesota": {"rate": n }, "Mississippi": {"rate": n }, "Montana": {"rate": n }, "Nevada": {"rate": n }, "New Hampshire": {"rate": n }, "New Jersey": {"rate": n }, "New Mexico": {"rate": n }, "North Carolina": {"rate": n }, "Ohio": {"rate": n }, "Oklahoma": {"rate": n }, "Oregon": {"rate": n }, "Overall": {"rate": n }, "Rhode Island": {"rate": -1.0 }, "South Dakota": {"rate": n }, "Utah": {"rate": n }, "Vermont": {"rate": -1.0 }, "Virginia": {"rate": n }, "West Virginia": {"rate": n }, "min": -1.0, "max": -1.0}, "Opioid":{"Alaska": {"rate": n }, "Arizona": {"rate": n }, "Connecticut": {"rate": n }, "Delaware": {"rate": n }, "District of Columbia": {"rate": n }, "Georgia": {"rate": n }, "Kansas": {"rate": n }, "Kentucky": {"rate": n }, "Maine": {"rate": n }, "Maryland": {"rate": n }, "Massachusetts": {"rate": n }, "Michigan": {"rate": n }, "Minnesota": {"rate": n }, "Mississippi": {"rate": n }, "Montana": {"rate": n }, "Nevada": {"rate": n }, "New Hampshire": {"rate": n }, "New Jersey": {"rate": n }, "New Mexico": {"rate": n }, "North Carolina": {"rate": n }, "Ohio": {"rate": n }, "Oklahoma": {"rate": n }, "Oregon": {"rate": n }, "Overall": {"rate": n }, "Rhode Island": {"rate": n }, "South Dakota": {"rate": n }, "Utah": {"rate": n }, "Vermont": {"rate": n }, "Virginia": {"rate": n }, "West Virginia": {"rate": n }, "min": n, "max": n}, "Prescription Opioids":{"Alaska": {"rate": n }, "Arizona": {"rate": n }, "Connecticut": {"rate": n }, "Delaware": {"rate": n }, "District of Columbia": {"rate": n }, "Georgia": {"rate": n }, "Kansas": {"rate": n }, "Kentucky": {"rate": n }, "Maine": {"rate": n }, "Maryland": {"rate": n }, "Massachusetts": {"rate": n }, "Michigan": {"rate": n }, "Minnesota": {"rate": n }, "Mississippi": {"rate": n }, "Montana": {"rate": n }, "Nevada": {"rate": n }, "New Hampshire": {"rate": n }, "New Jersey": {"rate": n }, "New Mexico": {"rate": n }, "North Carolina": {"rate": n }, "Ohio": {"rate": n }, "Oklahoma": {"rate": n }, "Oregon": {"rate": n }, "Overall": {"rate": n }, "Rhode Island": {"rate": n }, "South Dakota": {"rate": -1.0 }, "Utah": {"rate": n }, "Vermont": {"rate": n }, "Virginia": {"rate": n }, "West Virginia": {"rate": n }, "min": -1.0, "max": -1.0}, "Stimulant":{"Alaska": {"rate": n }, "Arizona": {"rate": n }, "Connecticut": {"rate": n }, "Delaware": {"rate": n }, "District of Columbia": {"rate": n }, "Georgia": {"rate": n }, "Kansas": {"rate": n }, "Kentucky": {"rate": n }, "Maine": {"rate": n }, "Maryland": {"rate": n }, "Massachusetts": {"rate": n }, "Michigan": {"rate": n }, "Minnesota": {"rate": n }, "Mississippi": {"rate": n }, "Montana": {"rate": n }, "Nevada": {"rate": n }, "New Hampshire": {"rate": n }, "New Jersey": {"rate": n }, "New Mexico": {"rate": n }, "North Carolina": {"rate": n }, "Ohio": {"rate": n }, "Oklahoma": {"rate": n }, "Oregon": {"rate": n }, "Overall": {"rate": n }, "Rhode Island": {"rate": n }, "South Dakota": {"rate": n }, "Utah": {"rate": n }, "Vermont": {"rate": n }, "Virginia": {"rate": n }, "West Virginia": {"rate": n }, "min": n, "max": n}}}
+{
+    "2020": {
+        "All": {
+            "Alaska": {
+                "rate": 23.9
+            },
+            "Arizona": {
+                "rate": 33.9
+            },
+            "Connecticut": {
+                "rate": 39.4
+            },
+            "Delaware": {
+                "rate": 47.3
+            },
+            "District of Columbia": {
+                "rate": 78.5
+            },
+            "Georgia": {
+                "rate": 17.0
+            },
+            "Kansas": {
+                "rate": 15.6
+            },
+            "Kentucky": {
+                "rate": 47.6
+            },
+            "Maine": {
+                "rate": 37.0
+            },
+            "Maryland": {
+                "rate": 44.9
+            },
+            "Massachusetts": {
+                "rate": 33.7
+            },
+            "Michigan": {
+                "rate": 29.1
+            },
+            "Minnesota": {
+                "rate": 17.6
+            },
+            "Mississippi": {
+                "rate": 16.9
+            },
+            "Montana": {
+                "rate": 11.9
+            },
+            "Nevada": {
+                "rate": 29.5
+            },
+            "New Hampshire": {
+                "rate": 28.3
+            },
+            "New Jersey": {
+                "rate": 32.8
+            },
+            "New Mexico": {
+                "rate": 31.2
+            },
+            "North Carolina": {
+                "rate": 28.7
+            },
+            "Ohio": {
+                "rate": 46.1
+            },
+            "Oklahoma": {
+                "rate": 20.8
+            },
+            "Oregon": {
+                "rate": 16.7
+            },
+            "Overall": {
+                "rate": 30.6
+            },
+            "Rhode Island": {
+                "rate": 37.4
+            },
+            "South Dakota": {
+                "rate": 7.8
+            },
+            "Utah": {
+                "rate": 17.7
+            },
+            "Vermont": {
+                "rate": 30.7
+            },
+            "Virginia": {
+                "rate": 25.0
+            },
+            "West Virginia": {
+                "rate": 77.9
+            },
+            "min": 7.8,
+            "max": 78.5
+        },
+        "Cocaine": {
+            "Alaska": {
+                "rate": 3.9
+            },
+            "Arizona": {
+                "rate": 2.9
+            },
+            "Connecticut": {
+                "rate": 14.3
+            },
+            "Delaware": {
+                "rate": 16.2
+            },
+            "District of Columbia": {
+                "rate": 29.6
+            },
+            "Georgia": {
+                "rate": 3.7
+            },
+            "Kansas": {
+                "rate": 1.5
+            },
+            "Kentucky": {
+                "rate": 4.5
+            },
+            "Maine": {
+                "rate": 9.4
+            },
+            "Maryland": {
+                "rate": 15.3
+            },
+            "Massachusetts": {
+                "rate": 15.1
+            },
+            "Michigan": {
+                "rate": 8.9
+            },
+            "Minnesota": {
+                "rate": 1.9
+            },
+            "Mississippi": {
+                "rate": 1.9
+            },
+            "Montana": {
+                "rate": -1.0
+            },
+            "Nevada": {
+                "rate": 3.6
+            },
+            "New Hampshire": {
+                "rate": 4.5
+            },
+            "New Jersey": {
+                "rate": 11.3
+            },
+            "New Mexico": {
+                "rate": 5.2
+            },
+            "North Carolina": {
+                "rate": 9.7
+            },
+            "Ohio": {
+                "rate": 12.0
+            },
+            "Oklahoma": {
+                "rate": 1.8
+            },
+            "Oregon": {
+                "rate": 1.6
+            },
+            "Overall": {
+                "rate": 7.7
+            },
+            "Rhode Island": {
+                "rate": 18.4
+            },
+            "South Dakota": {
+                "rate": -1.0
+            },
+            "Utah": {
+                "rate": 1.5
+            },
+            "Vermont": {
+                "rate": 12.0
+            },
+            "Virginia": {
+                "rate": 7.3
+            },
+            "West Virginia": {
+                "rate": 7.2
+            },
+            "min": -1.0,
+            "max": 29.6
+        },
+        "Heroin": {
+            "Alaska": {
+                "rate": 6.7
+            },
+            "Arizona": {
+                "rate": 4.0
+            },
+            "Connecticut": {
+                "rate": 7.3
+            },
+            "Delaware": {
+                "rate": 11.3
+            },
+            "District of Columbia": {
+                "rate": 17.6
+            },
+            "Georgia": {
+                "rate": 4.4
+            },
+            "Kansas": {
+                "rate": 1.3
+            },
+            "Kentucky": {
+                "rate": 6.1
+            },
+            "Maine": {
+                "rate": 4.2
+            },
+            "Maryland": {
+                "rate": 6.0
+            },
+            "Massachusetts": {
+                "rate": 4.0
+            },
+            "Michigan": {
+                "rate": 5.6
+            },
+            "Minnesota": {
+                "rate": 3.6
+            },
+            "Mississippi": {
+                "rate": 2.4
+            },
+            "Montana": {
+                "rate": 3.5
+            },
+            "Nevada": {
+                "rate": 5.5
+            },
+            "New Hampshire": {
+                "rate": -1.0
+            },
+            "New Jersey": {
+                "rate": 8.9
+            },
+            "New Mexico": {
+                "rate": 9.8
+            },
+            "North Carolina": {
+                "rate": 5.5
+            },
+            "Ohio": {
+                "rate": 3.8
+            },
+            "Oklahoma": {
+                "rate": 2.4
+            },
+            "Oregon": {
+                "rate": 5.0
+            },
+            "Overall": {
+                "rate": 5.3
+            },
+            "Rhode Island": {
+                "rate": -1.0
+            },
+            "South Dakota": {
+                "rate": -1.0
+            },
+            "Utah": {
+                "rate": 5.0
+            },
+            "Vermont": {
+                "rate": 7.8
+            },
+            "Virginia": {
+                "rate": 6.6
+            },
+            "West Virginia": {
+                "rate": 15.4
+            },
+            "min": -1.0,
+            "max": 17.6
+        },
+        "Illicitly Manufactured Fentanyls": {
+            "Alaska": {
+                "rate": 8.0
+            },
+            "Arizona": {
+                "rate": 20.6
+            },
+            "Connecticut": {
+                "rate": 33.4
+            },
+            "Delaware": {
+                "rate": 39.9
+            },
+            "District of Columbia": {
+                "rate": 58.6
+            },
+            "Georgia": {
+                "rate": 7.8
+            },
+            "Kansas": {
+                "rate": 5.4
+            },
+            "Kentucky": {
+                "rate": 35.2
+            },
+            "Maine": {
+                "rate": 26.6
+            },
+            "Maryland": {
+                "rate": 38.8
+            },
+            "Massachusetts": {
+                "rate": 28.7
+            },
+            "Michigan": {
+                "rate": 21.3
+            },
+            "Minnesota": {
+                "rate": 11.2
+            },
+            "Mississippi": {
+                "rate": 8.7
+            },
+            "Montana": {
+                "rate": 2.5
+            },
+            "Nevada": {
+                "rate": 9.3
+            },
+            "New Hampshire": {
+                "rate": 24.4
+            },
+            "New Jersey": {
+                "rate": 27.2
+            },
+            "New Mexico": {
+                "rate": 13.2
+            },
+            "North Carolina": {
+                "rate": 21.1
+            },
+            "Ohio": {
+                "rate": 37.7
+            },
+            "Oklahoma": {
+                "rate": 3.4
+            },
+            "Oregon": {
+                "rate": 5.5
+            },
+            "Overall": {
+                "rate": 21.5
+            },
+            "Rhode Island": {
+                "rate": 27.1
+            },
+            "South Dakota": {
+                "rate": -1.0
+            },
+            "Utah": {
+                "rate": 3.5
+            },
+            "Vermont": {
+                "rate": 24.2
+            },
+            "Virginia": {
+                "rate": 19.2
+            },
+            "West Virginia": {
+                "rate": 60.3
+            },
+            "min": -1.0,
+            "max": 60.3
+        },
+        "Methamphetamine": {
+            "Alaska": {
+                "rate": 13.2
+            },
+            "Arizona": {
+                "rate": 14.2
+            },
+            "Connecticut": {
+                "rate": 0.9
+            },
+            "Delaware": {
+                "rate": 4.8
+            },
+            "District of Columbia": {
+                "rate": -1.0
+            },
+            "Georgia": {
+                "rate": 5.6
+            },
+            "Kansas": {
+                "rate": 6.7
+            },
+            "Kentucky": {
+                "rate": 17.1
+            },
+            "Maine": {
+                "rate": 8.3
+            },
+            "Maryland": {
+                "rate": 1.2
+            },
+            "Massachusetts": {
+                "rate": 1.5
+            },
+            "Michigan": {
+                "rate": 4.0
+            },
+            "Minnesota": {
+                "rate": 6.5
+            },
+            "Mississippi": {
+                "rate": 6.2
+            },
+            "Montana": {
+                "rate": 5.9
+            },
+            "Nevada": {
+                "rate": 14.8
+            },
+            "New Hampshire": {
+                "rate": 4.4
+            },
+            "New Jersey": {
+                "rate": 2.2
+            },
+            "New Mexico": {
+                "rate": 14.3
+            },
+            "North Carolina": {
+                "rate": 5.3
+            },
+            "Ohio": {
+                "rate": 9.6
+            },
+            "Oklahoma": {
+                "rate": 13.2
+            },
+            "Oregon": {
+                "rate": 8.1
+            },
+            "Overall": {
+                "rate": 7.0
+            },
+            "Rhode Island": {
+                "rate": -1.0
+            },
+            "South Dakota": {
+                "rate": 3.1
+            },
+            "Utah": {
+                "rate": 7.2
+            },
+            "Vermont": {
+                "rate": -1.0
+            },
+            "Virginia": {
+                "rate": 4.5
+            },
+            "West Virginia": {
+                "rate": 36.4
+            },
+            "min": -1.0,
+            "max": 36.4
+        },
+        "Opioid": {
+            "Alaska": {
+                "rate": 15.5
+            },
+            "Arizona": {
+                "rate": 26.1
+            },
+            "Connecticut": {
+                "rate": 36.7
+            },
+            "Delaware": {
+                "rate": 44.4
+            },
+            "District of Columbia": {
+                "rate": 62.9
+            },
+            "Georgia": {
+                "rate": 11.8
+            },
+            "Kansas": {
+                "rate": 8.6
+            },
+            "Kentucky": {
+                "rate": 40.7
+            },
+            "Maine": {
+                "rate": 31.9
+            },
+            "Maryland": {
+                "rate": 41.7
+            },
+            "Massachusetts": {
+                "rate": 30.8
+            },
+            "Michigan": {
+                "rate": 24.3
+            },
+            "Minnesota": {
+                "rate": 13.7
+            },
+            "Mississippi": {
+                "rate": 11.5
+            },
+            "Montana": {
+                "rate": 7.1
+            },
+            "Nevada": {
+                "rate": 18.7
+            },
+            "New Hampshire": {
+                "rate": 26.6
+            },
+            "New Jersey": {
+                "rate": 29.7
+            },
+            "New Mexico": {
+                "rate": 23.1
+            },
+            "North Carolina": {
+                "rate": 24.9
+            },
+            "Ohio": {
+                "rate": 40.7
+            },
+            "Oklahoma": {
+                "rate": 7.8
+            },
+            "Oregon": {
+                "rate": 11.2
+            },
+            "Overall": {
+                "rate": 25.4
+            },
+            "Rhode Island": {
+                "rate": 31.2
+            },
+            "South Dakota": {
+                "rate": 4.3
+            },
+            "Utah": {
+                "rate": 12.7
+            },
+            "Vermont": {
+                "rate": 27.0
+            },
+            "Virginia": {
+                "rate": 22.0
+            },
+            "West Virginia": {
+                "rate": 68.6
+            },
+            "min": 4.3,
+            "max": 68.6
+        },
+        "Prescription Opioids": {
+            "Alaska": {
+                "rate": 6.6
+            },
+            "Arizona": {
+                "rate": 4.2
+            },
+            "Connecticut": {
+                "rate": 9.1
+            },
+            "Delaware": {
+                "rate": 8.1
+            },
+            "District of Columbia": {
+                "rate": 9.5
+            },
+            "Georgia": {
+                "rate": 3.4
+            },
+            "Kansas": {
+                "rate": 2.5
+            },
+            "Kentucky": {
+                "rate": 9.4
+            },
+            "Maine": {
+                "rate": 8.9
+            },
+            "Maryland": {
+                "rate": 7.7
+            },
+            "Massachusetts": {
+                "rate": 7.0
+            },
+            "Michigan": {
+                "rate": 4.4
+            },
+            "Minnesota": {
+                "rate": 3.5
+            },
+            "Mississippi": {
+                "rate": 2.9
+            },
+            "Montana": {
+                "rate": 2.5
+            },
+            "Nevada": {
+                "rate": 6.2
+            },
+            "New Hampshire": {
+                "rate": 3.7
+            },
+            "New Jersey": {
+                "rate": 5.6
+            },
+            "New Mexico": {
+                "rate": 12.8
+            },
+            "North Carolina": {
+                "rate": 4.7
+            },
+            "Ohio": {
+                "rate": 5.3
+            },
+            "Oklahoma": {
+                "rate": 2.7
+            },
+            "Oregon": {
+                "rate": 2.3
+            },
+            "Overall": {
+                "rate": 5.5
+            },
+            "Rhode Island": {
+                "rate": 10.0
+            },
+            "South Dakota": {
+                "rate": -1.0
+            },
+            "Utah": {
+                "rate": 6.1
+            },
+            "Vermont": {
+                "rate": 6.5
+            },
+            "Virginia": {
+                "rate": 5.6
+            },
+            "West Virginia": {
+                "rate": 21.6
+            },
+            "min": -1.0,
+            "max": 21.6
+        },
+        "Stimulant": {
+            "Alaska": {
+                "rate": 16.2
+            },
+            "Arizona": {
+                "rate": 17.0
+            },
+            "Connecticut": {
+                "rate": 16.4
+            },
+            "Delaware": {
+                "rate": 20.9
+            },
+            "District of Columbia": {
+                "rate": 31.7
+            },
+            "Georgia": {
+                "rate": 9.0
+            },
+            "Kansas": {
+                "rate": 8.2
+            },
+            "Kentucky": {
+                "rate": 21.6
+            },
+            "Maine": {
+                "rate": 17.7
+            },
+            "Maryland": {
+                "rate": 17.5
+            },
+            "Massachusetts": {
+                "rate": 16.6
+            },
+            "Michigan": {
+                "rate": 12.7
+            },
+            "Minnesota": {
+                "rate": 8.5
+            },
+            "Mississippi": {
+                "rate": 8.0
+            },
+            "Montana": {
+                "rate": 6.7
+            },
+            "Nevada": {
+                "rate": 18.4
+            },
+            "New Hampshire": {
+                "rate": 8.9
+            },
+            "New Jersey": {
+                "rate": 13.8
+            },
+            "New Mexico": {
+                "rate": 19.0
+            },
+            "North Carolina": {
+                "rate": 14.3
+            },
+            "Ohio": {
+                "rate": 20.8
+            },
+            "Oklahoma": {
+                "rate": 14.8
+            },
+            "Oregon": {
+                "rate": 9.5
+            },
+            "Overall": {
+                "rate": 14.6
+            },
+            "Rhode Island": {
+                "rate": 20.8
+            },
+            "South Dakota": {
+                "rate": 3.8
+            },
+            "Utah": {
+                "rate": 9.3
+            },
+            "Vermont": {
+                "rate": 14.2
+            },
+            "Virginia": {
+                "rate": 11.7
+            },
+            "West Virginia": {
+                "rate": 43.6
+            },
+            "min": 3.8,
+            "max": 43.6
+        }
+    },
+    "2021": {
+        "All": {
+            "Alaska": {
+                "rate": "n"
+            },
+            "Arizona": {
+                "rate": "n"
+            },
+            "Connecticut": {
+                "rate": "n"
+            },
+            "Delaware": {
+                "rate": "n"
+            },
+            "District of Columbia": {
+                "rate": "n"
+            },
+            "Georgia": {
+                "rate": "n"
+            },
+            "Kansas": {
+                "rate": "n"
+            },
+            "Kentucky": {
+                "rate": "n"
+            },
+            "Maine": {
+                "rate": "n"
+            },
+            "Maryland": {
+                "rate": "n"
+            },
+            "Massachusetts": {
+                "rate": "n"
+            },
+            "Michigan": {
+                "rate": "n"
+            },
+            "Minnesota": {
+                "rate": "n"
+            },
+            "Mississippi": {
+                "rate": "n"
+            },
+            "Montana": {
+                "rate": "n"
+            },
+            "Nevada": {
+                "rate": "n"
+            },
+            "New Hampshire": {
+                "rate": "n"
+            },
+            "New Jersey": {
+                "rate": "n"
+            },
+            "New Mexico": {
+                "rate": "n"
+            },
+            "North Carolina": {
+                "rate": "n"
+            },
+            "Ohio": {
+                "rate": "n"
+            },
+            "Oklahoma": {
+                "rate": "n"
+            },
+            "Oregon": {
+                "rate": "n"
+            },
+            "Overall": {
+                "rate": "n"
+            },
+            "Rhode Island": {
+                "rate": "n"
+            },
+            "South Dakota": {
+                "rate": "n"
+            },
+            "Utah": {
+                "rate": "n"
+            },
+            "Vermont": {
+                "rate": "n"
+            },
+            "Virginia": {
+                "rate": "n"
+            },
+            "West Virginia": {
+                "rate": "n"
+            },
+            "min": "n",
+            "max": "n"
+        },
+        "Cocaine": {
+            "Alaska": {
+                "rate": "n"
+            },
+            "Arizona": {
+                "rate": "n"
+            },
+            "Connecticut": {
+                "rate": "n"
+            },
+            "Delaware": {
+                "rate": "n"
+            },
+            "District of Columbia": {
+                "rate": "n"
+            },
+            "Georgia": {
+                "rate": "n"
+            },
+            "Kansas": {
+                "rate": "n"
+            },
+            "Kentucky": {
+                "rate": "n"
+            },
+            "Maine": {
+                "rate": "n"
+            },
+            "Maryland": {
+                "rate": "n"
+            },
+            "Massachusetts": {
+                "rate": "n"
+            },
+            "Michigan": {
+                "rate": "n"
+            },
+            "Minnesota": {
+                "rate": "n"
+            },
+            "Mississippi": {
+                "rate": "n"
+            },
+            "Montana": {
+                "rate": -1.0
+            },
+            "Nevada": {
+                "rate": "n"
+            },
+            "New Hampshire": {
+                "rate": "n"
+            },
+            "New Jersey": {
+                "rate": "n"
+            },
+            "New Mexico": {
+                "rate": "n"
+            },
+            "North Carolina": {
+                "rate": "n"
+            },
+            "Ohio": {
+                "rate": "n"
+            },
+            "Oklahoma": {
+                "rate": "n"
+            },
+            "Oregon": {
+                "rate": "n"
+            },
+            "Overall": {
+                "rate": "n"
+            },
+            "Rhode Island": {
+                "rate": "n"
+            },
+            "South Dakota": {
+                "rate": -1.0
+            },
+            "Utah": {
+                "rate": "n"
+            },
+            "Vermont": {
+                "rate": "n"
+            },
+            "Virginia": {
+                "rate": "n"
+            },
+            "West Virginia": {
+                "rate": "n"
+            },
+            "min": -1.0,
+            "max": -1.0
+        },
+        "Heroin": {
+            "Alaska": {
+                "rate": "n"
+            },
+            "Arizona": {
+                "rate": "n"
+            },
+            "Connecticut": {
+                "rate": "n"
+            },
+            "Delaware": {
+                "rate": "n"
+            },
+            "District of Columbia": {
+                "rate": "n"
+            },
+            "Georgia": {
+                "rate": "n"
+            },
+            "Kansas": {
+                "rate": "n"
+            },
+            "Kentucky": {
+                "rate": "n"
+            },
+            "Maine": {
+                "rate": "n"
+            },
+            "Maryland": {
+                "rate": "n"
+            },
+            "Massachusetts": {
+                "rate": "n"
+            },
+            "Michigan": {
+                "rate": "n"
+            },
+            "Minnesota": {
+                "rate": "n"
+            },
+            "Mississippi": {
+                "rate": "n"
+            },
+            "Montana": {
+                "rate": "n"
+            },
+            "Nevada": {
+                "rate": "n"
+            },
+            "New Hampshire": {
+                "rate": -1.0
+            },
+            "New Jersey": {
+                "rate": "n"
+            },
+            "New Mexico": {
+                "rate": "n"
+            },
+            "North Carolina": {
+                "rate": "n"
+            },
+            "Ohio": {
+                "rate": "n"
+            },
+            "Oklahoma": {
+                "rate": "n"
+            },
+            "Oregon": {
+                "rate": "n"
+            },
+            "Overall": {
+                "rate": "n"
+            },
+            "Rhode Island": {
+                "rate": -1.0
+            },
+            "South Dakota": {
+                "rate": -1.0
+            },
+            "Utah": {
+                "rate": "n"
+            },
+            "Vermont": {
+                "rate": "n"
+            },
+            "Virginia": {
+                "rate": "n"
+            },
+            "West Virginia": {
+                "rate": "n"
+            },
+            "min": -1.0,
+            "max": -1.0
+        },
+        "Illicitly Manufactured Fentanyls": {
+            "Alaska": {
+                "rate": "n"
+            },
+            "Arizona": {
+                "rate": "n"
+            },
+            "Connecticut": {
+                "rate": "n"
+            },
+            "Delaware": {
+                "rate": "n"
+            },
+            "District of Columbia": {
+                "rate": "n"
+            },
+            "Georgia": {
+                "rate": "n"
+            },
+            "Kansas": {
+                "rate": "n"
+            },
+            "Kentucky": {
+                "rate": "n"
+            },
+            "Maine": {
+                "rate": "n"
+            },
+            "Maryland": {
+                "rate": "n"
+            },
+            "Massachusetts": {
+                "rate": "n"
+            },
+            "Michigan": {
+                "rate": "n"
+            },
+            "Minnesota": {
+                "rate": "n"
+            },
+            "Mississippi": {
+                "rate": "n"
+            },
+            "Montana": {
+                "rate": "n"
+            },
+            "Nevada": {
+                "rate": "n"
+            },
+            "New Hampshire": {
+                "rate": "n"
+            },
+            "New Jersey": {
+                "rate": "n"
+            },
+            "New Mexico": {
+                "rate": "n"
+            },
+            "North Carolina": {
+                "rate": "n"
+            },
+            "Ohio": {
+                "rate": "n"
+            },
+            "Oklahoma": {
+                "rate": "n"
+            },
+            "Oregon": {
+                "rate": "n"
+            },
+            "Overall": {
+                "rate": "n"
+            },
+            "Rhode Island": {
+                "rate": "n"
+            },
+            "South Dakota": {
+                "rate": -1.0
+            },
+            "Utah": {
+                "rate": "n"
+            },
+            "Vermont": {
+                "rate": "n"
+            },
+            "Virginia": {
+                "rate": "n"
+            },
+            "West Virginia": {
+                "rate": "n"
+            },
+            "min": -1.0,
+            "max": -1.0
+        },
+        "Methamphetamine": {
+            "Alaska": {
+                "rate": "n"
+            },
+            "Arizona": {
+                "rate": "n"
+            },
+            "Connecticut": {
+                "rate": "n"
+            },
+            "Delaware": {
+                "rate": "n"
+            },
+            "District of Columbia": {
+                "rate": -1.0
+            },
+            "Georgia": {
+                "rate": "n"
+            },
+            "Kansas": {
+                "rate": "n"
+            },
+            "Kentucky": {
+                "rate": "n"
+            },
+            "Maine": {
+                "rate": "n"
+            },
+            "Maryland": {
+                "rate": "n"
+            },
+            "Massachusetts": {
+                "rate": "n"
+            },
+            "Michigan": {
+                "rate": "n"
+            },
+            "Minnesota": {
+                "rate": "n"
+            },
+            "Mississippi": {
+                "rate": "n"
+            },
+            "Montana": {
+                "rate": "n"
+            },
+            "Nevada": {
+                "rate": "n"
+            },
+            "New Hampshire": {
+                "rate": "n"
+            },
+            "New Jersey": {
+                "rate": "n"
+            },
+            "New Mexico": {
+                "rate": "n"
+            },
+            "North Carolina": {
+                "rate": "n"
+            },
+            "Ohio": {
+                "rate": "n"
+            },
+            "Oklahoma": {
+                "rate": "n"
+            },
+            "Oregon": {
+                "rate": "n"
+            },
+            "Overall": {
+                "rate": "n"
+            },
+            "Rhode Island": {
+                "rate": -1.0
+            },
+            "South Dakota": {
+                "rate": "n"
+            },
+            "Utah": {
+                "rate": "n"
+            },
+            "Vermont": {
+                "rate": -1.0
+            },
+            "Virginia": {
+                "rate": "n"
+            },
+            "West Virginia": {
+                "rate": "n"
+            },
+            "min": -1.0,
+            "max": -1.0
+        },
+        "Opioid": {
+            "Alaska": {
+                "rate": "n"
+            },
+            "Arizona": {
+                "rate": "n"
+            },
+            "Connecticut": {
+                "rate": "n"
+            },
+            "Delaware": {
+                "rate": "n"
+            },
+            "District of Columbia": {
+                "rate": "n"
+            },
+            "Georgia": {
+                "rate": "n"
+            },
+            "Kansas": {
+                "rate": "n"
+            },
+            "Kentucky": {
+                "rate": "n"
+            },
+            "Maine": {
+                "rate": "n"
+            },
+            "Maryland": {
+                "rate": "n"
+            },
+            "Massachusetts": {
+                "rate": "n"
+            },
+            "Michigan": {
+                "rate": "n"
+            },
+            "Minnesota": {
+                "rate": "n"
+            },
+            "Mississippi": {
+                "rate": "n"
+            },
+            "Montana": {
+                "rate": "n"
+            },
+            "Nevada": {
+                "rate": "n"
+            },
+            "New Hampshire": {
+                "rate": "n"
+            },
+            "New Jersey": {
+                "rate": "n"
+            },
+            "New Mexico": {
+                "rate": "n"
+            },
+            "North Carolina": {
+                "rate": "n"
+            },
+            "Ohio": {
+                "rate": "n"
+            },
+            "Oklahoma": {
+                "rate": "n"
+            },
+            "Oregon": {
+                "rate": "n"
+            },
+            "Overall": {
+                "rate": "n"
+            },
+            "Rhode Island": {
+                "rate": "n"
+            },
+            "South Dakota": {
+                "rate": "n"
+            },
+            "Utah": {
+                "rate": "n"
+            },
+            "Vermont": {
+                "rate": "n"
+            },
+            "Virginia": {
+                "rate": "n"
+            },
+            "West Virginia": {
+                "rate": "n"
+            },
+            "min": "n",
+            "max": "n"
+        },
+        "Prescription Opioids": {
+            "Alaska": {
+                "rate": "n"
+            },
+            "Arizona": {
+                "rate": "n"
+            },
+            "Connecticut": {
+                "rate": "n"
+            },
+            "Delaware": {
+                "rate": "n"
+            },
+            "District of Columbia": {
+                "rate": "n"
+            },
+            "Georgia": {
+                "rate": "n"
+            },
+            "Kansas": {
+                "rate": "n"
+            },
+            "Kentucky": {
+                "rate": "n"
+            },
+            "Maine": {
+                "rate": "n"
+            },
+            "Maryland": {
+                "rate": "n"
+            },
+            "Massachusetts": {
+                "rate": "n"
+            },
+            "Michigan": {
+                "rate": "n"
+            },
+            "Minnesota": {
+                "rate": "n"
+            },
+            "Mississippi": {
+                "rate": "n"
+            },
+            "Montana": {
+                "rate": "n"
+            },
+            "Nevada": {
+                "rate": "n"
+            },
+            "New Hampshire": {
+                "rate": "n"
+            },
+            "New Jersey": {
+                "rate": "n"
+            },
+            "New Mexico": {
+                "rate": "n"
+            },
+            "North Carolina": {
+                "rate": "n"
+            },
+            "Ohio": {
+                "rate": "n"
+            },
+            "Oklahoma": {
+                "rate": "n"
+            },
+            "Oregon": {
+                "rate": "n"
+            },
+            "Overall": {
+                "rate": "n"
+            },
+            "Rhode Island": {
+                "rate": "n"
+            },
+            "South Dakota": {
+                "rate": -1.0
+            },
+            "Utah": {
+                "rate": "n"
+            },
+            "Vermont": {
+                "rate": "n"
+            },
+            "Virginia": {
+                "rate": "n"
+            },
+            "West Virginia": {
+                "rate": "n"
+            },
+            "min": "-1.0",
+            "max": "-1.0"
+        },
+        "Stimulant": {
+            "Alaska": {
+                "rate": "n"
+            },
+            "Arizona": {
+                "rate": "n"
+            },
+            "Connecticut": {
+                "rate": "n"
+            },
+            "Delaware": {
+                "rate": "n"
+            },
+            "District of Columbia": {
+                "rate": "n"
+            },
+            "Georgia": {
+                "rate": "n"
+            },
+            "Kansas": {
+                "rate": "n"
+            },
+            "Kentucky": {
+                "rate": "n"
+            },
+            "Maine": {
+                "rate": "n"
+            },
+            "Maryland": {
+                "rate": "n"
+            },
+            "Massachusetts": {
+                "rate": "n"
+            },
+            "Michigan": {
+                "rate": "n"
+            },
+            "Minnesota": {
+                "rate": "n"
+            },
+            "Mississippi": {
+                "rate": "n"
+            },
+            "Montana": {
+                "rate": "n"
+            },
+            "Nevada": {
+                "rate": "n"
+            },
+            "New Hampshire": {
+                "rate": "n"
+            },
+            "New Jersey": {
+                "rate": "n"
+            },
+            "New Mexico": {
+                "rate": "n"
+            },
+            "North Carolina": {
+                "rate": "n"
+            },
+            "Ohio": {
+                "rate": "n"
+            },
+            "Oklahoma": {
+                "rate": "n"
+            },
+            "Oregon": {
+                "rate": "n"
+            },
+            "Overall": {
+                "rate": "n"
+            },
+            "Rhode Island": {
+                "rate": "n"
+            },
+            "South Dakota": {
+                "rate": "n"
+            },
+            "Utah": {
+                "rate": "n"
+            },
+            "Vermont": {
+                "rate": "n"
+            },
+            "Virginia": {
+                "rate": "n"
+            },
+            "West Virginia": {
+                "rate": "n"
+            },
+            "min": "n",
+            "max": "n"
+        }
+    }
+}

@@ -1,1 +1,1176 @@
-{"2020": {"Alaska": {"max": "Opioids without stimulants", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 5, "nPercent": 2.9 , "sName": "Stimulants without opioids", "sCount": 55, "sPercent": 32.0 , "oName": "Opioids without stimulants", "oCount": 51, "oPercent": 29.7 , "osName": "Opioids with stimulants", "osCount": 61, "osPercent": 35.5  } ]}, "Arizona": {"min": "Neither opioids nor stimulants", "minPercent": 2.6, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 63, "nPercent": 2.6 , "sName": "Stimulants without opioids", "sCount": 485, "sPercent": 20.2 , "oName": "Opioids without stimulants", "oCount": 1149, "oPercent": 47.8 , "osName": "Opioids with stimulants", "osCount": 708, "osPercent": 29.4  } ]}, "Connecticut": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 39, "nPercent": 2.8 , "sName": "Stimulants without opioids", "sCount": 57, "sPercent": 4.1 , "oName": "Opioids without stimulants", "oCount": 765, "oPercent": 55.7 , "osName": "Opioids with stimulants", "osCount": 513, "osPercent": 37.3  } ]}, "Delaware": {"min": "Neither opioids nor stimulants", "minPercent": 1.3, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 6, "nPercent": 1.3 , "sName": "Stimulants without opioids", "sCount": 23, "sPercent": 5.2 , "oName": "Opioids without stimulants", "oCount": 244, "oPercent": 54.8 , "osName": "Opioids with stimulants", "osCount": 172, "osPercent": 38.7  } ]}, "District of Columbia": {"max": "Neither opioids nor stimulants", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 53, "nPercent": 10.4 , "sName": "Stimulants without opioids", "sCount": 46, "sPercent": 9.0 , "oName": "Opioids without stimulants", "oCount": 255, "oPercent": 50.1 , "osName": "Opioids with stimulants", "osCount": 155, "osPercent": 30.5  } ]}, "Georgia": {"min": "Neither opioids nor stimulants", "minPercent": 7.6, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 138, "nPercent": 7.6 , "sName": "Stimulants without opioids", "sCount": 417, "sPercent": 23.1 , "oName": "Opioids without stimulants", "oCount": 717, "oPercent": 39.6 , "osName": "Opioids with stimulants", "osCount": 537, "osPercent": 29.7  } ]}, "Kansas": {"min": "Neither opioids nor stimulants", "minPercent": 9.9, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 43, "nPercent": 9.9 , "sName": "Stimulants without opioids", "sCount": 149, "sPercent": 34.4 , "oName": "Opioids without stimulants", "oCount": 165, "oPercent": 38.1 , "osName": "Opioids with stimulants", "osCount": 76, "osPercent": 17.6  } ]}, "Kentucky": {"min": "Neither opioids nor stimulants", "minPercent": 4.4, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 91, "nPercent": 4.4 , "sName": "Stimulants without opioids", "sCount": 211, "sPercent": 10.3 , "oName": "Opioids without stimulants", "oCount": 1036, "oPercent": 50.6 , "osName": "Opioids with stimulants", "osCount": 708, "osPercent": 34.6  } ]}, "Maine": {"min": "Stimulants without opioids", "minPercent": 6.2, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 38, "nPercent": 8.1 , "sName": "Stimulants without opioids", "sCount": 29, "sPercent": 6.2 , "oName": "Opioids without stimulants", "oCount": 213, "oPercent": 45.3 , "osName": "Opioids with stimulants", "osCount": 190, "osPercent": 40.4  } ]}, "Maryland": {"min": "Stimulants without opioids", "minPercent": 3.5, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 99, "nPercent": 3.6 , "sName": "Stimulants without opioids", "sCount": 95, "sPercent": 3.5 , "oName": "Opioids without stimulants", "oCount": 1565, "oPercent": 57.5 , "osName": "Opioids with stimulants", "osCount": 963, "osPercent": 35.4  } ]}, "Massachusetts": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 42, "nPercent": 1.8 , "sName": "Stimulants without opioids", "sCount": 156, "sPercent": 6.7 , "oName": "Opioids without stimulants", "oCount": 1137, "oPercent": 49.1 , "osName": "Opioids with stimulants", "osCount": 980, "osPercent": 42.3  } ]}, "Michigan": {"min": "Neither opioids nor stimulants", "minPercent": 7.0, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 196, "nPercent": 7.0 , "sName": "Stimulants without opioids", "sCount": 266, "sPercent": 9.5 , "oName": "Opioids without stimulants", "oCount": 1388, "oPercent": 49.6 , "osName": "Opioids with stimulants", "osCount": 951, "osPercent": 34.0  } ]}, "Minnesota": {"min": "Neither opioids nor stimulants", "minPercent": 4.6, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 44, "nPercent": 4.6 , "sName": "Stimulants without opioids", "sCount": 171, "sPercent": 17.9 , "oName": "Opioids without stimulants", "oCount": 449, "oPercent": 47.0 , "osName": "Opioids with stimulants", "osCount": 292, "osPercent": 30.5  } ]}, "Mississippi": {"min": "Neither opioids nor stimulants", "minPercent": 11.6, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 55, "nPercent": 11.6 , "sName": "Stimulants without opioids", "sCount": 96, "sPercent": 20.2 , "oName": "Opioids without stimulants", "oCount": 198, "oPercent": 41.6 , "osName": "Opioids with stimulants", "osCount": 127, "osPercent": 26.7  } ]}, "Montana": {"min": "Neither opioids nor stimulants", "minPercent": 9.8, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 12, "nPercent": 9.8 , "sName": "Stimulants without opioids", "sCount": 38, "sPercent": 31.1 , "oName": "Opioids without stimulants", "oCount": 43, "oPercent": 35.2 , "osName": "Opioids with stimulants", "osCount": 29, "osPercent": 23.8  } ]}, "Nevada": {"min": "Neither opioids nor stimulants", "minPercent": 4.0, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 37, "nPercent": 4.0 , "sName": "Stimulants without opioids", "sCount": 303, "sPercent": 33.0 , "oName": "Opioids without stimulants", "oCount": 305, "oPercent": 33.3 , "osName": "Opioids with stimulants", "osCount": 272, "osPercent": 29.7  } ]}, "New Hampshire": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 5, "nPercent": 1.3 , "sName": "Stimulants without opioids", "sCount": 20, "sPercent": 5.4 , "oName": "Opioids without stimulants", "oCount": 253, "oPercent": 68.0 , "osName": "Opioids with stimulants", "osCount": 94, "osPercent": 25.3  } ]}, "New Jersey": {"min": "Neither opioids nor stimulants", "minPercent": 4.0, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 117, "nPercent": 4.0 , "sName": "Stimulants without opioids", "sCount": 168, "sPercent": 5.8 , "oName": "Opioids without stimulants", "oCount": 1571, "oPercent": 54.3 , "osName": "Opioids with stimulants", "osCount": 1038, "osPercent": 35.9  } ]}, "New Mexico": {"min": "Neither opioids nor stimulants", "minPercent": 3.0, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 19, "nPercent": 3.0 , "sName": "Stimulants without opioids", "sCount": 144, "sPercent": 22.9 , "oName": "Opioids without stimulants", "oCount": 226, "oPercent": 35.9 , "osName": "Opioids with stimulants", "osCount": 240, "osPercent": 38.2  } ]}, "North Carolina": {"min": "Neither opioids nor stimulants", "minPercent": 4.1, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 120, "nPercent": 4.1 , "sName": "Stimulants without opioids", "sCount": 283, "sPercent": 9.6 , "oName": "Opioids without stimulants", "oCount": 1376, "oPercent": 46.5 , "osName": "Opioids with stimulants", "osCount": 1178, "osPercent": 39.8  } ]}, "Ohio": {"min": "Neither opioids nor stimulants", "minPercent": 3.9, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 200, "nPercent": 3.9 , "sName": "Stimulants without opioids", "sCount": 420, "sPercent": 8.2 , "oName": "Opioids without stimulants", "oCount": 2627, "oPercent": 51.0 , "osName": "Opioids with stimulants", "osCount": 1905, "osPercent": 37.0  } ]}, "Oklahoma": {"min": "Neither opioids nor stimulants", "minPercent": 6.5, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 51, "nPercent": 6.5 , "sName": "Stimulants without opioids", "sCount": 438, "sPercent": 55.7 , "oName": "Opioids without stimulants", "oCount": 180, "oPercent": 22.9 , "osName": "Opioids with stimulants", "osCount": 118, "osPercent": 15.0  } ]}, "Oregon": {"min": "Neither opioids nor stimulants", "minPercent": 4.7, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 33, "nPercent": 4.7 , "sName": "Stimulants without opioids", "sCount": 196, "sPercent": 28.0 , "oName": "Opioids without stimulants", "oCount": 271, "oPercent": 38.7 , "osName": "Opioids with stimulants", "osCount": 201, "osPercent": 28.7  } ]}, "Overall": {"min": "Neither opioids nor stimulants", "minPercent": 4.3, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 1647, "nPercent": 4.3 , "sName": "Stimulants without opioids", "sCount": 4807, "sPercent": 12.6 , "oName": "Opioids without stimulants", "oCount": 18307, "oPercent": 48.1 , "osName": "Opioids with stimulants", "osCount": 13287, "osPercent": 34.9  } ]}, "Rhode Island": {"min": "Neither opioids nor stimulants", "minPercent": 4.6, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 18, "nPercent": 4.6 , "sName": "Stimulants without opioids", "sCount": 47, "sPercent": 12.1 , "oName": "Opioids without stimulants", "oCount": 157, "oPercent": 40.4 , "osName": "Opioids with stimulants", "osCount": 167, "osPercent": 42.9  } ]}, "South Dakota": {"max": "Opioids with stimulants", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 5, "nPercent": 7.9 , "sName": "Stimulants without opioids", "sCount": 23, "sPercent": 36.5 , "oName": "Opioids without stimulants", "oCount": 28, "oPercent": 44.4 , "osName": "Opioids with stimulants", "osCount": 7, "osPercent": 11.1  } ]}, "Utah": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 38, "nPercent": 7.1 , "sName": "Stimulants without opioids", "sCount": 107, "sPercent": 20.0 , "oName": "Opioids without stimulants", "oCount": 219, "oPercent": 40.9 , "osName": "Opioids with stimulants", "osCount": 171, "osPercent": 32.0  } ]}, "Vermont": {"min": "Neither opioids nor stimulants", "minPercent": 5.1, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 9, "nPercent": 5.1 , "sName": "Stimulants without opioids", "sCount": 14, "sPercent": 7.9 , "oName": "Opioids without stimulants", "oCount": 87, "oPercent": 48.9 , "osName": "Opioids with stimulants", "osCount": 68, "osPercent": 38.2  } ]}, "Virginia": {"min": "Neither opioids nor stimulants", "minPercent": 2.5, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 54, "nPercent": 2.5 , "sName": "Stimulants without opioids", "sCount": 207, "sPercent": 9.8 , "oName": "Opioids without stimulants", "oCount": 1075, "oPercent": 50.7 , "osName": "Opioids with stimulants", "osCount": 785, "osPercent": 37.0  } ]}, "West Virginia": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 17, "nPercent": 1.3 , "sName": "Stimulants without opioids", "sCount": 143, "sPercent": 11.0 , "oName": "Opioids without stimulants", "oCount": 557, "oPercent": 42.9 , "osName": "Opioids with stimulants", "osCount": 581, "osPercent": 44.8  } ]}},"2021": {"Alaska": {"min": "Neither opioids nor stimulants", "minPercent": 2.9, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 5, "nPercent": 2.9 , "sName": "Stimulants without opioids", "sCount": 55, "sPercent": 32.0 , "oName": "Opioids without stimulants", "oCount": 51, "oPercent": 29.7 , "osName": "Opioids with stimulants", "osCount": 61, "osPercent": 35.5  } ]}, "Arizona": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 63, "nPercent": 2.6 , "sName": "Stimulants without opioids", "sCount": 485, "sPercent": 20.2 , "oName": "Opioids without stimulants", "oCount": 1149, "oPercent": 47.8 , "osName": "Opioids with stimulants", "osCount": 708, "osPercent": 29.4  } ]}, "Connecticut": {"min": "Neither opioids nor stimulants", "minPercent": 2.8, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 39, "nPercent": 2.8 , "sName": "Stimulants without opioids", "sCount": 57, "sPercent": 4.1 , "oName": "Opioids without stimulants", "oCount": 765, "oPercent": 55.7 , "osName": "Opioids with stimulants", "osCount": 513, "osPercent": 37.3  } ]}, "Delaware": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 6, "nPercent": 1.3 , "sName": "Stimulants without opioids", "sCount": 23, "sPercent": 5.2 , "oName": "Opioids without stimulants", "oCount": 244, "oPercent": 54.8 , "osName": "Opioids with stimulants", "osCount": 172, "osPercent": 38.7  } ]}, "District of Columbia": {"min": "Stimulants without opioids", "minPercent": 9.0, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 53, "nPercent": 10.4 , "sName": "Stimulants without opioids", "sCount": 46, "sPercent": 9.0 , "oName": "Opioids without stimulants", "oCount": 255, "oPercent": 50.1 , "osName": "Opioids with stimulants", "osCount": 155, "osPercent": 30.5  } ]}, "Georgia": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 138, "nPercent": 7.6 , "sName": "Stimulants without opioids", "sCount": 417, "sPercent": 23.1 , "oName": "Opioids without stimulants", "oCount": 717, "oPercent": 39.6 , "osName": "Opioids with stimulants", "osCount": 537, "osPercent": 29.7  } ]}, "Kansas": {"max": "Opioids with stimulants", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 43, "nPercent": 9.9 , "sName": "Stimulants without opioids", "sCount": 149, "sPercent": 34.4 , "oName": "Opioids without stimulants", "oCount": 165, "oPercent": 38.1 , "osName": "Opioids with stimulants", "osCount": 76, "osPercent": 17.6  } ]}, "Kentucky": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 91, "nPercent": 4.4 , "sName": "Stimulants without opioids", "sCount": 211, "sPercent": 10.3 , "oName": "Opioids without stimulants", "oCount": 1036, "oPercent": 50.6 , "osName": "Opioids with stimulants", "osCount": 708, "osPercent": 34.6  } ]}, "Maine": {"max": "Neither opioids nor stimulants", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 38, "nPercent": 8.1 , "sName": "Stimulants without opioids", "sCount": 29, "sPercent": 6.2 , "oName": "Opioids without stimulants", "oCount": 213, "oPercent": 45.3 , "osName": "Opioids with stimulants", "osCount": 190, "osPercent": 40.4  } ]}, "Maryland": {"max": "Neither opioids nor stimulants", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 99, "nPercent": 3.6 , "sName": "Stimulants without opioids", "sCount": 95, "sPercent": 3.5 , "oName": "Opioids without stimulants", "oCount": 1565, "oPercent": 57.5 , "osName": "Opioids with stimulants", "osCount": 963, "osPercent": 35.4  } ]}, "Massachusetts": {"min": "Neither opioids nor stimulants", "minPercent": 1.8, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 42, "nPercent": 1.8 , "sName": "Stimulants without opioids", "sCount": 156, "sPercent": 6.7 , "oName": "Opioids without stimulants", "oCount": 1137, "oPercent": 49.1 , "osName": "Opioids with stimulants", "osCount": 980, "osPercent": 42.3  } ]}, "Michigan": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 196, "nPercent": 7.0 , "sName": "Stimulants without opioids", "sCount": 266, "sPercent": 9.5 , "oName": "Opioids without stimulants", "oCount": 1388, "oPercent": 49.6 , "osName": "Opioids with stimulants", "osCount": 951, "osPercent": 34.0  } ]}, "Minnesota": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 44, "nPercent": 4.6 , "sName": "Stimulants without opioids", "sCount": 171, "sPercent": 17.9 , "oName": "Opioids without stimulants", "oCount": 449, "oPercent": 47.0 , "osName": "Opioids with stimulants", "osCount": 292, "osPercent": 30.5  } ]}, "Mississippi": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 55, "nPercent": 11.6 , "sName": "Stimulants without opioids", "sCount": 96, "sPercent": 20.2 , "oName": "Opioids without stimulants", "oCount": 198, "oPercent": 41.6 , "osName": "Opioids with stimulants", "osCount": 127, "osPercent": 26.7  } ]}, "Montana": {"max": "Opioids with stimulants", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 12, "nPercent": 9.8 , "sName": "Stimulants without opioids", "sCount": 38, "sPercent": 31.1 , "oName": "Opioids without stimulants", "oCount": 43, "oPercent": 35.2 , "osName": "Opioids with stimulants", "osCount": 29, "osPercent": 23.8  } ]}, "Nevada": {"max": "Opioids with stimulants", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 37, "nPercent": 4.0 , "sName": "Stimulants without opioids", "sCount": 303, "sPercent": 33.0 , "oName": "Opioids without stimulants", "oCount": 305, "oPercent": 33.3 , "osName": "Opioids with stimulants", "osCount": 272, "osPercent": 29.7  } ]}, "New Hampshire": {"min": "Neither opioids nor stimulants", "minPercent": 1.3, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 5, "nPercent": 1.3 , "sName": "Stimulants without opioids", "sCount": 20, "sPercent": 5.4 , "oName": "Opioids without stimulants", "oCount": 253, "oPercent": 68.0 , "osName": "Opioids with stimulants", "osCount": 94, "osPercent": 25.3  } ]}, "New Jersey": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 117, "nPercent": 4.0 , "sName": "Stimulants without opioids", "sCount": 168, "sPercent": 5.8 , "oName": "Opioids without stimulants", "oCount": 1571, "oPercent": 54.3 , "osName": "Opioids with stimulants", "osCount": 1038, "osPercent": 35.9  } ]}, "New Mexico": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 19, "nPercent": 3.0 , "sName": "Stimulants without opioids", "sCount": 144, "sPercent": 22.9 , "oName": "Opioids without stimulants", "oCount": 226, "oPercent": 35.9 , "osName": "Opioids with stimulants", "osCount": 240, "osPercent": 38.2  } ]}, "North Carolina": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 120, "nPercent": 4.1 , "sName": "Stimulants without opioids", "sCount": 283, "sPercent": 9.6 , "oName": "Opioids without stimulants", "oCount": 1376, "oPercent": 46.5 , "osName": "Opioids with stimulants", "osCount": 1178, "osPercent": 39.8  } ]}, "Ohio": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 200, "nPercent": 3.9 , "sName": "Stimulants without opioids", "sCount": 420, "sPercent": 8.2 , "oName": "Opioids without stimulants", "oCount": 2627, "oPercent": 51.0 , "osName": "Opioids with stimulants", "osCount": 1905, "osPercent": 37.0  } ]}, "Oklahoma": {"max": "Opioids with stimulants", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 51, "nPercent": 6.5 , "sName": "Stimulants without opioids", "sCount": 438, "sPercent": 55.7 , "oName": "Opioids without stimulants", "oCount": 180, "oPercent": 22.9 , "osName": "Opioids with stimulants", "osCount": 118, "osPercent": 15.0  } ]}, "Oregon": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 33, "nPercent": 4.7 , "sName": "Stimulants without opioids", "sCount": 196, "sPercent": 28.0 , "oName": "Opioids without stimulants", "oCount": 271, "oPercent": 38.7 , "osName": "Opioids with stimulants", "osCount": 201, "osPercent": 28.7  } ]}, "Overall": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 1647, "nPercent": 4.3 , "sName": "Stimulants without opioids", "sCount": 4807, "sPercent": 12.6 , "oName": "Opioids without stimulants", "oCount": 18307, "oPercent": 48.1 , "osName": "Opioids with stimulants", "osCount": 13287, "osPercent": 34.9  } ]}, "Rhode Island": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 18, "nPercent": 4.6 , "sName": "Stimulants without opioids", "sCount": 47, "sPercent": 12.1 , "oName": "Opioids without stimulants", "oCount": 157, "oPercent": 40.4 , "osName": "Opioids with stimulants", "osCount": 167, "osPercent": 42.9  } ]}, "South Dakota": {"min": "Neither opioids nor stimulants", "minPercent": 7.9, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 5, "nPercent": 7.9 , "sName": "Stimulants without opioids", "sCount": 23, "sPercent": 36.5 , "oName": "Opioids without stimulants", "oCount": 28, "oPercent": 44.4 , "osName": "Opioids with stimulants", "osCount": 7, "osPercent": 11.1  } ]}, "Utah": {"min": "Neither opioids nor stimulants", "minPercent": 7.1, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 38, "nPercent": 7.1 , "sName": "Stimulants without opioids", "sCount": 107, "sPercent": 20.0 , "oName": "Opioids without stimulants", "oCount": 219, "oPercent": 40.9 , "osName": "Opioids with stimulants", "osCount": 171, "osPercent": 32.0  } ]}, "Vermont": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 9, "nPercent": 5.1 , "sName": "Stimulants without opioids", "sCount": 14, "sPercent": 7.9 , "oName": "Opioids without stimulants", "oCount": 87, "oPercent": 48.9 , "osName": "Opioids with stimulants", "osCount": 68, "osPercent": 38.2  } ]}, "Virginia": {"max": "Stimulants without opioids", "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 54, "nPercent": 2.5 , "sName": "Stimulants without opioids", "sCount": 207, "sPercent": 9.8 , "oName": "Opioids without stimulants", "oCount": 1075, "oPercent": 50.7 , "osName": "Opioids with stimulants", "osCount": 785, "osPercent": 37.0  } ]}, "West Virginia": {"min": "Neither opioids nor stimulants", "minPercent": 1.3, "horizontalBarData": [ { "nName": "Neither opioids nor stimulants", "nCount": 17, "nPercent": 1.3 , "sName": "Stimulants without opioids", "sCount": 143, "sPercent": 11.0 , "oName": "Opioids without stimulants", "oCount": 557, "oPercent": 42.9 , "osName": "Opioids with stimulants", "osCount": 581, "osPercent": 44.8  } ]}}}
+{
+    "2020": {
+        "Alaska": {
+            "max": "Opioids without stimulants",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 5,
+                    "nPercent": 2.9,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 55,
+                    "sPercent": 32.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 51,
+                    "oPercent": 29.7,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 61,
+                    "osPercent": 35.5
+                }
+            ]
+        },
+        "Arizona": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 2.6,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 63,
+                    "nPercent": 2.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 485,
+                    "sPercent": 20.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1149,
+                    "oPercent": 47.8,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 708,
+                    "osPercent": 29.4
+                }
+            ]
+        },
+        "Connecticut": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 39,
+                    "nPercent": 2.8,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 57,
+                    "sPercent": 4.1,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 765,
+                    "oPercent": 55.7,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 513,
+                    "osPercent": 37.3
+                }
+            ]
+        },
+        "Delaware": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 1.3,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 6,
+                    "nPercent": 1.3,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 23,
+                    "sPercent": 5.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 244,
+                    "oPercent": 54.8,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 172,
+                    "osPercent": 38.7
+                }
+            ]
+        },
+        "District of Columbia": {
+            "max": "Neither opioids nor stimulants",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 53,
+                    "nPercent": 10.4,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 46,
+                    "sPercent": 9.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 255,
+                    "oPercent": 50.1,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 155,
+                    "osPercent": 30.5
+                }
+            ]
+        },
+        "Georgia": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 7.6,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 138,
+                    "nPercent": 7.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 417,
+                    "sPercent": 23.1,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 717,
+                    "oPercent": 39.6,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 537,
+                    "osPercent": 29.7
+                }
+            ]
+        },
+        "Kansas": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 9.9,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 43,
+                    "nPercent": 9.9,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 149,
+                    "sPercent": 34.4,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 165,
+                    "oPercent": 38.1,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 76,
+                    "osPercent": 17.6
+                }
+            ]
+        },
+        "Kentucky": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 4.4,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 91,
+                    "nPercent": 4.4,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 211,
+                    "sPercent": 10.3,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1036,
+                    "oPercent": 50.6,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 708,
+                    "osPercent": 34.6
+                }
+            ]
+        },
+        "Maine": {
+            "min": "Stimulants without opioids",
+            "minPercent": 6.2,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 38,
+                    "nPercent": 8.1,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 29,
+                    "sPercent": 6.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 213,
+                    "oPercent": 45.3,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 190,
+                    "osPercent": 40.4
+                }
+            ]
+        },
+        "Maryland": {
+            "min": "Stimulants without opioids",
+            "minPercent": 3.5,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 99,
+                    "nPercent": 3.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 95,
+                    "sPercent": 3.5,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1565,
+                    "oPercent": 57.5,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 963,
+                    "osPercent": 35.4
+                }
+            ]
+        },
+        "Massachusetts": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 42,
+                    "nPercent": 1.8,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 156,
+                    "sPercent": 6.7,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1137,
+                    "oPercent": 49.1,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 980,
+                    "osPercent": 42.3
+                }
+            ]
+        },
+        "Michigan": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 7.0,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 196,
+                    "nPercent": 7.0,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 266,
+                    "sPercent": 9.5,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1388,
+                    "oPercent": 49.6,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 951,
+                    "osPercent": 34.0
+                }
+            ]
+        },
+        "Minnesota": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 4.6,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 44,
+                    "nPercent": 4.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 171,
+                    "sPercent": 17.9,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 449,
+                    "oPercent": 47.0,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 292,
+                    "osPercent": 30.5
+                }
+            ]
+        },
+        "Mississippi": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 11.6,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 55,
+                    "nPercent": 11.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 96,
+                    "sPercent": 20.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 198,
+                    "oPercent": 41.6,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 127,
+                    "osPercent": 26.7
+                }
+            ]
+        },
+        "Montana": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 9.8,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 12,
+                    "nPercent": 9.8,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 38,
+                    "sPercent": 31.1,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 43,
+                    "oPercent": 35.2,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 29,
+                    "osPercent": 23.8
+                }
+            ]
+        },
+        "Nevada": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 4.0,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 37,
+                    "nPercent": 4.0,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 303,
+                    "sPercent": 33.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 305,
+                    "oPercent": 33.3,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 272,
+                    "osPercent": 29.7
+                }
+            ]
+        },
+        "New Hampshire": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 5,
+                    "nPercent": 1.3,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 20,
+                    "sPercent": 5.4,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 253,
+                    "oPercent": 68.0,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 94,
+                    "osPercent": 25.3
+                }
+            ]
+        },
+        "New Jersey": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 4.0,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 117,
+                    "nPercent": 4.0,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 168,
+                    "sPercent": 5.8,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1571,
+                    "oPercent": 54.3,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 1038,
+                    "osPercent": 35.9
+                }
+            ]
+        },
+        "New Mexico": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 3.0,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 19,
+                    "nPercent": 3.0,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 144,
+                    "sPercent": 22.9,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 226,
+                    "oPercent": 35.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 240,
+                    "osPercent": 38.2
+                }
+            ]
+        },
+        "North Carolina": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 4.1,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 120,
+                    "nPercent": 4.1,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 283,
+                    "sPercent": 9.6,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1376,
+                    "oPercent": 46.5,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 1178,
+                    "osPercent": 39.8
+                }
+            ]
+        },
+        "Ohio": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 3.9,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 200,
+                    "nPercent": 3.9,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 420,
+                    "sPercent": 8.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 2627,
+                    "oPercent": 51.0,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 1905,
+                    "osPercent": 37.0
+                }
+            ]
+        },
+        "Oklahoma": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 6.5,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 51,
+                    "nPercent": 6.5,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 438,
+                    "sPercent": 55.7,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 180,
+                    "oPercent": 22.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 118,
+                    "osPercent": 15.0
+                }
+            ]
+        },
+        "Oregon": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 4.7,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 33,
+                    "nPercent": 4.7,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 196,
+                    "sPercent": 28.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 271,
+                    "oPercent": 38.7,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 201,
+                    "osPercent": 28.7
+                }
+            ]
+        },
+        "Overall": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 4.3,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 1647,
+                    "nPercent": 4.3,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 4807,
+                    "sPercent": 12.6,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 18307,
+                    "oPercent": 48.1,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 13287,
+                    "osPercent": 34.9
+                }
+            ]
+        },
+        "Rhode Island": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 4.6,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 18,
+                    "nPercent": 4.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 47,
+                    "sPercent": 12.1,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 157,
+                    "oPercent": 40.4,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 167,
+                    "osPercent": 42.9
+                }
+            ]
+        },
+        "South Dakota": {
+            "max": "Opioids with stimulants",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 5,
+                    "nPercent": 7.9,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 23,
+                    "sPercent": 36.5,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 28,
+                    "oPercent": 44.4,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 7,
+                    "osPercent": 11.1
+                }
+            ]
+        },
+        "Utah": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 38,
+                    "nPercent": 7.1,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 107,
+                    "sPercent": 20.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 219,
+                    "oPercent": 40.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 171,
+                    "osPercent": 32.0
+                }
+            ]
+        },
+        "Vermont": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 5.1,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 9,
+                    "nPercent": 5.1,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 14,
+                    "sPercent": 7.9,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 87,
+                    "oPercent": 48.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 68,
+                    "osPercent": 38.2
+                }
+            ]
+        },
+        "Virginia": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 2.5,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 54,
+                    "nPercent": 2.5,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 207,
+                    "sPercent": 9.8,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1075,
+                    "oPercent": 50.7,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 785,
+                    "osPercent": 37.0
+                }
+            ]
+        },
+        "West Virginia": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 17,
+                    "nPercent": 1.3,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 143,
+                    "sPercent": 11.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 557,
+                    "oPercent": 42.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 581,
+                    "osPercent": 44.8
+                }
+            ]
+        }
+    },
+    "2021": {
+        "Alaska": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 2.9,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 5,
+                    "nPercent": 2.9,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 55,
+                    "sPercent": 32.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 51,
+                    "oPercent": 29.7,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 61,
+                    "osPercent": 35.5
+                }
+            ]
+        },
+        "Arizona": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 63,
+                    "nPercent": 2.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 485,
+                    "sPercent": 20.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1149,
+                    "oPercent": 47.8,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 708,
+                    "osPercent": 29.4
+                }
+            ]
+        },
+        "Connecticut": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 2.8,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 39,
+                    "nPercent": 2.8,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 57,
+                    "sPercent": 4.1,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 765,
+                    "oPercent": 55.7,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 513,
+                    "osPercent": 37.3
+                }
+            ]
+        },
+        "Delaware": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 6,
+                    "nPercent": 1.3,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 23,
+                    "sPercent": 5.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 244,
+                    "oPercent": 54.8,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 172,
+                    "osPercent": 38.7
+                }
+            ]
+        },
+        "District of Columbia": {
+            "min": "Stimulants without opioids",
+            "minPercent": 9.0,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 53,
+                    "nPercent": 10.4,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 46,
+                    "sPercent": 9.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 255,
+                    "oPercent": 50.1,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 155,
+                    "osPercent": 30.5
+                }
+            ]
+        },
+        "Georgia": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 138,
+                    "nPercent": 7.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 417,
+                    "sPercent": 23.1,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 717,
+                    "oPercent": 39.6,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 537,
+                    "osPercent": 29.7
+                }
+            ]
+        },
+        "Kansas": {
+            "max": "Opioids with stimulants",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 43,
+                    "nPercent": 9.9,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 149,
+                    "sPercent": 34.4,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 165,
+                    "oPercent": 38.1,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 76,
+                    "osPercent": 17.6
+                }
+            ]
+        },
+        "Kentucky": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 91,
+                    "nPercent": 4.4,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 211,
+                    "sPercent": 10.3,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1036,
+                    "oPercent": 50.6,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 708,
+                    "osPercent": 34.6
+                }
+            ]
+        },
+        "Maine": {
+            "max": "Neither opioids nor stimulants",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 38,
+                    "nPercent": 8.1,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 29,
+                    "sPercent": 6.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 213,
+                    "oPercent": 45.3,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 190,
+                    "osPercent": 40.4
+                }
+            ]
+        },
+        "Maryland": {
+            "max": "Neither opioids nor stimulants",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 99,
+                    "nPercent": 3.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 95,
+                    "sPercent": 3.5,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1565,
+                    "oPercent": 57.5,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 963,
+                    "osPercent": 35.4
+                }
+            ]
+        },
+        "Massachusetts": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 1.8,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 42,
+                    "nPercent": 1.8,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 156,
+                    "sPercent": 6.7,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1137,
+                    "oPercent": 49.1,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 980,
+                    "osPercent": 42.3
+                }
+            ]
+        },
+        "Michigan": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 196,
+                    "nPercent": 7.0,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 266,
+                    "sPercent": 9.5,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1388,
+                    "oPercent": 49.6,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 951,
+                    "osPercent": 34.0
+                }
+            ]
+        },
+        "Minnesota": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 44,
+                    "nPercent": 4.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 171,
+                    "sPercent": 17.9,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 449,
+                    "oPercent": 47.0,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 292,
+                    "osPercent": 30.5
+                }
+            ]
+        },
+        "Mississippi": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 55,
+                    "nPercent": 11.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 96,
+                    "sPercent": 20.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 198,
+                    "oPercent": 41.6,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 127,
+                    "osPercent": 26.7
+                }
+            ]
+        },
+        "Montana": {
+            "max": "Opioids with stimulants",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 12,
+                    "nPercent": 9.8,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 38,
+                    "sPercent": 31.1,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 43,
+                    "oPercent": 35.2,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 29,
+                    "osPercent": 23.8
+                }
+            ]
+        },
+        "Nevada": {
+            "max": "Opioids with stimulants",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 37,
+                    "nPercent": 4.0,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 303,
+                    "sPercent": 33.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 305,
+                    "oPercent": 33.3,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 272,
+                    "osPercent": 29.7
+                }
+            ]
+        },
+        "New Hampshire": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 1.3,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 5,
+                    "nPercent": 1.3,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 20,
+                    "sPercent": 5.4,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 253,
+                    "oPercent": 68.0,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 94,
+                    "osPercent": 25.3
+                }
+            ]
+        },
+        "New Jersey": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 117,
+                    "nPercent": 4.0,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 168,
+                    "sPercent": 5.8,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1571,
+                    "oPercent": 54.3,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 1038,
+                    "osPercent": 35.9
+                }
+            ]
+        },
+        "New Mexico": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 19,
+                    "nPercent": 3.0,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 144,
+                    "sPercent": 22.9,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 226,
+                    "oPercent": 35.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 240,
+                    "osPercent": 38.2
+                }
+            ]
+        },
+        "North Carolina": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 120,
+                    "nPercent": 4.1,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 283,
+                    "sPercent": 9.6,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1376,
+                    "oPercent": 46.5,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 1178,
+                    "osPercent": 39.8
+                }
+            ]
+        },
+        "Ohio": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 200,
+                    "nPercent": 3.9,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 420,
+                    "sPercent": 8.2,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 2627,
+                    "oPercent": 51.0,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 1905,
+                    "osPercent": 37.0
+                }
+            ]
+        },
+        "Oklahoma": {
+            "max": "Opioids with stimulants",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 51,
+                    "nPercent": 6.5,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 438,
+                    "sPercent": 55.7,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 180,
+                    "oPercent": 22.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 118,
+                    "osPercent": 15.0
+                }
+            ]
+        },
+        "Oregon": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 33,
+                    "nPercent": 4.7,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 196,
+                    "sPercent": 28.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 271,
+                    "oPercent": 38.7,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 201,
+                    "osPercent": 28.7
+                }
+            ]
+        },
+        "Overall": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 1647,
+                    "nPercent": 4.3,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 4807,
+                    "sPercent": 12.6,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 18307,
+                    "oPercent": 48.1,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 13287,
+                    "osPercent": 34.9
+                }
+            ]
+        },
+        "Rhode Island": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 18,
+                    "nPercent": 4.6,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 47,
+                    "sPercent": 12.1,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 157,
+                    "oPercent": 40.4,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 167,
+                    "osPercent": 42.9
+                }
+            ]
+        },
+        "South Dakota": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 7.9,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 5,
+                    "nPercent": 7.9,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 23,
+                    "sPercent": 36.5,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 28,
+                    "oPercent": 44.4,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 7,
+                    "osPercent": 11.1
+                }
+            ]
+        },
+        "Utah": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 7.1,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 38,
+                    "nPercent": 7.1,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 107,
+                    "sPercent": 20.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 219,
+                    "oPercent": 40.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 171,
+                    "osPercent": 32.0
+                }
+            ]
+        },
+        "Vermont": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 9,
+                    "nPercent": 5.1,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 14,
+                    "sPercent": 7.9,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 87,
+                    "oPercent": 48.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 68,
+                    "osPercent": 38.2
+                }
+            ]
+        },
+        "Virginia": {
+            "max": "Stimulants without opioids",
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 54,
+                    "nPercent": 2.5,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 207,
+                    "sPercent": 9.8,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 1075,
+                    "oPercent": 50.7,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 785,
+                    "osPercent": 37.0
+                }
+            ]
+        },
+        "West Virginia": {
+            "min": "Neither opioids nor stimulants",
+            "minPercent": 1.3,
+            "horizontalBarData": [
+                {
+                    "nName": "Neither opioids nor stimulants",
+                    "nCount": 17,
+                    "nPercent": 1.3,
+                    "sName": "Stimulants without opioids",
+                    "sCount": 143,
+                    "sPercent": 11.0,
+                    "oName": "Opioids without stimulants",
+                    "oCount": 557,
+                    "oPercent": 42.9,
+                    "osName": "Opioids with stimulants",
+                    "osCount": 581,
+                    "osPercent": 44.8
+                }
+            ]
+        }
+    }
+}

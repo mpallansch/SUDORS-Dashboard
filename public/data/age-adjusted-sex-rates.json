@@ -1,1 +1,606 @@
-{"2020":{"Alaska":[{"sex":"Female", "rate":18.1}, {"sex":"Male", "rate":29.1}], "Arizona":[{"sex":"Female", "rate":18.0}, {"sex":"Male", "rate":49.6}], "Connecticut":[{"sex":"Female", "rate":19.3}, {"sex":"Male", "rate":60.0}], "Delaware":[{"sex":"Female", "rate":28.8}, {"sex":"Male", "rate":67.0}], "District of Columbia":[{"sex":"Female", "rate":43.8}, {"sex":"Male", "rate":117.7}], "Georgia":[{"sex":"Female", "rate":11.1}, {"sex":"Male", "rate":23.2}], "Kansas":[{"sex":"Female", "rate":10.9}, {"sex":"Male", "rate":20.3}], "Kentucky":[{"sex":"Female", "rate":28.6}, {"sex":"Male", "rate":66.8}], "Maine":[{"sex":"Female", "rate":20.3}, {"sex":"Male", "rate":54.1}], "Maryland":[{"sex":"Female", "rate":24.3}, {"sex":"Male", "rate":66.9}], "Massachusetts":[{"sex":"Female", "rate":17.8}, {"sex":"Male", "rate":50.3}], "Michigan":[{"sex":"Female", "rate":18.1}, {"sex":"Male", "rate":40.2}], "Minnesota":[{"sex":"Female", "rate":11.5}, {"sex":"Male", "rate":23.5}], "Mississippi":[{"sex":"Female", "rate":11.8}, {"sex":"Male", "rate":22.2}], "Montana":[{"sex":"Female", "rate":6.3}, {"sex":"Male", "rate":17.4}], "Nevada":[{"sex":"Female", "rate":18.0}, {"sex":"Male", "rate":40.8}], "New Hampshire":[{"sex":"Female", "rate":16.7}, {"sex":"Male", "rate":39.9}], "New Jersey":[{"sex":"Female", "rate":16.3}, {"sex":"Male", "rate":49.6}], "New Mexico":[{"sex":"Female", "rate":19.5}, {"sex":"Male", "rate":43.0}], "North Carolina":[{"sex":"Female", "rate":17.2}, {"sex":"Male", "rate":40.7}], "Ohio":[{"sex":"Female", "rate":29.1}, {"sex":"Male", "rate":63.5}], "Oklahoma":[{"sex":"Female", "rate":14.4}, {"sex":"Male", "rate":27.3}], "Oregon":[{"sex":"Female", "rate":10.3}, {"sex":"Male", "rate":23.0}], "Overall":[{"sex":"Female", "rate":18.1}, {"sex":"Male", "rate":43.3}], "Rhode Island":[{"sex":"Female", "rate":19.0}, {"sex":"Male", "rate":56.6}], "South Dakota":[{"sex":"Female", "rate":5.8}, {"sex":"Male", "rate":9.7}], "Utah":[{"sex":"Female", "rate":14.0}, {"sex":"Male", "rate":21.4}], "Vermont":[{"sex":"Female", "rate":18.2}, {"sex":"Male", "rate":43.3}], "Virginia":[{"sex":"Female", "rate":15.0}, {"sex":"Male", "rate":35.1}], "West Virginia":[{"sex":"Female", "rate":45.3}, {"sex":"Male", "rate":110.3}]},"2021":{"Alaska":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Arizona":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Connecticut":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Delaware":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "District of Columbia":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Georgia":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Kansas":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Kentucky":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Maine":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Maryland":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Massachusetts":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Michigan":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Minnesota":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Mississippi":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Montana":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Nevada":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "New Hampshire":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "New Jersey":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "New Mexico":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "North Carolina":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Ohio":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Oklahoma":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Oregon":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Overall":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Rhode Island":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "South Dakota":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Utah":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Vermont":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "Virginia":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}], "West Virginia":[{"sex":"Female", "rate":n}, {"sex":"Male", "rate":n}]}}
+{
+    "2020": {
+        "Alaska": [
+            {
+                "sex": "Female",
+                "rate": 18.1
+            },
+            {
+                "sex": "Male",
+                "rate": 29.1
+            }
+        ],
+        "Arizona": [
+            {
+                "sex": "Female",
+                "rate": 18.0
+            },
+            {
+                "sex": "Male",
+                "rate": 49.6
+            }
+        ],
+        "Connecticut": [
+            {
+                "sex": "Female",
+                "rate": 19.3
+            },
+            {
+                "sex": "Male",
+                "rate": 60.0
+            }
+        ],
+        "Delaware": [
+            {
+                "sex": "Female",
+                "rate": 28.8
+            },
+            {
+                "sex": "Male",
+                "rate": 67.0
+            }
+        ],
+        "District of Columbia": [
+            {
+                "sex": "Female",
+                "rate": 43.8
+            },
+            {
+                "sex": "Male",
+                "rate": 117.7
+            }
+        ],
+        "Georgia": [
+            {
+                "sex": "Female",
+                "rate": 11.1
+            },
+            {
+                "sex": "Male",
+                "rate": 23.2
+            }
+        ],
+        "Kansas": [
+            {
+                "sex": "Female",
+                "rate": 10.9
+            },
+            {
+                "sex": "Male",
+                "rate": 20.3
+            }
+        ],
+        "Kentucky": [
+            {
+                "sex": "Female",
+                "rate": 28.6
+            },
+            {
+                "sex": "Male",
+                "rate": 66.8
+            }
+        ],
+        "Maine": [
+            {
+                "sex": "Female",
+                "rate": 20.3
+            },
+            {
+                "sex": "Male",
+                "rate": 54.1
+            }
+        ],
+        "Maryland": [
+            {
+                "sex": "Female",
+                "rate": 24.3
+            },
+            {
+                "sex": "Male",
+                "rate": 66.9
+            }
+        ],
+        "Massachusetts": [
+            {
+                "sex": "Female",
+                "rate": 17.8
+            },
+            {
+                "sex": "Male",
+                "rate": 50.3
+            }
+        ],
+        "Michigan": [
+            {
+                "sex": "Female",
+                "rate": 18.1
+            },
+            {
+                "sex": "Male",
+                "rate": 40.2
+            }
+        ],
+        "Minnesota": [
+            {
+                "sex": "Female",
+                "rate": 11.5
+            },
+            {
+                "sex": "Male",
+                "rate": 23.5
+            }
+        ],
+        "Mississippi": [
+            {
+                "sex": "Female",
+                "rate": 11.8
+            },
+            {
+                "sex": "Male",
+                "rate": 22.2
+            }
+        ],
+        "Montana": [
+            {
+                "sex": "Female",
+                "rate": 6.3
+            },
+            {
+                "sex": "Male",
+                "rate": 17.4
+            }
+        ],
+        "Nevada": [
+            {
+                "sex": "Female",
+                "rate": 18.0
+            },
+            {
+                "sex": "Male",
+                "rate": 40.8
+            }
+        ],
+        "New Hampshire": [
+            {
+                "sex": "Female",
+                "rate": 16.7
+            },
+            {
+                "sex": "Male",
+                "rate": 39.9
+            }
+        ],
+        "New Jersey": [
+            {
+                "sex": "Female",
+                "rate": 16.3
+            },
+            {
+                "sex": "Male",
+                "rate": 49.6
+            }
+        ],
+        "New Mexico": [
+            {
+                "sex": "Female",
+                "rate": 19.5
+            },
+            {
+                "sex": "Male",
+                "rate": 43.0
+            }
+        ],
+        "North Carolina": [
+            {
+                "sex": "Female",
+                "rate": 17.2
+            },
+            {
+                "sex": "Male",
+                "rate": 40.7
+            }
+        ],
+        "Ohio": [
+            {
+                "sex": "Female",
+                "rate": 29.1
+            },
+            {
+                "sex": "Male",
+                "rate": 63.5
+            }
+        ],
+        "Oklahoma": [
+            {
+                "sex": "Female",
+                "rate": 14.4
+            },
+            {
+                "sex": "Male",
+                "rate": 27.3
+            }
+        ],
+        "Oregon": [
+            {
+                "sex": "Female",
+                "rate": 10.3
+            },
+            {
+                "sex": "Male",
+                "rate": 23.0
+            }
+        ],
+        "Overall": [
+            {
+                "sex": "Female",
+                "rate": 18.1
+            },
+            {
+                "sex": "Male",
+                "rate": 43.3
+            }
+        ],
+        "Rhode Island": [
+            {
+                "sex": "Female",
+                "rate": 19.0
+            },
+            {
+                "sex": "Male",
+                "rate": 56.6
+            }
+        ],
+        "South Dakota": [
+            {
+                "sex": "Female",
+                "rate": 5.8
+            },
+            {
+                "sex": "Male",
+                "rate": 9.7
+            }
+        ],
+        "Utah": [
+            {
+                "sex": "Female",
+                "rate": 14.0
+            },
+            {
+                "sex": "Male",
+                "rate": 21.4
+            }
+        ],
+        "Vermont": [
+            {
+                "sex": "Female",
+                "rate": 18.2
+            },
+            {
+                "sex": "Male",
+                "rate": 43.3
+            }
+        ],
+        "Virginia": [
+            {
+                "sex": "Female",
+                "rate": 15.0
+            },
+            {
+                "sex": "Male",
+                "rate": 35.1
+            }
+        ],
+        "West Virginia": [
+            {
+                "sex": "Female",
+                "rate": 45.3
+            },
+            {
+                "sex": "Male",
+                "rate": 110.3
+            }
+        ]
+    },
+    "2021": {
+        "Alaska": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Arizona": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Connecticut": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Delaware": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "District of Columbia": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Georgia": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Kansas": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Kentucky": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Maine": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Maryland": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Massachusetts": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Michigan": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Minnesota": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Mississippi": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Montana": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Nevada": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "New Hampshire": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "New Jersey": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "New Mexico": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "North Carolina": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Ohio": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Oklahoma": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Oregon": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Overall": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Rhode Island": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "South Dakota": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Utah": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Vermont": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "Virginia": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ],
+        "West Virginia": [
+            {
+                "sex": "Female",
+                "rate": "n"
+            },
+            {
+                "sex": "Male",
+                "rate": "n"
+            }
+        ]
+    }
+}
