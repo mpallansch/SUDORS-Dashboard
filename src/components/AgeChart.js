@@ -22,7 +22,7 @@ function AgeChart(params) {
     '6': '65+'
   };
   
-  const { data, width, height, metric, state, colorScale, el } = params;
+  const { data, width, height, metric, state, colorScale, el, toFixed } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -48,9 +48,9 @@ function AgeChart(params) {
 
   const suppressedValue = (value) => {
     if(metric === 'rate'){
-      return value.count < rateCutoff ? '*' : value[metric].toFixed(1);
+      return value.count < rateCutoff ? '*' : toFixed(value[metric]);
     }
-    return value.count < countCutoff ? '*' : (value[metric].toFixed(1) + '%');
+    return value.count < countCutoff ? '*' : (toFixed(value[metric]) + '%');
   }
 
   const onScroll = () => {
@@ -110,8 +110,8 @@ function AgeChart(params) {
                     strokeWidth={2}
                     data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
                     Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                    Percent: ${(d.percent || 0).toFixed(1)}%<br/>
-                    Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                    Percent: ${toFixed(d.percent || 0)}%<br/>
+                    Rate: ${d.count < rateCutoff ? rateCutoffLabel : toFixed(d.rate)}`}
                   ></path>
                 ) : (
                   <>
@@ -130,7 +130,7 @@ function AgeChart(params) {
                       fill="transparent"
                       data-tip={`<strong>${ageMapping[d.age]} years</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Percent: ${(d.percent || 0).toFixed(1)}%<br/>
+                      Percent: ${toFixed(d.percent || 0)}%<br/>
                       Rate: *Data suppressed`}
                     />
                   </>

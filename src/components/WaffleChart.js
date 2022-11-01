@@ -5,7 +5,7 @@ import '../css/WaffleChart.css';
 
 function WaffleChart(params) {
 
-  const { data, width, height, header, accessible, colorScale } = params;
+  const { data, width, height, header, accessible, colorScale, toFixed } = params;
 
   const numDots = header ? 4 : 10;
   const rowValue = 100 / numDots;
@@ -33,7 +33,7 @@ function WaffleChart(params) {
       id="waffle-chart" 
       width={width} 
       height={header ? height : adjustedHeight}
-      data-tip={header ? undefined : `Deaths: ${Number(data.deaths).toLocaleString()}<br/>Percent: ${data.percent.toFixed(1)}%`}>
+      data-tip={header ? undefined : `Deaths: ${Number(data.deaths).toLocaleString()}<br/>Percent: ${toFixed(data.percent)}%`}>
       <Group top={margin.top} left={margin.left}>
         {rowList.map(rowIndex => {
           return colList.map(colIndex => {

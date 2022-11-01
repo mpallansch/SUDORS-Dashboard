@@ -10,7 +10,7 @@ import { rateCutoff, rateCutoffLabel } from '../constants.json';
 import '../css/SexChart.css';
 
 function SexChart(params) {
-  const { data, dataRates, width, height, metric, state, colorScale, el, accessible } = params;
+  const { data, dataRates, width, height, metric, state, colorScale, el, accessible, toFixed } = params;
   
   const [ animated, setAnimated ] = useState(false);
 
@@ -86,8 +86,8 @@ function SexChart(params) {
                     fill={colorScale[d.sex]}
                     data-tip={`<strong>${d.sex}</strong><br/>
                     Deaths: ${Number(d.count).toLocaleString()}<br/>
-                    Percent: ${(d.percent || 0).toFixed(1)}%<br/>
-                    Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : rate.toFixed(1)}`}
+                    Percent: ${toFixed(d.percent || 0)}%<br/>
+                    Age-adjusted rate: ${d.count < rateCutoff ? rateCutoffLabel : toFixed(rate)}`}
                   ></path>
                 )}
                 { // render suppressed bar
@@ -112,7 +112,7 @@ function SexChart(params) {
                   y={adjustedHeight - yScale(rate)}
                   textAnchor="middle"
                   dy={-15}
-                >{d.count <= rateCutoff ? rateCutoffLabel : rate.toFixed(1)}</text>
+                >{d.count <= rateCutoff ? rateCutoffLabel : toFixed(rate)}</text>
               </Group>
             )}
           )}
@@ -157,7 +157,7 @@ function SexChart(params) {
                   
                   if(arc.data.count <= rateCutoff) rate = rateCutoffLabel;
 
-                  arc.data.rate = rate.toFixed ? rate.toFixed(1) : rate;
+                  arc.data.rate = toFixed(rate);
                   
                   return (
                     <g 
@@ -169,7 +169,7 @@ function SexChart(params) {
                         fill={colorScale[arc.data.sex]}
                         data-tip={`<strong>${arc.data.sex}</strong><br/>
                           Deaths: ${Number(arc.data.count).toLocaleString()}<br/>
-                          Percent: ${(arc.data.percent || 0).toFixed(1)}%<br/>
+                          Percent: ${toFixed(arc.data.percent || 0)}%<br/>
                           Age-adjusted rate: ${arc.data.count <= rateCutoff ? rateCutoffLabel : arc.data.rate}`}
                       />
                       <text
@@ -182,7 +182,7 @@ function SexChart(params) {
                         textAnchor="middle"
                         pointerEvents="none"
                       >
-                        {arc.data.percent.toFixed(1)}%
+                        {toFixed(arc.data.percent)}%
                       </text>
                     </g>
                   )

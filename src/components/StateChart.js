@@ -15,7 +15,7 @@ function StateChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { data, dataRates, width, height, setState, el, state, drug, accessible, colorScale, state: globalState } = params;
+  const { data, dataRates, width, height, setState, el, state, drug, accessible, colorScale, state: globalState, toFixed } = params;
 
   const dataKeys = Object.keys(dataRates).filter(name => name !== 'max' && name !== 'min');
 
@@ -110,7 +110,7 @@ function StateChart(params) {
                       }}
                       data-tip={`<strong>${name}</strong><br/>
                       Deaths: ${deaths < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
-                      Age-adjusted rate: ${deaths < rateCutoff ? `*${rateCutoffLabel}` : rate.toFixed(1)}`}
+                      Age-adjusted rate: ${deaths < rateCutoff ? `*${rateCutoffLabel}` : toFixed(rate)}`}
                     ></path>
                     <text 
                       className="bar-label"
@@ -118,7 +118,7 @@ function StateChart(params) {
                       y={yScale(name)}
                       dy="12"
                       dx="5">
-                        {deaths < rateCutoff ? '*' : rate.toFixed(1)}
+                        {deaths < rateCutoff ? '*' : toFixed(rate)}
                     </text>
                   </Group>
                 )}

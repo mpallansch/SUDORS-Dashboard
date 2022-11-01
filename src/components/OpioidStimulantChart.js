@@ -13,7 +13,7 @@ function OpioidStimulantChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { data, width, height, el, accessible, colorScale } = params;
+  const { data, width, height, el, accessible, colorScale, toFixed } = params;
 
   const order = {'osPercent': 0, 'oPercent': 1, 'sPercent': 2, 'nPercent': 3};
   const keys = Object.keys(data[0]).filter(key => key.indexOf('Percent') !== -1);
@@ -63,7 +63,7 @@ function OpioidStimulantChart(params) {
             labelOverrides={{'name': 'Overdose deaths involving:', 'deaths': 'Number of deaths', 'percent': 'Percent of deaths'}}
             suffixes={{'percent': '%'}}
             transforms={{
-              percent: num => num.toFixed ? num.toFixed(1) : num
+              percent: num => toFixed(num)
             }}
             caption={'Opioid and stimulant breakdown in overdose deaths'}
           />
@@ -83,7 +83,7 @@ function OpioidStimulantChart(params) {
                       const name = bar.bar.data[bar.key.replace('Percent', 'Name')];
                       const rawCount = bar.bar.data[bar.key.replace('Percent', 'Count')];
                       const rawPercent = bar.bar.data[bar.key];
-                      const percent = rawPercent.toFixed(1);
+                      const percent = toFixed(rawPercent);
                       const cornerRadius = adjustedHeight * .1;
                       const xEnd = bar.x + bar.width;
                       const yEnd = bar.y + adjustedHeight;

@@ -15,7 +15,7 @@ function CauseChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { data, width, height, el, state, accessible, colorScale } = params;
+  const { data, width, height, el, state, accessible, colorScale, toFixed } = params;
 
   const margin = {top: 20, bottom: width < viewportCutoff ? 180 : 140, left: 70, right: 20};
   const adjustedWidth = width - margin.left - margin.right;
@@ -98,7 +98,7 @@ function CauseChart(params) {
             labelOverrides={labelOverrides}
             suffixes={{'causePercent': '%'}}
             transforms={{
-              causePercent: num => num.toFixed ? num.toFixed(1) : num
+              causePercent: num => toFixed(num)
             }}
             caption={'Overdose deaths by drug'}
             customBackground={true}
@@ -133,7 +133,7 @@ function CauseChart(params) {
                       fill={colorScale[d.opioid]}
                       data-tip={`<strong>${d.opioid}</strong><br/>
                       Deaths: ${d.causeCount < countCutoff ? `< ${countCutoff}` : Number(d.causeCount).toLocaleString()}<br/>
-                      Percent: ${d.causePercent.toFixed(1)}%`}
+                      Percent: ${toFixed(d.causePercent)}%`}
                     ></path>
                   </Group>
                 )

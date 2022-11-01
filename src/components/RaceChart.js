@@ -11,7 +11,7 @@ import '../css/RaceChart.css';
 
 function RaceChart(params) {
   
-  const { data, dataRates, width, height, metric, state, colorScale, el } = params;
+  const { data, dataRates, width, height, metric, state, colorScale, el, toFixed } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -60,10 +60,10 @@ function RaceChart(params) {
   const getData = (datum, otherDatum, label) => {
     if(metric === 'rate'){
       if(otherDatum.deaths <= rateCutoff) return label === true ? '*' : 0;
-      return (label === true ? datum.rate.toFixed(1) : datum.rate);
+      return (label === true ? toFixed(datum.rate) : datum.rate);
     }
     if(datum.deaths < countCutoff) return label === true ? '*' : 0
-    return (label === true ? `${datum.percent.toFixed(1)}%` : datum.percent);
+    return (label === true ? `${toFixed(datum.percent)}%` : datum.percent);
   };
 
   const xScale = scaleLinear({
@@ -131,8 +131,8 @@ function RaceChart(params) {
                       strokeWidth={2}
                       data-tip={`<strong>${tooltipLabels[d.race] || d.race}</strong><br/>
                       Deaths: ${(deaths) < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
-                      Percent: ${(percent || 0).toFixed(1)}%<br/>
-                      Age-adjusted rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : (d.rate || datum.rate).toFixed(1)}`}
+                      Percent: ${toFixed(percent || 0)}%<br/>
+                      Age-adjusted rate: ${(deaths) <= rateCutoff ? rateCutoffLabel : toFixed(d.rate || datum.rate)}`}
                     ></path>
                   ) : (
                     <>
@@ -157,7 +157,7 @@ function RaceChart(params) {
                         fill="transparent"
                         data-tip={`<strong>${tooltipLabels[d.race] || d.race}</strong><br/>
                         Deaths: ${deaths < countCutoff ? `< ${countCutoff}` : Number(deaths).toLocaleString()}<br/>
-                        Percent: ${(percent || 0).toFixed(1)}%<br/>
+                        Percent: ${toFixed(percent || 0)}%<br/>
                         Rate: *Data suppressed`}
                       />
                     </>

@@ -173,6 +173,13 @@ function App(params) {
     >{drugLabel || drugName}</button> 
   );
 
+  const toFixed = (num, places = 1) => {
+    if(num && num.toFixed){
+      return num.toFixed(places);
+    }
+    return num;
+  }
+
   useEffect(() => {
     Promise.all(datasetKeys.map(key => fetch(datasetUrls[key])))
       .then(async responses => {
@@ -246,7 +253,7 @@ function App(params) {
                 data={[
                   {quarter: `Total in ${year}`, value: datasets.totalData[state], percent: '100.0'}, 
                   {quarter: `Quarter of ${year}`, spacer: true, colSpan: 2},
-                  ...datasets.timeData[state].quarter.map(d => ({quarter: monthLabelOverrides[d.quarter], value: d.value, percent: ((d.value / datasets.totalData[state] * 1000) / 10).toFixed(1)})), 
+                  ...datasets.timeData[state].quarter.map(d => ({quarter: monthLabelOverrides[d.quarter], value: d.value, percent: toFixed((d.value / datasets.totalData[state] * 1000) / 10)})), 
                   {quarter: <>At least one potential opportunity for intervention<sup>a</sup></>, value: datasets.interventionData[state].deaths, percent: datasets.interventionData[state].percent}
                 ]}
                 xAxisKey={'quarter'}
@@ -259,7 +266,7 @@ function App(params) {
                   'percent': '%'
                 }}
                 transforms={{
-                  percent: num => num.toFixed ? num.toFixed(1) : num
+                  percent: num => toFixed(num)
                 }}
               />
           </>
@@ -292,9 +299,10 @@ function App(params) {
                   width={getDimension(headerWaffleChartRef, 'width')}
                   height={getDimension(headerWaffleChartRef, 'height')}
                   header={true}
+                  toFixed={toFixed}
                 />
               </div>
-              <span className="header-text" aria-describedby="footnote-a"><strong>{datasets.interventionData[state].percent.toFixed(1)}%</strong> had at least one potential opportunity for intervention<sup>a</sup></span>
+              <span className="header-text" aria-describedby="footnote-a"><strong>{toFixed(datasets.interventionData[state].percent)}%</strong> had at least one potential opportunity for intervention<sup>a</sup></span>
             </div>
           </div>
         )}
@@ -345,7 +353,8 @@ function App(params) {
             state={state}
             drug={drug}
             accessible={accessible}
-            colorScale={colorScale} />
+            colorScale={colorScale}
+            toFixed={toFixed} />
         </div>
         {!accessible && <p className="text-align-center margin-bottom-extra">Age-adjusted rate of deaths per 100,000 persons<sup>†</sup></p>}
         {!accessible && <p className="scale-note"><sup>†</sup> Scale of the chart may change based on the data presented</p>}
@@ -353,7 +362,7 @@ function App(params) {
 
       <div className="section divider">
         <h3 className="subheader" aria-describedby="footnote-f">Percentages<sup>f</sup> of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
-        <p>{datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent.toFixed(1)}% of deaths involved at least one opioid and {datasets.causeData[state].find(d => d.opioid === 'Any Stimulants').causePercent.toFixed(1)}% involved at least one stimulant. {lowerCaseCustom(datasets.additionalDrugData[state].commonOpioid)} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioid{datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? '' : 's'}. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulants.toLowerCase()}.</p>
+        <p>{toFixed(datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent)}% of deaths involved at least one opioid and {toFixed(datasets.causeData[state].find(d => d.opioid === 'Any Stimulants').causePercent)}% involved at least one stimulant. {lowerCaseCustom(datasets.additionalDrugData[state].commonOpioid)} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioid{datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? '' : 's'}. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulants.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
             <CauseChart 
@@ -363,14 +372,15 @@ function App(params) {
               el={causeChartRef}
               state={state}
               accessible={accessible}
-              colorScale={colorScale} />
+              colorScale={colorScale}
+              toFixed={toFixed} />
           </div>
         </div>
       </div>
 
       <div className="section divider">
         <h3 className="subheader" aria-describedby="footnote-g">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination<sup>g</sup>, {stateLabel}</h3>
-        <p>The five most frequently occurring opioids and stimulants, alone or in combination, accounted for {datasets.combinationData[state].total.toFixed(1)}% of overdose deaths. The specific breakdown is represented below.</p>
+        <p>The five most frequently occurring opioids and stimulants, alone or in combination, accounted for {toFixed(datasets.combinationData[state].total)}% of overdose deaths. The specific breakdown is represented below.</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" className="chart-container" ref={drugCombinationChartRef}>
             <DrugCombinationChart 
@@ -380,14 +390,15 @@ function App(params) {
               el={drugCombinationChartRef}
               accessible={accessible}
               colorScale={colorScale}
-              allStatesMax={allStatesComintaionMax} />
+              allStatesMax={allStatesComintaionMax}
+              toFixed={toFixed} />
           </div>
         </div>
       </div>
 
       <div className="section divider">
         <h3 className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</h3>
-        <p>The largest percentage of deaths involved {datasets.opioidStimulantData[state].max ? datasets.opioidStimulantData[state].max.toLowerCase() : '[error]'}, while {datasets.opioidStimulantData[state].minPercent ? datasets.opioidStimulantData[state].minPercent.toFixed(1) : '[error]'}% of overdose deaths involved {datasets.opioidStimulantData[state].min ? datasets.opioidStimulantData[state].min.toLowerCase() : '[error]'}.</p>
+        <p>The largest percentage of deaths involved {datasets.opioidStimulantData[state].max ? datasets.opioidStimulantData[state].max.toLowerCase() : '[error]'}, while {toFixed(datasets.opioidStimulantData[state].minPercent)}% of overdose deaths involved {datasets.opioidStimulantData[state].min ? datasets.opioidStimulantData[state].min.toLowerCase() : '[error]'}.</p>
         <div className="subsection no-pad">
           <div id="opioid-stimulant-chart-container" className="chart-container" ref={opioidStimulantChartRef}>
             <OpioidStimulantChart 
@@ -396,7 +407,8 @@ function App(params) {
                 height={getDimension(opioidStimulantChartRef, 'height')}
                 el={opioidStimulantChartRef}
                 accessible={accessible}
-                colorScale={colorScale} />
+                colorScale={colorScale}
+                toFixed={toFixed} />
           </div>
           {!accessible && (<div id="opioid-stimulant-chart-legend">
             <span className="indicator-container"><svg className="indicator"><rect width="100%" height="100%" fill={colorScale['Opioids with stimulants']}/></svg><span>Opioids with stimulants</span></span>
@@ -431,7 +443,7 @@ function App(params) {
         <div className="header margin">
           <h2 className="preheader-label" aria-describedby="footnote-h">Who died of a drug overdose in {year}, {stateLabel}?<sup>h</sup></h2>{stateSelector}
         </div>
-        <p>{sexMax.percent.toFixed(1)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {ageMax.percent.toFixed(1)}% were {ageMapping[ageMax.age]} years old, and {raceMax.percent.toFixed(1)}% were {raceMax.race}.
+        <p>{toFixed(sexMax.percent)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {toFixed(ageMax.percent)}% were {ageMapping[ageMax.age]} years old, and {toFixed(raceMax.percent)}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}. {sexRateMax.sex}, {ageMapping[ageRateMax.age]}, and {raceMapping[raceRateMax.race] || raceRateMax.race} race had the highest overdose death rates.</p>
 
         {accessible ? (
@@ -481,8 +493,8 @@ function App(params) {
                 percent: '%'
               }}
               transforms={{
-                percent: num => num.toFixed ? num.toFixed(1) : num,
-                rate: num => num.toFixed ? num.toFixed(1) : num
+                percent: num => toFixed(num),
+                rate: num => toFixed(num)
               }}
               customBackground={true}
             />
@@ -529,6 +541,7 @@ function App(params) {
                     colorScale={colorScale} 
                     el={sexChartRef}
                     accessible={accessible}
+                    toFixed={toFixed}
                   />
                 </div>
                 {metric !== 'rate' && !accessible && (<div id="sex-chart-legend">
@@ -551,6 +564,7 @@ function App(params) {
                       colorScale={colorScale}
                       el={raceChartRef}
                       accessible={accessible}
+                      toFixed={toFixed}
                     />
                 </div>
                 <p>NH: non-Hispanic</p>
@@ -569,6 +583,7 @@ function App(params) {
                       colorScale={colorScale}
                       el={ageChartRef}
                       accessible={accessible}
+                      toFixed={toFixed}
                     />
                 </div>
               </div>
@@ -586,6 +601,7 @@ function App(params) {
                     colorScale={colorScale}
                     el={ageBySexChartRef}
                     accessible={accessible}
+                    toFixed={toFixed}
                   />
                 </div>
                 {!accessible && (<div className="age-chart-legend">
@@ -615,11 +631,12 @@ function App(params) {
                   header={false}
                   accessible={accessible}
                   colorScale={colorScale}
+                  toFixed={toFixed}
                 />
               </div>
             </div>
             <div className="waffle-column waffle-column-right">
-              <span className="waffle-label font-xxl">{datasets.interventionData[state].percent.toFixed(1)}%</span><br/>
+              <span className="waffle-label font-xxl">{toFixed(datasets.interventionData[state].percent)}%</span><br/>
               <span className="waffle-label">of drug overdose deaths had at least one potential opportunity for intervention</span>
             </div>
           </div> 
@@ -635,6 +652,7 @@ function App(params) {
               accessible={accessible}
               colorScale={colorScale}
               allStatesMax={allStatesCircumstanceMax}
+              toFixed={toFixed}
             />
           </div>
         </div> 
@@ -648,11 +666,11 @@ function App(params) {
           <div className="additional-circumstance-container">
             {!accessible && datasets.circumstancesData[state]['other'].map(d => (
               <div key={`circtumstance-${d.circumstance}`} className="circumstance-container">
-                <div className="circumstance-icon-container" data-tip={`<strong>${d.circumstance}</strong><br/>Deaths: ${Number(d.count).toLocaleString()}<br/>Percent: ${d.percent.toFixed(1)}%`}>
+                <div className="circumstance-icon-container" data-tip={`<strong>${d.circumstance}</strong><br/>Deaths: ${Number(d.count).toLocaleString()}<br/>Percent: ${toFixed(d.percent)}%`}>
                   <span className={`fi ${icons[d.circumstance]} icon icon-fw fill-s x64`} aria-hidden="true"></span>
                 </div>
                 <div className="circumstance-label-container">
-                  <span className="circumstance-value">{d.percent.toFixed(1)}%</span>
+                  <span className="circumstance-value">{toFixed(d.percent)}%</span>
                   {d.circumstance}
                   {d.circumstance === 'Naloxone administered' && <sup aria-describedby="footnote-n">n</sup>}
                   {d.circumstance === 'Recent return to use of opioids' && <sup aria-describedby="footnote-o">o</sup>}
@@ -675,7 +693,7 @@ function App(params) {
                 'percent': '%'
               }}
               transforms={{
-                percent: num => num.toFixed ? num.toFixed(1) : num
+                percent: num => toFixed(num)
               }}
             />}
           </div>

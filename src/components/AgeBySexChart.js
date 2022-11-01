@@ -22,7 +22,7 @@ function AgeBySexChart(params) {
     '6': '65+'
   };
   
-  const { data, width, height, metric, state, colorScale, el, accessible } = params;
+  const { data, width, height, metric, state, colorScale, el, accessible, toFixed } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -49,9 +49,9 @@ function AgeBySexChart(params) {
 
   const suppressedValue = (value) => {
     if(metric === 'rate'){
-      return value.count < rateCutoff ? '*' : value[metric].toFixed(1);
+      return value.count < rateCutoff ? '*' : toFixed(value[metric]);
     }
-    return value.count < countCutoff ? '*' : (value[metric].toFixed(1) + '%');
+    return value.count < countCutoff ? '*' : (toFixed(value[metric]) + '%');
   }
 
   const onScroll = () => {
@@ -109,8 +109,8 @@ function AgeBySexChart(params) {
                     fill={colorScale.Male}
                     data-tip={`<strong>Male, ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                    Percent: ${(d.percent || 0).toFixed(1)}%<br/>
-                    Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                    Percent: ${toFixed(d.percent || 0)}%<br/>
+                    Rate: ${d.count < rateCutoff ? rateCutoffLabel : toFixed(d.rate)}`}
                   ></path>
                 ) : (
                   <>
@@ -129,7 +129,7 @@ function AgeBySexChart(params) {
                       fill="transparent"
                       data-tip={`<strong>Male, ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Percent: ${(d.percent || 0).toFixed(1)}%<br/>
+                      Percent: ${toFixed(d.percent || 0)}%<br/>
                       Rate: *Data suppressed`}
                     />
                   </>
@@ -162,8 +162,8 @@ function AgeBySexChart(params) {
                     fill={colorScale.Female}
                     data-tip={`<strong>Female, ${ageMapping[d.age]}</strong><br/>
                     Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                    Percent: ${(d.percent || 0).toFixed(1)}%<br/>
-                    Rate: ${d.count < rateCutoff ? rateCutoffLabel : d.rate.toFixed(1)}`}
+                    Percent: ${toFixed(d.percent || 0)}%<br/>
+                    Rate: ${d.count < rateCutoff ? rateCutoffLabel : toFixed(d.rate)}`}
                   ></path>
                 ) : (
                   <>
@@ -182,7 +182,7 @@ function AgeBySexChart(params) {
                       fill="transparent"
                       data-tip={`<strong>Female, ${ageMapping[d.age]}</strong><br/>
                       Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                      Percent: ${(d.percent || 0).toFixed(1)}%<br/>
+                      Percent: ${toFixed(d.percent || 0)}%<br/>
                       Rate: *Data suppressed`}
                     />
                   </>

@@ -10,7 +10,7 @@ import '../css/CircumstancesChart.css';
 
 function CircumstancesChart(params) {
 
-  const { data, atLeastOneValue, width, height, accessible, colorScale, allStatesMax } = params;
+  const { data, atLeastOneValue, width, height, accessible, colorScale, allStatesMax, toFixed } = params;
   const metric = 'intervention';
   const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 15};
   const adjustedWidth = width - margin.left - margin.right;
@@ -47,7 +47,7 @@ function CircumstancesChart(params) {
           'percent': '%'
         }}
         transforms={{
-          percent: num => num.toFixed ? num.toFixed(1) : num
+          percent: num => toFixed(num)
         }}
         caption={'Circumstances involved in drug deaths'}
       />
@@ -72,9 +72,9 @@ function CircumstancesChart(params) {
                   fill={colorScale.Intervention}
                   data-tip={`<strong>${d.circumstance}</strong><br/>
                   Deaths: ${d.count < countCutoff ? `< ${countCutoff}` : Number(d.count).toLocaleString()}<br/>
-                  Percent: ${(d.percent || 0).toFixed(1)}%`}
+                  Percent: ${toFixed(d.percent || 0)}%`}
                 />
-                <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Intervention}>{d.percent.toFixed(1)}%</text>
+                <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.circumstance) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Intervention}>{toFixed(d.percent)}%</text>
                 <foreignObject x={0} y={yScale(d.circumstance) + barThickness + margin.bar} width={adjustedWidth} height="50">
                   <span>{d.circumstance}
                     {d.circumstance === 'Current treatment for substance use disorder(s)' && <> <sup aria-describedby="footnote-j">j</sup></>}

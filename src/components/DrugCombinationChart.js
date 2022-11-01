@@ -11,7 +11,7 @@ import DataTable from './DataTable';
 
 function DrugCombinationChart(params) {
 
-  const { data, width, height, accessible, colorScale, allStatesMax } = params;
+  const { data, width, height, accessible, colorScale, allStatesMax, toFixed } = params;
 
   const margin = {top: 10, bottom: 10, left: 0, right: 0, bar: 20};
   const adjustedWidth = width - margin.left - margin.right;
@@ -42,7 +42,7 @@ function DrugCombinationChart(params) {
               labelOverrides={labelOverrides}
               suffixes={{'percent': '%'}}
               transforms={{
-                percent: num => num.toFixed ? num.toFixed(1) : num
+                percent: num => toFixed(num)
               }}
               caption={'Drug combinations involved in overdose deaths'}
             />
@@ -67,9 +67,9 @@ function DrugCombinationChart(params) {
                         fill={colorScale.Combination}
                         data-tip={`<strong>${d.drugCombination}</strong><br/>
                         Deaths: ${d.deaths < countCutoff ? `< ${countCutoff}` : Number(d.deaths).toLocaleString()}<br/>
-                        Percent: ${d.percent ? d.percent.toFixed(1) : 0}%`}
+                        Percent: ${toFixed(d.percent)}%`}
                       />
-                      <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.drugCombination) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Combination}>{d.percent.toFixed(1)}%</text>
+                      <text x={(xScale(d.percent) || 0) + 15} y={yScale(d.drugCombination) + barThickness + 2} fontWeight="bold" fontSize="medium" fill={colorScale.Combination}>{toFixed(d.percent)}%</text>
                       <Text width={adjustedWidth} x={0}  y={yScale(d.drugCombination) + barThickness + margin.bar} verticalAnchor="start">{d.drugCombination}</Text>
                     </Group>
                   )
