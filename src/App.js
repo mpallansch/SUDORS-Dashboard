@@ -307,7 +307,7 @@ function App(params) {
           </div>
         )}
         <div className="header margin">
-          <h2 className="preheader-label">What drugs were involved in overdose deaths in {year}, {stateLabel}?</h2>{stateSelector}
+          <h2 className="preheader-label">What drugs were involved in overdose deaths in {year}, {stateLabel}?</h2>{stateSelector}{yearSelector}
         </div>
         <h3 className="subheader">Rate of overdose deaths by state and drug or drug class</h3>
         {dimensions.width < viewportCutoffSmall && (
@@ -421,7 +421,7 @@ function App(params) {
 
       <div className="section">
         <div className="header margin">
-          <h2 className="preheader-label">How many drug overdose deaths occurred each month in {year}, {stateLabel}?</h2>{stateSelector}
+          <h2 className="preheader-label">How many drug overdose deaths occurred each month in {year}, {stateLabel}?</h2>{stateSelector}{yearSelector}
         </div>
         <div className="subsection">
           <div id="line-chart-container" className="chart-container" ref={monthChartRef}>
@@ -441,7 +441,7 @@ function App(params) {
 
       <div className="section">
         <div className="header margin">
-          <h2 className="preheader-label" aria-describedby="footnote-h">Who died of a drug overdose in {year}, {stateLabel}?<sup>h</sup></h2>{stateSelector}
+          <h2 className="preheader-label" aria-describedby="footnote-h">Who died of a drug overdose in {year}, {stateLabel}?<sup>h</sup></h2>{stateSelector}{yearSelector}
         </div>
         <p>{toFixed(sexMax.percent)}% of people who died of a drug overdose were {sexMax.sex.toLowerCase()}, {toFixed(ageMax.percent)}% were {ageMapping[ageMax.age]} years old, and {toFixed(raceMax.percent)}% were {raceMax.race}.
         The largest percentage of males were aged {ageMapping[maleAgeMax.age]} and the largest percentage of females were aged {ageMapping[femaleAgeMax.age]}. {sexRateMax.sex}, {ageMapping[ageRateMax.age]}, and {raceMapping[raceRateMax.race] || raceRateMax.race} race had the highest overdose death rates.</p>
@@ -616,7 +616,7 @@ function App(params) {
 
       <div className="section opioid-section">
         <div className="header margin">
-          <h2 className="preheader-label" aria-describedby="footnote-i">What were the circumstances<sup>i</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}
+          <h2 className="preheader-label" aria-describedby="footnote-i">What were the circumstances<sup>i</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}{yearSelector}
         </div>
         <span className="subheader margin-bottom">Potential opportunities for intervention<sup>a</sup></span>
         <p>Potential opportunities for intervention include linkage to care or life-saving actions at the time of the overdose.</p>
