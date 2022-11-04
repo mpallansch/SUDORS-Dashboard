@@ -10,60 +10,34 @@ import { countCutoff } from '../constants.json';
 
 import '../css/MonthChart.css';
 
-const monthMappingFull = {
-  '37': 'January',
-  '38': 'February',
-  '39': 'March',
-  '40': 'April',
-  '41': 'May',
-  '42': 'June',
-  '43': 'July',
-  '44': 'August',
-  '45': 'September',
-  '46': 'October',
-  '47': 'November',
-  '48': 'December',
-  '49': 'January',
-  '50': 'February',
-  '51': 'March',
-  '52': 'April',
-  '53': 'May',
-  '54': 'June',
-  '55': 'July',
-  '56': 'August',
-  '57': 'September',
-  '58': 'October',
-  '59': 'November',
-  '60': 'December',
-  '61': 'January'
+let monthMappingFull = {
+  '1': 'January',
+  '2': 'February',
+  '3': 'March',
+  '4': 'April',
+  '5': 'May',
+  '6': 'June',
+  '7': 'July',
+  '8': 'August',
+  '9': 'September',
+  '10': 'October',
+  '11': 'November',
+  '0': 'December'
 };
 
-const monthMapping = {
-  '37': 'Jan',
-  '38': 'Feb',
-  '39': 'Mar',
-  '40': 'Apr',
-  '41': 'May',
-  '42': 'Jun',
-  '43': 'Jul',
-  '44': 'Aug',
-  '45': 'Sep',
-  '46': 'Oct',
-  '47': 'Nov',
-  '48': 'Dec',
-  '49': 'Jan',
-  '50': 'Feb',
-  '51': 'Mar',
-  '52': 'Apr',
-  '53': 'May',
-  '54': 'Jun',
-  '55': 'Jul',
-  '56': 'Aug',
-  '57': 'Sep',
-  '58': 'Oct',
-  '59': 'Nov',
-  '60': 'Dec',
-  '61': 'Jan'
+let monthMapping = {
+  '1': 'Jan',
+  '2': 'Feb',
+  '3': 'Mar',
+  '4': 'Apr',
+  '5': 'May',
+  '6': 'Jun',
+  '7': 'Jul',
+  '8': 'Aug',
+  '9': 'Sep',
+  '10': 'Oct',
+  '11': 'Nov',
+  '0': 'Dec'
 };
 
 const quarterMapping = {
@@ -82,10 +56,16 @@ function MonthChart(params) {
 
   const dataMonth = data.month;
   const dataQuarter = data.quarter;
+  const monthNumMax = Math.max(...data.month.map(datum => datum.month));
   const margin = {top: 10, bottom: (header ? 10 : 50), left: (header ? 0 : 90), right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
   const quarterKey = 'quarter';
+
+  for(let i = 12; i <= monthNumMax; i++){
+    monthMapping[i] = monthMapping[i % 12];
+    monthMappingFull[i] = monthMappingFull[i % 12];
+  }
 
   const labelOverrides = {'value': 'Number of deaths', 'month': 'Month of death'};
 
