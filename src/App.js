@@ -361,7 +361,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <h3 className="subheader" aria-describedby="footnote-f">Percentages<sup>f</sup> of overdose deaths involving select drugs and drug classes, {stateLabel}</h3>
+        <h3 className="subheader" aria-describedby="footnote-f">Percentages<sup>f</sup> of overdose deaths involving select drugs and drug classes in {year}, {stateLabel}</h3>
         <p>{toFixed(datasets.causeData[state].find(d => d.opioid === 'Any Opioids').causePercent)}% of deaths involved at least one opioid and {toFixed(datasets.causeData[state].find(d => d.opioid === 'Any Stimulants').causePercent)}% involved at least one stimulant. {lowerCaseCustom(datasets.additionalDrugData[state].commonOpioid)} {datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? 'was' : 'were'} the most commonly involved opioid{datasets.additionalDrugData[state].commonOpioid === 'Heroin' ? '' : 's'}. The most common stimulant involved in overdose deaths was {datasets.additionalDrugData[state].commonStimulants.toLowerCase()}.</p>
         <div className="subsection">
           <div id="cause-chart-container" className="chart-container" ref={causeChartRef}>
@@ -379,7 +379,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <h3 className="subheader" aria-describedby="footnote-g">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination<sup>g</sup>, {stateLabel}</h3>
+        <h3 className="subheader" aria-describedby="footnote-g">Percentages of overdose deaths involving the most common opioids and stimulants alone or in combination<sup>g</sup> in {year}, {stateLabel}</h3>
         <p>The five most frequently occurring opioids and stimulants, alone or in combination, accounted for {toFixed(datasets.combinationData[state].total)}% of overdose deaths. The specific breakdown is represented below.</p>
         <div className="subsection no-padding">
           <div id="drug-combination-chart-container" className="chart-container" ref={drugCombinationChartRef}>
@@ -397,7 +397,7 @@ function App(params) {
       </div>
 
       <div className="section divider">
-        <h3 className="subheader">Distribution of overdose deaths by opioid and stimulant involvement, {stateLabel}</h3>
+        <h3 className="subheader">Distribution of overdose deaths by opioid and stimulant involvement in {year}, {stateLabel}</h3>
         <p>The largest percentage of deaths involved {datasets.opioidStimulantData[state].max ? datasets.opioidStimulantData[state].max.toLowerCase() : '[error]'}, while {toFixed(datasets.opioidStimulantData[state].minPercent)}% of overdose deaths involved {datasets.opioidStimulantData[state].min ? datasets.opioidStimulantData[state].min.toLowerCase() : '[error]'}.</p>
         <div className="subsection no-pad">
           <div id="opioid-stimulant-chart-container" className="chart-container" ref={opioidStimulantChartRef}>
@@ -616,9 +616,9 @@ function App(params) {
 
       <div className="section opioid-section">
         <div className="header margin">
-          <h2 className="preheader-label" aria-describedby="footnote-i">What were the circumstances<sup>i</sup> surrounding overdose deaths, {stateLabel}?</h2>{stateSelector}{yearSelector}
+          <h2 className="preheader-label" aria-describedby="footnote-i">What were the circumstances<sup>i</sup> surrounding overdose deaths in {year}, {stateLabel}?</h2>{stateSelector}{yearSelector}
         </div>
-        <span className="subheader margin-bottom">Potential opportunities for intervention<sup>a</sup></span>
+        <span className="subheader margin-bottom">Potential opportunities for intervention<sup>a</sup> in {year}</span>
         <p>Potential opportunities for intervention include linkage to care or life-saving actions at the time of the overdose.</p>
         {!accessible && (
           <div className="column column-left">
@@ -662,7 +662,7 @@ function App(params) {
 
       <div className="section divider">
         <div className="subsection">
-          <span className="subheader margin-bottom">Additional circumstances surrounding overdose deaths</span>
+          <span className="subheader margin-bottom">Additional circumstances surrounding overdose deaths in {year}</span>
           <div className="additional-circumstance-container">
             {!accessible && datasets.circumstancesData[state]['other'].map(d => (
               <div key={`circtumstance-${d.circumstance}`} className="circumstance-container">
