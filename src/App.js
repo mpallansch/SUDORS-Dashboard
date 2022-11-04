@@ -213,6 +213,27 @@ function App(params) {
   const allStatesComintaionMax = Math.max(...Object.keys(datasets.totalData).map(state => Math.max(...datasets.combinationData[state].combinations.map(d => d.percent))));
   const monthOverallMax = [...datasets.timeData['Overall'].month.sort((a,b) => a.value < b.value ? 1 : -1)][0].value;
 
+  let multiYearDrugMaxes = {};
+  Object.keys(rawDatasets.drugDataRates).forEach(year => {
+    Object.keys(rawDatasets.drugDataRates[year]).forEach(drug => {
+      if(!multiYearDrugMaxes[drug] || multiYearDrugMaxes[drug] < rawDatasets.drugDataRates[year][drug].max){
+        multiYearDrugMaxes[drug] = rawDatasets.drugDataRates[year][drug].max;
+      }
+    })
+  })
+
+  let multiYearTimeMaxes = {};
+  Object.keys(rawDatasets.timeData).forEach(year => {
+    let monthMax = Math.max(...rawDatasets.timeData[year][state].month.map(item => item.value));
+    let quarterMax = Math.max(...rawDatasets.timeData[year][state].quarter.map(item => item.value));
+    if(!multiYearTimeMaxes.month || multiYearTimeMaxes.month < monthMax){
+      multiYearTimeMaxes.month = monthMax;
+    }
+    if(!multiYearTimeMaxes.quarter || multiYearTimeMaxes.quarter < quarterMax){
+      multiYearTimeMaxes.quarter = quarterMax;
+    }
+  });
+
   const stateSelector = (
     <select aria-label="View data by state" value={state} onChange={(e) => setState(e.target.value)}>
       {Object.keys(datasets.totalData).sort((a, b) => {
@@ -282,6 +303,7 @@ function App(params) {
               <div id="header-line-chart-container" className="chart-container" ref={headerMonthChartRef}>
                 <MonthChart 
                     data={datasets.timeData[state]}
+                    maxes={multiYearTimeMaxes}
                     width={getDimension(headerMonthChartRef, 'width')}
                     height={getDimension(headerMonthChartRef, 'height')}
                     header={true}
@@ -346,6 +368,7 @@ function App(params) {
           <StateChart
             data={datasets.mapData[drug]}
             dataRates={datasets.drugDataRates[drug]}
+            max={multiYearDrugMaxes[drug]}
             width={getDimension(stateChartRef, 'width')}
             height={getDimension(stateChartRef, 'height')}
             setState={setState}
@@ -427,6 +450,7 @@ function App(params) {
           <div id="line-chart-container" className="chart-container" ref={monthChartRef}>
             <MonthChart 
               data={datasets.timeData[state]}
+              maxes={multiYearTimeMaxes}
               width={getDimension(monthChartRef, 'width')}
               height={getDimension(monthChartRef, 'height')}
               header={false}

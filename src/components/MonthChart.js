@@ -77,7 +77,7 @@ function MonthChart(params) {
 
   const viewportCutoff = 600;
 
-  const { data, width, height, header, colorScale, el, accessible, overallMax } = params;
+  const { data, maxes, width, height, header, colorScale, el, accessible, overallMax } = params;
   const [ animated, setAnimated ] = useState(false);
 
   const dataMonth = data.month;
@@ -106,7 +106,7 @@ function MonthChart(params) {
   const halfHeight = adjustedHeight / 2;
   const quarterHeight = halfHeight / 2;
 
-  const max = Math.max(...(header ? dataQuarter : dataMonth).map(d => d.value));
+  const max = header ? maxes.quarter : maxes.month;
   const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : Math.ceil(overallMax / 1000) * 1000;
 
   const yScale = scaleLinear({

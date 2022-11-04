@@ -15,7 +15,7 @@ function StateChart(params) {
 
   const [ animated, setAnimated ] = useState(false);
 
-  const { data, dataRates, width, height, setState, el, state, drug, accessible, colorScale, state: globalState, toFixed } = params;
+  const { data, dataRates, max, width, height, setState, el, state, drug, accessible, colorScale, state: globalState, toFixed } = params;
 
   const dataKeys = Object.keys(dataRates).filter(name => name !== 'max' && name !== 'min');
 
@@ -31,7 +31,7 @@ function StateChart(params) {
   };
 
   const xScale = scaleLinear({
-    domain: [0, Math.max(...dataKeys.map(d => dataRates[d].rate)) * (width < viewportCutoff ? 1.3 : 1.1)],
+    domain: [0, max * (width < viewportCutoff ? 1.3 : 1.1)],
     range: [ 0, adjustedWidth ]
   });
 
