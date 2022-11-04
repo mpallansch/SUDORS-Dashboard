@@ -210,7 +210,7 @@ function App(params) {
   const sexRateMax = [...datasets.sexDataRates[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
   const raceRateMax = [...datasets.raceDataRates[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
   const allStatesCircumstanceMax = Math.max(...Object.keys(datasets.totalData).map(state => Math.max(...datasets.circumstancesData[state].intervention.map(d => d.percent))));
-  const allStatesComintaionMax = Math.max(...Object.keys(datasets.totalData).map(state => Math.max(...datasets.combinationData[state].combinations.map(d => d.percent))));
+  const allStatesCombinationMax = Math.max(...Object.keys(datasets.totalData).map(state => Math.max(...datasets.combinationData[state].combinations.map(d => d.percent))));
   const monthOverallMax = [...datasets.timeData['Overall'].month.sort((a,b) => a.value < b.value ? 1 : -1)][0].value;
 
   let multiYearDrugMaxes = {};
@@ -413,7 +413,7 @@ function App(params) {
               el={drugCombinationChartRef}
               accessible={accessible}
               colorScale={colorScale}
-              allStatesMax={allStatesComintaionMax}
+              allStatesMax={allStatesCombinationMax}
               toFixed={toFixed} />
           </div>
         </div>
