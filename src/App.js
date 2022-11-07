@@ -224,13 +224,15 @@ function App(params) {
 
   let multiYearTimeMaxes = {};
   Object.keys(rawDatasets.timeData).forEach(year => {
-    let monthMax = Math.max(...rawDatasets.timeData[year][state].month.map(item => item.value));
-    let quarterMax = Math.max(...rawDatasets.timeData[year][state].quarter.map(item => item.value));
-    if(!multiYearTimeMaxes.month || multiYearTimeMaxes.month < monthMax){
-      multiYearTimeMaxes.month = monthMax;
-    }
-    if(!multiYearTimeMaxes.quarter || multiYearTimeMaxes.quarter < quarterMax){
-      multiYearTimeMaxes.quarter = quarterMax;
+    if(rawDatasets.timeData[year][state]){
+      let monthMax = Math.max(...rawDatasets.timeData[year][state].month.map(item => item.value));
+      let quarterMax = Math.max(...rawDatasets.timeData[year][state].quarter.map(item => item.value));
+      if(!multiYearTimeMaxes.month || multiYearTimeMaxes.month < monthMax){
+        multiYearTimeMaxes.month = monthMax;
+      }
+      if(!multiYearTimeMaxes.quarter || multiYearTimeMaxes.quarter < quarterMax){
+        multiYearTimeMaxes.quarter = quarterMax;
+      }
     }
   });
 
@@ -252,7 +254,7 @@ function App(params) {
 
   const yearSelector = (
     <select aria-label="View data by year" value={year} onChange={(e) => setYear(e.target.value)}>
-      {Object.keys(rawDatasets.totalData).map(year => (
+      {Object.keys(rawDatasets.totalData).filter(year => rawDatasets.totalData[year][state] !== undefined).map(year => (
         <option key={`dropdown-option-${year}`} value={year}>{year}</option>
       ))}
     </select>
