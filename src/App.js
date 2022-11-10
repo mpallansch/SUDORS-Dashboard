@@ -29,7 +29,7 @@ function App(params) {
 
   const [ dimensions, setDimensions ] = useState({width: 0, height: 0});
   const [ state, setState ] = useState('Overall');
-  const [ year, setYear ] = useState('2020');
+  const [ year, setYear ] = useState('2021');
   const [ drug, setDrug ] = useState('All');
   const [ metric, setMetric ] = useState('rate');
   const [ rawDatasets, setRawDatasets ] = useState();
@@ -254,7 +254,7 @@ function App(params) {
 
   const yearSelector = (
     <select aria-label="View data by year" value={year} onChange={(e) => setYear(e.target.value)}>
-      {Object.keys(rawDatasets.totalData).filter(year => rawDatasets.totalData[year][state] !== undefined).map(year => (
+      {Object.keys(rawDatasets.totalData).filter(year => rawDatasets.totalData[year][state] !== undefined).sort().map(year => (
         <option key={`dropdown-option-${year}`} value={year}>{year}</option>
       ))}
     </select>
