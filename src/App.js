@@ -685,7 +685,7 @@ function App(params) {
           </div>
         </div> 
 
-        {!accessible && <span className="scale-note">Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>}
+        <span className="scale-note">Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
       </div>
 
       <div className="section divider">
@@ -727,7 +727,7 @@ function App(params) {
           </div>
         </div>
 
-        {!accessible && <span className="scale-note">Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>}
+        <span className="scale-note">Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
       </div> 
       
       <Footer />
