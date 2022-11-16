@@ -81,18 +81,31 @@ function MonthChart(params) {
     padding: header ? 0 : 0.35
   });
 
-  const halfBandwidth = xScale.bandwidth() / 2;
-  const quarterBandwidth = halfBandwidth / 2;
-  const halfHeight = adjustedHeight / 2;
-  const quarterHeight = halfHeight / 2;
+  const getScaleMax = (max) => {
+    if(max <= 100){
+      return 100;
+    }
+    if(max <= 350){
+      return 350;
+    }
+    if(max <= 1000){
+      return 1000;
+    }
+    return Math.ceil(overallMax / 1000) * 1000;
+  };
 
   const max = header ? maxes.quarter : maxes.month;
-  const scaleMax = max <= 350 ? (max <= 100 ? 100 : 350) : Math.ceil(overallMax / 1000) * 1000;
+  const scaleMax = getScaleMax(max);
 
   const yScale = scaleLinear({
     range: [ adjustedHeight, 0 ],
     domain: [ 0, header ? max * 1.3 : scaleMax]
   });
+
+  const halfBandwidth = xScale.bandwidth() / 2;
+  const quarterBandwidth = halfBandwidth / 2;
+  const halfHeight = adjustedHeight / 2;
+  const quarterHeight = halfHeight / 2;
 
   const onScroll = () => {
     if(el.current && !animated && window.scrollY + window.innerHeight > el.current.getBoundingClientRect().top - document.body.getBoundingClientRect().top){
