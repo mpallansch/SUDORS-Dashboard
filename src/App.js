@@ -306,6 +306,7 @@ function App(params) {
                 <MonthChart 
                     data={datasets.timeData[state]}
                     maxes={multiYearTimeMaxes}
+                    year={year}
                     width={getDimension(headerMonthChartRef, 'width')}
                     height={getDimension(headerMonthChartRef, 'height')}
                     header={true}
@@ -512,7 +513,7 @@ function App(params) {
               labelOverrides={{
                 deaths: 'Number of deaths',
                 percent: 'Percent of deaths',
-                rate: 'Rate per 1000,000 persons*',
+                rate: 'Rate per 100,000 persons*',
                 demographic: 'Demographic Characteristic'
               }}
               suffixes={{
@@ -593,7 +594,6 @@ function App(params) {
                       toFixed={toFixed}
                     />
                 </div>
-                <p>NH: non-Hispanic</p>
               </div>
             </div>
             <div className="column column-left">

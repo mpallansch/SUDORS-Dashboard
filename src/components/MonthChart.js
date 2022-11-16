@@ -51,7 +51,7 @@ function MonthChart(params) {
 
   const viewportCutoff = 600;
 
-  const { data, maxes, width, height, header, colorScale, el, accessible, overallMax } = params;
+  const { data, maxes, year, width, height, header, colorScale, el, accessible, overallMax } = params;
   const [ animated, setAnimated ] = useState(false);
 
   const dataMonth = data.month;
@@ -135,7 +135,7 @@ function MonthChart(params) {
                         width={halfBandwidth}
                         height={halfHeight}
                         fill="transparent"
-                        data-tip={`<strong>${quarterMapping[d[quarterKey]]} 2020</strong><br/>Deaths: ${Number(d.value).toLocaleString()}`}
+                        data-tip={`<strong>${quarterMapping[d[quarterKey]]} ${year}</strong><br/>Deaths: ${Number(d.value).toLocaleString()}`}
                       />
                     </Group>
                 ))} 
