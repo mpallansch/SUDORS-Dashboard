@@ -636,6 +636,8 @@ function App(params) {
                 </div>)}
               </div>
             </div>
+            <br/><br/>
+            <p>*Rates for sex and race/ethnicity are age-adjusted. Rates for age and age by sex are crude.</p>
           </>
         )}
       </div>
