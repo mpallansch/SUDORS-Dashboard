@@ -113,7 +113,7 @@ function App(params) {
 
   const raceMapping = {
     'AI/AN, non-Hispanic': 'American Indian/Alaska Native, non-Hispanic',
-    'A/PI, non-Hispanic': 'Asian/Pacific Islander, non-Hispanic'
+    'NH/PI, non-Hispanic': 'Native Hawaiian/Pacific Islander, non-Hispanic'
   }
 
   const drugs = ['Illicitly Manufactured Fentanyls', 'Heroin', 'Prescription Opioids', 'Cocaine', 'Methamphetamine'];
@@ -178,7 +178,18 @@ function App(params) {
       return num.toFixed(places);
     }
     return num;
-  }
+  };
+
+  const raceSort = (a,b) => {
+    const aRace = raceMapping[a.race] || a.race;
+    const bRace = raceMapping[b.race] || b.race;
+    if(aRace === 'Hispanic') {
+      return 1;
+    } else if(bRace === 'Hispanic'){
+      return -1;
+    }
+    return (aRace < bRace) ? -1 : 1;
+  };
 
   useEffect(() => {
     Promise.all(datasetKeys.map(key => fetch(datasetUrls[key])))
@@ -200,6 +211,9 @@ function App(params) {
     return <p>Loading...</p>;
   }
 
+  datasets.raceData[state].sort(raceSort);
+  datasets.raceDataRates[state].sort(raceSort);
+
   const multipleCombo = datasets.combinationData[state].combinations.filter(combo => ((combo.deaths > countCutoff && combo.drugCombination.match(/1/g)) || []).length > 1);
   const sexMax = [...datasets.sexData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
   const ageMax = [...datasets.ageData[state]].sort((a,b) => a.percent < b.percent ? 1 : -1)[0];
@@ -209,8 +223,8 @@ function App(params) {
   const ageRateMax = [...datasets.ageData[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
   const sexRateMax = [...datasets.sexDataRates[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
   const raceRateMax = [...datasets.raceDataRates[state]].sort((a,b) => a.rate < b.rate ? 1 : -1)[0];
-  const allStatesCircumstanceMax = Math.max(...Object.keys(datasets.totalData).map(state => Math.max(...datasets.circumstancesData[state].intervention.map(d => d.percent))));
-  const allStatesCombinationMax = Math.max(...Object.keys(datasets.totalData).map(state => Math.max(...datasets.combinationData[state].combinations.map(d => d.percent))));
+  const allStatesCircumstanceMax = Math.max(...Object.keys(rawDatasets.totalData).map(year => Math.max(...Object.keys(rawDatasets.totalData[year]).map(state => Math.max(...rawDatasets.circumstancesData[year][state].intervention.map(d => d.percent))))));
+  const allStatesCombinationMax = Math.max(...Object.keys(rawDatasets.totalData).map(year => Math.max(...Object.keys(rawDatasets.totalData[year]).map(state => Math.max(...rawDatasets.combinationData[year][state].combinations.map(d => d.percent))))));
   const monthOverallMax = [...datasets.timeData['Overall'].month.sort((a,b) => a.value < b.value ? 1 : -1)][0].value;
 
   let multiYearDrugMaxes = {};
@@ -482,16 +496,7 @@ function App(params) {
                   {demographic: `    ${datum.sex}`, deaths: datum.count, percent: datum.percent, rate: datasets.sexDataRates[state][i].sex === datum.sex ? datasets.sexDataRates[state][i].rate : datasets.sexDataRates[state][1 - i].rate}
                 )),
                 {demographic: 'Race/Ethnicity', spacer: true, colSpan: '3', background: true},
-                ...datasets.raceData[state].sort((a,b) => {
-                  const aRace = raceMapping[a.race] || a.race;
-                  const bRace = raceMapping[b.race] || b.race;
-                  if(aRace === 'Hispanic') {
-                    return 1;
-                  } else if(bRace === 'Hispanic'){
-                    return -1;
-                  }
-                  return (aRace < bRace) ? -1 : 1;
-                }).map((datum, i) => (
+                ...datasets.raceData[state].map((datum, i) => (
                   {demographic: `    ${datum.race}`, deaths: datum.deaths, percent: datum.percent, rate: datasets.raceDataRates[state][i].rate}
                 )),
                 {demographic: 'Age (in years)', spacer: true, colSpan: '3', background: true},

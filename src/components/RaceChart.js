@@ -17,16 +17,17 @@ function RaceChart(params) {
 
   const tooltipLabels = {
     'AI/AN, non-Hispanic': 'American Indian/Alaska Native, non-Hispanic',
-    'A/PI, non-Hispanic': 'Asian/Pacific Islander, non-Hispanic'
+    'NH/PI, non-Hispanic': 'Native Hawaiian/Pacific Islander, non-Hispanic'
   };
 
   const axisLabels = {
-    'AI/AN, non-Hispanic': 'AI/AN, NH',
-    'A/PI, non-Hispanic': 'A/PI, NH',
-    'Black, non-Hispanic': 'Black, NH',
-    'Multi-race, non-Hispanic': 'Multi-race, NH',
-    'White, non-Hispanic': 'White, NH',
-    'Other, non-Hispanic': 'Other, NH'
+    'AI/AN, non-Hispanic': 'AI/AN',
+    'Asian, non-Hispanic': 'Asian',
+    'Black, non-Hispanic': 'Black',
+    'Multi-race, non-Hispanic': 'Multi-race',
+    'NH/PI, non-Hispanic': 'NH/PI',
+    'White, non-Hispanic': 'White',
+    'Other, non-Hispanic': 'Other'
   };
 
   const sort = (array) => {
@@ -48,7 +49,7 @@ function RaceChart(params) {
   const currentData = metric === 'rate' ? sortedDataRates : sortedData;
   const otherData = metric === 'rate' ? sortedData : sortedDataRates;
 
-  const margin = {top: 10, bottom: 10, left: 120, right: 10};
+  const margin = {top: 10, bottom: 10, left: 100, right: 10};
   const adjustedHeight = height - margin.top - margin.bottom;
   const adjustedWidth = width - margin.left - margin.right;
 
