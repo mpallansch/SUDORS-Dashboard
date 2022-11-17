@@ -22,7 +22,7 @@ function AgeBySexChart(params) {
     '6': '65+'
   };
   
-  const { data, width, height, metric, state, colorScale, el, accessible, toFixed } = params;
+  const { data, maxes, width, height, metric, state, colorScale, el, accessible, toFixed } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -32,7 +32,7 @@ function AgeBySexChart(params) {
   const halfWidth = adjustedWidth / 2;
 
   const xScale = scaleLinear({
-    domain: [0, Math.max(...data['Male'].map(d => d[metric]), ...data['Female'].map(d => d[metric]))],
+    domain: [0, maxes[metric]],
     range: [ 10, halfWidth - 50 ]
   });
 

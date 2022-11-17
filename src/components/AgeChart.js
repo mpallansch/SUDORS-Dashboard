@@ -22,7 +22,7 @@ function AgeChart(params) {
     '6': '65+'
   };
   
-  const { data, width, height, metric, state, colorScale, el, toFixed } = params;
+  const { data, maxes, width, height, metric, state, colorScale, el, toFixed } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -31,7 +31,7 @@ function AgeChart(params) {
   const adjustedWidth = width - margin.left - margin.right;
 
   const xScale = scaleLinear({
-    domain: [0, Math.max(...data.map(d => d[metric]))],
+    domain: [0, maxes[metric]],
     range: [ 10, adjustedWidth - 50 ]
   });
 

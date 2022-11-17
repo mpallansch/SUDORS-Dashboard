@@ -10,7 +10,7 @@ import { rateCutoff, rateCutoffLabel } from '../constants.json';
 import '../css/SexChart.css';
 
 function SexChart(params) {
-  const { data, dataRates, width, height, metric, state, colorScale, el, accessible, toFixed } = params;
+  const { data, dataRates, max, width, height, metric, state, colorScale, el, accessible, toFixed } = params;
   
   const [ animated, setAnimated ] = useState(false);
 
@@ -53,7 +53,7 @@ function SexChart(params) {
   });
 
   const yScale = scaleLinear({
-    domain: [ 0, Math.max(...(dataRates).map(d => parseFloat(d.rate)))],
+    domain: [ 0, max ],
     range: [ 0, adjustedHeight - 35 ]
   });
 

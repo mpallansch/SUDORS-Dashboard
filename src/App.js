@@ -236,16 +236,72 @@ function App(params) {
     })
   })
 
-  let multiYearTimeMaxes = {};
+  let multiYearTimeMaxes = {month: Number.MIN_VALUE, quarter: Number.MIN_VALUE};
   Object.keys(rawDatasets.timeData).forEach(year => {
     if(rawDatasets.timeData[year][state]){
       let monthMax = Math.max(...rawDatasets.timeData[year][state].month.map(item => item.value));
       let quarterMax = Math.max(...rawDatasets.timeData[year][state].quarter.map(item => item.value));
-      if(!multiYearTimeMaxes.month || multiYearTimeMaxes.month < monthMax){
+      if(multiYearTimeMaxes.month < monthMax){
         multiYearTimeMaxes.month = monthMax;
       }
-      if(!multiYearTimeMaxes.quarter || multiYearTimeMaxes.quarter < quarterMax){
+      if(multiYearTimeMaxes.quarter < quarterMax){
         multiYearTimeMaxes.quarter = quarterMax;
+      }
+    }
+  });
+
+  let multiYearSexRateMax = Number.MIN_VALUE;
+  Object.keys(rawDatasets.sexDataRates).forEach(year => {
+    if(rawDatasets.sexDataRates[year][state]){
+      let newMax = Math.max(...rawDatasets.sexDataRates[year][state].map(d => d.rate));
+      if(multiYearSexRateMax < newMax){
+        multiYearSexRateMax = newMax;
+      }
+    }
+  });
+
+  let multiYearRaceMaxes = {rate: Number.MIN_VALUE, percent: Number.MIN_VALUE};
+  Object.keys(rawDatasets.raceData).forEach(year => {
+    if(rawDatasets.raceData[year][state]){
+      let newMax = Math.max(...rawDatasets.raceData[year][state].map(d => d.percent));
+      if(multiYearRaceMaxes.percent < newMax){
+        multiYearRaceMaxes.percent = newMax;
+      }
+    }
+  });
+  Object.keys(rawDatasets.raceDataRates).forEach(year => {
+    if(rawDatasets.raceDataRates[year][state]){
+      let newMax = Math.max(...rawDatasets.raceDataRates[year][state].map(d => d.rate));
+      if(multiYearRaceMaxes.rate < newMax){
+        multiYearRaceMaxes.rate = newMax;
+      }
+    }
+  });
+
+  let multiYearAgeMaxes = {rate: Number.MIN_VALUE, percent: Number.MIN_VALUE};
+  Object.keys(rawDatasets.ageData).forEach(year => {
+    if(rawDatasets.ageData[year][state]){
+      let newMaxPercent = Math.max(...rawDatasets.ageData[year][state].map(d => d.percent));
+      let newMaxRate = Math.max(...rawDatasets.ageData[year][state].map(d => d.rate));
+      if(multiYearAgeMaxes.percent < newMaxPercent){
+        multiYearAgeMaxes.percent = newMaxPercent;
+      }
+      if(multiYearAgeMaxes.rate < newMaxRate){
+        multiYearAgeMaxes.rate = newMaxRate;
+      }
+    }
+  });
+
+  let multiYearAgeBySexMaxes = {rate: Number.MIN_VALUE, percent: Number.MIN_VALUE};
+  Object.keys(rawDatasets.ageBySexData).forEach(year => {
+    if(rawDatasets.ageBySexData[year][state]){
+      let newMaxPercent = Math.max(...rawDatasets.ageBySexData[year][state].Female.map(d => d.percent), ...rawDatasets.ageBySexData[year][state].Male.map(d => d.percent));
+      let newMaxRate = Math.max(...rawDatasets.ageBySexData[year][state].Female.map(d => d.rate), ...rawDatasets.ageBySexData[year][state].Male.map(d => d.rate));
+      if(multiYearAgeBySexMaxes.percent < newMaxPercent){
+        multiYearAgeBySexMaxes.percent = newMaxPercent;
+      }
+      if(multiYearAgeBySexMaxes.rate < newMaxRate){
+        multiYearAgeBySexMaxes.rate = newMaxRate;
       }
     }
   });
@@ -566,6 +622,7 @@ function App(params) {
                   <SexChart 
                     data={datasets.sexData[state]}
                     dataRates={datasets.sexDataRates[state]}
+                    max={multiYearSexRateMax}
                     width={getDimension(sexChartRef, 'width')} 
                     height={getDimension(sexChartRef, 'height')}
                     metric={metric}
@@ -589,6 +646,7 @@ function App(params) {
                     <RaceChart 
                       data={datasets.raceData[state]}
                       dataRates={datasets.raceDataRates[state]}
+                      maxes={multiYearRaceMaxes}
                       width={getDimension(raceChartRef, 'width')}
                       height={getDimension(raceChartRef, 'height')}
                       metric={metric}
@@ -607,6 +665,7 @@ function App(params) {
                 <div id="age-chart-container" className="chart-container" ref={ageChartRef}>
                     <AgeChart 
                       data={datasets.ageData[state]}
+                      maxes={multiYearAgeMaxes}
                       width={getDimension(ageChartRef, 'width')}
                       height={getDimension(ageChartRef, 'height')}
                       metric={metric}
@@ -625,6 +684,7 @@ function App(params) {
                 <div id="age-by-sex-chart-container" className="chart-container" ref={ageBySexChartRef}>
                   <AgeBySexChart 
                     data={datasets.ageBySexData[state]}
+                    maxes={multiYearAgeBySexMaxes}
                     width={getDimension(ageBySexChartRef, 'width')}
                     height={getDimension(ageBySexChartRef, 'height')}
                     metric={metric}

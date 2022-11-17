@@ -11,7 +11,7 @@ import '../css/RaceChart.css';
 
 function RaceChart(params) {
   
-  const { data, dataRates, width, height, metric, state, colorScale, el, toFixed } = params;
+  const { data, dataRates, maxes, width, height, metric, state, colorScale, el, toFixed } = params;
 
   const [ animated, setAnimated ] = useState(false);
 
@@ -68,7 +68,7 @@ function RaceChart(params) {
   };
 
   const xScale = scaleLinear({
-    domain: [ 0, Math.max(...(currentData).map(getData))],
+    domain: [ 0, maxes[metric] ],
     range: [ 5, adjustedWidth - 45 ]
   });
   
