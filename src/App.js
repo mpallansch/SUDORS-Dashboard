@@ -174,8 +174,13 @@ function App(params) {
   );
 
   const toFixed = (num, places = 1) => {
-    if(num && num.toFixed){
-      return num.toFixed(places);
+    if(num !== undefined){
+      if(num.toFixed){
+        return num.toFixed(places);
+      }
+      if(!isNaN(parseFloat(num))){
+        return parseFloat(num).toFixed(places)
+      }
     }
     return num;
   };
@@ -553,7 +558,7 @@ function App(params) {
                 )),
                 {demographic: 'Race/Ethnicity', spacer: true, colSpan: '3', background: true},
                 ...datasets.raceData[state].map((datum, i) => (
-                  {demographic: `    ${datum.race}`, deaths: datum.deaths, percent: datum.percent, rate: datasets.raceDataRates[state][i].rate}
+                  {demographic: `    ${dimensions.width < viewportCutoffSmall ? datum.race : raceMapping[datum.race] || datum.race}`, deaths: datum.deaths, percent: datum.percent, rate: datasets.raceDataRates[state][i].rate}
                 )),
                 {demographic: 'Age (in years)', spacer: true, colSpan: '3', background: true},
                 ...datasets.ageData[state].filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
@@ -586,7 +591,6 @@ function App(params) {
               }}
               customBackground={true}
             />
-            <p>*Rates for sex and race/ethnicity are age-adjusted. Rates for age and age by sex are crude.</p>
           </>
         ) : (
           <>
@@ -702,7 +706,6 @@ function App(params) {
               </div>
             </div>
             <br/><br/>
-            <p>*Rates for sex and race/ethnicity are age-adjusted. Rates for age and age by sex are crude.</p>
           </>
         )}
       </div>
@@ -795,7 +798,7 @@ function App(params) {
         <span className="scale-note">Circumstance percentages are only among decedents with an available medical examiner or coroner report</span>
       </div> 
       
-      <Footer />
+      <Footer accessible={accessible} />
 
       <a download="SUDORS-Fatal-Overdose-Data.xlsx" href="data/SUDORS_Dashboard_Data.xlsx" aria-label="Download this data in an Excel file format." className="btn btn-download no-border">Download Data (XLSX)</a>
 

@@ -36,7 +36,7 @@ function CircumstancesChart(params) {
         xAxisKey={'circumstance'}
         orderedKeys={['count', 'percent']}
         labelOverrides={{
-          'count': 'Number of Deaths', 
+          'count': 'Number of deaths', 
           'percent': 'Percent of deaths', 
           'circumstance': 'Potential opportunity for intervention',
           '    Current treatment for substance use disorder(s)': <>    Current treatment for substance use disorder(s)<sup>j</sup></>,
