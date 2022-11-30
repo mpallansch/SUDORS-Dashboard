@@ -28,6 +28,10 @@
 .table-container table thead th {
     border-top: 1px solid black;
     border-bottom: 1px solid black;
+    max-width: 165px;
+    min-width: 125px;
+    word-break: break-word;
+    white-space: normal;
 }
 
 .table-container table tr.highlight th {

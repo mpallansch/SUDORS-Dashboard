@@ -212,7 +212,7 @@ function MonthChart(params) {
                 <AxisBottom
                   top={adjustedHeight}
                   scale={xScale}
-                  tickValues={width < viewportCutoff ? ['49', '52', '56', '60'] : null}
+                  tickValues={width < viewportCutoff ? (year === '2021' ? ['61', '64', '68', '72'] : ['49', '52', '56', '60']) : null}
                   tickFormat={(monthNum) => monthMapping[monthNum]}
                   tickStroke="transparent"
                   tickLabelProps={() => ({

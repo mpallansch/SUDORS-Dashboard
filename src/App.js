@@ -529,6 +529,7 @@ function App(params) {
             <MonthChart 
               data={datasets.timeData[state]}
               maxes={multiYearTimeMaxes}
+              year={year}
               width={getDimension(monthChartRef, 'width')}
               height={getDimension(monthChartRef, 'height')}
               header={false}
@@ -558,7 +559,7 @@ function App(params) {
                 )),
                 {demographic: 'Race/Ethnicity', spacer: true, colSpan: '3', background: true},
                 ...datasets.raceData[state].map((datum, i) => (
-                  {demographic: `    ${dimensions.width < viewportCutoffSmall ? datum.race : raceMapping[datum.race] || datum.race}`, deaths: datum.deaths, percent: datum.percent, rate: datasets.raceDataRates[state][i].rate}
+                  {demographic: `    ${raceMapping[datum.race] || datum.race}`, deaths: datum.deaths, percent: datum.percent, rate: datasets.raceDataRates[state][i].rate}
                 )),
                 {demographic: 'Age (in years)', spacer: true, colSpan: '3', background: true},
                 ...datasets.ageData[state].filter(d => !!d.age && d.age !== 'null').map((datum, i) => (
@@ -579,7 +580,7 @@ function App(params) {
               labelOverrides={{
                 deaths: 'Number of deaths',
                 percent: 'Percent of deaths',
-                rate: 'Rate per 100,000 persons*',
+                rate: 'Rate per 100,000 persons',
                 demographic: 'Demographic Characteristic'
               }}
               suffixes={{

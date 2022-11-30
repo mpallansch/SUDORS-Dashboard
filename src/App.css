@@ -567,6 +567,10 @@ table caption {
   transform:translateX(0);
 }
 
+.tooltip {
+  max-width: 75%;
+}
+
 .tooltip,
 .animated-pie path,
 .animated-pie text {
