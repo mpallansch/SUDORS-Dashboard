@@ -50,7 +50,7 @@ function Footer(params) {
           <p>Rates are calculated using population estimates from the U.S. Census Bureau. Beginning with the release of the 2021 data, the U.S. Census Bureau instituted new methodology to calculate population estimates. The new methodology, referred to as <a href="https://www.ncsl.org/research/redistricting/differential-privacy-for-census-data-explained.aspx" target="_blank">differential privacy</a>, ensures that data from individuals and individual households remain confidential. Therefore, rates for 2021 and forward may not be directly comparable to 2020 rates.</p>
           <p>Deaths involving multiple drugs were included in the rates for each drug class. When the cause of death indicated multiple drugs were involved but did not indicate specific drugs, all drugs detected by postmortem toxicology testing were classified as involved in the drug overdose death. For example, if the cause of death was “multidrug overdose” and toxicology results were positive for five drugs, all five were classified as involved.</p>
           <p>Race/ethnicity categories were changed from prior versions of the dashboard to remove non-Hispanic Native Hawaiian and Other Pacific Islander from the non-Hispanic Asian or Pacific Islander category into their own category.</p>
-          <p>Rates based on &lt;20 drug overdose deaths are suppressed to avoid presentation of unstable rates{accessible ? '' : 'and denoted by an *'}.</p>
+          <p>Rates based on &lt;20 drug overdose deaths are suppressed to avoid presentation of unstable rates{accessible ? '' : ' and denoted by an *'}.</p>
         </>
       )}
     </div>
