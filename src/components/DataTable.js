@@ -4,7 +4,7 @@ import '../css/DataTable.css';
 
 function DataTable(params) {
 
-  const { data, rates, cutoffData, cutoffKey, orderedKeys, highlight, xAxisKey, suffixes, transforms, caption, customBackground } = params;
+  const { data, rates, cutoffData, cutoffKey, orderedKeys, highlight, xAxisKey, suffixes, transforms, caption, customBackground, extraClasses } = params;
 
   const labelOverrides = params.labelOverrides || {};
 
@@ -41,7 +41,7 @@ function DataTable(params) {
 
   return (
     <>
-      <div className={`table-container${customBackground ? ' custom-background' : ' non-custom-background'}`} tabIndex="0">
+      <div className={`table-container${customBackground ? ' custom-background' : ' non-custom-background'} ${extraClasses}`} tabIndex="0">
         <table>
           <caption>{caption}</caption>
           <thead>

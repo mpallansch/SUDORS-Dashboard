@@ -591,6 +591,7 @@ function App(params) {
                 rate: num => toFixed(num)
               }}
               customBackground={true}
+              extraClasses={'demographics-table'}
             />
           </>
         ) : (
